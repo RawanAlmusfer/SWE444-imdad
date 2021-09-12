@@ -1,4 +1,4 @@
 <br> <br>
-<img src="./board.png" alt="" /> 
+<img src="./board.svg" alt="" /> 
 
 # SWE444-imdad
