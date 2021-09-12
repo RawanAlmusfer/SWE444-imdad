@@ -16,4 +16,4 @@
 <h1>:rocket: Sprint#3</h1>
 <h1>:rocket: Sprint#4</h1>
 
-<h4>Done By &copy; SWE444-imdad<h4>
+<h4>Done By &copy; SWE444-Imdad team<h4>
