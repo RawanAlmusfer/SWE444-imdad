@@ -6,10 +6,10 @@
 <h1>:rocket: Sprint#1</h1>
 <br>
 <h1> :star2: Process Timeline (Assigned Features)  </h1>
-<li> :one:  Registration feature --> Sara</li>
-<li> :two: Login+Logout feature --> Raneem </li>
-<li> :three: Post and cancel requests as a mosque manager--> Rawan </li>
-<li>:four: View Posted requests as a mosque manager and volunteer --> Deema </li>
+<li> :one:  Registration for mosque manager and volunteer feature --> Sara</li>
+<li> :two: Login+Logout for mosque manager and volunteer features --> Raneem </li>
+<li> :three: Post+cancel requests as a mosque manager features--> Rawan </li>
+<li>:four: View Posted requests as mosque manager and volunteer feature--> Deema </li>
  <br> 
  
 <h1>:rocket: Sprint#2</h1>
