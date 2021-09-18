@@ -14,10 +14,9 @@ class mm_feed extends StatelessWidget {
         body: Stack(
           children: <Widget>[
             Pinned.fromPins(
-              Pin(start: 14.3, end: 32.3),
+              Pin(start: 24.3, end: 30.3),
               Pin(size: 222.1, middle: 0.2129),
-              child:
-                  // Adobe XD layer: 'posted request MM' (group)
+              child: // Adobe XD layer: 'posted request MM' (group)
                   Stack(
                 children: <Widget>[
                   Pinned.fromPins(
@@ -49,7 +48,7 @@ class mm_feed extends StatelessWidget {
                       children: <Widget>[
                         Pinned.fromPins(
                           Pin(size: 71.0, middle: 0.7592),
-                          Pin(size: 11.0, end: 2.0),
+                          Pin(size: 12.0, end: 2.0),
                           child: Scrollbar(
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
@@ -77,7 +76,7 @@ class mm_feed extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ), // cost's text -to be changed
                         Pinned.fromPins(
                           Pin(size: 60.0, end: -20.0),
                           Pin(size: 18.0, end: 0.0),
@@ -91,7 +90,7 @@ class mm_feed extends StatelessWidget {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                        ),
+                        ), // cost text
                         Pinned.fromPins(
                           Pin(start: 0.0, end: 9.0),
                           Pin(size: 66.0, middle: 0.6567),
@@ -121,7 +120,7 @@ class mm_feed extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ), // request's description
                         Pinned.fromPins(
                           Pin(start: 0.0, end: 4.0),
                           Pin(size: 25.0, start: 0.0),
@@ -152,12 +151,12 @@ class mm_feed extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ), // request's title
                       ],
                     ),
                   ),
                   Pinned.fromPins(
-                    Pin(size: 45.0, end: 20.7),
+                    Pin(size: 45.0, end: 7.7),
                     Pin(size: 36.0, start: 22.1),
                     child:
                         // Adobe XD layer: 'image' (shape)
@@ -166,7 +165,7 @@ class mm_feed extends StatelessWidget {
                       allowDrawingOutsideViewBox: true,
                       fit: BoxFit.fill,
                     ),
-                  ),
+                  ), // mosque image
                   Pinned.fromPins(
                     Pin(size: 19.7, start: 10.7),
                     Pin(size: 19.7, start: 11.8),
@@ -177,10 +176,11 @@ class mm_feed extends StatelessWidget {
                       allowDrawingOutsideViewBox: true,
                       fit: BoxFit.fill,
                     ),
-                  ),
+                  ), // cancel button
                 ],
               ),
-            ),
+            ), // card
+
             Pinned.fromPins(
               Pin(start: 0.0, end: 0.0),
               Pin(size: 91.0, end: 0.0),
@@ -254,11 +254,12 @@ class mm_feed extends StatelessWidget {
                       _svg_lm11yt,
                       allowDrawingOutsideViewBox: true,
                       fit: BoxFit.fill,
+                      color: Color(0xdeedd03c), // home button color
                     ),
                   ),
                 ],
               ),
-            ),
+            ), // lower bar
             Pinned.fromPins(
               Pin(start: 0.0, end: 0.0),
               Pin(size: 99.0, start: 0.0),
@@ -313,7 +314,7 @@ class mm_feed extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            ), // nav bar
           ],
         ),
       ),
