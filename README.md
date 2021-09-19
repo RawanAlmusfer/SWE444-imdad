@@ -1,5 +1,7 @@
 <br> <br>
 
+## Getting Started
+<br> <br>
 <img src="./dash.svg" alt="" /> 
 
 
