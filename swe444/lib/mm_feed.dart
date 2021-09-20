@@ -58,7 +58,7 @@ class mm_feed extends StatelessWidget {
                     _svg_lu4l,
                     allowDrawingOutsideViewBox: true,
                     fit: BoxFit.fill,
-                  ),
+                  ), // cancel button
                 ]),
               ),
               Padding(
