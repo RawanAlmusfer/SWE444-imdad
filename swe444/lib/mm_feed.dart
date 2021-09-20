@@ -28,16 +28,19 @@ class mm_feed extends StatelessWidget {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     return new Container(
+      padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(19.0),
         ),
+        shadowColor: Colors.blueGrey,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 5.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
                   SvgPicture.string(
                     _svg_fghwvy,
@@ -53,18 +56,20 @@ class mm_feed extends StatelessWidget {
                 ]),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 4.0, bottom: 40.0),
+                padding:
+                    const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 10),
                 child: Row(children: <Widget>[
                   Spacer(),
                   Text(document['description']),
                 ]),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 0.1, bottom: 20.0),
+                padding:
+                    const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 8),
                 child: Row(children: <Widget>[
                   Spacer(),
                   Text(document['amount'].toString()),
-                  Text(":المبلغ"),
+                  Text(" :المبلغ"),
                 ]),
               ),
             ],
