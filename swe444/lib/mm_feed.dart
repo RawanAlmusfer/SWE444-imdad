@@ -19,14 +19,12 @@ class mm_feed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Container(
-        color: const Color(0xffededed),
-        child: new ListView.builder(
-          itemCount: hi.length,
-          itemBuilder: (BuildContext context, int index) =>
-              buildCards(context, hi[index]),
-        ),
+    return Scaffold(
+      backgroundColor: const Color(0xffededed),
+      body: ListView.builder(
+        itemCount: hi.length,
+        itemBuilder: (BuildContext context, int index) =>
+            buildCards(context, hi[index]),
       ),
     );
   }
