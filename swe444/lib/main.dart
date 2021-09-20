@@ -3,11 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:swe444/post_request.dart';
 import 'package:swe444/home.dart';
 import 'mm_feed.dart';
+import 'home_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(mm_feed());
+  runApp(Home());
 }
 
 class MyApp extends StatelessWidget {

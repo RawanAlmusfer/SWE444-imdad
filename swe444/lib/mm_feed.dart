@@ -1,321 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'card.dart';
 
 class mm_feed extends StatelessWidget {
   mm_feed({
     Key? key,
   }) : super(key: key);
+
+  final List<card> hi = [
+    card("سجاد جديد", "سجاد جديد نظيف", 1000),
+    card("مكيف", "مكيف بارد جديد", 2000),
+    card("مكيف", "مكيف باررد جديد", 3000),
+    card("مكيف", "مكيف بارررد جديد", 4000),
+    card("طلاء جدار", "طلاء جديد لونه اصفر", 3000)
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color(0xffededed),
-        body: Stack(
-          children: <Widget>[
-            Pinned.fromPins(
-              Pin(start: 24.3, end: 30.3),
-              Pin(size: 222.1, middle: 0.2129),
-              child: // Adobe XD layer: 'posted request MM' (group)
-                  Stack(
-                children: <Widget>[
-                  Pinned.fromPins(
-                    Pin(start: 0.0, end: 0.0),
-                    Pin(start: 0.0, end: 0.0),
-                    child:
-                        // Adobe XD layer: 'card' (shape)
-                        SvgPicture.string(
-                      _svg_o5vgvu,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  Pinned.fromPins(
-                    Pin(start: 0.0, end: 0.0),
-                    Pin(size: 1.0, end: 24.9),
-                    child: SvgPicture.string(
-                      _svg_bwe4oi,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  Pinned.fromPins(
-                    Pin(size: 262.0, start: 41.8),
-                    Pin(size: 133.0, middle: 0.3829),
-                    child:
-                        // Adobe XD layer: 'card_info' (group)
-                        Stack(
-                      children: <Widget>[
-                        Pinned.fromPins(
-                          Pin(size: 71.0, middle: 0.7592),
-                          Pin(size: 12.0, end: 2.0),
-                          child: Scrollbar(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: SizedBox(
-                                width: 30.0,
-                                height: 11.0,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Pinned.fromPins(
-                                      Pin(size: 50.0, end: -51.0),
-                                      Pin(start: -2.0, end: -10.0),
-                                      child: Text(
-                                        '12000',
-                                        style: TextStyle(
-                                          fontFamily: 'Europa-Light',
-                                          fontSize: 14,
-                                          color: const Color(0xff334856),
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ), // cost's text -to be changed
-                        Pinned.fromPins(
-                          Pin(size: 60.0, end: -20.0),
-                          Pin(size: 18.0, end: 0.0),
-                          child: Text(
-                            ':المبلغ',
-                            style: TextStyle(
-                              fontFamily: 'Europa-Bold',
-                              fontSize: 15,
-                              color: const Color(0xff334856),
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ), // cost text
-                        Pinned.fromPins(
-                          Pin(start: 0.0, end: 9.0),
-                          Pin(size: 66.0, middle: 0.6567),
-                          child: Scrollbar(
-                            child: SingleChildScrollView(
-                              child: SizedBox(
-                                width: 56.0,
-                                height: 25.0,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Pinned.fromPins(
-                                      Pin(size: 270.0, end: 150.0),
-                                      Pin(start: 0.0, end: -40.0),
-                                      child: Text(
-                                        'المسجد يحتاج سجاد جديد ونظيف المسجد يحتاج سجاد جديد ونظيف المسجد يحتاج سجاد جديد ونظيف المسجد يحتاج سجاد جديد ونظيف \n',
-                                        style: TextStyle(
-                                          fontFamily: 'Europa-Light',
-                                          fontSize: 14,
-                                          color: const Color(0xff334856),
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ), // request's description
-                        Pinned.fromPins(
-                          Pin(start: 0.0, end: 4.0),
-                          Pin(size: 25.0, start: 0.0),
-                          child: Scrollbar(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: SizedBox(
-                                width: 103.0,
-                                height: 25.0,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Pinned.fromPins(
-                                      Pin(size: 240.0, end: 155.0),
-                                      Pin(start: 0.0, end: 0.0),
-                                      child: Text(
-                                        'تغيير سجاد',
-                                        style: TextStyle(
-                                          fontFamily: 'Europa-Bold',
-                                          fontSize: 20,
-                                          color: const Color(0xff334856),
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ), // request's title
-                      ],
-                    ),
-                  ),
-                  Pinned.fromPins(
-                    Pin(size: 45.0, end: 7.7),
-                    Pin(size: 36.0, start: 22.1),
-                    child:
-                        // Adobe XD layer: 'image' (shape)
-                        SvgPicture.string(
-                      _svg_lu4l,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
-                    ),
-                  ), // mosque image
-                  Pinned.fromPins(
-                    Pin(size: 19.7, start: 10.7),
-                    Pin(size: 19.7, start: 11.8),
-                    child:
-                        // Adobe XD layer: 'cancel_icon' (shape)
-                        SvgPicture.string(
-                      _svg_fghwvy,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
-                    ),
-                  ), // cancel button
-                ],
-              ),
-            ), // card
+      home: Container(
+        color: const Color(0xffededed),
+        child: new ListView.builder(
+          itemCount: hi.length,
+          itemBuilder: (BuildContext context, int index) =>
+              buildCards(context, hi[index]),
+        ),
+      ),
+    );
+  }
 
-            Pinned.fromPins(
-              Pin(start: 0.0, end: 0.0),
-              Pin(size: 91.0, end: 0.0),
-              child:
-                  // Adobe XD layer: 'manger bar' (group)
-                  Stack(
-                children: <Widget>[
-                  Pinned.fromPins(
-                    Pin(start: 0.0, end: 0.0),
-                    Pin(start: 0.0, end: 0.0),
-                    child:
-                        // Adobe XD layer: 'background_wbar' (shape)
-                        Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(50.0),
-                          topRight: Radius.circular(50.0),
-                        ),
-                        color: const Color(0xdeffffff),
-                      ),
-                    ),
+  Widget buildCards(BuildContext context, card card) {
+    return new Container(
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(19.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                child: Row(children: <Widget>[
+                  SvgPicture.string(
+                    _svg_fghwvy,
+                    allowDrawingOutsideViewBox: true,
+                    fit: BoxFit.fill,
                   ),
-                  Pinned.fromPins(
-                    Pin(size: 22.0, middle: 0.7466),
-                    Pin(size: 28.5, middle: 0.4846),
-                    child:
-                        // Adobe XD layer: 'profile_icon' (group)
-                        Stack(
-                      children: <Widget>[
-                        Pinned.fromPins(
-                          Pin(start: 4.6, end: 4.4),
-                          Pin(size: 13.0, start: 0.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.elliptical(9999.0, 9999.0)),
-                              border: Border.all(
-                                  width: 2.0, color: const Color(0xff4a5759)),
-                            ),
-                          ),
-                        ),
-                        Pinned.fromPins(
-                          Pin(start: 0.0, end: 0.0),
-                          Pin(size: 12.6, end: 0.0),
-                          child: SvgPicture.string(
-                            _svg_hfkd7,
-                            allowDrawingOutsideViewBox: true,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Spacer(),
+                  Text(
+                    card.title.toString(),
+                    style: new TextStyle(fontSize: 30.0),
+                    textAlign: TextAlign.center,
                   ),
-                  Pinned.fromPins(
-                    Pin(size: 30.0, middle: 0.5),
-                    Pin(size: 29.9, middle: 0.5),
-                    child:
-                        // Adobe XD layer: 'post_icon' (shape)
-                        SvgPicture.string(
-                      _svg_znb,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  Pinned.fromPins(
-                    Pin(size: 25.4, middle: 0.2471),
-                    Pin(size: 28.2, middle: 0.4869),
-                    child:
-                        // Adobe XD layer: 'icn_home_active' (shape)
-                        SvgPicture.string(
-                      _svg_lm11yt,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
-                      color: Color(0xdeedd03c), // home button color
-                    ),
-                  ),
-                ],
+                ]),
               ),
-            ), // lower bar
-            Pinned.fromPins(
-              Pin(start: 0.0, end: 0.0),
-              Pin(size: 99.0, start: 0.0),
-              child:
-                  // Adobe XD layer: 'nav bar' (group)
-                  Stack(
-                children: <Widget>[
-                  Pinned.fromPins(
-                    Pin(start: 0.0, end: 0.0),
-                    Pin(start: 0.0, end: 0.0),
-                    child:
-                        // Adobe XD layer: 'background_bar' (shape)
-                        Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(50.0),
-                          bottomLeft: Radius.circular(50.0),
-                        ),
-                        color: const Color(0xdeedd03c),
-                      ),
-                    ),
-                  ),
-                  Pinned.fromPins(
-                    Pin(size: 244.0, middle: 0.4946),
-                    Pin(size: 30.0, middle: 0.6957),
-                    child: Scrollbar(
-                      child: SingleChildScrollView(
-                        child: SizedBox(
-                          width: 170.0,
-                          height: 34.0,
-                          child: Stack(
-                            children: <Widget>[
-                              Pinned.fromPins(
-                                Pin(size: 250.0, end: 73.0),
-                                Pin(start: 0.0, end: -4.0),
-                                child: Text(
-                                  'الصفحة الرئيسية',
-                                  style: TextStyle(
-                                    fontFamily: 'Noto Sans Oriya',
-                                    fontSize: 24,
-                                    color: const Color(0xff334856),
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0, bottom: 40.0),
+                child: Row(children: <Widget>[
+                  Spacer(),
+                  Text(card.description),
+                ]),
               ),
-            ), // nav bar
-          ],
+              Padding(
+                padding: const EdgeInsets.only(top: 0.1, bottom: 20.0),
+                child: Row(children: <Widget>[
+                  Spacer(),
+                  Text(card.amount.toString()),
+                  Text(":المبلغ"),
+                ]),
+              ),
+            ],
+          ),
         ),
       ),
     );
