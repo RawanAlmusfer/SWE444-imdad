@@ -15,11 +15,11 @@ class PostRequest extends StatefulWidget {
 class _PostRequestState extends State<PostRequest> {
   final _formKey = GlobalKey<FormState>();
   String? value;
-  String postedBy= "", type= "funds";
+  String postedBy= "", type= "Funds";
   int amount = 0;
   String description = "";
   String title = "";
-  final List<String> items = ['item 1', 'item 2'];
+  final List<String> items = ['Funds'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -659,9 +659,17 @@ class _PostRequestState extends State<PostRequest> {
 
     ref.add(data);
 
-    //
+    Navigator.of(context)
+        .push(
+      MaterialPageRoute(
+        builder: (context) => PostRequest(),
+      ),
+    )
+        .then((value) {
+      print("Calling Set State !");
+      setState(() {});
+    });
 
-    Navigator.pop(context);
     _formKey.currentState?.reset();
   }
 }
