@@ -9,27 +9,24 @@ class mm_feed extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final List<card> hi = [
-    card("سجاد جديد", "سجاد جديد نظيف", 1000),
-    card("مكيف", "مكيف بارد جديد", 2000),
-    card("مكيف", "مكيف باررد جديد", 3000),
-    card("مكيف", "مكيف بارررد جديد", 4000),
-    card("طلاء جدار", "طلاء جديد لونه اصفر", 3000)
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffededed),
-      body: ListView.builder(
-        itemCount: hi.length,
-        itemBuilder: (BuildContext context, int index) =>
-            buildCards(context, hi[index]),
-      ),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('requests').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const Text('Loading...');
+            return ListView.builder(
+              itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+              itemBuilder: (BuildContext context, int index) => buildCards(
+                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+            );
+          }),
     );
   }
 
-  Widget buildCards(BuildContext context, card card) {
+  Widget buildCards(BuildContext context, DocumentSnapshot document) {
     return new Container(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -49,7 +46,7 @@ class mm_feed extends StatelessWidget {
                   ),
                   Spacer(),
                   Text(
-                    card.title.toString(),
+                    document['title'],
                     style: new TextStyle(fontSize: 30.0),
                     textAlign: TextAlign.center,
                   ),
@@ -59,14 +56,14 @@ class mm_feed extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 4.0, bottom: 40.0),
                 child: Row(children: <Widget>[
                   Spacer(),
-                  Text(card.description),
+                  Text(document['description']),
                 ]),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 0.1, bottom: 20.0),
                 child: Row(children: <Widget>[
                   Spacer(),
-                  Text(card.amount.toString()),
+                  Text(document['amount'].toString()),
                   Text(":المبلغ"),
                 ]),
               ),
