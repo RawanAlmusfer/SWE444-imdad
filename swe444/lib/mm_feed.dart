@@ -66,7 +66,13 @@ class mm_feed extends StatelessWidget {
                     const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 70),
                 child: Row(children: <Widget>[
                   Spacer(),
-                  Text(document['description']),
+                  Container(
+                      width: 250, // to wrap the text in multiline
+                      child: Text(
+                        document['description'],
+                        textDirection: TextDirection
+                            .rtl, // make the text from right to left
+                      )),
                 ]),
               ),
               Padding(
