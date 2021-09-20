@@ -20,6 +20,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: const Color(0xffededed),
         appBar: AppBar(
           title: Text(
             "الصفحة الرئيسية",
@@ -31,6 +32,13 @@ class _HomeState extends State<Home> {
             ),
           ),
           backgroundColor: const Color(0xdeedd03c),
+          bottomOpacity: 30,
+          // elevation: 1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(50),
+            ),
+          ),
         ),
         body: _children[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(

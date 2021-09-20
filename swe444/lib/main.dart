@@ -4,11 +4,13 @@ import 'package:swe444/post_request.dart';
 import 'package:swe444/home.dart';
 import 'mm_feed.dart';
 import 'home_view.dart';
+import 'registration.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(Home());
+  runApp(MyApp());
+  //Home()
 }
 
 class MyApp extends StatelessWidget {
@@ -16,14 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Notes',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.white,
-        accentColor: Colors.white,
-        scaffoldBackgroundColor: Color(0xff070706),
-      ),
-      home: HomePage(),
+      home: Home(),
     );
   }
 }
