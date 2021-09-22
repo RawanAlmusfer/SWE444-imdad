@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:adobe_xd/pinned.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -108,12 +107,19 @@ class _PostRequestState extends State<PostRequest> {
 
   Widget _buildTitle(bool orientation) {
     double h1 = 0;
+    double top1 = 0;
+
     if (orientation == true) {
       h1 = 10;
-    } else
+      top1 = 9;
+    } else {
       h1 = 60;
+      top1 = 40;
+    }
 
     return Container(
+      width: orientation == true ? 300.w : 300.w,
+      height: orientation == true ? 90.h : 180.h,
       child: Row(
         children: [
           Column(
@@ -121,10 +127,10 @@ class _PostRequestState extends State<PostRequest> {
               Stack(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 25),
-                    width: orientation == true ? 190.w : 180.w,
+                    width: orientation == true ? 187.w : 180.w,
                     height: orientation == true ? 32.h : 70.h,
-                    padding: EdgeInsets.symmetric(horizontal: h1, vertical: 0),
+                    margin: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.only(left: h1, right: h1),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25.0),
@@ -139,25 +145,50 @@ class _PostRequestState extends State<PostRequest> {
                           ),
                         ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15.0, vertical: 0.0),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Enter title',
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(0, 0, 0, 13.5),
-                              hintStyle: TextStyle(fontSize: 16)),
-                          onChanged: (_val) {
-                            title = _val;
-                          }, // onchanged
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(30)
-                          ],
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: orientation == true ? 167.w : 160.w,
+                        height: orientation == true ? 75.h : 20.h,
+                        margin: EdgeInsets.only(left: 10.0, top: top1),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 10.0),
+                          child: TextFormField(
+                            expands: true,
+                            maxLines: null,
+                            validator: (value) {
+                              if (value == null || value.isEmpty)
+                                return "Title is required";
+                            },
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(15, 8, 0, 0),
+                                hintStyle: TextStyle(fontSize: 16)),
+                            onChanged: (_val) {
+                              title = _val;
+                            }, // onchanged
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(30)
+                            ],
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -186,6 +217,163 @@ class _PostRequestState extends State<PostRequest> {
     );
   }
 
+  Widget _buildDetails(bool orientation) {
+    double h1 = 0;
+    if (orientation == true) {
+      h1 = 10;
+    } else
+      h1 = 60;
+
+    return Container(
+      width: orientation == true ? 300.w : 300.w,
+      height: orientation == true ? 98.h : 140.h,
+      child: Column(
+        children: <Widget>[
+          Container(
+            width: orientation == true ? 300.w : 300.w,
+            height: orientation == true ? 18.h : 140.h,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Column(
+                    children: <Widget>[
+                      //Padding(
+                      //padding: const EdgeInsets.only(top: 10),
+                      //),
+                      Text(
+                        "تفاصيل الطلب",
+                        style: TextStyle(
+                          color: const Color(0xff334856),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Tajawal',
+                          fontSize: 15,
+                        ),
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      SizedBox(width: orientation == true ? 11.w : 29.w),
+                    ],
+                  )
+                ]),
+          ),
+          Container(
+            width: orientation == true ? 300.w : 300.w,
+            height: orientation == true ? 80.h : 140.h,
+            child: Row(
+              children: [
+                Stack(children: [
+                  Column(
+                    children: [
+                      Stack(children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          width: orientation == true ? 140.w : 150.w,
+                          height: orientation == true ? 32.h : 70.h,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: h1, vertical: 0),
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25.0),
+                              color: Color(0xffffffff),
+                              border: Border.all(
+                                  width: 0.5, color: const Color(0xffdfdfdf)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0x29000000),
+                                  offset: Offset(0, 3),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: orientation == true ? 130.w : 150.w,
+                              height: orientation == true ? 63.h : 20.h,
+                              margin: EdgeInsets.only(left: 0.0, top: 11),
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) return "required";
+                                  },
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.red, width: 1),
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.red, width: 1),
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      ),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(30, 1, 0, 0),
+                                      hintStyle: TextStyle(fontSize: 16)),
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(30),
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (_val) {
+                                    var _val2 = int.parse(_val), amount = _val2;
+                                  }, // onchanged
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(18, 16, 0, 0),
+                          child: Text(
+                            'ريال',
+                            style: TextStyle(
+                              fontFamily: 'Academy Engraved LET',
+                              fontSize: 12,
+                              color: const Color(0xffd2d2d2),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ]),
+                    ],
+                  ),
+                ]),
+                SizedBox(width: orientation == true ? 10.w : 0.w),
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 6, 0, 15),
+                    ),
+                    Text(
+                      "المبلغ",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: const Color(0xff334856),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Tajawal',
+                        fontSize: 15,
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildDescription(bool orientation) {
     double h1 = 0;
     if (orientation == true) {
@@ -194,6 +382,8 @@ class _PostRequestState extends State<PostRequest> {
       h1 = 60;
 
     return Container(
+      width: orientation == true ? 300.w : 300.w,
+      height: orientation == true ? 150.h : 140.h,
       child: Column(
         children: <Widget>[
           Row(
@@ -202,11 +392,8 @@ class _PostRequestState extends State<PostRequest> {
               children: [
                 Column(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                    ),
                     Text(
-                      "تفاصيل الطلب",
+                      "وصف إضافي",
                       style: TextStyle(
                         color: const Color(0xff334856),
                         fontWeight: FontWeight.w400,
@@ -218,7 +405,7 @@ class _PostRequestState extends State<PostRequest> {
                 ),
                 Column(
                   children: [
-                    SizedBox(width: orientation == true ? 11.w: 29.w ),
+                    SizedBox(width: orientation == true ? 11.w : 29.w),
                   ],
                 )
               ]),
@@ -229,9 +416,9 @@ class _PostRequestState extends State<PostRequest> {
                   Stack(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(top: 10),
-                        width: orientation == true ? 140.w : 150.w,
-                        height: orientation == true ? 32.h : 70.h,
+                        margin: EdgeInsets.only(top: 20),
+                        width: orientation == true ? 300.w : 150.w,
+                        height: orientation == true ? 100.h : 70.h,
                         padding:
                             EdgeInsets.symmetric(horizontal: h1, vertical: 0),
                         child: DecoratedBox(
@@ -249,21 +436,21 @@ class _PostRequestState extends State<PostRequest> {
                             ],
                           ),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(38, 0, 0, 0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15.0, vertical: 0.0),
                             child: TextFormField(
                               decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Amount',
-                                  contentPadding:
-                                  EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                  hintStyle: TextStyle(fontSize: 13)),
+                                border: InputBorder.none,
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(0, 16, 0, 16),
+                              ),
                               inputFormatters: [
-                                LengthLimitingTextInputFormatter(30),
-                                FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                                LengthLimitingTextInputFormatter(150)
                               ],
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 5,
                               onChanged: (_val) {
-                                var _val2 = int.parse(_val), amount = _val2;
+                                description = _val;
                               }, // onchanged
                             ),
                           ),
@@ -273,24 +460,6 @@ class _PostRequestState extends State<PostRequest> {
                   ),
                 ],
               ),
-              SizedBox(width: orientation == true ? 10.w : 0.w),
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                  ),
-                  Text(
-                    "المبلغ",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: const Color(0xff334856),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Tajawal',
-                      fontSize: 15,
-                    ),
-                  )
-                ],
-              )
             ],
           ),
         ],
@@ -333,7 +502,7 @@ class _PostRequestState extends State<PostRequest> {
             children: <Widget>[
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 22),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 23),
               ),
               Text(
                 'نموذج إضافة طلب جديد',
@@ -345,9 +514,9 @@ class _PostRequestState extends State<PostRequest> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 28.h),
+              SizedBox(height: portrait == true ? 20.h : 40.h),
               Container(
-                height: portrait == true ? 400.h : 600.h,
+                height: portrait == true ? 520.h : 900.h,
                 width: portrait == true ? 330.w : 280.w,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
@@ -363,7 +532,32 @@ class _PostRequestState extends State<PostRequest> {
                     children: <Widget>[
                       _buildType(portrait),
                       _buildTitle(portrait),
+                      _buildDetails(portrait),
                       _buildDescription(portrait),
+                      SizedBox(height: 34.h),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("processing")));
+                          }
+                        },
+                        child: Text(
+                          "إضافة",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: "lato",
+                            color: Colors.white,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(120.w, 35.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          primary: const Color(0xdeedd03c),
+                        ),
+                      ),
                     ],
                   ),
                 ),
