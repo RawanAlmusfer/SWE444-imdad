@@ -26,111 +26,105 @@ class _PostRequestState extends State<PostRequest> {
       backgroundColor: const Color(0xffededed),
       body: Stack(
         children: <Widget>[
+          Stack(
+              children: <Widget>[
           Pinned.fromPins(
-            Pin(start: 0.0, end: 5.0),
-            Pin(size: 18.0, start: 14.8),
+            Pin(size: 24.3, end: 0.0),
+            Pin(size: 11.3, start: 2.5),
             child:
-                // Adobe XD layer: 'Status Bar' (group)
+                // Adobe XD layer: 'Battery' (group)
                 Stack(
               children: <Widget>[
                 Pinned.fromPins(
-                  Pin(size: 24.3, end: 0.0),
-                  Pin(size: 11.3, start: 2.5),
-                  child:
-                      // Adobe XD layer: 'Battery' (group)
-                      Stack(
-                    children: <Widget>[
-                      Pinned.fromPins(
-                        Pin(start: 0.0, end: 2.3),
-                        Pin(start: 0.0, end: 0.0),
-                        child:
-                            // Adobe XD layer: 'Border' (shape)
-                            Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(2.67),
-                            border: Border.all(
-                                width: 1.0, color: const Color(0x59ffffff)),
-                          ),
-                        ),
-                      ),
-                      Pinned.fromPins(
-                        Pin(size: 1.3, end: 0.0),
-                        Pin(size: 4.0, middle: 0.5),
-                        child:
-                            // Adobe XD layer: 'Cap' (shape)
-                            SvgPicture.string(
-                          _svg_e5um9,
-                          allowDrawingOutsideViewBox: true,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Pinned.fromPins(
-                        Pin(size: 18.0, start: 2.0),
-                        Pin(start: 2.0, end: 2.0),
-                        child:
-                            // Adobe XD layer: 'Capacity' (shape)
-                            Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(1.33),
-                            color: const Color(0xffffffff),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Pinned.fromPins(
-                  Pin(size: 15.3, end: 29.4),
-                  Pin(size: 11.0, start: 2.5),
-                  child:
-                      // Adobe XD layer: 'Wifi' (shape)
-                      SvgPicture.string(
-                    _svg_fwmj47,
-                    allowDrawingOutsideViewBox: true,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                Pinned.fromPins(
-                  Pin(size: 17.0, end: 49.7),
-                  Pin(size: 10.7, start: 2.8),
-                  child:
-                      // Adobe XD layer: 'Cellular Connection' (shape)
-                      SvgPicture.string(
-                    _svg_wkmgau,
-                    allowDrawingOutsideViewBox: true,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                Pinned.fromPins(
-                  Pin(size: 54.0, start: 0.0),
+                  Pin(start: 0.0, end: 2.3),
                   Pin(start: 0.0, end: 0.0),
                   child:
-                      // Adobe XD layer: 'Time Style' (group)
-                      Stack(
-                    children: <Widget>[
-                      Pinned.fromPins(
-                        Pin(start: 0.0, end: 0.0),
-                        Pin(size: 18.0, middle: 0.5),
-                        child:
-                            // Adobe XD layer: '↳ Time' (text)
-                            Text(
-                          '9:41',
-                          style: TextStyle(
-                            fontFamily: 'SF Pro Text',
-                            fontSize: 15,
-                            color: const Color(0xffffffff),
-                            letterSpacing: -0.3,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
+                      // Adobe XD layer: 'Border' (shape)
+                      Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2.67),
+                      border: Border.all(
+                          width: 1.0, color: const Color(0x59ffffff)),
+                    ),
+                  ),
+                ),
+                Pinned.fromPins(
+                  Pin(size: 1.3, end: 0.0),
+                  Pin(size: 4.0, middle: 0.5),
+                  child:
+                      // Adobe XD layer: 'Cap' (shape)
+                      SvgPicture.string(
+                    _svg_e5um9,
+                    allowDrawingOutsideViewBox: true,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Pinned.fromPins(
+                  Pin(size: 18.0, start: 2.0),
+                  Pin(start: 2.0, end: 2.0),
+                  child:
+                      // Adobe XD layer: 'Capacity' (shape)
+                      Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(1.33),
+                      color: const Color(0xffffffff),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
+          Pinned.fromPins(
+            Pin(size: 15.3, end: 29.4),
+            Pin(size: 11.0, start: 2.5),
+            child:
+                // Adobe XD layer: 'Wifi' (shape)
+                SvgPicture.string(
+              _svg_fwmj47,
+              allowDrawingOutsideViewBox: true,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Pinned.fromPins(
+            Pin(size: 17.0, end: 49.7),
+            Pin(size: 10.7, start: 2.8),
+            child:
+                // Adobe XD layer: 'Cellular Connection' (shape)
+                SvgPicture.string(
+              _svg_wkmgau,
+              allowDrawingOutsideViewBox: true,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Pinned.fromPins(
+            Pin(size: 54.0, start: 0.0),
+            Pin(start: 0.0, end: 0.0),
+            child:
+                // Adobe XD layer: 'Time Style' (group)
+                Stack(
+              children: <Widget>[
+                Pinned.fromPins(
+                  Pin(start: 0.0, end: 0.0),
+                  Pin(size: 18.0, middle: 0.5),
+                  child:
+                      // Adobe XD layer: '↳ Time' (text)
+                      Text(
+                    '9:41',
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Text',
+                      fontSize: 15,
+                      color: const Color(0xffffffff),
+                      letterSpacing: -0.3,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+              ],
+            ),
           Pinned.fromPins(
             Pin(size: 244.0, middle: 0.5),
             Pin(size: 30.0, start: 154.5),
@@ -144,7 +138,7 @@ class _PostRequestState extends State<PostRequest> {
               ),
               textAlign: TextAlign.center,
             ),
-          ),
+          ), //here
           Pinned.fromPins(
             Pin(start: 23, end: 23.3),
             Pin(size: 469.8, middle: 0.55),
@@ -154,17 +148,12 @@ class _PostRequestState extends State<PostRequest> {
               key: _formKey,
               child: Stack(
                 children: <Widget>[
-                  Pinned.fromPins(
-                    Pin(start: 0.0, end: 0.0),
-                    Pin(start: 0.0, end: 0.0),
-                    child:
                         // Adobe XD layer: 'card' (shape)
                         SvgPicture.string(
                       _svg_jeae9u,
                       allowDrawingOutsideViewBox: true,
                       fit: BoxFit.fill,
                     ),
-                  ),
                   Pinned.fromPins(
                     Pin(size: 70.0, end: 16.8),
                     Pin(size: 20.0, start: 32.5),

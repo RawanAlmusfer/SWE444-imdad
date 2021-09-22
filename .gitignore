@@ -1,18 +1,50 @@
 
-swe444/.dart_tool/package_config.json
-swe444/.dart_tool/package_config_subset
-swe444/.flutter-plugins
-swe444/.idea/libraries/Dart_Packages.xml
-swe444/.idea/libraries/Dart_Packages.xml
-swe444/.idea/libraries/Flutter_Plugins.xml
-swe444/.idea/swe444.iml
 swe444/.packages
 swe444/.flutter-plugins-dependencies
 swe444/.idea
 swe444/.dart_tool
 swe444/.flutter-plugins-dependencies
 swe444/build
-/.DS_Store
+swe444/.DS_Store
 .bulidlog/
 **/ios/Flutter/.last_build_id
+/build/
 
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Web related
+lib/generated_plugin_registrant.dart
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Exceptions to above rules.
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
