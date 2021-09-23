@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
           body: _children[_currentIndex],
           extendBody: true,
           bottomNavigationBar: Container(
+            height: 90,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(50), topLeft: Radius.circular(50)),
@@ -58,7 +59,7 @@ class _HomeState extends State<Home> {
               ),
               child: BottomNavigationBar(
                   backgroundColor: Colors.white,
-                  iconSize: 40,
+                  iconSize: 30,
                   selectedItemColor: const Color(0xdeedd03c),
                   unselectedItemColor: const Color(0xff334856),
                   selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
