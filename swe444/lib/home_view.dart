@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'mm_feed.dart';
+import "post_request.dart";
 
 class Home extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     mm_feed(),
+    PostRequest(),
     //searchPage(),
     //ProfilePage(),
   ];

@@ -1,21 +1,32 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:confirm_dialog/confirm_dialog.dart';
+import 'home_view.dart';
+
 
 class PostRequest extends StatefulWidget {
+  PostRequest.ensureInitialized();
+
   const PostRequest({Key? key}) : super(key: key);
   @override
   _PostRequestState createState() => _PostRequestState();
 }
 
 class _PostRequestState extends State<PostRequest> {
-  final _formKey = GlobalKey<FormState>();
 
   int _currentIndex = 1;
+  final List<Widget> _children = [
+    Home(),
+    PostRequest(),
+    //searchPage(),
+    //ProfilePage(),
+  ];
+
+  final _formKey = GlobalKey<FormState>();
   String? type;
   String? postedBy;
   int amount = 0;
@@ -534,25 +545,25 @@ class _PostRequestState extends State<PostRequest> {
 
     return Scaffold(
       backgroundColor: const Color(0xffededed),
-      appBar: AppBar(
-        title: Text(
-          "إضافة طلب جديد",
-          style: TextStyle(
-            color: const Color(0xff334856),
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Tajawal',
-            fontSize: 24,
-          ),
-        ),
-        backgroundColor: const Color(0xdeedd03c),
-        bottomOpacity: 30,
-        // elevation: 1,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     "إضافة طلب جديد",
+      //     style: TextStyle(
+      //       color: const Color(0xff334856),
+      //       fontWeight: FontWeight.w700,
+      //       fontFamily: 'Tajawal',
+      //       fontSize: 24,
+      //     ),
+      //   ),
+      //   backgroundColor: const Color(0xdeedd03c),
+      //   bottomOpacity: 30,
+      //   // elevation: 1,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.vertical(
+      //       bottom: Radius.circular(50),
+      //     ),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -637,30 +648,6 @@ class _PostRequestState extends State<PostRequest> {
             topLeft: Radius.circular(50),
             topRight: Radius.circular(50),
           ),
-          child: BottomNavigationBar(
-              backgroundColor: Colors.white,
-              iconSize: 40,
-              selectedItemColor: const Color(0xdeedd03c),
-              unselectedItemColor: const Color(0xff334856),
-              selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              onTap: onTabTapped,
-              currentIndex: _currentIndex,
-              items: [
-                BottomNavigationBarItem(
-                  icon: new Icon(Icons.home),
-                  title: new Text("الصفحة الرئيسية"),
-                ),
-                BottomNavigationBarItem(
-                  icon: new Icon(Icons.add),
-                  title: new Text("إضافة طلب"),
-                ),
-                BottomNavigationBarItem(
-                  icon: new Icon(Icons.account_circle),
-                  title: new Text("الصفحة الشخصية"),
-                ),
-              ]),
         ),
       ),
     );
