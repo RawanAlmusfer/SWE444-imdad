@@ -655,7 +655,7 @@ class _PostRequestState extends State<PostRequest> {
 
   void add() async {
     // save to db
-    CollectionReference ref = FirebaseFirestore.instance.collection('Requests');
+    CollectionReference ref = FirebaseFirestore.instance.collection('requests');
 
     var data = {
       'title': title,
