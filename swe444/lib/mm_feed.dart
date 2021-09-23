@@ -25,7 +25,7 @@ class mm_feed extends StatelessWidget {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    return new Container(
+    return Container(
       padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
       child: Card(
         shape: RoundedRectangleBorder(

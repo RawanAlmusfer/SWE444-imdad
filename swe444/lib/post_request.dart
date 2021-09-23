@@ -29,7 +29,7 @@ class _PostRequestState extends State<PostRequest> {
   final _formKey = GlobalKey<FormState>();
   String? type;
   String? postedBy;
-  int amount = 0;
+  int? amount;
   String? description;
   String? title;
   final List<String> items = ['Funds'];
@@ -361,7 +361,7 @@ class _PostRequestState extends State<PostRequest> {
                                 ],
                                 keyboardType: TextInputType.number,
                                 onChanged: (_val) {
-                                  var _val2 = int.parse(_val), amount = _val2;
+                                  amount = int.parse(_val); 
                                 }, // onchanged
                               ),
                             ),
@@ -515,6 +515,8 @@ class _PostRequestState extends State<PostRequest> {
     Widget confirmButton = ElevatedButton(
       child: Text("تأكيد"),
       onPressed: () {
+        Navigator.of(context)
+            .pop();
         add();
       },
     );
@@ -670,7 +672,7 @@ class _PostRequestState extends State<PostRequest> {
     Navigator.of(context)
         .push(
       MaterialPageRoute(
-        builder: (context) => PostRequest(),
+        builder: (context) => Home(),
       ),
     )
         .then((value) {
