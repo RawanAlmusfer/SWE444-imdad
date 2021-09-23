@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class mm_feed extends StatelessWidget {
-  mm_feed({
+  const mm_feed({
     Key? key,
   }) : super(key: key);
 
@@ -25,7 +25,7 @@ class mm_feed extends StatelessWidget {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    return new Container(
+    return Container(
       padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
       child: Card(
         shape: RoundedRectangleBorder(
@@ -45,12 +45,12 @@ class mm_feed extends StatelessWidget {
                     allowDrawingOutsideViewBox: true,
                     fit: BoxFit.fill,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(right: 20, top: 5),
                     child: Text(
                       document['title'],
-                      style: new TextStyle(fontSize: 30.0),
+                      style: TextStyle(fontSize: 30.0),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -65,7 +65,7 @@ class mm_feed extends StatelessWidget {
                 padding:
                     const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 70),
                 child: Row(children: <Widget>[
-                  Spacer(),
+                  const Spacer(),
                   Container(
                       width: 250, // to wrap the text in multiline
                       child: Text(
@@ -79,9 +79,9 @@ class mm_feed extends StatelessWidget {
                 padding:
                     const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 63),
                 child: Row(children: <Widget>[
-                  Spacer(),
+                  const Spacer(),
                   Text(document['amount'].toString()),
-                  Text(" :المبلغ"),
+                  const Text(" :المبلغ"),
                 ]),
               ),
             ],
