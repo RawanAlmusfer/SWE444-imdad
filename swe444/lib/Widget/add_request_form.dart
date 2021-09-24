@@ -1,49 +1,41 @@
-import 'package:firebase_core/firebase_core.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'home_view.dart';
 
+import '../Views/home_view.dart';
 
-class PostRequest extends StatefulWidget {
-  PostRequest.ensureInitialized();
+class AddRequestForm extends StatefulWidget {
+  AddRequestForm({
+    Key? key,
+  }) : super(key: key);
 
-  const PostRequest({Key? key}) : super(key: key);
   @override
-  _PostRequestState createState() => _PostRequestState();
+  _AddRequestFormState createState() => _AddRequestFormState();
 }
 
-class _PostRequestState extends State<PostRequest> {
-
-  int _currentIndex = 1;
-  final List<Widget> _children = [
-    Home(),
-    PostRequest(),
-    //searchPage(),
-    //ProfilePage(),
-  ];
+class _AddRequestFormState extends State<AddRequestForm> {
 
   final _formKey = GlobalKey<FormState>();
   String? type;
   String? postedBy;
   int? amount;
-  String? description;
+  String description = " ";
   String? title;
   final List<String> items = ['Funds'];
 
   Widget _buildType(bool orientation) {
-    double h1 = 0, h2=0, b1=0;
+    double h1 = 0, h2 = 0, b1 = 0;
     if (orientation == true) {
       h1 = 10;
-      b1=3;
-      h2=18;
+      b1 = 3;
+      h2 = 18;
     } else {
       h1 = 60;
-      h2= 70;
-      b1= 5;
+      h2 = 70;
+      b1 = 5;
     }
 
     return Container(
@@ -79,8 +71,8 @@ class _PostRequestState extends State<PostRequest> {
                     width: orientation == true ? 190.w : 180.w,
                     height: orientation == true ? 52.h : 110.h,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: h2, vertical: b1),
+                      padding:
+                      EdgeInsets.symmetric(horizontal: h2, vertical: b1),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration.collapsed(
@@ -88,16 +80,16 @@ class _PostRequestState extends State<PostRequest> {
                           ),
                           value: type,
                           items: items.map<DropdownMenuItem<String>>(
-                              (dropdownMenuItem) {
-                            return DropdownMenuItem(
-                              value: dropdownMenuItem,
-                              child: Text(dropdownMenuItem),
-                            );
-                          }).toList(),
+                                  (dropdownMenuItem) {
+                                return DropdownMenuItem(
+                                  value: dropdownMenuItem,
+                                  child: Text(dropdownMenuItem),
+                                );
+                              }).toList(),
                           onChanged: (value) =>
                               setState(() => this.type = value),
                           validator: (value) =>
-                              value == null ? 'Please choose a type' : null,
+                          value == null ? 'Please choose a type' : null,
                           hint: Text("Select item"),
                           icon: Icon(Icons.arrow_drop_down_circle),
                           isExpanded: true,
@@ -133,18 +125,18 @@ class _PostRequestState extends State<PostRequest> {
   }
 
   Widget _buildTitle(bool orientation) {
-    double h1 = 0, l1=0, h2=0 ;
+    double h1 = 0, l1 = 0, h2 = 0;
     double top1 = 0;
 
     if (orientation == true) {
       h1 = 10;
-      h2=0;
-      l1 =10.0;
+      h2 = 0;
+      l1 = 10.0;
       top1 = 9;
     } else {
       h1 = 60;
-      h2= 40;
-      l1=20.0;
+      h2 = 40;
+      l1 = 20.0;
       top1 = 9;
     }
 
@@ -199,16 +191,16 @@ class _PostRequestState extends State<PostRequest> {
                                 border: InputBorder.none,
                                 errorBorder: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Colors.red, width: 1),
+                                  BorderSide(color: Colors.red, width: 1),
                                   borderRadius: BorderRadius.circular(25.0),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Colors.red, width: 1),
+                                  BorderSide(color: Colors.red, width: 1),
                                   borderRadius: BorderRadius.circular(25.0),
                                 ),
                                 contentPadding:
-                                    EdgeInsets.fromLTRB(15, 8, 0, 0),
+                                EdgeInsets.fromLTRB(15, 8, 0, 0),
                                 hintStyle: TextStyle(fontSize: 16)),
                             onChanged: (_val) {
                               title = _val;
@@ -309,7 +301,7 @@ class _PostRequestState extends State<PostRequest> {
                           width: orientation == true ? 140.w : 150.w,
                           height: orientation == true ? 30.h : 70.h,
                           padding:
-                              EdgeInsets.symmetric(horizontal: h1, vertical: 0),
+                          EdgeInsets.symmetric(horizontal: h1, vertical: 0),
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25.0),
@@ -352,7 +344,7 @@ class _PostRequestState extends State<PostRequest> {
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
                                     contentPadding:
-                                        EdgeInsets.fromLTRB(30, 0, 0, b1),
+                                    EdgeInsets.fromLTRB(30, 0, 0, b1),
                                     hintStyle: TextStyle(fontSize: 16)),
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(30),
@@ -361,7 +353,7 @@ class _PostRequestState extends State<PostRequest> {
                                 ],
                                 keyboardType: TextInputType.number,
                                 onChanged: (_val) {
-                                  amount = int.parse(_val); 
+                                  amount = int.parse(_val);
                                 }, // onchanged
                               ),
                             ),
@@ -458,7 +450,7 @@ class _PostRequestState extends State<PostRequest> {
                         width: orientation == true ? 300.w : 250.w,
                         height: orientation == true ? 100.h : 200.h,
                         padding:
-                            EdgeInsets.symmetric(horizontal: h1, vertical: 0),
+                        EdgeInsets.symmetric(horizontal: h1, vertical: 0),
                         child: DecoratedBox(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25.0),
@@ -480,7 +472,7 @@ class _PostRequestState extends State<PostRequest> {
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 contentPadding:
-                                    EdgeInsets.fromLTRB(0, 16, 0, 16),
+                                EdgeInsets.fromLTRB(0, 16, 0, 16),
                               ),
                               inputFormatters: [
                                 LengthLimitingTextInputFormatter(150)
@@ -506,23 +498,27 @@ class _PostRequestState extends State<PostRequest> {
   }
 
 // https://medium.com/multiverse-software/alert-dialog-and-confirmation-dialog-in-flutter-8d8c160f4095
-  showAlertDialog(BuildContext context) {
+  showAlertDialog() {
     // set up the buttons
     Widget cancelButton = ElevatedButton(
       child: Text("إلغاء"),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pop(context);
+      },
     );
     Widget confirmButton = ElevatedButton(
       child: Text("تأكيد"),
       onPressed: () {
-        Navigator.of(context)
-            .pop();
+        Navigator.of(context).pop(context);
         add();
       },
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("إضافة"),
+      title: Text(
+        "إضافة",
+        textAlign: TextAlign.right,
+      ),
       content: Text("هل أنت متأكد من رغبتك في إضافة الطلب؟"),
       actions: [
         cancelButton,
@@ -545,118 +541,45 @@ class _PostRequestState extends State<PostRequest> {
 
     if (deviceOrientation == Orientation.landscape) portrait = false;
 
-    return Scaffold(
-      backgroundColor: const Color(0xffededed),
-      // appBar: AppBar(
-      //   title: Text(
-      //     "إضافة طلب جديد",
-      //     style: TextStyle(
-      //       color: const Color(0xff334856),
-      //       fontWeight: FontWeight.w700,
-      //       fontFamily: 'Tajawal',
-      //       fontSize: 24,
-      //     ),
-      //   ),
-      //   backgroundColor: const Color(0xdeedd03c),
-      //   bottomOpacity: 30,
-      //   // elevation: 1,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.vertical(
-      //       bottom: Radius.circular(50),
-      //     ),
-      //   ),
-      // ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          _buildType(portrait),
+          _buildTitle(portrait),
+          _buildDetails(portrait),
+          _buildDescription(portrait),
+          SizedBox(height: portrait == true ? 30.h : 15.h),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                showAlertDialog();
+              }
+            },
+            child: Text(
+              "إضافة",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontFamily: "lato",
+                color: Colors.white,
               ),
-              Text(
-                'نموذج إضافة طلب جديد',
-                style: TextStyle(
-                  fontFamily: 'Tajawal',
-                  fontSize: 23,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xff334856),
-                ),
-                textAlign: TextAlign.center,
+            ),
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(120.w, 35.h),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
               ),
-              SizedBox(height: portrait == true ? 15.h : 20.h),
-              Container(
-                height: portrait == true ? 520.h : 980.h,
-                width: portrait == true ? 330.w : 280.w,
-                padding:
-                    const EdgeInsets.only(left: 12, right: 12, top: 24),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0),
-                  color: Color(0xffffffff),
-                  border:
-                      Border.all(width: 0.5, color: const Color(0xffdfdfdf)),
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      _buildType(portrait),
-                      _buildTitle(portrait),
-                      _buildDetails(portrait),
-                      _buildDescription(portrait),
-                      SizedBox(height: portrait == true ? 30.h : 15.h),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            showAlertDialog(context);
-                          }
-                        },
-                        child: Text(
-                          "إضافة",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: "lato",
-                            color: Colors.white,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(120.w, 35.h),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          primary: const Color(0xdeedd03c),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
+              primary: const Color(0xdeedd03c),
+            ),
           ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(50), topLeft: Radius.circular(50)),
-          boxShadow: [
-            BoxShadow(
-                color: Color(0xffededed), spreadRadius: 0, blurRadius: 10),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(50),
-            topRight: Radius.circular(50),
-          ),
-        ),
+        ],
       ),
     );
   }
 
   void add() async {
     // save to db
+    // Navigator.pop(context, true);
     CollectionReference ref = FirebaseFirestore.instance.collection('requests');
 
     var data = {
@@ -683,9 +606,4 @@ class _PostRequestState extends State<PostRequest> {
     _formKey.currentState?.reset();
   }
 
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'mm_feed.dart';
-import "post_request.dart";
+import '../mm_feed.dart';
+import 'post_request_view.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -20,8 +20,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return
+       Scaffold(
           backgroundColor: const Color(0xffededed),
           appBar: AppBar(
             title: Text(
@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
                     ),
                   ]),
             ),
-          )),
+          )
     );
   }
 

@@ -40,11 +40,23 @@ class mm_feed extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     top: 5.0, bottom: 5.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
-                  SvgPicture.string(
-                    _svg_fghwvy,
-                    allowDrawingOutsideViewBox: true,
-                    fit: BoxFit.fill,
-                  ),
+                  Container(
+                      child: ElevatedButton(
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.only(
+                          top: 0, bottom: 25.0, left: 2, right: 30)),
+                        elevation: MaterialStateProperty.all<double>(0),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white)),
+                    onPressed: () {
+
+                    },
+                    child: SvgPicture.string(
+                      _svg_fghwvy,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
+                    ),
+                  )),
                   Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(right: 20, top: 5),

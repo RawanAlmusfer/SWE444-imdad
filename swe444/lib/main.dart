@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:swe444/post_request.dart';
-import 'package:swe444/home_view.dart';
+import 'package:swe444/Views/post_request_view.dart';
+import 'package:swe444/Views/home_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future<void> main() async {
@@ -33,10 +33,10 @@ class MyApp extends StatelessWidget {
       builder: () => MaterialApp(
         title: 'My Notes',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark().copyWith(
+        theme: ThemeData.light().copyWith(
           primaryColor: Colors.white,
           accentColor: Colors.white,
-          scaffoldBackgroundColor: Color(0xff070706),
+          scaffoldBackgroundColor: Color(0xffffffff),
         ),
         home: Home(),
       ),
