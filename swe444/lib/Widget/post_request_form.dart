@@ -1,14 +1,14 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swe444/Models/request.dart';
 
 import '../Views/home_view.dart';
 
-class AddRequestForm extends StatefulWidget {
-  AddRequestForm({
+class PostRequestForm extends StatefulWidget {
+  PostRequestForm({
     Key? key,
   }) : super(key: key);
 
@@ -16,8 +16,7 @@ class AddRequestForm extends StatefulWidget {
   _AddRequestFormState createState() => _AddRequestFormState();
 }
 
-class _AddRequestFormState extends State<AddRequestForm> {
-
+class _AddRequestFormState extends State<PostRequestForm> {
   final _formKey = GlobalKey<FormState>();
   String? type;
   String? postedBy;
@@ -72,7 +71,7 @@ class _AddRequestFormState extends State<AddRequestForm> {
                     height: orientation == true ? 52.h : 110.h,
                     child: Padding(
                       padding:
-                      EdgeInsets.symmetric(horizontal: h2, vertical: b1),
+                          EdgeInsets.symmetric(horizontal: h2, vertical: b1),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration.collapsed(
@@ -80,16 +79,16 @@ class _AddRequestFormState extends State<AddRequestForm> {
                           ),
                           value: type,
                           items: items.map<DropdownMenuItem<String>>(
-                                  (dropdownMenuItem) {
-                                return DropdownMenuItem(
-                                  value: dropdownMenuItem,
-                                  child: Text(dropdownMenuItem),
-                                );
-                              }).toList(),
+                              (dropdownMenuItem) {
+                            return DropdownMenuItem(
+                              value: dropdownMenuItem,
+                              child: Text(dropdownMenuItem),
+                            );
+                          }).toList(),
                           onChanged: (value) =>
                               setState(() => this.type = value),
                           validator: (value) =>
-                          value == null ? 'Please choose a type' : null,
+                              value == null ? 'Please choose a type' : null,
                           hint: Text("Select item"),
                           icon: Icon(Icons.arrow_drop_down_circle),
                           isExpanded: true,
@@ -191,16 +190,16 @@ class _AddRequestFormState extends State<AddRequestForm> {
                                 border: InputBorder.none,
                                 errorBorder: OutlineInputBorder(
                                   borderSide:
-                                  BorderSide(color: Colors.red, width: 1),
+                                      BorderSide(color: Colors.red, width: 1),
                                   borderRadius: BorderRadius.circular(25.0),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide:
-                                  BorderSide(color: Colors.red, width: 1),
+                                      BorderSide(color: Colors.red, width: 1),
                                   borderRadius: BorderRadius.circular(25.0),
                                 ),
                                 contentPadding:
-                                EdgeInsets.fromLTRB(15, 8, 0, 0),
+                                    EdgeInsets.fromLTRB(15, 8, 0, 0),
                                 hintStyle: TextStyle(fontSize: 16)),
                             onChanged: (_val) {
                               title = _val;
@@ -301,7 +300,7 @@ class _AddRequestFormState extends State<AddRequestForm> {
                           width: orientation == true ? 140.w : 150.w,
                           height: orientation == true ? 30.h : 70.h,
                           padding:
-                          EdgeInsets.symmetric(horizontal: h1, vertical: 0),
+                              EdgeInsets.symmetric(horizontal: h1, vertical: 0),
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25.0),
@@ -344,7 +343,7 @@ class _AddRequestFormState extends State<AddRequestForm> {
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
                                     contentPadding:
-                                    EdgeInsets.fromLTRB(30, 0, 0, b1),
+                                        EdgeInsets.fromLTRB(30, 0, 0, b1),
                                     hintStyle: TextStyle(fontSize: 16)),
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(30),
@@ -450,7 +449,7 @@ class _AddRequestFormState extends State<AddRequestForm> {
                         width: orientation == true ? 300.w : 250.w,
                         height: orientation == true ? 100.h : 200.h,
                         padding:
-                        EdgeInsets.symmetric(horizontal: h1, vertical: 0),
+                            EdgeInsets.symmetric(horizontal: h1, vertical: 0),
                         child: DecoratedBox(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25.0),
@@ -472,7 +471,7 @@ class _AddRequestFormState extends State<AddRequestForm> {
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 contentPadding:
-                                EdgeInsets.fromLTRB(0, 16, 0, 16),
+                                    EdgeInsets.fromLTRB(0, 16, 0, 16),
                               ),
                               inputFormatters: [
                                 LengthLimitingTextInputFormatter(150)
@@ -501,10 +500,17 @@ class _AddRequestFormState extends State<AddRequestForm> {
   showAlertDialog() {
     // set up the buttons
     Widget cancelButton = ElevatedButton(
-      child: Text("إلغاء"),
+      child: const Text(
+        "إلغاء",
+        style: TextStyle(color: const Color(0xdeedd03c)),
+      ),
       onPressed: () {
         Navigator.of(context).pop(context);
       },
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+          elevation: MaterialStateProperty.all<double>(0)),
     );
     Widget confirmButton = ElevatedButton(
       child: Text("تأكيد"),
@@ -512,6 +518,9 @@ class _AddRequestFormState extends State<AddRequestForm> {
         Navigator.of(context).pop(context);
         add();
       },
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
@@ -579,18 +588,14 @@ class _AddRequestFormState extends State<AddRequestForm> {
 
   void add() async {
     // save to db
-    // Navigator.pop(context, true);
-    CollectionReference ref = FirebaseFirestore.instance.collection('requests');
+    Request request = Request(title, type, amount, description);
 
-    var data = {
-      'title': title,
-      'type': type,
-      'posted_by': postedBy,
-      'description': description,
-      'amount': amount,
-    };
+    await FirebaseFirestore.instance
+        .collection('requests')
+        .add(request.toJson())
+        .then((value) => _showToast(context, 'Request added successfully'))
+        .catchError((error) => _showToast(context, "Failed to add request: $error"));
 
-    ref.add(data);
 
     Navigator.of(context)
         .push(
@@ -606,4 +611,12 @@ class _AddRequestFormState extends State<AddRequestForm> {
     _formKey.currentState?.reset();
   }
 
+   void _showToast(BuildContext context, String msg) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(msg),
+      ),
+    );
+  }
 }

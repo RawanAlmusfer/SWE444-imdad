@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../Widget/add_request_form.dart';
+import '../Widget/post_request_form.dart';
 import 'home_view.dart';
 
 class PostRequest extends StatefulWidget {
   PostRequest.ensureInitialized();
-
   const PostRequest({Key? key}) : super(key: key);
   @override
-  _PostRequestState createState() => _PostRequestState();
-}
+  State<StatefulWidget> createState() {
+    return _PostRequestState();
+  }}
 
 class _PostRequestState extends State<PostRequest> {
   final List<Widget> _children = [
@@ -77,7 +77,7 @@ class _PostRequestState extends State<PostRequest> {
                   border:
                       Border.all(width: 0.5, color: const Color(0xffdfdfdf)),
                 ),
-                child: AddRequestForm(),
+                child: PostRequestForm(),
               ),
               SizedBox(height: portrait == true ? 0.h : 230.h),
             ],

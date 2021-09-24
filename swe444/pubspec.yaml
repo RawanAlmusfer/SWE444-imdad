@@ -34,7 +34,6 @@ dependencies:
   adobe_xd: ^2.0.0+1
   google_fonts: ^2.1.0
   flutter_screenutil: 5.0.0+2
-  confirm_dialog: ^1.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
