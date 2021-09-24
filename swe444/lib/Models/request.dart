@@ -1,4 +1,5 @@
 class Request {
+  String? documentId;
   String? type;
   int? amount;
   String? description;
@@ -10,7 +11,7 @@ class Request {
       this.amount,
       this.description);
 
-  // formatting for upload to Firbase when creating the trip
+  // formatting for upload to Firbase when creating the request
   Map<String, dynamic> toJson() =>
       {
         'title': title,

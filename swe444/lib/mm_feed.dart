@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swe444/Widget/show_snackbar.dart';
 
-class mm_feed extends StatelessWidget {
+class mm_feed extends StatefulWidget {
   mm_feed({
     Key? key,
   }) : super(key: key);
 
+  @override
+  _mm_feedState createState() => _mm_feedState();
+}
+
+class _mm_feedState extends State<mm_feed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +31,8 @@ class mm_feed extends StatelessWidget {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
+    String ref = document.id;
+
     return Container(
       padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
       child: Card(
@@ -41,22 +49,31 @@ class mm_feed extends StatelessWidget {
                     top: 5.0, bottom: 5.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
                   Container(
+                    width: 25,
+                      height: 52,
+                      padding:
+                          EdgeInsets.only(top: 0, bottom: 25, left: 0, right: 0),
                       child: ElevatedButton(
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.only(
-                          top: 0, bottom: 25.0, left: 2, right: 30)),
-                        elevation: MaterialStateProperty.all<double>(0),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white)),
-                    onPressed: () {
-
-                    },
-                    child: SvgPicture.string(
-                      _svg_fghwvy,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
-                    ),
-                  )),
+                        style: ButtonStyle(
+                            padding:
+                                MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                    EdgeInsets.only(
+                                        top: 0, bottom: 0, left: 0, right: 0)),
+                            elevation: MaterialStateProperty.all<double>(0),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white)),
+                        onPressed: () async {
+                          await cancelRequest(document);
+                          Snackbar bar = Snackbar(
+                              context, 'Request canceled successfully');
+                          bar.showToast();
+                        },
+                        child: SvgPicture.string(
+                          _svg_fghwvy,
+                          allowDrawingOutsideViewBox: true,
+                          fit: BoxFit.fill,
+                        ),
+                      )),
                   Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(right: 20, top: 5),
@@ -101,6 +118,13 @@ class mm_feed extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future cancelRequest(DocumentSnapshot document) async {
+    final doc =
+        FirebaseFirestore.instance.collection('requests').doc(document.id);
+
+    return await doc.delete();
   }
 }
 

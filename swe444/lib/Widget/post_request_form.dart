@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Models/request.dart';
-
+import 'package:swe444/Widget/show_snackbar.dart';
 import '../Views/home_view.dart';
 
 class PostRequestForm extends StatefulWidget {
@@ -593,9 +593,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
     await FirebaseFirestore.instance
         .collection('requests')
         .add(request.toJson())
-        .then((value) => _showToast(context, 'Request added successfully'))
-        .catchError((error) => _showToast(context, "Failed to add request: $error"));
-
+        .then(
+          (value) => _showToast(context, 'Request added successfully'),
+        )
+        .catchError(
+            (error) => _showToast(context, "Failed to add request: $error"));
 
     Navigator.of(context)
         .push(
@@ -611,12 +613,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
     _formKey.currentState?.reset();
   }
 
-   void _showToast(BuildContext context, String msg) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(msg),
-      ),
-    );
+  void _showToast(BuildContext context, String msg) {
+    Snackbar bar= Snackbar(context, msg);
+    bar.showToast();
   }
 }
