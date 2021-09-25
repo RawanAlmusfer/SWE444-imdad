@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,7 +32,7 @@ class v_feed extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(19.0),
         ),
-        shadowColor: Colors.blueGrey,
+        shadowColor: Color(0xff334856),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -48,25 +49,21 @@ class v_feed extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  // SvgPicture.string(
-                  //   _svg_fghwvy,
-                  //   allowDrawingOutsideViewBox: true,
-                  //   fit: BoxFit.fill,
-                  // ),
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(right: 20, top: 5),
                     child: Text(
                       document['title'],
-                      style: TextStyle(fontSize: 30.0),
-                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
                     ),
                   ),
                   SvgPicture.string(
                     mosqueImage,
                     allowDrawingOutsideViewBox: true,
                     fit: BoxFit.fill,
-                  ), // cancel button
+                  ),
                 ]),
               ),
               Padding(
@@ -95,17 +92,54 @@ class v_feed extends StatelessWidget {
                           ),
                         ),
                       ),
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            "نسبة الإكتمال: " + document['amount'].toString(),
+                            textDirection: TextDirection.rtl,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ]),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 5.0, right: 63),
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 5.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
-                  new BackButton(),
-                  const Spacer(),
-                  Text(document['amount'].toString()),
-                  const Text(" :نسبة الإكتمال"),
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0xffededed),
+                            spreadRadius: 1,
+                            blurRadius: 10),
+                      ],
+                    ),
+                    height: 30,
+                    width: 65,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text("شارك", textAlign: TextAlign.center),
+                      style: TextButton.styleFrom(
+                        primary: Color(0xff334856),
+                        backgroundColor: const Color(0xdeedd03c),
+                        textStyle: TextStyle(
+                          fontSize: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
+                    onPressed: () {},
+                  ),
                 ]),
               ),
             ],
