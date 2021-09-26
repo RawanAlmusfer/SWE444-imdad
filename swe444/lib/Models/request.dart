@@ -23,6 +23,8 @@ class Request {
         'description': description,
         'amount': amount,
         'donated': donated,
+        'mosque_name': mosque_name,
+        'mosque_location': mosque_location,
       };
 }
 
