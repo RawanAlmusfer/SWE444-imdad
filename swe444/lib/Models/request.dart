@@ -15,7 +15,7 @@ class Request {
       this.amount,
       this.description);
 
-  // formatting for upload to Firbase when creating the request
+  // formatting for upload to Firebase when creating the request
   Map<String, dynamic> toJson() =>
       {
         'title': title,
