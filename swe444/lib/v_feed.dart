@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class v_feed extends StatelessWidget {
   const v_feed({
@@ -26,6 +27,7 @@ class v_feed extends StatelessWidget {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
+    print("location:" + document['location'].toString());
     return Container(
       padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
       child: Card(
@@ -44,7 +46,7 @@ class v_feed extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 20, top: 5),
                     child: Text(
-                      document['title'],
+                      document['mosque_name'],
                       style: TextStyle(),
                       textAlign: TextAlign.center,
                     ),
@@ -138,7 +140,9 @@ class v_feed extends StatelessWidget {
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
-                    onPressed: () {},
+                    onPressed: () {
+                      _lunchURL(document['location'].toString());
+                    },
                   ),
                 ]),
               ),
@@ -147,6 +151,14 @@ class v_feed extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<void> _lunchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw "Could not lunch the url";
   }
 }
 
