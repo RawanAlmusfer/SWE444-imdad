@@ -11,13 +11,11 @@ class mm_feed extends StatefulWidget {
 }
 
 class mmFeed extends State<mm_feed> {
-  // User? user = FirebaseAuth.instance.currentUser;
-  // getUserData() async {
-  //   FirebaseUser user = await FirebaseAuth.instance.currentUser();
-  // }
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
+    //var userId = _fetch();
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
@@ -27,78 +25,93 @@ class mmFeed extends State<mm_feed> {
             return ListView.builder(
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
               itemBuilder: (BuildContext context, int index) => buildCards(
-                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+                  context,
+                  (snapshot.data! as QuerySnapshot).docs[index],
+                  user?.uid.toString()),
             );
           }),
     );
   }
 
-  Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    return Container(
-      padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(19.0),
-        ),
-        shadowColor: Colors.blueGrey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 5.0, bottom: 5.0, left: 2, right: 10),
-                child: Row(children: <Widget>[
-                  SvgPicture.string(
-                    mosqueImage,
-                    allowDrawingOutsideViewBox: true,
-                    fit: BoxFit.fill,
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20, top: 5),
-                    child: Text(
-                      document['title'],
-                      style: TextStyle(fontSize: 30.0),
-                      textAlign: TextAlign.center,
+  Widget buildCards(
+      BuildContext context, DocumentSnapshot document, String? id) {
+    if (document['posted_by'].toString() == id) {
+      print('posted user Id ' + document['posted_by'].toString());
+      print('current user Id ' + id.toString());
+      return Container(
+        padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(19.0),
+          ),
+          shadowColor: Colors.blueGrey,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  child: Row(children: <Widget>[
+                    SvgPicture.string(
+                      mosqueImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
                     ),
-                  ),
-                  SvgPicture.string(
-                    cancelImage,
-                    allowDrawingOutsideViewBox: true,
-                    fit: BoxFit.fill,
-                  ), // cancel button
-                ]),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 70),
-                child: Row(children: <Widget>[
-                  const Spacer(),
-                  Container(
-                      width: 250, // to wrap the text in multiline
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20, top: 5),
                       child: Text(
-                        document['description'],
-                        textDirection: TextDirection
-                            .rtl, // make the text from right to left
-                      )),
-                ]),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 63),
-                child: Row(children: <Widget>[
-                  const Spacer(),
-                  Text(document['amount'].toString()),
-                  const Text(" :المبلغ"),
-                ]),
-              ),
-            ],
+                        document['title'],
+                        style: TextStyle(fontSize: 30.0),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SvgPicture.string(
+                      cancelImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
+                    ), // cancel button
+                  ]),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 70),
+                  child: Row(children: <Widget>[
+                    const Spacer(),
+                    Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Text(
+                          document['description'],
+                          textDirection: TextDirection
+                              .rtl, // make the text from right to left
+                        )),
+                  ]),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 63),
+                  child: Row(children: <Widget>[
+                    const Spacer(),
+                    Text(document['amount'].toString()),
+                    const Text(" :المبلغ"),
+                  ]),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      print('not included');
+      return Container();
+    }
   }
+
+  // Future _fetch() async {
+  //   User? user = await FirebaseAuth.instance.currentUser;
+  //   return user?.uid.toString();
+  // }
 }
 
 const String cancelImage =
