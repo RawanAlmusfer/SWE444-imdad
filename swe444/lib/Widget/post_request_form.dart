@@ -256,12 +256,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
     return Container(
       width: orientation == true ? 300.w : 300.w,
-      height: orientation == true ? 118.h : 200.h,
+      height: orientation == true ? 120.h : 200.h,
       child: Column(
         children: <Widget>[
           Container(
             width: orientation == true ? 300.w : 300.w,
-            height: orientation == true ? 18.h : 39.h,
+            height: orientation == true ? 20.h : 39.h,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.max,
@@ -281,7 +281,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   ),
                   Column(
                     children: [
-                      SizedBox(width: orientation == true ? 11.w : 29.w),
+                      SizedBox(width: orientation == true ? 18.w : 29.w),
                     ],
                   )
                 ]),
@@ -434,7 +434,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                 ),
                 Column(
                   children: [
-                    SizedBox(width: orientation == true ? 11.w : 29.w),
+                    SizedBox(width: orientation == true ? 25.w : 29.w),
                   ],
                 )
               ]),
