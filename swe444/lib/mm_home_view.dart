@@ -14,7 +14,7 @@ class _HomeState extends State<mmHome> {
   final List<Widget> _children = [
     mm_feed(),
     //postPage(),
-    //ProfilePage(),
+    //logoutPage(),
   ];
 
   @override
@@ -77,8 +77,8 @@ class _HomeState extends State<mmHome> {
                     label: "إضافة طلب",
                   ),
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.account_circle),
-                    label: "الصفحة الشخصية",
+                    icon: new Icon(Icons.logout),
+                    label: "تسجيل الخروج",
                   ),
                 ]),
           ),
