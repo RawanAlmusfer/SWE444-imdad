@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class mm_feed extends StatelessWidget {
-  const mm_feed({
-    Key? key,
-  }) : super(key: key);
+class mm_feed extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return mmFeed();
+  }
+}
+
+class mmFeed extends State<mm_feed> {
+  // User? user = FirebaseAuth.instance.currentUser;
+  // getUserData() async {
+  //   FirebaseUser user = await FirebaseAuth.instance.currentUser();
+  // }
 
   @override
   Widget build(BuildContext context) {
