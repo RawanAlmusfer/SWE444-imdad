@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ class PostRequestForm extends StatefulWidget {
 
 class _AddRequestFormState extends State<PostRequestForm> {
   final _formKey = GlobalKey<FormState>();
+  User? user = FirebaseAuth.instance.currentUser;
   String? type;
   String? postedBy;
   int? amount;
@@ -240,14 +242,16 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   Widget _buildDetails(bool orientation) {
-    double h1 = 0, t1 = 0, b1 = 0;
+    double h1 = 0, t1 = 0, b1 = 0, t2=0;
     double l1 = 0;
     if (orientation == true) {
       l1 = 0;
       b1 = 16;
       t1 = 21.5;
       h1 = 10;
+      t2= 23;
     } else {
+      t2= 20;
       b1 = 18;
       t1 = 20;
       h1 = 60;
@@ -296,7 +300,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     children: [
                       Stack(children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(top: 23),
+                          margin: EdgeInsets.only(top: t2),
                           width: orientation == true ? 140.w : 150.w,
                           height: orientation == true ? 30.h : 70.h,
                           padding:
@@ -304,7 +308,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25.0),
-                              color: Color(0xffffffff),
+                              color: const Color(0xffffffff),
                               border: Border.all(
                                   width: 0.5, color: const Color(0xffdfdfdf)),
                               boxShadow: [
@@ -497,7 +501,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
 // https://medium.com/multiverse-software/alert-dialog-and-confirmation-dialog-in-flutter-8d8c160f4095
-  showAlertDialog() {
+  showAlertDialog(String? id) {
     // set up the buttons
     Widget cancelButton = ElevatedButton(
       child: const Text(
@@ -516,7 +520,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       child: Text("تأكيد"),
       onPressed: () {
         Navigator.of(context).pop(context);
-        add();
+        add(id);
       },
       style: ButtonStyle(
           backgroundColor:
@@ -562,7 +566,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                showAlertDialog();
+                showAlertDialog(user?.uid.toString());
               }
             },
             child: Text(
@@ -586,18 +590,21 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
-  void add() async {
+  void add(String? id) async {
     // save to db
-    Request request = Request(title, type, amount, description);
+    postedBy= id;
+    Request request = Request(title, type, amount, postedBy, description);
+    Snackbar? snackbar;
+    String msg = "";
 
     await FirebaseFirestore.instance
         .collection('requests')
         .add(request.toJson())
-        .then(
-          (value) => _showToast(context, 'Request added successfully'),
-        )
-        .catchError(
-            (error) => _showToast(context, "Failed to add request: $error"));
+        .then((value) => {msg = 'Request added successfully'})
+        .catchError((error) => msg = "Failed to add request: $error");
+
+    snackbar = Snackbar(context, msg);
+    snackbar.showToast();
 
     Navigator.of(context)
         .push(
@@ -611,10 +618,5 @@ class _AddRequestFormState extends State<PostRequestForm> {
     });
 
     _formKey.currentState?.reset();
-  }
-
-  void _showToast(BuildContext context, String msg) {
-    Snackbar bar= Snackbar(context, msg);
-    bar.showToast();
   }
 }
