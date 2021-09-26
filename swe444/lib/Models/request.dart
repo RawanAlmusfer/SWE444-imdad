@@ -2,6 +2,7 @@ class Request {
   String? documentId;
   String? type;
   int? amount;
+  int donated=0;
   String? description;
   String? title;
 
@@ -18,6 +19,7 @@ class Request {
         'type': type,
         'description': description,
         'amount': amount,
+        'donated': donated, 
       };
 }
 
