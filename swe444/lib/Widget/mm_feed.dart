@@ -56,6 +56,20 @@ class mmFeed extends State<mm_feed> {
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 5.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
+                    SvgPicture.string(
+                      mosqueImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20, top: 5),
+                      child: Text(
+                        document['title'],
+                        style: TextStyle(fontSize: 30.0),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                     Container(
                         width: 25,
                         height: 52,
@@ -82,20 +96,6 @@ class mmFeed extends State<mm_feed> {
                             fit: BoxFit.fill,
                           ),
                         )),
-                    SvgPicture.string(
-                      mosqueImage,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
-                    ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20, top: 5),
-                      child: Text(
-                        document['title'],
-                        style: TextStyle(fontSize: 30.0),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
                   ]),
                 ),
                 Padding(

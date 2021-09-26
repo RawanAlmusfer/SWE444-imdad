@@ -5,6 +5,9 @@ class Request {
   int donated=0;
   String? description;
   String? title;
+  String? mosque_name;
+  String? mosque_location;
+
 
 
   Request(this.title,
@@ -19,7 +22,7 @@ class Request {
         'type': type,
         'description': description,
         'amount': amount,
-        'donated': donated, 
+        'donated': donated,
       };
 }
 
