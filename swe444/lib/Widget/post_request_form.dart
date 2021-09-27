@@ -601,9 +601,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
       mosque_location = data?['location'];
     }
 
-    // setInfo(
-    //         document.data['location'].toString(), document['mosque_name'].toString()));
-
     Request request = Request(title, type, amount, postedBy, description,
         mosque_name, mosque_location);
     Snackbar? snackbar;
@@ -630,10 +627,5 @@ class _AddRequestFormState extends State<PostRequestForm> {
     });
 
     _formKey.currentState?.reset();
-  }
-
-  setInfo(String location, String name) {
-    mosque_name = name;
-    mosque_location = location;
   }
 }
