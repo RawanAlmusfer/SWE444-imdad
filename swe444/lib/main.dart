@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:swe444/post_request.dart';
-import 'package:swe444/home.dart';
 
+import 'package:provider/provider.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
+import 'screens/home_screen.dart';
+import 'screens/signup_screen.dart';
+import 'models/authentication.dart';
 
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My Notes',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.white,
-        accentColor: Colors.white,
-        scaffoldBackgroundColor: Color(0xff070706),
-      ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: Authentication(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'register App',
+        theme: ThemeData(
+          primaryColor: Colors.blue,
+        ),
+        home: SignupScreen(),
 
-      home:
-      HomePage(),
+      ),
     );
   }
 }
+
