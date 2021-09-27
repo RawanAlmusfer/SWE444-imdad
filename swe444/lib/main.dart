@@ -22,13 +22,14 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.blue,
         ),
-       // home: LoginScreen(),
-        routes: {
-          SignupScreen.routeName: (ctx)=> SignupScreen(),
+       home:SignupScreen(),
+        //routes: {
+         // SignupScreen.routeName: (ctx)=> SignupScreen(),
 
-          HomeScreen.routeName: (ctx)=> HomeScreen(),
-        },
+         // HomeScreen.routeName: (ctx)=> HomeScreen(),
+        //},
       ),
     );
   }
 }
+

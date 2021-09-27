@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/authentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'home_screen.dart';
+
+
+
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/authentication.dart';
+
+import 'package:swe444/screens//home_screen.dart';
 
 
 //project go ahead
@@ -23,7 +29,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
 
 
-  Map<String?, String> _authData = {
+  Map<String, String> _authData = {
     'email' : '',
 
     'password' : ''
@@ -58,19 +64,19 @@ class _SignupScreenState extends State<SignupScreen> {
 
     try{
       await Provider.of<Authentication>(context, listen: false).signUp(
-          _authData['email'],
-          _authData['password']
+          _authData['email']as String,
+          _authData['password']as String
 
 
 
 
       );
-      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+     Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
 
     } catch(error)
     {
-     // var errorMessage = 'Authentication Failed. Please try again later.';
-     // _showErrorDialog(errorMessage);
+      var errorMessage = 'Authentication Failed. Please try again later.';
+      _showErrorDialog(errorMessage);
     }
 
   }
@@ -112,16 +118,17 @@ class _SignupScreenState extends State<SignupScreen> {
                             alignLabelWithHint: true,
                             border: OutlineInputBorder(), ),
                             validator: (value)
-                          {
-                            if(value.isEmpty || !value.contains('@'))
-                            {
-                              return 'invalid email';
-                            }
-                            return null;
-                          },
+                             { if(value==null||value.isEmpty ){
+                                     if (!value!.contains('@'))
+                                 {
+                           return 'invalid email';
+                              }
+                           return null;
+                             };
+                           },
                           onSaved: (value)
                           {
-                            _authData['email'] = value;
+                            _authData['email'] = value!;
 
                           },
 
@@ -141,15 +148,16 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           validator: (value)
                           {
-                            if(value.isEmpty || value.length<=5)
-                            {
-                              return 'invalid password';
-                            }
-                            return null;
+                            if( value==null||value.isEmpty ) {
+                              if (value!.length <= 5) {
+                                return 'invalid password';
+                              }
+                              return null;
+                            };
                           },
                           onSaved: (value)
                           {
-                            _authData['password'] = value;
+                            _authData['password'] = value!;
                           },
                         ),
 
@@ -165,17 +173,18 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           validator: (value)
                           {
-                            if(value.isEmpty || value != _passwordController.text)
-                            {
+                            if(value==null||value.isEmpty ){
+                           if (value== _passwordController.text){
+
                               return 'invalid password';
                             }
                             return null;
-                          },
+                          };
                           onSaved: (value)
                           {
 
-                          },
-                        ),
+                          };}
+                                    ),
 
                         SizedBox(
                           height: 30,
