@@ -242,16 +242,16 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   Widget _buildDetails(bool orientation) {
-    double h1 = 0, t1 = 0, b1 = 0, t2=0;
+    double h1 = 0, t1 = 0, b1 = 0, t2 = 0;
     double l1 = 0;
     if (orientation == true) {
       l1 = 0;
       b1 = 16;
       t1 = 21.5;
       h1 = 10;
-      t2= 23;
+      t2 = 23;
     } else {
-      t2= 20;
+      t2 = 20;
       b1 = 18;
       t1 = 20;
       h1 = 60;
@@ -592,13 +592,20 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
   void add(String? id) async {
     // save to db
-    postedBy= id;
-    var document= FirebaseFirestore.instance.collection("users").doc(id).snapshots();
+    postedBy = id;
+    var document =
+        await FirebaseFirestore.instance.collection("users").doc(id).get();
+    if (document.exists) {
+      Map<String, dynamic>? data = document.data();
+      mosque_name = data?['mosque_name'];
+      mosque_location = data?['location'];
+    }
 
     // setInfo(
     //         document.data['location'].toString(), document['mosque_name'].toString()));
 
-    Request request = Request(title, type, amount, postedBy, description, mosque_name, mosque_location);
+    Request request = Request(title, type, amount, postedBy, description,
+        mosque_name, mosque_location);
     Snackbar? snackbar;
     String msg = "";
 
@@ -629,5 +636,4 @@ class _AddRequestFormState extends State<PostRequestForm> {
     mosque_name = name;
     mosque_location = location;
   }
-
 }
