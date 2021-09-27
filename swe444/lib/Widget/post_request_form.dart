@@ -42,6 +42,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     return Container(
       width: orientation == true ? 300.w : 300.w,
       height: orientation == true ? 52.h : 110.h,
+      margin: EdgeInsets.only(bottom: 15.h),
       child: Row(
         children: [
           Column(
@@ -126,106 +127,87 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   Widget _buildTitle(bool orientation) {
-    double h1 = 0, l1 = 0, h2 = 0;
-    double top1 = 0;
-
+    double h1 = 0, l1=0, l2=0;
     if (orientation == true) {
-      h1 = 10.h;
-      h2 = 0.h;
-      l1 = 10.0.w;
-      top1 = 9.h;
+      h1 = 10;
+      l1=9.w;
+      l2= 0;
     } else {
       h1 = 60;
-      h2 = 40;
-      l1 = 20.0;
-      top1 = 9;
+      l1=15.w;
+      l2= 12.w;
     }
 
     return Container(
+      margin: EdgeInsets.only(bottom: 15.h),
       width: orientation == true ? 300.w : 300.w,
-      height: orientation == true ? 90.h : 190.h,
+      height: orientation == true ? 60.h : 120.h,
       child: Row(
         children: [
-          Column(
-            children: [
-              Stack(
-                children: <Widget>[
-                  Container(
-                    width: orientation == true ? 187.w : 180.w,
-                    height: orientation == true ? 32.h : 70.h,
-                    margin: EdgeInsets.only(top: 20.h),
-                    padding: EdgeInsets.only(left: h1, right: h1),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25.0),
-                        color: Color(0xffffffff),
-                        border: Border.all(
-                            width: 0.5, color: const Color(0xffdfdfdf)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0x29000000),
-                            offset: Offset(0, 3),
-                            blurRadius: 6,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: orientation == true ? 167.w : 162.w,
-                        height: orientation == true ? 75.h : 163.h,
-                        margin: EdgeInsets.only(left: l1, top: top1),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: h2, vertical: 10.0.h),
-                          child: TextFormField(
-                            expands: true,
-                            maxLines: null,
-                            validator: (value) {
-                              if (value == null || value.isEmpty)
-                                return "Title is required";
-                            },
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                errorBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.red, width: 1),
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.red, width: 1),
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(15.w, 8, 0, 0),
-                                hintStyle: TextStyle(fontSize: 16)),
-                            onChanged: (_val) {
-                              title = _val;
-                            }, // onchanged
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(30)
-                            ],
-                          ),
-                        ),
+          Column(children: [
+            Stack(children: <Widget>[
+              Container(
+                width: orientation == true ? 190.w : 180.w,
+                height: orientation == true ? 32.h : 70.h,
+                padding: EdgeInsets.symmetric(horizontal: h1, vertical: 0),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    color: Color(0xffffffff),
+                    border:
+                        Border.all(width: 0.5, color: const Color(0xffdfdfdf)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0x29000000),
+                        offset: Offset(0, 3),
+                        blurRadius: 6,
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ],
-          ),
+              Container(
+                width: orientation == true ? 180.w : 140.w,
+                height: orientation == true ? 54.h : 120.h,
+                margin: EdgeInsets.only(left: l2),
+                child: Padding(
+                  padding: EdgeInsets.only(left: l1),
+                  child: TextFormField(
+                    expands: true,
+                    maxLines: null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty)
+                        return "Title is required";
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 1),
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 1),
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        contentPadding: EdgeInsets.fromLTRB(15.w, 8, 0, 0),
+                        hintStyle: TextStyle(fontSize: 16)),
+                    onChanged: (_val) {
+                      title = _val;
+                    }, // onchanged
+                    inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                  ),
+                ),
+              ),
+            ]),
+          ]),
           SizedBox(width: orientation == true ? 40.w : 30.w),
           Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 30.h),
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
               ),
               Text(
-                "عنوان الطلب",
+                "نوع الطلب",
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   color: const Color(0xff334856),
@@ -241,165 +223,227 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
+  // Widget _buildTitle(bool orientation) {
+  //   double h1 = 0, l1 = 0, h2 = 0;
+  //   double top1 = 0;
+  //
+  //   if (orientation == true) {
+  //     h1 = 10.h;
+  //     h2 = 0.h;
+  //     l1 = 10.0.w;
+  //     top1 = 9.h;
+  //   } else {
+  //     h1 = 60;
+  //     h2 = 40;
+  //     l1 = 20.0;
+  //     top1 = 9;
+  //   }
+  //
+  //   return Container(
+  //     width: orientation == true ? 300.w : 300.w,
+  //     height: orientation == true ? 90.h : 190.h,
+  //     child: Row(
+  //       children: [
+  //         Column(
+  //           children: [
+  //             Stack(
+  //               children: <Widget>[
+  //                 Container(
+  //                   width: orientation == true ? 187.w : 180.w,
+  //                   height: orientation == true ? 32.h : 70.h,
+  //                   margin: EdgeInsets.only(top: 20.h),
+  //                   padding: EdgeInsets.only(left: h1, right: h1),
+  //                   child: DecoratedBox(
+  //                     decoration: BoxDecoration(
+  //                       borderRadius: BorderRadius.circular(25.0),
+  //                       color: Color(0xffffffff),
+  //                       border: Border.all(
+  //                           width: 0.5, color: const Color(0xffdfdfdf)),
+  //                       boxShadow: [
+  //                         BoxShadow(
+  //                           color: const Color(0x29000000),
+  //                           offset: Offset(0, 3),
+  //                           blurRadius: 6,
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 Column(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   children: [
+  //                     Container(
+  //                       width: orientation == true ? 167.w : 162.w,
+  //                       height: orientation == true ? 75.h : 163.h,
+  //                       margin: EdgeInsets.only(left: l1, top: top1),
+  //                       child: Padding(
+  //                         padding: EdgeInsets.symmetric(
+  //                             horizontal: h2, vertical: 10.0.h),
+  //                         child: TextFormField(
+  //                           expands: true,
+  //                           maxLines: null,
+  //                           validator: (value) {
+  //                             if (value == null || value.isEmpty)
+  //                               return "Title is required";
+  //                           },
+  //                           decoration: InputDecoration(
+  //                               border: InputBorder.none,
+  //                               errorBorder: OutlineInputBorder(
+  //                                 borderSide:
+  //                                     BorderSide(color: Colors.red, width: 1),
+  //                                 borderRadius: BorderRadius.circular(25.0),
+  //                               ),
+  //                               focusedErrorBorder: OutlineInputBorder(
+  //                                 borderSide:
+  //                                     BorderSide(color: Colors.red, width: 1),
+  //                                 borderRadius: BorderRadius.circular(25.0),
+  //                               ),
+  //                               contentPadding:
+  //                                   EdgeInsets.fromLTRB(15.w, 8, 0, 0),
+  //                               hintStyle: TextStyle(fontSize: 16)),
+  //                           onChanged: (_val) {
+  //                             title = _val;
+  //                           }, // onchanged
+  //                           inputFormatters: [
+  //                             LengthLimitingTextInputFormatter(30)
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //         SizedBox(width: orientation == true ? 40.w : 30.w),
+  //         Column(
+  //           children: <Widget>[
+  //             Padding(
+  //               padding: EdgeInsets.only(top: 30.h),
+  //             ),
+  //             Text(
+  //               "عنوان الطلب",
+  //               textAlign: TextAlign.right,
+  //               style: TextStyle(
+  //                 color: const Color(0xff334856),
+  //                 fontWeight: FontWeight.w400,
+  //                 fontFamily: 'Tajawal',
+  //                 fontSize: 15,
+  //               ),
+  //             )
+  //           ],
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
+
   Widget _buildDetails(bool orientation) {
-    double h1 = 0, t1 = 0, b1 = 0, t2 = 0;
-    double l1 = 0;
+    double h1 = 0, h2 = 0;
     if (orientation == true) {
-      l1 = 0;
-      b1 = 16;
-      t1 = 21.5;
       h1 = 10;
-      t2 = 23;
+      h2 = 25;
     } else {
-      t2 = 20;
-      b1 = 18;
-      t1 = 20;
       h1 = 60;
-      l1 = 50;
+      h2 = 70;
     }
 
-    return Container(
-      width: orientation == true ? 300.w : 300.w,
-      height: orientation == true ? 125.h : 200.h,
-      child: Column(
-        children: <Widget>[
-          Container(
-            width: orientation == true ? 300.w : 300.w,
-            height: orientation == true ? 23.h : 39.h,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "تفاصيل الطلب",
-                        style: TextStyle(
-                          color: const Color(0xff334856),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Tajawal',
-                          fontSize: 15,
-                        ),
-                      )
-                    ],
+    return Column(
+      children: [
+        Row(
+          children: [
+            Container(
+              width: orientation == true ? 290.w : 240.w,
+              height: orientation == true ? 20.h : 110.h,
+              margin: EdgeInsets.only(bottom: 5),
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Text(
+                  "تفاصيل الطلب",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: const Color(0xff334856),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Tajawal',
+                    fontSize: 15,
                   ),
-                  Column(
-                    children: [
-                      SizedBox(width: orientation == true ? 18.w : 29.w),
-                    ],
-                  )
-                ]),
-          ),
-          Container(
-            width: orientation == true ? 300.w : 300.w,
-            height: orientation == true ? 100.h : 159.h,
-            child: Row(
-              children: [
-                Stack(children: [
-                  Column(
-                    children: [
-                      Stack(children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(top: t2),
-                          width: orientation == true ? 140.w : 150.w,
-                          height: orientation == true ? 30.h : 70.h,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: h1, vertical: 0),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25.0),
-                              color: const Color(0xffffffff),
-                              border: Border.all(
-                                  width: 0.5, color: const Color(0xffdfdfdf)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0x29000000),
-                                  offset: Offset(0, 3),
-                                  blurRadius: 6,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: orientation == true ? 130.w : 100.w,
-                              height: orientation == true ? 55.h : 115.h,
-                              margin: EdgeInsets.only(left: l1, top: t1),
-                              padding: EdgeInsets.fromLTRB(11, 0, 0, 0),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty)
-                                    return "required";
-                                },
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.red, width: 1),
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.red, width: 1),
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                    contentPadding:
-                                        EdgeInsets.fromLTRB(30, 0, 0, b1),
-                                    hintStyle: TextStyle(fontSize: 16)),
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(30),
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]'))
-                                ],
-                                keyboardType: TextInputType.number,
-                                onChanged: (_val) {
-                                  amount = int.parse(_val);
-                                }, // onchanged
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(18, 28, 0, 0),
-                          child: Text(
-                            'ريال',
-                            style: TextStyle(
-                              fontFamily: 'Academy Engraved LET',
-                              fontSize: 12,
-                              color: const Color(0xffd2d2d2),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ]),
-                    ],
-                  ),
-                ]),
-                SizedBox(width: orientation == true ? 10.w : 0.w),
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 17, 0, 15),
-                    ),
-                    Text(
-                      "المبلغ",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        color: const Color(0xff334856),
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'Tajawal',
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                )
-              ],
+                ),
+              ]),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+        Row(
+          children: [
+            Stack(children: <Widget>[
+              Container(
+                width: orientation == true ? 155.w : 180.w,
+                height: orientation == true ? 28.h : 70.h,
+                padding: EdgeInsets.only(left: h1, top: 0),
+
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    color: Color(0xffffffff),
+                    border:
+                        Border.all(width: 0.5, color: const Color(0xffdfdfdf)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0x29000000),
+                        offset: Offset(0, 3),
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: orientation == true ? 180.w : 180.w,
+                height: orientation == true ? 53.h : 110.h,
+                child: Padding(
+                  padding: EdgeInsets.only(right: h2, left: 10, bottom: 2),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return "required";
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 1),
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 1),
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        contentPadding: EdgeInsets.fromLTRB(30, 0, 0, 20),
+                        hintStyle: TextStyle(fontSize: 16)),
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(30),
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                    ],
+                    keyboardType: TextInputType.number,
+                    onChanged: (_val) {
+                      amount = int.parse(_val);
+                    }, // onchanged
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(18, 6, 0, 0),
+                child: Text(
+                  'ريال',
+                  style: TextStyle(
+                    fontFamily: 'Academy Engraved LET',
+                    fontSize: 12,
+                    color: const Color(0xffd2d2d2),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            ]),
+          ],
+        ),
+      ],
     );
   }
 
