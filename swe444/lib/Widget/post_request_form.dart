@@ -20,7 +20,7 @@ class PostRequestForm extends StatefulWidget {
 class _AddRequestFormState extends State<PostRequestForm> {
   final _formKey = GlobalKey<FormState>();
   User? user = FirebaseAuth.instance.currentUser;
-  String? type;
+  String? type, mosque_name, mosque_location;
   String? postedBy;
   int? amount;
   String description = " ";
@@ -593,7 +593,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
   void add(String? id) async {
     // save to db
     postedBy= id;
-    Request request = Request(title, type, amount, postedBy, description);
+    var document= FirebaseFirestore.instance.collection("users").doc(id).snapshots();
+
+    // setInfo(
+    //         document.data['location'].toString(), document['mosque_name'].toString()));
+
+    Request request = Request(title, type, amount, postedBy, description, mosque_name, mosque_location);
     Snackbar? snackbar;
     String msg = "";
 
@@ -619,4 +624,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
     _formKey.currentState?.reset();
   }
+
+  setInfo(String location, String name) {
+    mosque_name = name;
+    mosque_location = location;
+  }
+
 }

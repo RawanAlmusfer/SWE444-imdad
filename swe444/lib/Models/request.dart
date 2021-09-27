@@ -1,30 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Request {
   // String? documentId;
   String? posted_by;
   String? type;
   int? amount;
-  int donated=0;
+  int donated = 0;
   String? description;
   String? title;
-  String mosque_name="";
-  String mosque_location="";
+  String? mosque_name;
+  String? mosque_location;
+
+  Request(
+    this.title,
+    this.type,
+    this.amount,
+    this.posted_by,
+    this.description,
+    this.mosque_name,
+    this.mosque_location,
+  );
 
 
-
-  Request(this.title,
-      this.type,
-      this.amount,
-      this.posted_by,
-      this.description,
-      );
-
-  void getInfo(){
-
-  }
 
   // formatting for upload to Firebase when creating the request
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'posted_by': posted_by,
         'title': title,
         'type': type,
@@ -35,4 +36,3 @@ class Request {
         'mosque_location': mosque_location,
       };
 }
-
