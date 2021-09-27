@@ -1,6 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/swe444/fonts/Tajawal-Black.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/fonts/Tajawal-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/fonts/Tajawal-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/fonts/Tajawal-ExtraLight.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/fonts/Tajawal-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/fonts/Tajawal-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/fonts/Tajawal-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/FirebaseAuth.build/dgph" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/GTMSessionFetcher.build/dgph" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/firebase_auth.build/dgph" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/path_provider.build/dgph" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/url_launcher.build/dgph" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Models/request.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Views/home_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Views/home_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Views/login_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Views/mm_home_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Views/post_request_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Views/v_home_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Widget/mm_feed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Widget/post_request_form.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Widget/show_snackbar.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/Widget/v_feed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swe444/lib/decisions_tree.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Models/authentication.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/register.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/register2.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/signup_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/BoringSSL-GRPC.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/BoringSSL-GRPC.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Firebase.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Firebase.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/FirebaseCore.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/FirebaseCore.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/FirebaseCoreDiagnostics.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/FirebaseCoreDiagnostics.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/FirebaseFirestore.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/FirebaseFirestore.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Flutter.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Flutter.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/GoogleDataTransport.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/GoogleDataTransport.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/GoogleUtilities.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/GoogleUtilities.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Pods-Runner.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Pods-Runner.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/PromisesObjC.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/PromisesObjC.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/abseil.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/abseil.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/cloud_firestore.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/cloud_firestore.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/firebase_core.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/firebase_core.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/gRPC-C++-gRPCCertificates-Cpp.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/gRPC-C++-gRPCCertificates-Cpp.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/gRPC-C++.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/gRPC-C++.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/gRPC-Core.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/gRPC-Core.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/leveldb-library.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/leveldb-library.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/nanopb.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/nanopb.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/models/authentication.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/models/http_exception.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Models/http_exception.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/screens/signup_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/screens/signup_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xd_register.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/xd_register1.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/xd_registration1.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/xd_registration2.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/xd_starting_screen1.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/xd_starting_screen2.dart" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\lenovo\.android\avd\Nexus_6_API_26_3.avd]" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1yiwR9eYJ9kwhfxYQWkjwDXuZ9i" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/swe444/lib/screens" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\screens" />
+      <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\models" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="" />
+      <created>1632747705729</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1632747705729</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

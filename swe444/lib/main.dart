@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 
 import 'screens/home_screen.dart';
+
 import 'screens/signup_screen.dart';
 import 'models/authentication.dart';
 
@@ -18,14 +18,17 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        title: 'register App',
+        title: 'Login App',
         theme: ThemeData(
           primaryColor: Colors.blue,
         ),
-        home: SignupScreen(),
+       // home: LoginScreen(),
+        routes: {
+          SignupScreen.routeName: (ctx)=> SignupScreen(),
 
+          HomeScreen.routeName: (ctx)=> HomeScreen(),
+        },
       ),
     );
   }
 }
-
