@@ -68,7 +68,7 @@ class _PostRequestState extends State<PostRequest> {
               ),
               SizedBox(height: portrait == true ? 15.h : 20.h),
               Container(
-                height: portrait == true ? 520.h : 980.h,
+                height: portrait == true ? 540.h : 980.h,
                 width: portrait == true ? 330.w : 280.w,
                 padding: const EdgeInsets.only(left: 12, right: 12, top: 24),
                 decoration: BoxDecoration(
