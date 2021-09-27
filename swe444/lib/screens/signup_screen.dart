@@ -14,6 +14,8 @@ import 'package:swe444/screens//home_screen.dart';
 //project go ahead
 
 class SignupScreen extends StatefulWidget {
+  SignupScreen.ensureInitialized();
+  const SignupScreen({Key? key}) : super(key: key);
   static const routeName = '/signup';
   @override
   _SignupScreenState createState() => _SignupScreenState();
@@ -184,23 +186,32 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
 
 
+                        //  RaisedButton(
+                        //  child: Text(
+                        //     'Submit'
+                        //),
+                        // onPressed: () {
 
-                         RaisedButton(
-                           child: Text(
-                              'Submit'
-                         ),
-                        onPressed: () {
 
+                        //  _submit();
+                        // },
 
-                          _submit();
-                         },
+                        // shape: RoundedRectangleBorder(
+                        //  borderRadius: BorderRadius.circular(30),
+                        //),
+                        //  color: Colors.blue,
+                        //textColor: Colors.white,
+                        // )
+                        FlatButton(
+                          child: Text('Sign Up'),
+                          onPressed: () {
+                            _submit();
+                            //if (_key.currentState!.validate()) {
 
-                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                         ),
-                          color: Colors.blue,
-                          textColor: Colors.white,
-                         )
+                            //  }
+                          },
+                          color: Colors.white,
+                        ),
                       ],
                     ),
                   ),
@@ -214,5 +225,6 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
 }
+
 
 
