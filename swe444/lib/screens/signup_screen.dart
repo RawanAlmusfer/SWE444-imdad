@@ -1,19 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/authentication.dart';
 
 import 'package:swe444/screens//home_screen.dart';
+import'package:swe444/models/registeration.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 
 //project go ahead
 
 class SignupScreen extends StatefulWidget {
+
   SignupScreen.ensureInitialized();
   const SignupScreen({Key? key}) : super(key: key);
   static const routeName = '/signup';
@@ -22,9 +28,13 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  //FirebaseFirestore Firestore = FirebaseFirestore.instance;
+  //FirebaseApp secondaryApp = Firebase.app('SecondaryApp');
+
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final _key = GlobalKey<FormState>();
+
 
 
   final TextEditingController _passwordController = TextEditingController();
@@ -40,6 +50,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
     'password': ''
   };
+
+  String? get passward => null;
+  String? get email => null;
+
+  get data => null;
 
   void _showErrorDialog(String msg) {
     showDialog(
@@ -186,32 +201,35 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
 
 
-                        //  RaisedButton(
-                        //  child: Text(
-                        //     'Submit'
-                        //),
-                        // onPressed: () {
+                     //RaisedButton(
+                     //     child:
+                         // Text:'Submit'
+                      //  ),
+                       //  onPressed: () {
+//
 
-
-                        //  _submit();
-                        // },
+                        // _submit();
+                       // },
 
                         // shape: RoundedRectangleBorder(
-                        //  borderRadius: BorderRadius.circular(30),
-                        //),
-                        //  color: Colors.blue,
+                         // borderRadius: BorderRadius.circular(30),
+                       // ),
+                         // color: Colors.blue,
                         //textColor: Colors.white,
-                        // )
-                        FlatButton(
-                          child: Text('Sign Up'),
-                          onPressed: () {
-                            _submit();
-                            //if (_key.currentState!.validate()) {
+                       //  )
+                       FlatButton(
+                         child: Text('Sign Up'),
+                       onPressed: () {
+                           _submit();
 
-                            //  }
+
+                          //  if (_key.currentState!.validate()) {};
+
+
                           },
-                          color: Colors.white,
+                        // color: Colors.white,
                         ),
+
                       ],
                     ),
                   ),
@@ -224,7 +242,4 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-}
-
-
-
+  }
