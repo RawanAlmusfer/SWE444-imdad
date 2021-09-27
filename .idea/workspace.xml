@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/swe444/lib/Models/homepage.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/Models/login.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/Models/mainscreen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/Models/signup.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/Models/users.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/screens/signup_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/screens/signup_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +14,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\lenovo\.android\avd\Nexus_6_API_26_3.avd]" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>

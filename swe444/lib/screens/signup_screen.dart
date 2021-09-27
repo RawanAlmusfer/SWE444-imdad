@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/authentication.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 import 'package:flutter/material.dart';
@@ -22,64 +22,64 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
-  TextEditingController _passwordController = new TextEditingController();
- // TextEditingController _usernamecontroller = new TextEditingController();
+  final _key = GlobalKey<FormState>();
+
+
+  final TextEditingController _passwordController = TextEditingController();
+
+  //final TextEditingController _usernamecontroller =  TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+
   //here
 
 
-
-
   Map<String, String> _authData = {
-    'email' : '',
+    'email': '',
 
-    'password' : ''
+    'password': ''
   };
 
-  void _showErrorDialog(String msg)
-  {
+  void _showErrorDialog(String msg) {
     showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text('An Error Occured'),
-          content: Text(msg),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Okay'),
-              onPressed: (){
-                Navigator.of(ctx).pop();
-              },
+        builder: (ctx) =>
+            AlertDialog(
+              title: Text('An Error Occured'),
+              content: Text(msg),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
             )
-          ],
-        )
     );
   }
 
   Future<void> _submit() async
   {
-    if(!_formKey.currentState!.validate())
-    {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
     _formKey.currentState!.save();
 
-    try{
+    try {
       await Provider.of<Authentication>(context, listen: false).signUp(
-          _authData['email']as String,
-          _authData['password']as String
-
-
+          _authData['email'] as String,
+          _authData['password'] as String
 
 
       );
-     Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
 
-    } catch(error)
-    {
+    } catch (error) {
       var errorMessage = 'Authentication Failed. Please try again later.';
       _showErrorDialog(errorMessage);
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,48 +88,44 @@ class _SignupScreenState extends State<SignupScreen> {
 
 
       ),
-        body: Stack(
-            children: <Widget>[
+      body: Stack(
+        children: <Widget>[
 
-    Center(
-    child: Card(
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(10.0),
-    ),
-    child: Container(
-    height: 300,
-    width: 500,
-    padding: EdgeInsets.all(16),
-    child: Form(
-    key: _formKey,
-    child: SingleChildScrollView(
-    child: Column(
-    children: <Widget>[
-    //email
-
+          Center(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Container(
+                height: 300,
+                width: 500,
+                padding: EdgeInsets.all(16),
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        //email
 
 
                         TextFormField(
 
                           textAlign: TextAlign.right,
-
+                          controller: _emailcontroller,
                           decoration: InputDecoration(
                             labelText: "البريد الالكتروني",
                             alignLabelWithHint: true,
-                            border: OutlineInputBorder(), ),
-                            validator: (value)
-                             { if(value==null||value.isEmpty ){
-                                     if (!value!.contains('@'))
-                                 {
-                           return 'invalid email';
+                            border: OutlineInputBorder(),),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              if (!value!.contains('@')) {
+                                return 'invalid email';
                               }
-                           return null;
-                             };
-                           },
-                          onSaved: (value)
-                          {
+                              return null;
+                            };
+                          },
+                          onSaved: (value) {
                             _authData['email'] = value!;
-
                           },
 
                         ),
@@ -146,76 +142,77 @@ class _SignupScreenState extends State<SignupScreen> {
                             border: OutlineInputBorder(),
 
                           ),
-                          validator: (value)
-                          {
-                            if( value==null||value.isEmpty ) {
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
                               if (value!.length <= 5) {
                                 return 'invalid password';
                               }
                               return null;
                             };
                           },
-                          onSaved: (value)
-                          {
+                          onSaved: (value) {
                             _authData['password'] = value!;
                           },
                         ),
 
                         //Confirm Password
                         TextFormField(
-                          obscureText: true,
-                          textAlign: TextAlign.right,
+                            obscureText: true,
+                            textAlign: TextAlign.right,
 
-                          decoration: InputDecoration(
-                            labelText: "تأكيد كلمةالسر ",
-                            alignLabelWithHint: true,
-                            border: OutlineInputBorder(),
-                          ),
-                          validator: (value)
-                          {
-                            if(value==null||value.isEmpty ){
-                           if (value== _passwordController.text){
+                            decoration: InputDecoration(
+                              labelText: "تأكيد كلمةالسر ",
+                              alignLabelWithHint: true,
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                if (value == _passwordController.text) {
+                                  return 'invalid password';
+                                }
+                                return null;
+                              };
+                              onSaved:
+                                  (value) {
 
-                              return 'invalid password';
+                              };
                             }
-                            return null;
-                          };
-                          onSaved: (value)
-                          {
-
-                          };}
-                                    ),
+                        ),
 
                         SizedBox(
                           height: 30,
                         ),
-                        RaisedButton(
-                          child: Text(
+
+
+
+                         RaisedButton(
+                           child: Text(
                               'Submit'
-                          ),
-                          onPressed: ()
-                          {
-                            _submit();
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                         ),
+                        onPressed: () {
+
+
+                          _submit();
+                         },
+
+                         shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                         ),
                           color: Colors.blue,
                           textColor: Colors.white,
-                        )
-    ],
-    ),
-    ),
-    ),
-    ),
-    ),
-    )
-            ],
-        ),
+                         )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
+
 }
-
-
 
 
