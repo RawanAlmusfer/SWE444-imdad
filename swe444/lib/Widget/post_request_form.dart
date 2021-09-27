@@ -25,7 +25,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   int? amount;
   String description = " ";
   String? title;
-  final List<String> items = ['Funds'];
+  final List<String> items = ['مبلغ'];
 
   Widget _buildType(bool orientation) {
     double h1 = 0, h2 = 0, b1 = 0;
@@ -130,10 +130,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
     double top1 = 0;
 
     if (orientation == true) {
-      h1 = 10;
-      h2 = 0;
-      l1 = 10.0;
-      top1 = 9;
+      h1 = 10.h;
+      h2 = 0.h;
+      l1 = 10.0.w;
+      top1 = 9.h;
     } else {
       h1 = 60;
       h2 = 40;
@@ -153,7 +153,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   Container(
                     width: orientation == true ? 187.w : 180.w,
                     height: orientation == true ? 32.h : 70.h,
-                    margin: EdgeInsets.only(top: 20),
+                    margin: EdgeInsets.only(top: 20.h),
                     padding: EdgeInsets.only(left: h1, right: h1),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
@@ -180,7 +180,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                         margin: EdgeInsets.only(left: l1, top: top1),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: h2, vertical: 10.0),
+                              horizontal: h2, vertical: 10.0.h),
                           child: TextFormField(
                             expands: true,
                             maxLines: null,
@@ -201,7 +201,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                                   borderRadius: BorderRadius.circular(25.0),
                                 ),
                                 contentPadding:
-                                    EdgeInsets.fromLTRB(15, 8, 0, 0),
+                                    EdgeInsets.fromLTRB(15.w, 8, 0, 0),
                                 hintStyle: TextStyle(fontSize: 16)),
                             onChanged: (_val) {
                               title = _val;
@@ -222,7 +222,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
           Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 30),
+                padding: EdgeInsets.only(top: 30.h),
               ),
               Text(
                 "عنوان الطلب",
@@ -260,15 +260,14 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
     return Container(
       width: orientation == true ? 300.w : 300.w,
-      height: orientation == true ? 120.h : 200.h,
+      height: orientation == true ? 125.h : 200.h,
       child: Column(
         children: <Widget>[
           Container(
             width: orientation == true ? 300.w : 300.w,
-            height: orientation == true ? 20.h : 39.h,
+            height: orientation == true ? 23.h : 39.h,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
                 children: [
                   Column(
                     children: <Widget>[
@@ -438,7 +437,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                 ),
                 Column(
                   children: [
-                    SizedBox(width: orientation == true ? 25.w : 29.w),
+                    SizedBox(width: orientation == true ? 23.w : 29.w),
                   ],
                 )
               ]),
@@ -451,7 +450,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                       Container(
                         margin: EdgeInsets.only(top: 20, left: l1),
                         width: orientation == true ? 300.w : 250.w,
-                        height: orientation == true ? 100.h : 200.h,
+                        height: orientation == true ? 90.h : 200.h,
                         padding:
                             EdgeInsets.symmetric(horizontal: h1, vertical: 0),
                         child: DecoratedBox(

@@ -15,6 +15,11 @@ class Snackbar{
     scaffold.showSnackBar(
       SnackBar(
         content: Text(message),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(50),
+          ),
+        ),
       ),
     );
   }
