@@ -24,6 +24,7 @@ class _HomeState extends State<vHome> {
         appBar: AppBar(
           title: const Text(
             "الصفحة الرئيسية",
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xff334856),
               fontWeight: FontWeight.w700,

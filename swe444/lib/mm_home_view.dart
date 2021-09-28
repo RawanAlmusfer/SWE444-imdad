@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'logout.dart';
 import 'mm_feed.dart';
+import 'v_feed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class mmHome extends StatefulWidget {
@@ -13,8 +15,8 @@ class _HomeState extends State<mmHome> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     mm_feed(),
-    //postPage(),
-    //logoutPage(),
+    v_feed(),
+    logout(),
   ];
 
   @override
@@ -24,6 +26,7 @@ class _HomeState extends State<mmHome> {
         appBar: AppBar(
           title: const Text(
             "الصفحة الرئيسية",
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xff334856),
               fontWeight: FontWeight.w700,

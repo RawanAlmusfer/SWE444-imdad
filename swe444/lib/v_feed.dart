@@ -150,7 +150,7 @@ class v_feed extends StatelessWidget {
                     width: 65,
                     child: TextButton(
                       onPressed: () {},
-                      child: Text("شارك", textAlign: TextAlign.center),
+                      child: Text("تبرع", textAlign: TextAlign.center),
                       style: TextButton.styleFrom(
                         primary: Color(0xff334856),
                         backgroundColor: const Color(0xdeedd03c),
