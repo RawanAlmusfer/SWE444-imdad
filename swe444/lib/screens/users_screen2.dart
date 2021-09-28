@@ -71,12 +71,12 @@ class _SignupScreenState extends State<UsersScreen2> {
     _formKey.currentState!.save();
 
     try {
-      await Provider.of<Authentication>(context, listen: false).signUp(
-          _authData['email'] as String,
-          _authData['password'] as String
+    //  await Provider.of<Authentication>(context, listen: false).signUp(
+       //   _authData['email'] as String,
+        //  _authData['password'] as String
 
 
-      );
+    //  );
       //Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
 
     } catch (error) {
