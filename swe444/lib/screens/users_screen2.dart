@@ -144,7 +144,7 @@ class _SignupScreenState extends State<UsersScreen2> {
                           // width: 0.0 produces a thin "hairline" border
                           borderSide: const BorderSide(color: kYellow, ),
                         ),
-                        prefixIcon: Icon(Icons.email_outlined),
+                       // prefixIcon: Icon(Icons.email_outlined),
                         hintText: 'أدخل البريد الالكتروني',
                         labelText: 'البريد الالكتروني',
                         alignLabelWithHint: true,
@@ -182,7 +182,7 @@ class _SignupScreenState extends State<UsersScreen2> {
                           // width: 0.0 produces a thin "hairline" border
                           borderSide: const BorderSide(color: kYellow, ),
                         ),
-                        prefixIcon: Icon(Icons.lock_outline),
+                      //  prefixIcon: Icon(Icons.lock_outline),
                         alignLabelWithHint: true,
                         border: OutlineInputBorder(),
                         hintText: 'أدخل كلمة السر',
@@ -216,11 +216,11 @@ class _SignupScreenState extends State<UsersScreen2> {
                           // width: 0.0 produces a thin "hairline" border
                           borderSide: const BorderSide(color: kYellow, ),
                         ),
-                        prefixIcon: Icon(Icons.lock_outline),
+                       // prefixIcon: Icon(Icons.lock_outline),
                         alignLabelWithHint: true,
                         border: OutlineInputBorder(),
-                        hintText: 'أدخل كلمة السر',
-                        labelText: 'كلمة السر',
+                        hintText: 'أدخل تأكيد كلمة السر',
+                        labelText: 'تأكيد كلمة السر ',
                       ),
                       autocorrect: false,
                       obscureText: true,
@@ -229,22 +229,24 @@ class _SignupScreenState extends State<UsersScreen2> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
-
                   new Directionality(
                     textDirection: TextDirection.rtl,
+
                     child: new TextFormField(
-                      controller: _passwordController,
+                      controller: _emailcontroller,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return null;
+
+                            return 'invalid ';
+
+
                         };
                       },
                       onSaved: (value) {
 
                       },
-                      //  onSaved: (value) {
-                      //    _authData['email'] = value!;
-                      //  },
+
+                      showCursor: true,
                       textAlign: TextAlign.right,
                       decoration: new InputDecoration(
                         focusedBorder: const OutlineInputBorder(
@@ -252,10 +254,11 @@ class _SignupScreenState extends State<UsersScreen2> {
                           borderSide: const BorderSide(color: kYellow, ),
                         ),
 
+                        hintText: 'أدخل اسم المسجد ',
+                        labelText: ' اسم المسجد',
                         alignLabelWithHint: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'أدخل اسم المسجد',
-                        labelText: 'اسم المسجد',
+                        border: OutlineInputBorder( ),
+
                       ),
                       autocorrect: false,
 
@@ -264,22 +267,23 @@ class _SignupScreenState extends State<UsersScreen2> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
-
                   new Directionality(
                     textDirection: TextDirection.rtl,
+
                     child: new TextFormField(
-                      controller: _passwordController,
+                      controller: _emailcontroller,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return null;
+
+                            return 'invalid email';
+
                         };
                       },
                       onSaved: (value) {
 
                       },
-                      //  onSaved: (value) {
-                      //    _authData['email'] = value!;
-                      //  },
+
+                      showCursor: true,
                       textAlign: TextAlign.right,
                       decoration: new InputDecoration(
                         focusedBorder: const OutlineInputBorder(
@@ -287,45 +291,49 @@ class _SignupScreenState extends State<UsersScreen2> {
                           borderSide: const BorderSide(color: kYellow, ),
                         ),
 
+                        hintText: 'أدخل  المدينه',
+                        labelText: ' المدينه',
                         alignLabelWithHint: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'أدخل اسم الحي',
+                        border: OutlineInputBorder( ),
+
+                      ),
+                      autocorrect: false,
+
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  new Directionality(
+                    textDirection: TextDirection.rtl,
+
+                    child: new TextFormField(
+
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+
+                            return 'invalid email';
+
+
+                        };
+                      },
+                      onSaved: (value) {
+
+                      },
+
+                      showCursor: true,
+                      textAlign: TextAlign.right,
+                      decoration: new InputDecoration(
+                        focusedBorder: const OutlineInputBorder(
+                          // width: 0.0 produces a thin "hairline" border
+                          borderSide: const BorderSide(color: kYellow, ),
+                        ),
+
+                        hintText: 'أدخل اسم الحي ',
                         labelText: 'اسم الحي',
-                      ),
-                      autocorrect: false,
-
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
-                  ),
-
-                  new Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: new TextFormField(
-                      controller: _passwordController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return null;
-                        };
-                      },
-                      onSaved: (value) {
-
-                      },
-                      //  onSaved: (value) {
-                      //    _authData['email'] = value!;
-                      //  },
-                      textAlign: TextAlign.right,
-                      decoration: new InputDecoration(
-                        focusedBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                          borderSide: const BorderSide(color: kYellow, ),
-                        ),
-
                         alignLabelWithHint: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'أدخل اسم المدينه',
-                        labelText: 'اسم المدينه',
+                        border: OutlineInputBorder( ),
+
                       ),
                       autocorrect: false,
 
