@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/screens/users_screen.dart';
+import 'package:swe444/screens/users_screen2.dart';
 
 import 'screens/home_screen.dart';
 
 import 'screens/signup_screen.dart';
 import 'models/authentication.dart';
+
+
 
 void main() => runApp(MyApp());
 
@@ -22,14 +26,19 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.blue,
         ),
-       home:SignupScreen(),
-        //routes: {
-         // SignupScreen.routeName: (ctx)=> SignupScreen(),
-
-         // HomeScreen.routeName: (ctx)=> HomeScreen(),
-        //},
+        // home:LoginPageWidget(),
+        home: UsersScreen2(),
+       // home:SignupScreen();
       ),
+
+
+      //routes: {
+      // SignupScreen.routeName: (ctx)=> SignupScreen(),
+
+      // HomeScreen.routeName: (ctx)=> HomeScreen(),
+      //},
     );
+
+
   }
 }
-
