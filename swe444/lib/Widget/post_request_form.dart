@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Models/request.dart';
 import 'package:swe444/Widget/show_snackbar.dart';
-import '../Views/home_view.dart';
+
+import 'mm_feed.dart';
 
 class PostRequestForm extends StatefulWidget {
   PostRequestForm({
@@ -266,28 +267,26 @@ class _AddRequestFormState extends State<PostRequestForm> {
           Container(
             width: orientation == true ? 300.w : 300.w,
             height: orientation == true ? 23.h : 39.h,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "تفاصيل الطلب",
-                        style: TextStyle(
-                          color: const Color(0xff334856),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Tajawal',
-                          fontSize: 15,
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(width: orientation == true ? 18.w : 29.w),
-                    ],
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Column(
+                children: <Widget>[
+                  Text(
+                    "تفاصيل الطلب",
+                    style: TextStyle(
+                      color: const Color(0xff334856),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Tajawal',
+                      fontSize: 15,
+                    ),
                   )
-                ]),
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(width: orientation == true ? 18.w : 29.w),
+                ],
+              )
+            ]),
           ),
           Container(
             width: orientation == true ? 300.w : 300.w,
@@ -617,7 +616,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     Navigator.of(context)
         .push(
       MaterialPageRoute(
-        builder: (context) => Home(),
+        builder: (context) => mm_feed(),
       ),
     )
         .then((value) {

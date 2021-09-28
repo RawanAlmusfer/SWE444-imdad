@@ -3,7 +3,6 @@ import '../Widget/mm_feed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'post_request_view.dart';
 
-
 class mmHome extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +26,7 @@ class _HomeState extends State<mmHome> {
         appBar: AppBar(
           title: const Text(
             "الصفحة الرئيسية",
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xff334856),
               fontWeight: FontWeight.w700,

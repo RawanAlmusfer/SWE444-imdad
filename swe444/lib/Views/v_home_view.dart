@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 //import 'mm_feed.dart';
 import '../Widget/v_feed.dart';
 
-
 class vHome extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -25,6 +24,7 @@ class _HomeState extends State<vHome> {
         appBar: AppBar(
           title: const Text(
             "الصفحة الرئيسية",
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xff334856),
               fontWeight: FontWeight.w700,
