@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //import 'logout.dart';
 import '../Widget/mm_feed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../logout.dart';
 import 'post_request_view.dart';
 
 class mmHome extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomeState extends State<mmHome> {
     mm_feed(),
     PostRequest(),
     //postPage(),
-    //logoutPage(),
+    logout(),
   ];
 
   @override

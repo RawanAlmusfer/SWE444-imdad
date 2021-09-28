@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'decisions_tree.dart';
-import 'login_page.dart';
-import 'v_feed.dart';
+import '../Views/login_page.dart';
+import '../Widget/v_feed.dart';
 
 class logout extends StatefulWidget {
   @override
