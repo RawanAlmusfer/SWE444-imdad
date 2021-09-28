@@ -127,7 +127,7 @@ class _SignupScreenState extends State<UsersScreen> {
                     controller: _emailcontroller,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        if (!value!.contains('@')) {
+                        if (value!.contains('@')) {
                           return 'invalid email';
                         }
                         return null;
