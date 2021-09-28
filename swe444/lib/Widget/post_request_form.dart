@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Models/request.dart';
+import 'package:swe444/Views/mm_home_view.dart';
 import 'package:swe444/Widget/show_snackbar.dart';
 
 import 'mm_feed.dart';
@@ -616,7 +617,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     Navigator.of(context)
         .push(
       MaterialPageRoute(
-        builder: (context) => mm_feed(),
+        builder: (context) => mmHome(),
       ),
     )
         .then((value) {
