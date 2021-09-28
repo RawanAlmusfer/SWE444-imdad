@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../models/authentication.dart';
 import 'home_screen.dart';
 
+
 class UsersScreen extends StatefulWidget {
 
   UsersScreen.ensureInitialized();
@@ -79,9 +80,9 @@ class _SignupScreenState extends State<UsersScreen> {
       );
        //Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
 
-    } catch (error) {
-      var errorMessage = 'Authentication Failed. Please try again later.';
-      _showErrorDialog(errorMessage);
+   } catch (error) {
+    //  var errorMessage = 'Authentication Failed. Please try again later.';
+    //  _showErrorDialog(errorMessage);
     }
   }
   static const kYellow = const Color(0xdeedd03c);
@@ -105,8 +106,7 @@ class _SignupScreenState extends State<UsersScreen> {
             constraints: BoxConstraints(),
             child: Column(
               children: [
-
-               /// Image.asset('assets/logo.png',width:50,height:50),
+           //   Image.asset('assets/Picture1 copy',width:50,height:50),
 
 
                 SizedBox(
@@ -144,7 +144,7 @@ class _SignupScreenState extends State<UsersScreen> {
                         // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(color: kYellow, ),
                       ),
-                      prefixIcon: Icon(Icons.email_outlined),
+                    //  prefixIcon: Icon(Icons.email_outlined),
                       hintText: 'أدخل البريد الالكتروني',
                       labelText: 'البريد الالكتروني',
                       alignLabelWithHint: true,
@@ -182,7 +182,7 @@ class _SignupScreenState extends State<UsersScreen> {
                         // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(color: kYellow, ),
                       ),
-                      prefixIcon: Icon(Icons.lock_outline),
+                    //  prefixIcon: Icon(Icons.lock_outline),
                       alignLabelWithHint: true,
                       border: OutlineInputBorder(),
                       hintText: 'أدخل كلمة السر',
@@ -216,7 +216,7 @@ class _SignupScreenState extends State<UsersScreen> {
                         // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(color: kYellow, ),
                       ),
-                      prefixIcon: Icon(Icons.lock_outline),
+                     // prefixIcon: Icon(Icons.lock_outline),
                       alignLabelWithHint: true,
                       border: OutlineInputBorder(),
                       hintText: 'أدخل كلمة السر',

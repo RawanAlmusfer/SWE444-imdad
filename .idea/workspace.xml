@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/Picture1 copy.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/screens/users_screen2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/screens/users_screen2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/screens/users_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/screens/users_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +55,10 @@
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\screens" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\assets" />
+      <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\asset" />
+      <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib" />
+      <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\Views" />
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\screens" />
     </key>
   </component>
