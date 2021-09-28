@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.swe444">
    <application
-        android:label="swe444"
+        android:label="إمْداد"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

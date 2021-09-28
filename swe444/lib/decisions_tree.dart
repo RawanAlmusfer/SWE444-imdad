@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart';
-import 'home_page.dart';
+import 'Views/login_page.dart';
+import 'Views/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:swe444/mm_home_view.dart';
+import 'package:swe444/Views/mm_home_view.dart';
 
 class DecisionsTree extends StatefulWidget {
   @override

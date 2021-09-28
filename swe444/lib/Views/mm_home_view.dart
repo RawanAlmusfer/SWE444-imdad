@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'logout.dart';
-import 'mm_feed.dart';
-import 'v_feed.dart';
+//import 'logout.dart';
+import '../Widget/mm_feed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'post_request_view.dart';
 
 class mmHome extends StatefulWidget {
   @override
@@ -15,8 +15,9 @@ class _HomeState extends State<mmHome> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     mm_feed(),
-    v_feed(),
-    logout(),
+    PostRequest(),
+    //postPage(),
+    //logoutPage(),
   ];
 
   @override
