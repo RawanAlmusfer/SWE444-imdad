@@ -25,6 +25,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   int? amount;
   String description = " ";
   String? title;
+  DateTime time= DateTime.now();
   final List<String> items = <String>['مبلغ'];
 
   Widget _buildType(bool orientation) {
@@ -588,7 +589,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     }
 
     Request request = Request(title, type, amount, postedBy, description,
-        mosque_name, mosque_location);
+        mosque_name, mosque_location, time);
     Snackbar? snackbar;
     String msg = "";
 
