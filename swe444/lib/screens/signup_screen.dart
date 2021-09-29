@@ -17,6 +17,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
+import 'package:firebase_database/firebase_database.dart';
+
 
 
 //project go ahead
@@ -28,12 +30,27 @@ class SignupScreen extends StatefulWidget {
   static const routeName = '/signup';
   @override
   _SignupScreenState createState() => _SignupScreenState();
+
 }
 
+
 class _SignupScreenState extends State<SignupScreen> {
+  final textcontroller = TextEditingController();
+  final Future<FirebaseApp> _future = Firebase.initializeApp();
+
   //FirebaseFirestore Firestore = FirebaseFirestore.instance;
   //FirebaseApp secondaryApp = Firebase.app('SecondaryApp');
+  final databaseRef = FirebaseDatabase.instance.reference(); //database reference object
 
+  void addData(String data) {
+    databaseRef.push().set({'name': data, 'comment': 'A good season'});
+  }
+
+  void printFirebase(){
+    databaseRef.once().then((DataSnapshot snapshot) {
+      print('Data : ${snapshot.value}');
+    });
+  }
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final _key = GlobalKey<FormState>();
@@ -137,9 +154,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
 
                         TextFormField(
-
+                          controller: textcontroller,
                           textAlign: TextAlign.right,
-                          controller: _emailcontroller,
+
+                          //controller: _emailcontroller,
                           decoration: InputDecoration(
                             labelText: "البريد الالكتروني",
                             alignLabelWithHint: true,
@@ -212,14 +230,14 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
 
 
-                     //RaisedButton(
-                     //     child:
-                         // Text:'Submit'
-                      //  ),
+                    // RaisedButton(
+                      //  child:
+                      //  Text:'Submit'
+                      // ),
                        //  onPressed: () {
 //
 
-                        // _submit();
+                         //_submit();
                        // },
 
                         // shape: RoundedRectangleBorder(
@@ -229,10 +247,12 @@ class _SignupScreenState extends State<SignupScreen> {
                         //textColor: Colors.white,
                        //  )
                         //here old
-                      // FlatButton(
-                       //  child: Text('Sign Up'),
-                       //onPressed: () {
-                        //   _submit();},),
+                        RaisedButton(
+                        child: Text('Sign Up'),
+                      onPressed: () {
+                        addData(textcontroller.text);
+                       _submit();
+                        },),
                          //here old
 
                           //  if (_key.currentState!.validate()) {};
@@ -240,30 +260,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
 
                         // color: Colors.white,
-                        RaisedButton(
-                          color: Colors.blue,
-                          child: Text('Resgister Full User',style: TextStyle(color: Colors.white),),
-                          onPressed: () async{
-                            _submit();
-                            if(_key.currentState!.validate()){
 
-                             var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailcontroller.text, password: _passwordController.text);
-                             if(result != null){
-                               var userInfo =  FirebaseFirestore.instance
-                                  .collection("users")..add({"email": "aa"});
-
-                                //Firestore.instance.collection('users').document(result.uid).setData({
-                                // 'email': _emailcontroller.text,
-                                //  'password':_passwordController.text
-                                 }
-
-
-                             }else{
-                               print('please try later'); }
-
-                            }
-
-                        )
 
                       ],
                     ),

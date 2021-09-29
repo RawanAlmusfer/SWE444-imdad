@@ -8,7 +8,7 @@ import 'screens/home_screen.dart';
 import 'screens/signup_screen.dart';
 import 'models/authentication.dart';
 import 'package:swe444/screens/xd_starting_screen.dart';
-import 'package:swe444/screens/signup.dart';
+
 
 
 
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         ),
         // home:LoginPageWidget(),
        // home:UsersScreen(),
-       // home:SignupScreen(),
+        home:SignupScreen(),
 
 
       ),
