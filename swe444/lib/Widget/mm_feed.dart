@@ -25,7 +25,7 @@ class mmFeed extends State<mm_feed> {
               //.orderBy('timeCreated', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Text('Loading...');
+            if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
               itemBuilder: (BuildContext context, int index) => buildCards(
@@ -40,8 +40,8 @@ class mmFeed extends State<mm_feed> {
   Widget buildCards(
       BuildContext context, DocumentSnapshot document, String? id) {
     if (document['posted_by'].toString() == id) {
-      print('posted user Id ' + document['posted_by'].toString());
-      print('current user Id ' + id.toString());
+      //print('posted user Id ' + document['posted_by'].toString());
+      //print('current user Id ' + id.toString());
 
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
@@ -89,7 +89,7 @@ class mmFeed extends State<mm_feed> {
                       padding: const EdgeInsets.only(right: 20, top: 5),
                       child: Text(
                         document['title'],
-                        style: TextStyle(fontSize: 30.0),
+                        style: TextStyle(fontSize: 22.0, fontFamily: 'Tajawal'),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -109,6 +109,7 @@ class mmFeed extends State<mm_feed> {
                         width: 250, // to wrap the text in multiline
                         child: Text(
                           document['description'],
+                          style: TextStyle(fontFamily: 'Tajawal'),
                           textDirection: TextDirection
                               .rtl, // make the text from right to left
                         )),
@@ -120,7 +121,10 @@ class mmFeed extends State<mm_feed> {
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Text(document['amount'].toString()),
-                    const Text(" :المبلغ"),
+                    const Text(
+                      " :المبلغ",
+                      style: TextStyle(fontFamily: 'Tajawal'),
+                    ),
                   ]),
                 ),
               ],
@@ -129,7 +133,7 @@ class mmFeed extends State<mm_feed> {
         ),
       );
     } else {
-      print('not included');
+      //print('not included');
       return Container();
     }
   }
@@ -192,6 +196,16 @@ class mmFeed extends State<mm_feed> {
       builder: (BuildContext context) {
         return alert;
       },
+    );
+  }
+
+  Widget _buildWaitingScreen() {
+    return Scaffold(
+      backgroundColor: const Color(0xffededed),
+      body: Container(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

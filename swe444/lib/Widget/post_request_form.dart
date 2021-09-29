@@ -570,8 +570,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
               "إضافة",
               style: TextStyle(
                 fontSize: 16.0,
-                fontFamily: "lato",
-                color: Colors.white,
+                fontFamily: 'Tajawal',
+                color: const Color(0xff334856),
               ),
             ),
             style: ElevatedButton.styleFrom(
