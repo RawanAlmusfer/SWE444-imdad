@@ -14,10 +14,15 @@ class Snackbar{
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(message,
+            textAlign: TextAlign.right,
+            style: const TextStyle(
+          fontFamily: "Tajawal"
+        ),),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(50),
+            top: Radius.circular(50),
           ),
         ),
       ),

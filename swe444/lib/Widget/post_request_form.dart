@@ -25,7 +25,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   int? amount;
   String description = " ";
   String? title;
-  DateTime time= DateTime.now();
+  DateTime time = DateTime.now();
   final List<String> items = <String>['مبلغ'];
 
   Widget _buildType(bool orientation) {
@@ -87,10 +87,13 @@ class _AddRequestFormState extends State<PostRequestForm> {
                               return Container(
                                 alignment: Alignment.centerRight,
                                 width: 120,
-                                child: Text(item, textAlign: TextAlign.end,
+                                child: Text(
+                                  item,
+                                  textAlign: TextAlign.end,
                                   style: TextStyle(
                                     fontFamily: 'Tajawal',
-                                  ),),
+                                  ),
+                                ),
                               );
                             }).toList();
                           },
@@ -101,24 +104,27 @@ class _AddRequestFormState extends State<PostRequestForm> {
                               value: dropdownMenuItem,
                               child: SizedBox(
                                 width: 150.w,
-                                child: Text(dropdownMenuItem,
+                                child: Text(
+                                  dropdownMenuItem,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                  fontFamily: 'Tajawal',
-                                ),),
+                                    fontFamily: 'Tajawal',
+                                  ),
+                                ),
                               ),
                             );
                           }).toList(),
                           onChanged: (value) =>
                               setState(() => this.type = value),
                           validator: (value) =>
-                              value == null ? 'رجاءً قم بالاختير' : null,
+                              value == null ? 'رجاءً قم بالاختيار' : null,
                           icon: Icon(Icons.arrow_drop_down_circle),
                           hint: Padding(
-                            padding: EdgeInsets.only(top:5.h),
+                            padding: EdgeInsets.only(top: 5.h),
                             child: SizedBox(
                               width: 125.w,
-                              child: Text("اختر نوعًا",
+                              child: Text(
+                                "اختر نوعًا",
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontFamily: 'Tajawal',
@@ -159,15 +165,15 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   Widget _buildTitle(bool orientation) {
-    double h1 = 0, l1=0, l2=0;
+    double h1 = 0, l1 = 0, l2 = 0;
     if (orientation == true) {
       h1 = 10;
-      l1=9.w;
-      l2= 0;
+      l1 = 9.w;
+      l2 = 0;
     } else {
       h1 = 60;
-      l1=15.w;
-      l2= 12.w;
+      l1 = 15.w;
+      l2 = 12.w;
     }
 
     return Container(
@@ -213,7 +219,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                         return "رجاءً قم بأدخال العنوان";
                     },
                     decoration: InputDecoration(
-                      hintText: "العنوان",
+                        hintText: "العنوان",
                         border: InputBorder.none,
                         errorBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.red, width: 1),
@@ -224,8 +230,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                         contentPadding: EdgeInsets.fromLTRB(15.w, 5.h, 10.w, 0),
-                        hintStyle: const TextStyle(fontSize: 14, fontFamily: "Tajawal"
-                        )),
+                        hintStyle: const TextStyle(
+                            fontSize: 14, fontFamily: "Tajawal")),
                     onChanged: (_val) {
                       title = _val;
                     }, // onchanged
@@ -259,7 +265,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   Widget _buildDetails(bool orientation) {
-    double h1 = 0, h2 = 0, _value=0;
+    double h1 = 0, h2 = 0, _value = 0;
 
     if (orientation == true) {
       h1 = 15;
@@ -301,13 +307,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     width: orientation == true ? 150.w : 180.w,
                     height: orientation == true ? 34.h : 70.h,
                     padding: EdgeInsets.only(left: h1, top: 5),
-
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25.0),
                         color: Color(0xffffffff),
-                        border:
-                            Border.all(width: 0.5, color: const Color(0xffdfdfdf)),
+                        border: Border.all(
+                            width: 0.5, color: const Color(0xffdfdfdf)),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0x29000000),
@@ -322,13 +327,14 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     width: orientation == true ? 173.w : 180.w,
                     height: orientation == true ? 58.h : 110.h,
                     child: Padding(
-                      padding: EdgeInsets.only(right: h2, left: 13, bottom: 0, top: 5),
+                      padding: EdgeInsets.only(
+                          right: h2, left: 13, bottom: 0, top: 5),
                       child: TextFormField(
                         validator: (value) {
-                          if (value == null || value.isEmpty )
+                          if (value == null || value.isEmpty)
                             return "مطلوب";
                           else {
-                            _value= double.parse(value);
+                            _value = double.parse(value);
                             if (_value > 50000 || _value <= 0)
                               return "الاقصى= 50000";
                           }
@@ -336,16 +342,20 @@ class _AddRequestFormState extends State<PostRequestForm> {
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red, width: 1),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 1),
                               borderRadius: BorderRadius.circular(25.0),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red, width: 1),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 1),
                               borderRadius: BorderRadius.circular(25.0),
                             ),
-                            contentPadding: EdgeInsets.fromLTRB(38.w, 0, 11.w, 15.h),
-                            hintStyle: const TextStyle(fontSize: 14, fontFamily: "Tajawal"
-                            )),                    inputFormatters: [
+                            contentPadding:
+                                EdgeInsets.fromLTRB(38.w, 0, 11.w, 15.h),
+                            hintStyle: const TextStyle(
+                                fontSize: 14, fontFamily: "Tajawal")),
+                        inputFormatters: [
                           LengthLimitingTextInputFormatter(30),
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                         ],
@@ -374,12 +384,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
             Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: 10.h ),
+                  padding: EdgeInsets.only(bottom: 10.h),
                   child: Text(
-                      "المبلغ",
-                    style: TextStyle(
-                      fontFamily: "Tajawal"
-                    ),
+                    "المبلغ",
+                    style: TextStyle(fontFamily: "Tajawal"),
                   ),
                 ),
               ],
@@ -493,7 +501,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     Widget cancelButton = ElevatedButton(
       child: const Text(
         "إلغاء",
-        style: TextStyle(color: const Color(0xdeedd03c)),
+        style: TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
       ),
       onPressed: () {
         Navigator.of(context).pop(context);
@@ -504,7 +512,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
           elevation: MaterialStateProperty.all<double>(0)),
     );
     Widget confirmButton = ElevatedButton(
-      child: Text("تأكيد"),
+      child: Text(
+        "تأكيد",
+        style: TextStyle(fontFamily: "Tajawal"),
+      ),
       onPressed: () {
         Navigator.of(context).pop(context);
         add(id);
@@ -515,11 +526,18 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
       title: Text(
         "إضافة",
         textAlign: TextAlign.right,
+        style: TextStyle(color: const Color(0xdeedd03c),
+            fontFamily: "Tajawal"),
       ),
-      content: Text("هل أنت متأكد من رغبتك في إضافة الطلب؟"),
+      content: Text(
+        "هل أنت متأكد من رغبتك في\n إضافة الطلب؟",
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal"),
+      ),
       actions: [
         cancelButton,
         confirmButton,
@@ -596,8 +614,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
     await FirebaseFirestore.instance
         .collection('requests')
         .add(request.toJson())
-        .then((value) => {msg = 'Request added successfully'})
-        .catchError((error) => msg = "Failed to add request: $error");
+        .then((value) => {msg = 'تمت إضافة الطلب بنجاح'})
+        .catchError((error) => msg = " فشل في إضافة الطلب:" + error);
 
     snackbar = Snackbar(context, msg);
     snackbar.showToast();
