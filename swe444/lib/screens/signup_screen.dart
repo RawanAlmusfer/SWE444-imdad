@@ -13,6 +13,7 @@ import '../models/authentication.dart';
 import 'package:swe444/screens//home_screen.dart';
 import'package:swe444/models/registeration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swe444/models/users.dart';
 
 
 
@@ -300,8 +301,8 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
 
 
-    Request request = Request(username);
-    Snackbar? snackbar;
+    //    Users usrs=Users();
+    //Snackbar? snackbar;
     String msg = "";
 
     await FirebaseFirestore.instance
@@ -309,12 +310,12 @@ class _SignupScreenState extends State<SignupScreen> {
         .add(request.toJson())
         .then((value) => {msg = 'Request added successfully'})
         .catchError((error) => msg = "Failed to add request: $error");
-    }
+  }
 
 
 
 
-);
+  );
   }
 
   }
