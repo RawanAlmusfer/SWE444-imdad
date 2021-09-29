@@ -3,17 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class Request {
   // String? documentId;
-  String? posted_by;
-  String? type;
-  int? amount;
-  int donated = 0;
-  String? description;
-  String? title;
-  String? mosque_name;
-  String? mosque_location;
+  String? username;
 
   Request(
-    this.title,
+    this.username,
     this.type,
     this.amount,
     this.posted_by,

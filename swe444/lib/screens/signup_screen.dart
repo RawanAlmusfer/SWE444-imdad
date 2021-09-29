@@ -54,12 +54,14 @@ class _SignupScreenState extends State<SignupScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final _key = GlobalKey<FormState>();
+  User? user = FirebaseAuth.instance.currentUser;
+  String? username;
 
 
 
   final TextEditingController _passwordController = TextEditingController();
 
-  //final TextEditingController _usernamecontroller =  TextEditingController();
+  final TextEditingController _usernamecontroller =  TextEditingController();
   final TextEditingController _emailcontroller = TextEditingController();
   @override
   void dispose()
@@ -132,9 +134,10 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("صفحة تسجيل الدخول"), backgroundColor: const Color(0xdeedd03c),),
+      appBar: AppBar(title: Text("صفحة تسجيل الدخول"),
+        backgroundColor: const Color(0xdeedd03c),),
       body: Stack(
-       children: <Widget>[
+        children: <Widget>[
 
           Center(
             child: Card(
@@ -154,10 +157,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
 
                         TextFormField(
-                          controller: textcontroller,
+
                           textAlign: TextAlign.right,
 
-                          //controller: _emailcontroller,
+                          controller: _emailcontroller,
                           decoration: InputDecoration(
                             labelText: "البريد الالكتروني",
                             alignLabelWithHint: true,
@@ -224,45 +227,68 @@ class _SignupScreenState extends State<SignupScreen> {
                               };
                             }
                         ),
+                        TextFormField(
+                            controller: textcontroller,
+                            textAlign: TextAlign.right,
+
+                            decoration: InputDecoration(
+                              labelText: "الاسم الاول ",
+                              alignLabelWithHint: true,
+                              border: OutlineInputBorder(),
+                            ),
+                            onSaved:
+                                (value) {
+
+                            },
+                            onChanged: (_val) {
+                              username = _val;
+                            },
+
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'invalid ';
+                              };
+                            }
+                        ),
 
                         SizedBox(
                           height: 30,
                         ),
 
 
-                    // RaisedButton(
-                      //  child:
-                      //  Text:'Submit'
-                      // ),
-                       //  onPressed: () {
+                        // RaisedButton(
+                        //  child:
+                        //  Text:'Submit'
+                        // ),
+                        //  onPressed: () {
 //
 
-                         //_submit();
-                       // },
+                        //_submit();
+                        // },
 
                         // shape: RoundedRectangleBorder(
-                         // borderRadius: BorderRadius.circular(30),
-                       // ),
-                         // color: Colors.blue,
+                        // borderRadius: BorderRadius.circular(30),
+                        // ),
+                        // color: Colors.blue,
                         //textColor: Colors.white,
-                       //  )
+                        //  )
                         //here old
                         RaisedButton(
-                        child: Text('Sign Up'),
-                      onPressed: () {
-                        addData(textcontroller.text);
-                       _submit();
-                        },),
-                         //here old
+                          child: Text('Sign Up'),
+                          onPressed: () {
+                            addData(textcontroller.text);
+                            _submit();
+                          },),
+                        //here old
 
-                          //  if (_key.currentState!.validate()) {};
-
+                        //  if (_key.currentState!.validate()) {};
 
 
                         // color: Colors.white,
 
 
                       ],
+
                     ),
                   ),
                 ),
@@ -270,8 +296,25 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           )
         ],
+
       ),
-    );
+
+
+    Request request = Request(username);
+    Snackbar? snackbar;
+    String msg = "";
+
+    await FirebaseFirestore.instance
+        .collection('requests')
+        .add(request.toJson())
+        .then((value) => {msg = 'Request added successfully'})
+        .catchError((error) => msg = "Failed to add request: $error");
+    }
+
+
+
+
+);
   }
 
   }
