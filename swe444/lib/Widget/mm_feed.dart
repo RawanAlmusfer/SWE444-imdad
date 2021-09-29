@@ -20,9 +20,12 @@ class mmFeed extends State<mm_feed> {
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('requests').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('requests')
+              //.orderBy('timeCreated', descending: true)
+              .snapshots(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Text('Loading...');
+            if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
               itemBuilder: (BuildContext context, int index) => buildCards(
@@ -36,10 +39,9 @@ class mmFeed extends State<mm_feed> {
 
   Widget buildCards(
       BuildContext context, DocumentSnapshot document, String? id) {
-    String ref = document.id;
     if (document['posted_by'].toString() == id) {
-      print('posted user Id ' + document['posted_by'].toString());
-      print('current user Id ' + id.toString());
+      //print('posted user Id ' + document['posted_by'].toString());
+      //print('current user Id ' + id.toString());
 
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
@@ -59,22 +61,22 @@ class mmFeed extends State<mm_feed> {
                     Container(
                         width: 25,
                         height: 52,
-                        padding:
-                        EdgeInsets.only(top: 0, bottom: 25, left: 0, right: 0),
+                        padding: const EdgeInsets.only(
+                            top: 0, bottom: 25, left: 0, right: 0),
                         child: ElevatedButton(
                           style: ButtonStyle(
                               padding:
-                              MaterialStateProperty.all<EdgeInsetsGeometry>(
-                                  EdgeInsets.only(
-                                      top: 0, bottom: 0, left: 0, right: 0)),
+                                  MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                      const EdgeInsets.only(
+                                          top: 0,
+                                          bottom: 0,
+                                          left: 0,
+                                          right: 0)),
                               elevation: MaterialStateProperty.all<double>(0),
-                              backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white)),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white)),
                           onPressed: () async {
-                            await cancelRequest(document);
-                            Snackbar bar = Snackbar(
-                                context, 'Request canceled successfully');
-                            bar.showToast();
+                            await showAlertDialog(document);
                           },
                           child: SvgPicture.string(
                             cancelImage,
@@ -87,7 +89,7 @@ class mmFeed extends State<mm_feed> {
                       padding: const EdgeInsets.only(right: 20, top: 5),
                       child: Text(
                         document['title'],
-                        style: TextStyle(fontSize: 30.0),
+                        style: TextStyle(fontSize: 22.0, fontFamily: 'Tajawal'),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -107,6 +109,7 @@ class mmFeed extends State<mm_feed> {
                         width: 250, // to wrap the text in multiline
                         child: Text(
                           document['description'],
+                          style: TextStyle(fontFamily: 'Tajawal'),
                           textDirection: TextDirection
                               .rtl, // make the text from right to left
                         )),
@@ -118,7 +121,10 @@ class mmFeed extends State<mm_feed> {
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Text(document['amount'].toString()),
-                    const Text(" :المبلغ"),
+                    const Text(
+                      " :المبلغ",
+                      style: TextStyle(fontFamily: 'Tajawal'),
+                    ),
                   ]),
                 ),
               ],
@@ -127,11 +133,9 @@ class mmFeed extends State<mm_feed> {
         ),
       );
     } else {
-      print('not included');
+      //print('not included');
       return Container();
     }
-
-
   }
 
   // Future _fetch() async {
@@ -141,9 +145,68 @@ class mmFeed extends State<mm_feed> {
 
   Future cancelRequest(DocumentSnapshot document) async {
     final doc =
-    FirebaseFirestore.instance.collection('requests').doc(document.id);
+        FirebaseFirestore.instance.collection('requests').doc(document.id);
+
+    Snackbar bar = Snackbar(context, 'Request canceled successfully');
+    bar.showToast();
 
     return await doc.delete();
+  }
+
+  showAlertDialog(DocumentSnapshot document) {
+    // set up the buttons
+    Widget cancelButton = ElevatedButton(
+      child: const Text(
+        "إلغاء",
+        style: TextStyle(color: const Color(0xdeedd03c)),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop(context);
+      },
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+          elevation: MaterialStateProperty.all<double>(0)),
+    );
+    Widget confirmButton = ElevatedButton(
+      child: Text("تأكيد"),
+      onPressed: () {
+        Navigator.of(context).pop(context);
+        cancelRequest(document);
+      },
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(
+        "إضافة",
+        textAlign: TextAlign.right,
+      ),
+      content: Text("هل أنت متأكد من رغبتك في إلغاء الطلب؟"),
+      actions: [
+        cancelButton,
+        confirmButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  Widget _buildWaitingScreen() {
+    return Scaffold(
+      backgroundColor: const Color(0xffededed),
+      body: Container(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 }
 
