@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swe444/signup.dart';
 import 'Views/login_page.dart';
 import 'Views/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,7 +31,7 @@ class _DecisionsTreeState extends State<DecisionsTree> {
   @override
   Widget build(BuildContext context) {
     if (user == null) {
-      return LoginPage(
+      return SignUpPage(
         onSignIn: (userCred) => onRefresh(userCred),
       );
     }
