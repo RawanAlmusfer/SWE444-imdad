@@ -16,6 +16,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
+
+
+
 //project go ahead
 
 class SignupScreen extends StatefulWidget {
@@ -41,7 +44,19 @@ class _SignupScreenState extends State<SignupScreen> {
 
   //final TextEditingController _usernamecontroller =  TextEditingController();
   final TextEditingController _emailcontroller = TextEditingController();
+  @override
+  void dispose()
+  {
 
+
+    _emailcontroller.dispose();
+
+    _passwordController.dispose();
+
+
+
+    super.dispose();
+  }
   //here
 
 
@@ -213,18 +228,42 @@ class _SignupScreenState extends State<SignupScreen> {
                          // color: Colors.blue,
                         //textColor: Colors.white,
                        //  )
-                       FlatButton(
-                         child: Text('Sign Up'),
-                       onPressed: () {
-                           _submit();
-
+                        //here old
+                      // FlatButton(
+                       //  child: Text('Sign Up'),
+                       //onPressed: () {
+                        //   _submit();},),
+                         //here old
 
                           //  if (_key.currentState!.validate()) {};
 
 
-                          },
+
                         // color: Colors.white,
-                        ),
+                        RaisedButton(
+                          color: Colors.blue,
+                          child: Text('Resgister Full User',style: TextStyle(color: Colors.white),),
+                          onPressed: () async{
+                            _submit();
+                            if(_key.currentState!.validate()){
+
+                             var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailcontroller.text, password: _passwordController.text);
+                             if(result != null){
+                               FirebaseFirestore.instance
+                                  .collection("users")..add({"email": "aa"});
+
+                                //Firestore.instance.collection('users').document(result.uid).setData({
+                                // 'email': _emailcontroller.text,
+                                //  'password':_passwordController.text
+                                 }
+
+
+                             }else{
+                               print('please try later'); }
+
+                            }
+
+                        )
 
                       ],
                     ),
