@@ -16,7 +16,7 @@ class v_feed extends StatelessWidget {
       body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('requests').snapshots(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Text('Loading...');
+            if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
               itemBuilder: (BuildContext context, int index) => buildCards(
@@ -41,14 +41,17 @@ class v_feed extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    top: 5.0, bottom: 9.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20, top: 5),
-                    child: Text(
-                      document['mosque_name'],
-                      style: TextStyle(),
-                      textAlign: TextAlign.center,
+                  Container(
+                    width: 100,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20, top: 5),
+                      child: Text(
+                        document['mosque_name'],
+                        style: TextStyle(fontFamily: 'Tajawal'),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -56,8 +59,7 @@ class v_feed extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 20, top: 5),
                     child: Text(
                       document['title'],
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 18.0, fontFamily: 'Tajawal'),
                       textAlign: TextAlign.left,
                     ),
                   ),
@@ -79,6 +81,7 @@ class v_feed extends StatelessWidget {
                         width: 250, // to wrap the text in multiline
                         child: Text(
                           document['description'],
+                          style: TextStyle(fontFamily: 'Tajawal'),
                           textDirection: TextDirection
                               .rtl, // make the text from right to left
                         ),
@@ -89,6 +92,7 @@ class v_feed extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
                             'المبلغ: ' + document['amount'].toString(),
+                            style: TextStyle(fontFamily: 'Tajawal'),
                             textDirection: TextDirection
                                 .rtl, // make the text from right to left
                           ),
@@ -100,35 +104,54 @@ class v_feed extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
                             "نسبة الإكتمال: ",
+                            style: TextStyle(fontFamily: 'Tajawal'),
                             textDirection: TextDirection.rtl,
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0, left: 20),
-                        child: SizedBox(
-                          width: 230,
-                          height: 10,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: LinearProgressIndicator(
-                                  value: (document['donated'] /
-                                      document['amount']),
-                                  valueColor:
-                                      AlwaysStoppedAnimation(Color(0xdeedd03c)),
-                                  backgroundColor: Color(0xffededed),
-                                ),
-                              ),
-                              Center(
-                                  child: buildLinearProgress(
-                                      (document['donated'] /
-                                          document['amount']))),
-                            ],
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 14.0),
+                            child: Text(document['donated'].toString(),
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontFamily: 'Tajawal', fontSize: 10)),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0, left: 5, right: 5),
+                            child: SizedBox(
+                              width: 200,
+                              height: 10,
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: LinearProgressIndicator(
+                                      value: (document['donated'] /
+                                          document['amount']),
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Color(0xdeedd03c)),
+                                      backgroundColor: Color(0xffededed),
+                                    ),
+                                  ),
+                                  Center(
+                                      child: buildLinearProgress(
+                                          (document['donated'] /
+                                              document['amount']))),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 14.0),
+                            child: Text(document['amount'].toString(),
+                                style: TextStyle(
+                                    fontFamily: 'Tajawal', fontSize: 10)),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -151,7 +174,11 @@ class v_feed extends StatelessWidget {
                     width: 65,
                     child: TextButton(
                       onPressed: () {},
-                      child: Text("تبرع", textAlign: TextAlign.center),
+                      child: Text(
+                        "تبرع",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontFamily: 'Tajawal'),
+                      ),
                       style: TextButton.styleFrom(
                         primary: Color(0xff334856),
                         backgroundColor: const Color(0xdeedd03c),
@@ -188,9 +215,20 @@ Future<void> _lunchURL(String url) async {
   }
 }
 
+Widget _buildWaitingScreen() {
+  return Scaffold(
+    backgroundColor: const Color(0xffededed),
+    body: Container(
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(),
+    ),
+  );
+}
+
 Widget buildLinearProgress(double val) => Text(
       '${(val * 100).toStringAsFixed(1)} %',
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8),
+      style: TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
     );
 
 const String mosqueImage =
