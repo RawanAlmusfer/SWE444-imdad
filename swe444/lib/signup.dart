@@ -348,6 +348,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     textDirection: TextDirection.rtl,
                     child: TextFormField(
                       maxLength: 10,
+                      keyboardType: TextInputType.number,
                       showCursor: true,
                       cursorColor: const Color(0xdeedd03c),
                       style: TextStyle(
@@ -453,16 +454,20 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: TextFormField(
                       showCursor: true,
                       cursorColor: const Color(0xdeedd03c),
+                      maxLength: 7,
+                      keyboardType: TextInputType.number,
                       // style:
                       //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
                       textAlign: TextAlign.right,
                       controller: mosqueCode,
                       decoration: InputDecoration(
+                        counterText: "",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50),
                         ),
                         focusedBorder: OutlineInputBorder(
                           // width: 0.0 produces a thin "hairline" border
+
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(
                             color: const Color(0xdeedd03c),
