@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Models/request.dart';
 import 'package:swe444/Widget/show_snackbar.dart';
-import '../Views/home_view.dart';
+import '../Views/mm_home_view.dart';
 
 class PostRequestForm extends StatefulWidget {
   PostRequestForm({
@@ -623,7 +623,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     Navigator.of(context)
         .push(
       MaterialPageRoute(
-        builder: (context) => Home(),
+        builder: (context) => mmHome(),
       ),
     )
         .then((value) {
