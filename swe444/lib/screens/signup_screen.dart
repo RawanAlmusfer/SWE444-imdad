@@ -249,7 +249,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                              var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailcontroller.text, password: _passwordController.text);
                              if(result != null){
-                               FirebaseFirestore.instance
+                               var userInfo =  FirebaseFirestore.instance
                                   .collection("users")..add({"email": "aa"});
 
                                 //Firestore.instance.collection('users').document(result.uid).setData({
