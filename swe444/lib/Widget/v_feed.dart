@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -162,31 +163,31 @@ class v_feed extends StatelessWidget {
                     top: 5.0, bottom: 5.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color(0xffededed),
-                            spreadRadius: 1,
-                            blurRadius: 10),
-                      ],
-                    ),
+                    // decoration: BoxDecoration(
+                    //   boxShadow: [
+                    //     BoxShadow(
+                    //         color: Color(0xffededed),
+                    //         spreadRadius: 1,
+                    //         blurRadius: 10),
+                    //   ],
+                    // ),
                     height: 30,
                     width: 65,
-                    child: TextButton(
+                    child: ElevatedButton(
                       onPressed: () {},
                       child: Text(
                         "تبرع",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: 'Tajawal'),
+                        style: TextStyle(
+                            fontFamily: 'Tajawal',
+                            color: const Color(0xff334856)),
                       ),
-                      style: TextButton.styleFrom(
-                        primary: Color(0xff334856),
-                        backgroundColor: const Color(0xdeedd03c),
-                        textStyle: TextStyle(
-                          fontSize: 12,
-                        ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(65.w, 30.h),
+                        primary: const Color(0xdeedd03c),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                       ),
                     ),
                   ),
@@ -229,6 +230,7 @@ Widget buildLinearProgress(double val) => Text(
       '${(val * 100).toStringAsFixed(1)} %',
       style: TextStyle(
           fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
+      textAlign: TextAlign.center,
     );
 
 const String mosqueImage =
