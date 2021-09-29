@@ -22,6 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController mosqueName = TextEditingController();
   TextEditingController phoneNum = TextEditingController();
   TextEditingController mosqueLocation = TextEditingController();
+  TextEditingController mosqueCode = TextEditingController();
 
   static const kYellow = const Color(0xdeedd03c);
   String error = "";
@@ -428,6 +429,58 @@ class _SignUpPageState extends State<SignUpPage> {
                         //border: OutlineInputBorder(),
                         hintText: 'أدخل رابط موقع المسجد',
                         labelText: 'موقع المسجد',
+                        hintStyle: TextStyle(
+                            fontSize: 14,
+                            color: const Color(0xff334856),
+                            fontFamily: 'Tajawal'),
+                        labelStyle: TextStyle(
+                            fontSize: 18,
+                            color: const Color(0xff334856),
+                            fontFamily: 'Tajawal'),
+                      ),
+                      autocorrect: false,
+                      obscureText: false,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                Container(
+                  width: 330,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextFormField(
+                      showCursor: true,
+                      cursorColor: const Color(0xdeedd03c),
+                      // style:
+                      //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
+                      textAlign: TextAlign.right,
+                      controller: mosqueCode,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          // width: 0.0 produces a thin "hairline" border
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide(
+                            color: const Color(0xdeedd03c),
+                          ),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.shield,
+                          color: const Color(0xff334856),
+                        ),
+                        prefixStyle: TextStyle(
+                            fontSize: 18,
+                            color: const Color(0xff334856),
+                            fontFamily: 'Tajawal'),
+                        hoverColor: const Color(0xff334856),
+                        alignLabelWithHint: true,
+                        //border: OutlineInputBorder(),
+                        hintText: 'أدخل كود المسجد',
+                        labelText: 'كود المسجد',
                         hintStyle: TextStyle(
                             fontSize: 14,
                             color: const Color(0xff334856),
