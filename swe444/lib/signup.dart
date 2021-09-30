@@ -7,8 +7,7 @@ import 'Models/UserModel.dart';
 import 'Views/login_page.dart';
 import 'Widgets/show_snackbar.dart';
 import 'Views/mm_home_view.dart';
-//import 'singup_login_screen.dart';
-//import 'reset_password.dart';
+
 
 class SignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
@@ -36,6 +35,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final _auth = FirebaseAuth.instance;
   Snackbar? snackbar;
+  Snackbar? snackbar2;
 
   //const LoginPage ({required Key key, required this.onSignInAno}) : super(key: key);
   /*Future<void> loginAno() async {
@@ -58,22 +58,6 @@ class _SignUpPageState extends State<SignUpPage> {
     } on FirebaseAuthException catch (e) {
       setState(() {
         error = e.toString();
-      });
-    }
-  }
-
-  Future<void> createUser() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: _controllerEmail.text, password: _controllerPass.text);
-      print(userCredential.user);
-      widget.onSignIn(userCredential.user!);
-      //
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        error = e.toString();
-        // bool login = true;
       });
     }
   }
@@ -645,11 +629,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             fontFamily: 'Tajawal'),
                       )),
                   Text(error),
-                  // RaisedButton(
-                  //     onPressed: () {
-                  //       isLogin ? login() : createUser();
-                  //     },
-                  //     child: Text(isLogin ? "تسجيل الدخول" : "التسجيل")),
                 ],
               ),
             ),
@@ -665,8 +644,8 @@ class _SignUpPageState extends State<SignUpPage> {
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {postDetailsToFirestore()})
           .catchError((e) {
-        snackbar = new Snackbar(context, e!.message);
-        snackbar?.showToast();
+        snackbar2 = new Snackbar(context, e!.message);
+        snackbar2?.showToast();
       });
     }
   }
@@ -693,14 +672,14 @@ class _SignUpPageState extends State<SignUpPage> {
     snackbar = new Snackbar(context, "تم التسجيل بنجاح ");
     snackbar?.showToast();
 
+    login();
     Navigator.pushAndRemoveUntil(
         (context),
         MaterialPageRoute(
-            builder: (context) => LoginPage(
-                  onSignIn: (User) {
-                    mmHome();
-                  },
-                )),
+            builder: (context) =>
+                    mmHome()
+                ),
         (route) => false);
   }
+
 }

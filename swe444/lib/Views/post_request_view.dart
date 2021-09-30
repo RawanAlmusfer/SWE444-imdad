@@ -28,25 +28,6 @@ class _PostRequestState extends State<PostRequest> {
 
     return Scaffold(
       backgroundColor: const Color(0xffededed),
-      // appBar: AppBar(
-      //   title: Text(
-      //     "إضافة طلب جديد",
-      //     style: TextStyle(
-      //       color: const Color(0xff334856),
-      //       fontWeight: FontWeight.w700,
-      //       fontFamily: 'Tajawal',
-      //       fontSize: 24,
-      //     ),
-      //   ),
-      //   backgroundColor: const Color(0xdeedd03c),
-      //   bottomOpacity: 30,
-      //   // elevation: 1,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.vertical(
-      //       bottom: Radius.circular(50),
-      //     ),
-      //   ),
-      // ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

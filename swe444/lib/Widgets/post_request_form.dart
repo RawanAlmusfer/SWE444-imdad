@@ -141,7 +141,20 @@ class _AddRequestFormState extends State<PostRequestForm> {
               ),
             ],
           ),
-          SizedBox(width: orientation == true ? 40.w : 30.w),
+          SizedBox(
+            width: orientation == true ? 40.w : 30.w,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0, right: 5),
+              child: const Text("*",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: Color(0xffa01527),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Tajawal',
+                    fontSize: 17,
+                  )),
+            ),
+          ),
           Column(
             children: <Widget>[
               Padding(
@@ -241,7 +254,20 @@ class _AddRequestFormState extends State<PostRequestForm> {
               ),
             ]),
           ]),
-          SizedBox(width: orientation == true ? 40.w : 30.w),
+          SizedBox(
+            width: orientation == true ? 40.w : 30.w,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0, right: 5),
+              child: const Text("*",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: Color(0xffa01527),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Tajawal',
+                    fontSize: 17,
+                  )),
+            ),
+          ),
           Column(
             children: <Widget>[
               Padding(
@@ -265,14 +291,20 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   Widget _buildDetails(bool orientation) {
-    double h1 = 0, h2 = 0, _value = 0;
+    double h1 = 0, h2 = 0, _value = 0, l2= 0, l3=0, t1=0;
 
     if (orientation == true) {
       h1 = 15;
       h2 = 25;
+      l2= 13.w;
+      t1= 10.h;
+      l3= 25.w;
     } else {
+      l2= 27.w;
       h1 = 60;
-      h2 = 70;
+      h2 = 0;
+      t1= 15.h;
+      l3= 30.w;
     }
 
     return Column(
@@ -304,7 +336,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
               children: [
                 Stack(children: <Widget>[
                   Container(
-                    width: orientation == true ? 150.w : 180.w,
+                    width: orientation == true ? 150.w : 130.w,
                     height: orientation == true ? 34.h : 70.h,
                     padding: EdgeInsets.only(left: h1, top: 5),
                     child: DecoratedBox(
@@ -324,11 +356,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     ),
                   ),
                   Container(
-                    width: orientation == true ? 173.w : 180.w,
-                    height: orientation == true ? 58.h : 110.h,
+                    width: orientation == true ? 173.w : 130.w,
+                    height: orientation == true ? 58.h : 120.h,
                     child: Padding(
                       padding: EdgeInsets.only(
-                          right: h2, left: 13, bottom: 0, top: 5),
+                          right: h2, left: l2, bottom: 0, top: 5),
                       child: TextFormField(
                         validator: (value) {
                           if (value == null || value.isEmpty)
@@ -366,8 +398,22 @@ class _AddRequestFormState extends State<PostRequestForm> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    width: orientation == true ? 170.w : 170.w,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0, right: 5, top: 10),
+                      child: const Text("*",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            color: Color(0xffa01527),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Tajawal',
+                            fontSize: 17,
+                          )),
+                    ),
+                  ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(25.w, 10.h, 0, 0),
+                    padding: EdgeInsets.fromLTRB(l3, t1, 0, 0),
                     child: Text(
                       'ريال',
                       style: TextStyle(
@@ -384,7 +430,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: 10.h),
+                  padding: EdgeInsets.only(bottom: 10.h, left: 0),
                   child: Text(
                     "المبلغ",
                     style: TextStyle(fontFamily: "Tajawal"),
@@ -530,8 +576,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       title: Text(
         "إضافة",
         textAlign: TextAlign.right,
-        style: TextStyle(color: const Color(0xdeedd03c),
-            fontFamily: "Tajawal"),
+        style: TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
       ),
       content: Text(
         "هل أنت متأكد من رغبتك في\n إضافة الطلب؟",
