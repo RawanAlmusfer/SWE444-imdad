@@ -257,7 +257,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
           SizedBox(
             width: orientation == true ? 40.w : 30.w,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 20.0, right: 5),
+              padding: EdgeInsets.only(bottom: 35.0, right: 15.w),
               child: const Text("*",
                   textAlign: TextAlign.right,
                   style: TextStyle(
@@ -274,7 +274,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
               ),
               Text(
-                "نوع الطلب",
+                "عنوان الطلب",
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   color: const Color(0xff334856),
@@ -291,20 +291,20 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   Widget _buildDetails(bool orientation) {
-    double h1 = 0, h2 = 0, _value = 0, l2= 0, l3=0, t1=0;
+    double h1 = 0, h2 = 0, _value = 0, l2 = 0, l3 = 0, t1 = 0;
 
     if (orientation == true) {
       h1 = 15;
       h2 = 25;
-      l2= 13.w;
-      t1= 10.h;
-      l3= 25.w;
+      l2 = 13.w;
+      t1 = 10.h;
+      l3 = 25.w;
     } else {
-      l2= 27.w;
+      l2 = 27.w;
       h1 = 60;
       h2 = 0;
-      t1= 15.h;
-      l3= 30.w;
+      t1 = 15.h;
+      l3 = 30.w;
     }
 
     return Column(
@@ -401,7 +401,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   SizedBox(
                     width: orientation == true ? 170.w : 170.w,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0, right: 5, top: 10),
+                      padding: const EdgeInsets.only(
+                          bottom: 20.0, right: 5, top: 10),
                       child: const Text("*",
                           textAlign: TextAlign.right,
                           style: TextStyle(
@@ -576,7 +577,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
       title: Text(
         "إضافة",
         textAlign: TextAlign.right,
-        style: TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
+        style: TextStyle(color: const Color(0xdeedd03c), fontFamily: 'Tajawal',
+        ),
       ),
       content: Text(
         "هل أنت متأكد من رغبتك في\n إضافة الطلب؟",
@@ -623,7 +625,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
               "إضافة",
               style: TextStyle(
                 fontSize: 16.0,
-                fontFamily: "lato",
+                fontFamily: 'Tajawal',
                 color: Colors.white,
               ),
             ),
@@ -665,12 +667,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
       Navigator.pushAndRemoveUntil(
           (context),
-          MaterialPageRoute(
-              builder: (context) =>
-                  mmHome()
-          ),
-              (route) => false)
-          .then((value) {
+          MaterialPageRoute(builder: (context) => mmHome()),
+          (route) => false).then((value) {
         print("Calling Set State !");
         setState(() {});
       });
@@ -680,7 +678,5 @@ class _AddRequestFormState extends State<PostRequestForm> {
       Snackbar snackbar2 = Snackbar(context, "لا يمكن اضافة الطلب");
       snackbar2.showToast();
     }
-
-
   }
 }
