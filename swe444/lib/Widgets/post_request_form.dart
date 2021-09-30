@@ -668,10 +668,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => mmHome()),
-          (route) => false).then((value) {
-        print("Calling Set State !");
-        setState(() {});
-      });
+          (route) => false);
 
       _formKey.currentState?.reset();
     } else {
