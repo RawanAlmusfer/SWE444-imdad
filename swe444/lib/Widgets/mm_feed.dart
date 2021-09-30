@@ -22,7 +22,7 @@ class mmFeed extends State<mm_feed> {
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('requests')
-              //.orderBy('timeCreated', descending: true)
+              .orderBy('timeCreated', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();

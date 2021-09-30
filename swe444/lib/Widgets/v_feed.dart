@@ -15,7 +15,10 @@ class v_feed extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('requests').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('requests')
+              .orderBy('uplaod_time', descending: true)
+              .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
