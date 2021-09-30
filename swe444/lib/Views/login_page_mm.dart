@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:swe444/Views/mm_home_view.dart';
+import 'package:swe444/Views/signup_login_screen_mm.dart';
 import 'package:swe444/Views/v_home_view.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 import 'signup_login_screen.dart';
 import 'reset_password.dart';
 
-class LoginPage extends StatefulWidget {
+class mLoginPage extends StatefulWidget {
   final Function(User) onSignIn;
 
-  LoginPage({required this.onSignIn});
+  mLoginPage({required this.onSignIn});
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<mLoginPage> {
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerPass = TextEditingController();
   static const kYellow = const Color(0xdeedd03c);
@@ -267,7 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SignupLoginScreen()));
+                        builder: (context) => mSignupLoginScreen()));
               },
               child: Icon(Icons.arrow_forward_ios),
             ),
@@ -446,7 +448,7 @@ class _LoginPageState extends State<LoginPage> {
                           (context),
                           MaterialPageRoute(
                               builder: (context) =>
-                                  vHome()
+                                  mmHome()
                           ),
                               (route) => false);
 

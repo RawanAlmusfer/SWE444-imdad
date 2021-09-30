@@ -480,21 +480,21 @@ class _SignUpPageState extends State<SignUpPage> {
             bottom: Radius.circular(50),
           ),
         ),
-        // actions: <Widget>[
-        //   Padding(
-        //     padding: EdgeInsets.only(right: 25.0),
-        //     child: GestureDetector(
-        //       onTap: () {
-        //         Navigator.pushReplacement(
-        //             context, MaterialPageRoute(builder: (context) => mmHome()));
-        //       },
-        //       child: Icon(
-        //         Icons.arrow_forward_ios,
-        //         color: Color(0xff334856),
-        //       ),
-        //     ),
-        //   )
-        // ],
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 25.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => mmHome()));
+              },
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Color(0xff334856),
+              ),
+            ),
+          )
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),

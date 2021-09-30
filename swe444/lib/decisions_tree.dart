@@ -5,6 +5,8 @@ import 'Views/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swe444/Views/mm_home_view.dart';
 
+import 'Views/signup_login_screen.dart';
+import 'Views/users_screen.dart';
 import 'Views/v_home_view.dart';
 
 class DecisionsTree extends StatefulWidget {
@@ -31,9 +33,7 @@ class _DecisionsTreeState extends State<DecisionsTree> {
   @override
   Widget build(BuildContext context) {
     if (user == null) {
-      return SignUpPage(
-        onSignIn: (userCred) => onRefresh(userCred),
-      );
+      return UsersScreen();
     }
 
     return mmHome();
