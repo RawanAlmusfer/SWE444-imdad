@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:swe444/Widget/show_snackbar.dart';
+import 'package:swe444/Widgets/show_snackbar.dart';
 
 class mm_feed extends StatefulWidget {
   @override
@@ -147,7 +147,7 @@ class mmFeed extends State<mm_feed> {
     final doc =
         FirebaseFirestore.instance.collection('requests').doc(document.id);
 
-    Snackbar bar = Snackbar(context, 'Request canceled successfully');
+    Snackbar bar = Snackbar(context, 'تم إلغاء الطلب بنجاح');
     bar.showToast();
 
     return await doc.delete();

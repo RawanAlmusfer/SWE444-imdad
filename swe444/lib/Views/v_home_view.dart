@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'mm_feed.dart';
-import '../Widget/v_feed.dart';
+import '../Widgets/v_feed.dart';
 import '../logout.dart';
 
 class vHome extends StatefulWidget {

@@ -36,6 +36,9 @@ dependencies:
   flutter_screenutil: 5.0.0+2
   firebase_auth: ^3.1.1
   url_launcher: ^6.0.12
+  dio: ^4.0.0
+  flutter_polyline_points: ^1.0.0
+  google_maps: ^5.3.0
 
 
   # The following adds the Cupertino Icons font to your application.
