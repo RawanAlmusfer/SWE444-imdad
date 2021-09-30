@@ -30,14 +30,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-
   static const kYellow = const Color(0xdeedd03c);
   String error = "";
   bool isLogin = true;
 
   final _auth = FirebaseAuth.instance;
   Snackbar? snackbar;
-
 
   //const LoginPage ({required Key key, required this.onSignInAno}) : super(key: key);
   /*Future<void> loginAno() async {
@@ -80,17 +78,16 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  Widget _buildEmailField(){
+  Widget _buildEmailField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Please Enter Your Email");
+          return ("الرجاء قم بإدخال بريد إلكتروني");
         }
         // reg expression for email validation
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-            .hasMatch(value)) {
-          return ("Please Enter a valid email");
+        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+          return ("البريد الإلكتروني غير صحيح");
         }
         return null;
       },
@@ -99,8 +96,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(
-          fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerEmail,
       decoration: InputDecoration(
@@ -118,8 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Icons.email_outlined,
           color: const Color(0xff334856),
         ),
-        prefixStyle: TextStyle(
-            fontSize: 18, color: const Color(0xff334856)),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         hintText: 'أدخل البريد الالكتروني',
         labelText: 'البريد الالكتروني',
@@ -139,15 +134,15 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildPasswordField(){
+  Widget _buildPasswordField() {
     return TextFormField(
       validator: (value) {
         RegExp regex = new RegExp(r'^.{6,}$');
         if (value!.isEmpty) {
-          return ("Password is required for login");
+          return ("الرجاء تعيين كلمة مرور");
         }
         if (!regex.hasMatch(value)) {
-          return ("Enter Valid Password(Min. 6 Character)");
+          return ("يجب أن تحتوي على 6 رموز او أكثر");
         }
       },
       onSaved: (value) {
@@ -155,8 +150,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(
-          fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass,
       decoration: InputDecoration(
@@ -174,8 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Icons.lock_outline,
           color: const Color(0xff334856),
         ),
-        prefixStyle: TextStyle(
-            fontSize: 18, color: const Color(0xff334856)),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
@@ -195,12 +188,14 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildConformPasswordField(){
+  Widget _buildConformPasswordField() {
     return TextFormField(
       validator: (value) {
-        if (_controllerPass2.text !=
-            _controllerPass.text) {
-          return "Password don't match";
+        if (value!.isEmpty) {
+          return ("رجاءً قم بتأكيد كلمة مرور");
+        }
+        if (_controllerPass2.text != _controllerPass.text) {
+          return "كلمة المرور مختلفة";
         }
         return null;
       },
@@ -209,8 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(
-          fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass2,
       decoration: InputDecoration(
@@ -228,8 +222,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Icons.lock_outline,
           color: const Color(0xff334856),
         ),
-        prefixStyle: TextStyle(
-            fontSize: 18, color: const Color(0xff334856)),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
@@ -249,25 +242,24 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildMosqueNameField(){
+  Widget _buildMosqueNameField() {
     return TextFormField(
       onSaved: (value) {
         mosqueName.text = value!;
       },
       validator: (value) {
-        RegExp regex = RegExp(r'^.{3,}$');
+        RegExp regex = RegExp(r'^.{5,}$');
         if (value!.isEmpty) {
-          return ("Mosque Name cannot be Empty");
+          return ("الرجاء قم بإدخال اسم المسجد");
         }
         if (!regex.hasMatch(value)) {
-          return ("Enter Valid name(Min. 3 Character)");
+          return ("يجب ان يحتوي على 5 حروف على الأقل");
         }
         return null;
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(
-          fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: mosqueName,
       decoration: InputDecoration(
@@ -285,8 +277,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Icons.account_balance,
           color: const Color(0xff334856),
         ),
-        prefixStyle: TextStyle(
-            fontSize: 18, color: const Color(0xff334856)),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
@@ -307,14 +298,29 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildPhoneField(){
+  Widget _buildPhoneField() {
     return TextFormField(
+      onSaved: (value) {
+        phoneNum.text = value!;
+      },
+      validator: (value) {
+        RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
+        if (value!.isEmpty) {
+          return ("الرجاء إدخال رقم جوال المسجد ");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Enter Valid Phone number");
+        }
+        if (value.length < 10) {
+          return ("Enter Valid Phone number");
+        }
+        return null;
+      },
       maxLength: 10,
       keyboardType: TextInputType.phone,
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(
-          fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: phoneNum,
       decoration: InputDecoration(
@@ -333,8 +339,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Icons.phone,
           color: const Color(0xff334856),
         ),
-        prefixStyle: TextStyle(
-            fontSize: 18, color: const Color(0xff334856)),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
@@ -354,8 +359,17 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildLocationField(){
+  Widget _buildLocationField() {
     return TextFormField(
+      onSaved: (value) {
+        mosqueLocation.text = value!;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          return ("الرجاء قم بإدخال موقع المسجد");
+        }
+        return null;
+      },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
       // style:
@@ -400,8 +414,17 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildCodeField(){
+  Widget _buildCodeField() {
     return TextFormField(
+      onSaved: (value) {
+        mosqueCode.text = value!;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          return ("الرجاء قم بإدخال رمز المسجد");
+        }
+        return null;
+      },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
       maxLength: 7,
@@ -434,8 +457,8 @@ class _SignUpPageState extends State<SignUpPage> {
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
-        hintText: 'أدخل كود المسجد',
-        labelText: 'كود المسجد',
+        hintText: 'أدخل رمز المسجد',
+        labelText: 'رمز المسجد',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -449,7 +472,6 @@ class _SignUpPageState extends State<SignUpPage> {
       obscureText: false,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -528,7 +550,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       textDirection: TextDirection.rtl,
                       child: _buildEmailField(),
                     ),
-                  ),// email container
+                  ), // email container
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
@@ -548,7 +570,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       textDirection: TextDirection.rtl,
                       child: _buildConformPasswordField(),
                     ),
-                  ),// conform container
+                  ), // conform container
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
@@ -558,7 +580,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       textDirection: TextDirection.rtl,
                       child: _buildMosqueNameField(),
                     ),
-                  ),// mosque name
+                  ), // mosque name
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
@@ -568,7 +590,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       textDirection: TextDirection.rtl,
                       child: _buildPhoneField(),
                     ),
-                  ),// phone
+                  ), // phone
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
@@ -643,14 +665,13 @@ class _SignUpPageState extends State<SignUpPage> {
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {postDetailsToFirestore()})
           .catchError((e) {
-        snackbar= new Snackbar(context, e!.message);
+        snackbar = new Snackbar(context, e!.message);
         snackbar?.showToast();
       });
     }
   }
 
   postDetailsToFirestore() async {
-
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
@@ -660,23 +681,26 @@ class _SignUpPageState extends State<SignUpPage> {
     userModel.email = user!.email;
     userModel.uid = user.uid;
     userModel.mosque_name = mosqueName.text;
-    userModel.phone = int.parse(phoneNum.text);
+    userModel.mosque_phone = int.parse(phoneNum.text);
+    userModel.mosque_location= mosqueLocation.text;
+    userModel.mosque_code= mosqueCode.text;
+
 
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap());
-    snackbar= new Snackbar(context, "Account created successfully :) ");
+    snackbar = new Snackbar(context, "تم التسجيل بنجاح ");
     snackbar?.showToast();
 
     Navigator.pushAndRemoveUntil(
         (context),
-        MaterialPageRoute(builder: (context) => LoginPage(onSignIn: (User ) {
-
-        },)),
-            (route) => false);
+        MaterialPageRoute(
+            builder: (context) => LoginPage(
+                  onSignIn: (User) {
+                    mmHome();
+                  },
+                )),
+        (route) => false);
   }
-
-
-
 }
