@@ -649,33 +649,38 @@ class _AddRequestFormState extends State<PostRequestForm> {
       Map<String, dynamic>? data = document.data();
       mosque_name = data?['mosque_name'];
       mosque_location = data?['location'];
+      Request request = Request(title, type, amount, postedBy, description,
+          mosque_name, mosque_location, time);
+      Snackbar? snackbar;
+      String msg = "";
+
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .add(request.toJson())
+          .then((value) => {msg = 'تمت إضافة الطلب بنجاح'})
+          .catchError((error) => msg = " فشل في إضافة الطلب:" + error);
+
+      snackbar = Snackbar(context, msg);
+      snackbar.showToast();
+
+      Navigator.pushAndRemoveUntil(
+          (context),
+          MaterialPageRoute(
+              builder: (context) =>
+                  mmHome()
+          ),
+              (route) => false)
+          .then((value) {
+        print("Calling Set State !");
+        setState(() {});
+      });
+
+      _formKey.currentState?.reset();
+    } else {
+      Snackbar snackbar2 = Snackbar(context, "لا يمكن اضافة الطلب");
+      snackbar2.showToast();
     }
 
-    Request request = Request(title, type, amount, postedBy, description,
-        mosque_name, mosque_location, time);
-    Snackbar? snackbar;
-    String msg = "";
 
-    await FirebaseFirestore.instance
-        .collection('requests')
-        .add(request.toJson())
-        .then((value) => {msg = 'تمت إضافة الطلب بنجاح'})
-        .catchError((error) => msg = " فشل في إضافة الطلب:" + error);
-
-    snackbar = Snackbar(context, msg);
-    snackbar.showToast();
-
-    Navigator.of(context)
-        .push(
-      MaterialPageRoute(
-        builder: (context) => mmHome(),
-      ),
-    )
-        .then((value) {
-      print("Calling Set State !");
-      setState(() {});
-    });
-
-    _formKey.currentState?.reset();
   }
 }
