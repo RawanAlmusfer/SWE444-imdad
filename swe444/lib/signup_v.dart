@@ -4,25 +4,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Models/UserModel.dart';
+import 'Models/VUserModel.dart';
 import 'Views/login_page.dart';
 import 'Views/signup_login_screen_mm.dart';
+import 'Views/v_home_view.dart';
 import 'Widgets/show_snackbar.dart';
 import 'Views/mm_home_view.dart';
 
-class SignUpPage extends StatefulWidget {
+class VSignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
 
-  const SignUpPage({required this.onSignIn});
+  const VSignUpPage({required this.onSignIn});
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<VSignUpPage> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPass = TextEditingController();
   final TextEditingController _controllerPass2 = TextEditingController();
-  final TextEditingController mosqueName = TextEditingController();
+  final TextEditingController firstName = TextEditingController();
+  final TextEditingController lastName = TextEditingController();
   final TextEditingController phoneNum = TextEditingController();
   final TextEditingController mosqueLocation = TextEditingController();
   final TextEditingController mosqueCode = TextEditingController();
@@ -226,10 +229,10 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildMosqueNameField() {
+  Widget _buildfirstNameField() {
     return TextFormField(
       onSaved: (value) {
-        mosqueName.text = value!;
+        firstName.text = value!;
       },
       validator: (value) {
         RegExp regex = RegExp(r'^.{5,}$');
@@ -245,7 +248,7 @@ class _SignUpPageState extends State<SignUpPage> {
       cursorColor: const Color(0xdeedd03c),
       style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
-      controller: mosqueName,
+      controller: firstName,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
@@ -258,15 +261,71 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
         prefixIcon: Icon(
-          Icons.account_balance,
+          Icons.perm_identity,
           color: const Color(0xff334856),
         ),
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
-        hintText: 'أدخل اسم المسجد',
-        labelText: 'اسم المسجد',
+        hintText: 'أدخل اسمك الاول',
+        labelText: 'الاسم الاول',
+        hintStyle: TextStyle(
+            fontSize: 14,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+
+        labelStyle: TextStyle(
+            fontSize: 18,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+      ),
+      autocorrect: false,
+      obscureText: false,
+    );
+  }
+
+  Widget _buildlastNameField() {
+    return TextFormField(
+      onSaved: (value) {
+        lastName.text = value!;
+      },
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{5,}$');
+        if (value!.isEmpty) {
+          return ("الرجاء قم بإدخال اسم المسجد");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("يجب ان يحتوي على 5 حروف على الأقل");
+        }
+        return null;
+      },
+      showCursor: true,
+      cursorColor: const Color(0xdeedd03c),
+      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      textAlign: TextAlign.right,
+      controller: lastName,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixIcon: Icon(
+          Icons.perm_identity,
+          color: const Color(0xff334856),
+        ),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: 'أدخل اسم عائلتك',
+        labelText: 'اسم العائلة',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -329,120 +388,6 @@ class _SignUpPageState extends State<SignUpPage> {
         //border: OutlineInputBorder(),
         hintText: 'أدخل رقم الجوال',
         labelText: 'رقم الجوال',
-        hintStyle: TextStyle(
-            fontSize: 14,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        labelStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-      ),
-      autocorrect: false,
-      obscureText: false,
-    );
-  }
-
-  Widget _buildLocationField() {
-    return TextFormField(
-      onSaved: (value) {
-        mosqueLocation.text = value!;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("الرجاء قم بإدخال موقع المسجد");
-        }
-        return null;
-      },
-      showCursor: true,
-      cursorColor: const Color(0xdeedd03c),
-      // style:
-      //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
-      textAlign: TextAlign.right,
-      controller: mosqueLocation,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // width: 0.0 produces a thin "hairline" border
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: const Color(0xdeedd03c),
-          ),
-        ),
-        prefixIcon: Icon(
-          Icons.location_on,
-          color: const Color(0xff334856),
-        ),
-        prefixStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        hoverColor: const Color(0xff334856),
-        alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        hintText: 'أدخل رابط موقع المسجد',
-        labelText: 'موقع المسجد',
-        hintStyle: TextStyle(
-            fontSize: 14,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        labelStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-      ),
-      autocorrect: false,
-      obscureText: false,
-    );
-  }
-
-  Widget _buildCodeField() {
-    return TextFormField(
-      onSaved: (value) {
-        mosqueCode.text = value!;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("الرجاء قم بإدخال رمز المسجد");
-        }
-        return null;
-      },
-      showCursor: true,
-      cursorColor: const Color(0xdeedd03c),
-      maxLength: 7,
-      keyboardType: TextInputType.number,
-      // style:
-      //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
-      textAlign: TextAlign.right,
-      controller: mosqueCode,
-      decoration: InputDecoration(
-        counterText: "",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // width: 0.0 produces a thin "hairline" border
-
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: const Color(0xdeedd03c),
-          ),
-        ),
-        prefixIcon: Icon(
-          Icons.shield,
-          color: const Color(0xff334856),
-        ),
-        prefixStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        hoverColor: const Color(0xff334856),
-        alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        hintText: 'أدخل رمز المسجد',
-        labelText: 'رمز المسجد',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -564,7 +509,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: 330,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
-                      child: _buildMosqueNameField(),
+                      child: _buildfirstNameField(),
+                    ),
+                  ), // mosque name
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Container(
+                    width: 330,
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: _buildlastNameField(),
                     ),
                   ), // mosque name
                   SizedBox(
@@ -577,26 +532,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: _buildPhoneField(),
                     ),
                   ), // phone
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildLocationField(),
-                    ),
-                  ), // location
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildCodeField(),
-                    ),
-                  ), // code
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
@@ -656,15 +591,14 @@ class _SignUpPageState extends State<SignUpPage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
-    UserModel userModel = UserModel();
+    VUserModel userModel = VUserModel();
 
     // writing all the values
     userModel.email = user!.email;
     userModel.uid = user.uid;
-    userModel.mosque_name = mosqueName.text;
-    userModel.mosque_phone = int.parse(phoneNum.text);
-    userModel.mosque_location = mosqueLocation.text;
-    userModel.mosque_code = mosqueCode.text;
+    userModel.first_name = firstName.text;
+    userModel.last_name = lastName.text;
+    userModel.volunteer_phone = int.parse(phoneNum.text);
 
     await firebaseFirestore
         .collection("users")
@@ -675,6 +609,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
     login();
     Navigator.pushAndRemoveUntil((context),
-        MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
+        MaterialPageRoute(builder: (context) => vHome()), (route) => false);
   }
 }
