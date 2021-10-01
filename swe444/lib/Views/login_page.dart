@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swe444/Views/v_home_view.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
+import '../decisions_tree.dart';
 import 'signup_login_screen.dart';
 import 'reset_password.dart';
 
@@ -20,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   static const kYellow = const Color(0xdeedd03c);
   String errorMessage = '';
   Snackbar? snackbar;
- 
+
   String? error = "";
   bool isLogin = true;
 
@@ -136,78 +137,7 @@ class _LoginPageState extends State<LoginPage> {
     } else if (_controllerPass.text.isEmpty) {
       errorMessage = "الرجاء إدخال كلمة السر ";
 
-      switch ("invalid-email") {
-        case "invalid-email":
-          errorMessage += 'البريد الالكتروني غير صحيح';
 
-          break;
-
-        case "wrong-password":
-          errorMessage += 'كلمة السر غير صحيحة';
-
-          break;
-
-        case "user-not-found":
-          setState(() {
-            errorMessage = 'لايوجد مستخدم مسجل بهذا الحساب في تطبيق إمْداد';
-          });
-          break;
-
-        case "requires-recent-login":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "too-many-requests":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "operation-not-allowed":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "network-request-failed":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "credential-already-in-use":
-          setState(() {
-            errorMessage =
-            'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
-          });
-          break;
-
-        case "user-disabled":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "user-disabled":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        default:
-          setState(() {
-            errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
-          });
-          break;
-      }
 
       snackbar = Snackbar(context, errorMessage);
       snackbar!.showToast();
@@ -439,13 +369,17 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () {
                       login();
-                      Navigator.pushAndRemoveUntil(
-                          (context),
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  vHome()
-                          ),
-                              (route) => false);
+                      // Navigator.pushAndRemoveUntil(
+                      //     (context),
+                      //     MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             vHome()
+                      //     ),
+                      //        (route) => false);
+
+                      //or via connected logic
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => DecisionsTree()));
 
                     },
                     child: Text(

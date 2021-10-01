@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:swe444/signup.dart';
 import 'Views/login_page.dart';
@@ -17,6 +18,7 @@ class DecisionsTree extends StatefulWidget {
 class _DecisionsTreeState extends State<DecisionsTree> {
   //const user = FirebaseAuth.instance.currentUser;
   User? user = FirebaseAuth.instance.currentUser;
+
   @override
   void initState() {
     super.initState();
@@ -31,14 +33,38 @@ class _DecisionsTreeState extends State<DecisionsTree> {
   }
 
   @override
-  Widget build(BuildContext context) {
+ build(BuildContext context) async {
     if (user == null) {
-      return UsersScreen();
+      return UsersScreen();}
+
+else {
+
+      String userId = (await FirebaseAuth.instance.currentUser!).uid;
+    var document =
+    await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+
+    // if (document.data['role'] == 'mosqueManager')
+    if (document.exists){
+      Map<String, dynamic>? data = document.data();
+      if (data!['role'] == 'mosqueManager') {
+
+        Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new mmHome()));
+      }
+      else
+        Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new vHome()));
     }
 
-    return mmHome();
+    else { print ('Not Authorized');  return UsersScreen();}}
 
-    /*if (user) {
+   return UsersScreen();
+
+
+
+// if (user.){
+//   return mmHome();}
+
+/*if (user) {
       // user is signed in, show user data
       return HomePage();
     }
