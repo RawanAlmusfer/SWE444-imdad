@@ -235,12 +235,12 @@ class _SignUpPageState extends State<VSignUpPage> {
         firstName.text = value!;
       },
       validator: (value) {
-        RegExp regex = RegExp(r'^.{5,}$');
+        RegExp regex = RegExp(r'^.{2,}$');
         if (value!.isEmpty) {
-          return ("الرجاء قم بإدخال اسم المسجد");
+          return ("الرجاء قم بإدخال اسمك الاول");
         }
         if (!regex.hasMatch(value)) {
-          return ("يجب ان يحتوي على 5 حروف على الأقل");
+          return ("يجب ان يحتوي على حرفين على الأقل");
         }
         return null;
       },
@@ -291,12 +291,12 @@ class _SignUpPageState extends State<VSignUpPage> {
         lastName.text = value!;
       },
       validator: (value) {
-        RegExp regex = RegExp(r'^.{5,}$');
+        RegExp regex = RegExp(r'^.{2,}$');
         if (value!.isEmpty) {
-          return ("الرجاء قم بإدخال اسم المسجد");
+          return ("الرجاء قم بإدخال اسم عائلتك");
         }
         if (!regex.hasMatch(value)) {
-          return ("يجب ان يحتوي على 5 حروف على الأقل");
+          return ("يجب ان يحتوي على حرفين على الأقل");
         }
         return null;
       },
@@ -349,7 +349,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       validator: (value) {
         RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
         if (value!.isEmpty) {
-          return ("الرجاء إدخال رقم جوال المسجد ");
+          return ("الرجاء إدخال رقم الجوال ");
         }
         if (!regex.hasMatch(value)) {
           return ("Enter Valid Phone number");
