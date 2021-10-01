@@ -27,6 +27,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController mosqueLocation = TextEditingController();
   final TextEditingController mosqueCode = TextEditingController();
 
+  String errorMessage = "";
+
   final _formKey = GlobalKey<FormState>();
 
   static const kYellow = const Color(0xdeedd03c);
@@ -35,20 +37,13 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final _auth = FirebaseAuth.instance;
   Snackbar? snackbar;
-  Snackbar? snackbar2;
+  Snackbar? snackbar2, snackbar3;
+  bool valid= true;
 
-  //const LoginPage ({required Key key, required this.onSignInAno}) : super(key: key);
-  /*Future<void> loginAno() async {
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInAnonymously();
-    print(userCredential.user);
-    //User? user2= userCredential.user;
-    widget.onSignIn(userCredential.user);
-    //Can't record in the database if line above is hided
-  } */
 
   Future<void> login() async {
-    try {
+    if  (valid= true) {
+      try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: _controllerEmail.text, password: _controllerPass.text);
@@ -59,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
       setState(() {
         error = e.toString();
       });
+    }
     }
   }
 
@@ -172,7 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildConformPasswordField() {
+  Widget _buildConfirmPasswordField() {
     return TextFormField(
       validator: (value) {
         if (value!.isEmpty) {
@@ -554,7 +550,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: 330,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
-                      child: _buildConformPasswordField(),
+                      child: _buildConfirmPasswordField(),
                     ),
                   ), // conform container
                   SizedBox(
@@ -646,9 +642,115 @@ class _SignUpPageState extends State<SignUpPage> {
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {postDetailsToFirestore()})
           .catchError((e) {
-        snackbar2 = new Snackbar(context, e!.message);
-        snackbar2?.showToast();
+        valid= false;
+
+        switch (e.code) {
+        case "email-already-in-use":
+            setState(() {
+              errorMessage = 'البريد الإلكتروني مستخدم مسبقًا';
+            });
+            break;
+
+          case "invalid-email":
+            setState(() {
+              errorMessage = 'البديد الإلكتروني غير صالح';
+            });
+            break;
+
+
+          case "too-many-requests":
+            setState(() {
+              errorMessage =
+              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+
+          case "operation-not-allowed":
+            setState(() {
+              errorMessage =
+              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+
+          case "network-request-failed":
+            setState(() {
+              errorMessage =
+              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+
+          case "credential-already-in-use":
+            setState(() {
+              errorMessage =
+              'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+            });
+            break;
+
+          default:
+            setState(() {
+              errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
+            });
+            break;
+        }
+
+        snackbar2 = Snackbar(context, errorMessage);
+        snackbar2!.showToast();
       });
+
+      if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
+        errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
+      } else if (_controllerEmail.text.isEmpty) {
+        errorMessage = " الرجاء إدخال البريد الالكتروني ";
+      } else if (_controllerPass.text.isEmpty) {
+        errorMessage = "الرجاء إدخال كلمة السر ";
+
+        switch ("invalid-email") {
+          case "invalid-email":
+            errorMessage = 'البريد الالكتروني غير صحيح';
+
+            break;
+
+          case "too-many-requests":
+            setState(() {
+              errorMessage =
+              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+
+          case "operation-not-allowed":
+            setState(() {
+              errorMessage =
+              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+
+          case "network-request-failed":
+            setState(() {
+              errorMessage =
+              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+
+          case "credential-already-in-use":
+            setState(() {
+              errorMessage =
+              'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+            });
+            break;
+
+
+          default:
+            setState(() {
+              errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
+            });
+            break;
+        }
+
+        snackbar3 = Snackbar(context, errorMessage);
+        snackbar3!.showToast();
+      } //end 2ed switch
+      // snackbar2 = new Snackbar(context, e!.message);
+      // snackbar2?.showToast();
     }
   }
 
