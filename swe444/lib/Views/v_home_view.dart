@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'mm_feed.dart';
-import '../Widget/v_feed.dart';
-
+import '../Widgets/v_feed.dart';
+import '../logout.dart';
 
 class vHome extends StatefulWidget {
   @override
@@ -12,8 +12,10 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   int _currentIndex = 0;
+  String _title = "الصفحة الرئيسية";
   final List<Widget> _children = [
     v_feed(),
+    logout(),
     //searchPage(),
     //ProfilePage(),
   ];
@@ -23,12 +25,13 @@ class _HomeState extends State<vHome> {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
         appBar: AppBar(
-          title: const Text(
-            "الصفحة الرئيسية",
+          title: Text(
+            _title,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xff334856),
               fontWeight: FontWeight.w700,
-              fontFamily: 'Noto Sans Oriya',
+              fontFamily: 'Tajawal',
               fontSize: 24,
             ),
           ),
@@ -73,13 +76,13 @@ class _HomeState extends State<vHome> {
                     icon: new Icon(Icons.home),
                     label: "الصفحة الرئيسية",
                   ),
+                  // BottomNavigationBarItem(
+                  //   icon: new Icon(Icons.search),
+                  //   label: "البحث",
+                  // ),
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.search),
-                    label: "البحث",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: new Icon(Icons.account_circle),
-                    label: "الصفحة الشخصية",
+                    icon: new Icon(Icons.logout),
+                    label: "تسجيل الخروج",
                   ),
                 ]),
           ),
@@ -89,6 +92,23 @@ class _HomeState extends State<vHome> {
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
+      switch (index) {
+        case 0:
+          {
+            _title = 'الصفحة الرئيسية';
+          }
+          break;
+        // case 1:
+        //   {
+        //     _title = 'البحث';
+        //   }
+        //   break;
+        case 1:
+          {
+            _title = 'تسجيل الخروج';
+          }
+          break;
+      }
     });
   }
 }

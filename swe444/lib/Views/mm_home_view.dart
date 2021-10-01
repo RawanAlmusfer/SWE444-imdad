@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../Widget/mm_feed.dart';
+//import 'logout.dart';
+import '../Widgets/mm_feed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../logout.dart';
 import 'post_request_view.dart';
-
 
 class mmHome extends StatefulWidget {
   @override
@@ -13,24 +14,26 @@ class mmHome extends StatefulWidget {
 
 class _HomeState extends State<mmHome> {
   int _currentIndex = 0;
+  String _title = "الصفحة الرئيسية";
   final List<Widget> _children = [
     mm_feed(),
     PostRequest(),
-    //postPage(),
-    //logoutPage(),
+    logout(),
   ];
+//style: TextStyle(fontFamily: 'Tajawal'),
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
         appBar: AppBar(
-          title: const Text(
-            "الصفحة الرئيسية",
+          title: Text(
+            _title,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xff334856),
               fontWeight: FontWeight.w700,
-              fontFamily: 'Noto Sans Oriya',
+              fontFamily: 'Tajawal',
               fontSize: 24,
             ),
           ),
@@ -91,6 +94,23 @@ class _HomeState extends State<mmHome> {
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
+      switch (index) {
+        case 0:
+          {
+            _title = 'الصفحة الرئيسية';
+          }
+          break;
+        case 1:
+          {
+            _title = 'إضافة طلب';
+          }
+          break;
+        case 2:
+          {
+            _title = 'تسجيل الخروج';
+          }
+          break;
+      }
     });
   }
 }
