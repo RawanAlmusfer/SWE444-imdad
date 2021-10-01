@@ -20,10 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   static const kYellow = const Color(0xdeedd03c);
   String errorMessage = '';
   Snackbar? snackbar;
-  static const firebaseErrors = {
-    'auth/user-not-found': 'No user corresponding to this email',
-    'auth/email-already-in-use': 'The email address is already in use',
-  }; // list of firebase error codes to alternate error messages
+ 
   String? error = "";
   bool isLogin = true;
 
