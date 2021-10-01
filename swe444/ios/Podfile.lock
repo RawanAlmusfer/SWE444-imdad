@@ -391,6 +391,8 @@ PODS:
     - leveldb-library (~> 1.22)
     - nanopb (~> 2.30908.0)
   - Flutter (1.0.0)
+  - geolocator_apple (1.2.0):
+    - Flutter
   - google_maps_flutter (0.0.1):
     - Flutter
     - GoogleMaps
@@ -460,6 +462,7 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
@@ -492,6 +495,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   path_provider:
@@ -511,6 +516,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: b63732f581a1c6a453ec7241f9ab60b3a5bd3450
   FirebaseFirestore: 7b8bd72aff4d3ad91498343e81fdbaa994ce8abe
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  geolocator_apple: b741765c55dc21950e3e106e8b3584e55cf81ce5
   google_maps_flutter: abdb8dee6c52d4be36ad131ee6ebfacd14417c5a
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
   GoogleMaps: 086ae1dab659eaa7339bdb30fc88e2f44e7c597c

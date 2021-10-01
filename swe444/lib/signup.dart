@@ -27,6 +27,18 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController mosqueLocation = TextEditingController();
   final TextEditingController mosqueCode = TextEditingController();
 
+  @override
+  void dispose() {
+    _controllerEmail.dispose();
+    _controllerPass.dispose();
+    _controllerPass2.dispose();
+    mosqueName.dispose();
+    phoneNum.dispose();
+    mosqueLocation.dispose();
+    mosqueCode.dispose();
+    super.dispose();
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   static const kYellow = const Color(0xdeedd03c);
@@ -37,15 +49,6 @@ class _SignUpPageState extends State<SignUpPage> {
   Snackbar? snackbar;
   Snackbar? snackbar2;
 
-  //const LoginPage ({required Key key, required this.onSignInAno}) : super(key: key);
-  /*Future<void> loginAno() async {
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInAnonymously();
-    print(userCredential.user);
-    //User? user2= userCredential.user;
-    widget.onSignIn(userCredential.user);
-    //Can't record in the database if line above is hided
-  } */
 
   Future<void> login() async {
     try {
