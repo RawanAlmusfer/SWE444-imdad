@@ -98,7 +98,11 @@ class _LoginPageState extends State<LoginPage> {
           case "user-disabled":
             setState(() {
               errorMessage =
+<<<<<<< Updated upstream:newLogin/login_page.dart
                   'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+=======
+              'تم تعطيل حساب المستخدم من قبل المسؤول. يمكن تمكين الحسابات أو تعطيلها في Firebase Console وقسم المصادقة وقسم المستخدمين الفرعي';
+>>>>>>> Stashed changes:swe444/lib/Views/login_page.dart
             });
             break;
 
