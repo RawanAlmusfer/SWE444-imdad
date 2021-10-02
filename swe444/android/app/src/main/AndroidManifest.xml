@@ -2,7 +2,7 @@
     package="com.example.swe444">
    <application
         android:label="إمْداد"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/imdad_logo">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

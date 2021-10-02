@@ -10,9 +10,9 @@ import 'Widgets/show_snackbar.dart';
 import 'Views/mm_home_view.dart';
 
 class SignUpPage extends StatefulWidget {
-  final Function(User) onSignIn;
+  //final Function(User) onSignIn;
 
-  const SignUpPage({required this.onSignIn});
+  const SignUpPage();
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -53,7 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
           .signInWithEmailAndPassword(
               email: _controllerEmail.text, password: _controllerPass.text);
       print(userCredential.user);
-      widget.onSignIn(userCredential.user!);
+     // widget.onSignIn(userCredential.user!);
       //
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -617,7 +617,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         signUp(_controllerEmail.text, _controllerPass.text);
                       },
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(180.w, 50.h),
+                        //minimumSize: Size(180.w, 50.h),
                         primary: const Color(0xdeedd03c),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
@@ -642,13 +642,23 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore()})
-          .catchError((e) {
-        snackbar2 = new Snackbar(context, e!.message);
-        snackbar2?.showToast();
-      });
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    firebaseFirestore.collection('mosques_code').where('code',isEqualTo: mosqueCode.text).get().then((value) {
+          if(value.docs.isNotEmpty){
+             _auth
+                .createUserWithEmailAndPassword(email: email, password: password)
+                .then((value) => {postDetailsToFirestore()})
+                .catchError((e) {
+              snackbar2 =  Snackbar(context, e!.message);
+              snackbar2?.showToast();
+            });
+          }else{
+            snackbar2 =  Snackbar(context, 'Your code not valid!');
+            snackbar2?.showToast();
+          }
+    });
+
+
     }
   }
 

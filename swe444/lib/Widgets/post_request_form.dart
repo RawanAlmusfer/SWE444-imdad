@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:swe444/Models/request.dart';
+import 'package:swe444/Models/registeration.dart';
+
 import 'package:swe444/Widgets/show_snackbar.dart';
 import '../Views/mm_home_view.dart';
 
@@ -651,16 +652,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
       Map<String, dynamic>? data = document.data();
       mosque_name = data?['mosque_name'];
       mosque_location = data?['location'];
-      Request request = Request(title, type, amount, postedBy, description,
-          mosque_name, mosque_location, time);
+
       Snackbar? snackbar;
       String msg = "";
 
-      await FirebaseFirestore.instance
-          .collection('requests')
-          .add(request.toJson())
-          .then((value) => {msg = 'تمت إضافة الطلب بنجاح'})
-          .catchError((error) => msg = " فشل في إضافة الطلب:" + error);
 
       snackbar = Snackbar(context, msg);
       snackbar.showToast();

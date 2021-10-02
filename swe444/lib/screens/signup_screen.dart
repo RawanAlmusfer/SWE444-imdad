@@ -46,7 +46,11 @@ class _SignupScreenState extends State<SignupScreen> {
   void addData(String data) {
     databaseRef.push().set({'name': data, 'comment': 'A good season'});
   }
-
+  @override
+  void initState() {
+    _future.then((value) => null);
+    super.initState();
+  }
   void printFirebase(){
     databaseRef.once().then((DataSnapshot snapshot) {
       print('Data : ${snapshot.value}');
@@ -303,14 +307,14 @@ class _SignupScreenState extends State<SignupScreen> {
 
     //    Users usrs=Users();
     //Snackbar? snackbar;
-    String msg = "";
+    //String msg = "";
 
-    await FirebaseFirestore.instance
-        .collection('requests')
-        .add(request.toJson())
-        .then((value) => {msg = 'Request added successfully'})
-        .catchError((error) => msg = "Failed to add request: $error");
-  }
+   // await FirebaseFirestore.instance
+     //   .collection('requests')
+    //    .add(request.toJson())
+      //  .then((value) => {msg = 'Request added successfully'})
+       // .catchError((error) => msg = "Failed to add request: $error");
+ // }
 
 
 
