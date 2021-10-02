@@ -123,7 +123,7 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => mLoginPage(onSignIn: (User ) { DecisionsTree(); },)));
+                            builder: (context) => LoginPage(onSignIn: (User ) { DecisionsTree(); },)));
                   },
                   child: Text(
                     'تسجيل دخول',
