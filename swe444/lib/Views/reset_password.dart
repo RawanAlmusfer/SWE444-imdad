@@ -190,11 +190,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 )
 
-                // RaisedButton(
-                //     onPressed: () {
-                //       isLogin ? login() : createUser();
-                //     },
-                //     child: Text(isLogin ? "تسجيل الدخول" : "التسجيل")),
 
               ],
             ),
