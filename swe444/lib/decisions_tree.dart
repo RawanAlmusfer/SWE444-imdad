@@ -19,6 +19,13 @@ class _DecisionsTreeState extends State<DecisionsTree> {
   //const user = FirebaseAuth.instance.currentUser;
   User? user = FirebaseAuth.instance.currentUser;
 
+
+  // void getAccess() async{
+  //   userId = FirebaseAuth.instance.currentUser!.uid;
+  //    document = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+  //
+  // }
+
   @override
   void initState() {
     super.initState();
@@ -26,43 +33,86 @@ class _DecisionsTreeState extends State<DecisionsTree> {
   }
 
   onRefresh(userCred) {
-    setState(() {
-      // User user = userCred;
-      user = userCred;
-    });
-  }
-
-  @override
- build(BuildContext context) async {
-    if (user == null) {
-      return UsersScreen();}
-
-else {
-
-      String userId = (await FirebaseAuth.instance.currentUser!).uid;
-    var document =
-    await FirebaseFirestore.instance.collection('users').doc(userId).get();
-
-
-    // if (document.data['role'] == 'mosqueManager')
-    if (document.exists){
-      Map<String, dynamic>? data = document.data();
-      if (data!['role'] == 'mosqueManager') {
-
-        Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new mmHome()));
-      }
-      else
-        Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new vHome()));
+    if (mounted) {
+      setState(() {
+        user = userCred;
+      });
     }
 
-    else { print ('Not Authorized');  return UsersScreen();}}
-
-   return UsersScreen();
+  }
 
 
+  @override
+  Widget build(BuildContext context)  {
+    if (user == null) {
+      return UsersScreen();
+    }
 
-// if (user.){
-//   return mmHome();}
+    else {
+     // var document;
+      String userID = user!.uid;
+       FirebaseFirestore.instance.collection('users').doc(userID).get().then((doc) {
+        if (doc.exists) {
+          Map<String, dynamic>? data = doc.data();
+          if (data!['role'] == 'mosqueManager') {
+            Navigator.of(context).push(
+                new MaterialPageRoute(builder: (context) => new mmHome()));
+          } else  if (data!['role'] == 'volunteer'){
+            Navigator.of(context).push(
+              new MaterialPageRoute(builder: (context) => new vHome()));}
+        } else {  print('Not Authorized');
+Navigator.of(context).push(
+new MaterialPageRoute(builder: (context) => UsersScreen()));
+}
+
+      });
+
+    } //end outter else
+
+    return UsersScreen();
+  }
+
+
+
+
+
+//else {}
+// String userId = await FirebaseAuth.instance.currentUser!.uid;
+// var document = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+// if (document.exists){
+// Map<String, dynamic>? data = document.data();
+// if (data!['role'] == 'mosqueManager') {
+//
+// Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new mmHome()));
+// }
+// else
+// Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new vHome()));
+// }
+//
+// else { print ('Not Authorized');  return UsersScreen();}
+
+
+// else{
+// String userId = await FirebaseAuth.instance.currentUser!.uid;
+// var document = await FirebaseFirestore.instance.collection('users').doc(
+// userId).get();
+// if (document.exists) {
+// Map<String, dynamic>? data = document.data();
+// if (data!['role'] == 'mosqueManager') {
+// Navigator.of(context).push(
+// new MaterialPageRoute(builder: (context) => new mmHome()));
+// }
+// else
+// Navigator.of(context).push(
+// new MaterialPageRoute(builder: (context) => new vHome()));
+// }
+//
+// else {
+// print('Not Authorized');
+// Navigator.of(context).push(
+// new MaterialPageRoute(builder: (context) => UsersScreen()));
+// }}
+
 
 /*if (user) {
       // user is signed in, show user data
@@ -75,5 +125,4 @@ else {
       return LoginPage(
         onSignIn: (userCred) => onRefresh(userCred),
       );*/
-  }
 }
