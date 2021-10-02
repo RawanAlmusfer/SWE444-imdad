@@ -599,6 +599,7 @@ class _SignUpPageState extends State<VSignUpPage> {
     userModel.first_name = firstName.text;
     userModel.last_name = lastName.text;
     userModel.volunteer_phone = int.parse(phoneNum.text);
+     userModel.role='volunteer';
 
     await firebaseFirestore
         .collection("users")
