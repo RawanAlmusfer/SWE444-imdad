@@ -38,23 +38,22 @@ class _SignUpPageState extends State<SignUpPage> {
   final _auth = FirebaseAuth.instance;
   Snackbar? snackbar;
   Snackbar? snackbar2, snackbar3;
-  bool valid= true;
-
+  bool valid = true;
 
   Future<void> login() async {
-    if  (valid= true) {
+    if (valid = true) {
       try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: _controllerEmail.text, password: _controllerPass.text);
-      print(userCredential.user);
-      widget.onSignIn(userCredential.user!);
-      //
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        error = e.toString();
-      });
-    }
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: _controllerEmail.text, password: _controllerPass.text);
+        print(userCredential.user);
+        widget.onSignIn(userCredential.user!);
+        //
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          error = e.toString();
+        });
+      }
     }
   }
 
@@ -606,7 +605,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
+                    height: MediaQuery.of(context).size.height * 0.07,
                   ),
                   ElevatedButton(
                       onPressed: () {
@@ -627,6 +626,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             fontFamily: 'Tajawal'),
                       )),
                   Text(error),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                  ),
                 ],
               ),
             ),
@@ -636,67 +638,58 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  void signUp(String email, String password) async {
+  Future<void> signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore()})
-          .catchError((e) {
-        valid= false;
-
+      try {
+        await _auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) => {postDetailsToFirestore()});
+        login();
+      } on FirebaseAuthException catch (e) {
         switch (e.code) {
-        case "email-already-in-use":
+          case "email-already-in-use":
             setState(() {
               errorMessage = 'البريد الإلكتروني مستخدم مسبقًا';
             });
             break;
-
           case "invalid-email":
             setState(() {
               errorMessage = 'البديد الإلكتروني غير صالح';
             });
             break;
-
-
           case "too-many-requests":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
-
           case "operation-not-allowed":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
-
           case "network-request-failed":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
-
           case "credential-already-in-use":
             setState(() {
               errorMessage =
-              'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+                  'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
             });
             break;
-
           default:
             setState(() {
               errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
             });
             break;
         }
-
         snackbar2 = Snackbar(context, errorMessage);
         snackbar2!.showToast();
-      });
-
+      };
       if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
         errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
       } else if (_controllerEmail.text.isEmpty) {
@@ -707,50 +700,40 @@ class _SignUpPageState extends State<SignUpPage> {
         switch ("invalid-email") {
           case "invalid-email":
             errorMessage = 'البريد الالكتروني غير صحيح';
-
             break;
-
           case "too-many-requests":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
-
           case "operation-not-allowed":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
-
           case "network-request-failed":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
-
           case "credential-already-in-use":
             setState(() {
               errorMessage =
-              'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+                  'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
             });
             break;
-
-
           default:
             setState(() {
               errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
             });
             break;
         }
-
         snackbar3 = Snackbar(context, errorMessage);
         snackbar3!.showToast();
       } //end 2ed switch
-      // snackbar2 = new Snackbar(context, e!.message);
-      // snackbar2?.showToast();
     }
   }
 
@@ -771,12 +754,18 @@ class _SignUpPageState extends State<SignUpPage> {
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
-        .set(userModel.toMap());
-    snackbar = new Snackbar(context, "تم التسجيل بنجاح ");
+        .set(userModel.toMap()).then((value) =>
+        snackbar = new Snackbar(context, "تم التسجيل بنجاح ")
+    ).catchError((e){
+      valid= false;
+      snackbar = new Snackbar(context, "حدث خطأ ");
+    });
+
     snackbar?.showToast();
 
-    login();
-    Navigator.pushAndRemoveUntil((context),
-        MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
+    if (valid==true){
+      Navigator.pushAndRemoveUntil((context),
+          MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
+    }
   }
 }

@@ -39,10 +39,6 @@ class _LoginPageState extends State<mLoginPage> {
         widget.onSignIn(userCredential.user!);
         //
       } on FirebaseAuthException catch (e) {
-//firebaseErrors[e.code]!;
-
-// if (check.isEmpty)
-//   {check=e.toString();}
 
         switch (e.code) {
           case "invalid-email":

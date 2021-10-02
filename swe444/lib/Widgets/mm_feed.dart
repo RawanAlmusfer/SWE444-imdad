@@ -16,13 +16,12 @@ class mmFeed extends State<mm_feed> {
 
   @override
   Widget build(BuildContext context) {
-    //var userId = _fetch();
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('requests')
-              .orderBy('timeCreated', descending: true)
+              .orderBy('uplaod_time', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
@@ -158,7 +157,9 @@ class mmFeed extends State<mm_feed> {
     Widget cancelButton = ElevatedButton(
       child: const Text(
         "إلغاء",
-        style: TextStyle(color: const Color(0xdeedd03c)),
+          style: TextStyle(
+          fontFamily: "Tajawal",
+      color: const Color(0xdeedd03c)),
       ),
       onPressed: () {
         Navigator.of(context).pop(context);
@@ -169,7 +170,10 @@ class mmFeed extends State<mm_feed> {
           elevation: MaterialStateProperty.all<double>(0)),
     );
     Widget confirmButton = ElevatedButton(
-      child: Text("تأكيد"),
+      child: Text("تأكيد",
+      style: TextStyle(
+          fontFamily: "Tajawal"
+      ),),
       onPressed: () {
         Navigator.of(context).pop(context);
         cancelRequest(document);
@@ -180,11 +184,17 @@ class mmFeed extends State<mm_feed> {
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
+      contentPadding: EdgeInsets.only(right: 20, top: 20, bottom: 10),
       title: Text(
         "إضافة",
         textAlign: TextAlign.right,
+        style: TextStyle(
+            fontFamily: "Tajawal"
+        ),
       ),
-      content: Text("هل أنت متأكد من رغبتك في إلغاء الطلب؟"),
+      content: Text("هل أنت متأكد من رغبتك في\n إلغاء الطلب؟", textAlign: TextAlign.right, style: TextStyle(
+          fontFamily: "Tajawal"
+      ),),
       actions: [
         cancelButton,
         confirmButton,
