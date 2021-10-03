@@ -750,6 +750,7 @@ class _SignUpPageState extends State<SignUpPage> {
     userModel.mosque_phone = int.parse(phoneNum.text);
     userModel.mosque_location = mosqueLocation.text;
     userModel.mosque_code = mosqueCode.text;
+    userModel.role='mosqueManager';
 
     await firebaseFirestore
         .collection("users")

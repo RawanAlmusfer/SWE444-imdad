@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:swe444/Views/users_screen.dart';
 import 'package:swe444/Views/v_home_view.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
+import '../decisions_tree.dart';
+import 'mm_home_view.dart';
 import 'signup_login_screen.dart';
 import 'reset_password.dart';
 
@@ -20,10 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   static const kYellow = const Color(0xdeedd03c);
   String errorMessage = '';
   Snackbar? snackbar;
-  static const firebaseErrors = {
-    'auth/user-not-found': 'No user corresponding to this email',
-    'auth/email-already-in-use': 'The email address is already in use',
-  }; // list of firebase error codes to alternate error messages
+
   String? error = "";
   bool isLogin = true;
 
@@ -64,14 +65,14 @@ class _LoginPageState extends State<LoginPage> {
           case "requires-recent-login":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+              'تم حظره من الجهاز بسبب نشاط غير عادي. المحاولة مرة أخرى بعد بعض التأخير قد يفتح.';
             });
             break;
 
           case "too-many-requests":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+              'تم حظره من الجهاز بسبب نشاط غير عادي. المحاولة مرة أخرى بعد بعض التأخير قد يفتح.';
             });
             break;
 
@@ -85,14 +86,14 @@ class _LoginPageState extends State<LoginPage> {
           case "network-request-failed":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+              'حدث خطأ في الشبكة (مثل انتهاء المهلة أو انقطاع الاتصال أو مضيف لا يمكن الوصول إليه).';
             });
             break;
 
           case "credential-already-in-use":
             setState(() {
               errorMessage =
-              'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+              'أنت تقوم بترقية مستخدم مجهول إلى مستخدم Google عن طريق ربط بيانات اعتماد Google به وبيانات اعتماد Google المستخدمة مرتبطة بالفعل بمستخدم Firebase Google الحالي.';
             });
             break;
 
@@ -103,12 +104,7 @@ class _LoginPageState extends State<LoginPage> {
             });
             break;
 
-          case "user-disabled":
-            setState(() {
-              errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-            });
-            break;
+
 
           default:
             setState(() {
@@ -126,9 +122,9 @@ class _LoginPageState extends State<LoginPage> {
       } catch (e) {
         String ourE = e.toString();
 
-        setState(() {
+
           error = ourE;
-        });
+
       }
     } //end if
 
@@ -139,85 +135,29 @@ class _LoginPageState extends State<LoginPage> {
     } else if (_controllerPass.text.isEmpty) {
       errorMessage = "الرجاء إدخال كلمة السر ";
 
-      switch ("invalid-email") {
-        case "invalid-email":
-          errorMessage += 'البريد الالكتروني غير صحيح';
-
-          break;
-
-        case "wrong-password":
-          errorMessage += 'كلمة السر غير صحيحة';
-
-          break;
-
-        case "user-not-found":
-          setState(() {
-            errorMessage = 'لايوجد مستخدم مسجل بهذا الحساب في تطبيق إمْداد';
-          });
-          break;
-
-        case "requires-recent-login":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "too-many-requests":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "operation-not-allowed":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "network-request-failed":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "credential-already-in-use":
-          setState(() {
-            errorMessage =
-            'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
-          });
-          break;
-
-        case "user-disabled":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        case "user-disabled":
-          setState(() {
-            errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-          });
-          break;
-
-        default:
-          setState(() {
-            errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
-          });
-          break;
-      }
 
       snackbar = Snackbar(context, errorMessage);
       snackbar!.showToast();
+    } //
 
-    } //end 2ed switch
+    String userId = await FirebaseAuth.instance.currentUser!.uid;
+    var document = await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
-  } //end login
+      if (document.exists) {
+        Map<String, dynamic>? data = document.data();
+        if (data!['role'] == 'mosqueManager') {
+          Navigator.of(context).push(
+              new MaterialPageRoute(builder: (context) => new mmHome()));
+        } else  if (data!['role'] == 'volunteer'){
+          Navigator.of(context).push(
+              new MaterialPageRoute(builder: (context) => new vHome()));}
+      } else {  print('Not Authorized');
+      Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => UsersScreen()));
+      }
+
+
+  }//end login
 
   Future<void> createUser() async {
     try {
@@ -441,14 +381,18 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     onPressed: () {
-                      login();
-                      Navigator.pushAndRemoveUntil(
-                          (context),
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  vHome()
-                          ),
-                              (route) => false);
+                       login();
+                      // Navigator.pushAndRemoveUntil(
+                      //     (context),
+                      //     MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             DecisionsTree()
+                      //     ),
+                      //        (route) => false);
+
+                      //or via connected logic
+                      // Navigator.pushReplacement(context,
+                      //     MaterialPageRoute(builder: (context) => DecisionsTree()));
 
                     },
                     child: Text(
