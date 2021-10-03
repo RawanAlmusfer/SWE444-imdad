@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:swe444/Widget/show_snackbar.dart';
+import 'package:swe444/Widgets/show_snackbar.dart';
 
 class mm_feed extends StatefulWidget {
   @override
@@ -16,7 +16,6 @@ class mmFeed extends State<mm_feed> {
 
   @override
   Widget build(BuildContext context) {
-    //var userId = _fetch();
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
@@ -147,7 +146,7 @@ class mmFeed extends State<mm_feed> {
     final doc =
         FirebaseFirestore.instance.collection('requests').doc(document.id);
 
-    Snackbar bar = Snackbar(context, 'Request canceled successfully');
+    Snackbar bar = Snackbar(context, 'تم إلغاء الطلب بنجاح');
     bar.showToast();
 
     return await doc.delete();
@@ -158,7 +157,9 @@ class mmFeed extends State<mm_feed> {
     Widget cancelButton = ElevatedButton(
       child: const Text(
         "إلغاء",
-        style: TextStyle(color: const Color(0xdeedd03c)),
+          style: TextStyle(
+          fontFamily: "Tajawal",
+      color: const Color(0xdeedd03c)),
       ),
       onPressed: () {
         Navigator.of(context).pop(context);
@@ -169,7 +170,10 @@ class mmFeed extends State<mm_feed> {
           elevation: MaterialStateProperty.all<double>(0)),
     );
     Widget confirmButton = ElevatedButton(
-      child: Text("تأكيد"),
+      child: Text("تأكيد",
+      style: TextStyle(
+          fontFamily: "Tajawal"
+      ),),
       onPressed: () {
         Navigator.of(context).pop(context);
         cancelRequest(document);
@@ -180,11 +184,17 @@ class mmFeed extends State<mm_feed> {
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
+      contentPadding: EdgeInsets.only(right: 20, top: 20, bottom: 10),
       title: Text(
         "إضافة",
         textAlign: TextAlign.right,
+        style: TextStyle(
+            fontFamily: "Tajawal"
+        ),
       ),
-      content: Text("هل أنت متأكد من رغبتك في إلغاء الطلب؟"),
+      content: Text("هل أنت متأكد من رغبتك في\n إلغاء الطلب؟", textAlign: TextAlign.right, style: TextStyle(
+          fontFamily: "Tajawal"
+      ),),
       actions: [
         cancelButton,
         confirmButton,

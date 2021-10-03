@@ -11,6 +11,7 @@ class Request {
   String? title;
   String? mosque_name;
   String? mosque_location;
+  DateTime? uplaod_time;
 
   Request(
     this.title,
@@ -20,6 +21,7 @@ class Request {
     this.description,
     this.mosque_name,
     this.mosque_location,
+      this.uplaod_time
   );
 
 
@@ -34,5 +36,6 @@ class Request {
         'donated': donated,
         'mosque_name': mosque_name,
         'mosque_location': mosque_location,
+        'uplaod_time': uplaod_time,
       };
 }
