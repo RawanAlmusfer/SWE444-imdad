@@ -41,7 +41,6 @@ class mmFeed extends State<mm_feed> {
     if (document['posted_by'].toString() == id) {
       //print('posted user Id ' + document['posted_by'].toString());
       //print('current user Id ' + id.toString());
-
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
         child: Card(
@@ -186,7 +185,7 @@ class mmFeed extends State<mm_feed> {
     AlertDialog alert = AlertDialog(
       contentPadding: EdgeInsets.only(right: 20, top: 20, bottom: 10),
       title: Text(
-        "إضافة",
+        "إلغاء",
         textAlign: TextAlign.right,
         style: TextStyle(
             fontFamily: "Tajawal"
