@@ -50,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
         widget.onSignIn(userCredential.user!);
         //
       } on FirebaseAuthException catch (e) {
-        Snackbar(context, e.toString()).showToast();
+        //Snackbar(context, e.toString()).showToast();
       }
     }
   }
@@ -319,7 +319,6 @@ class _SignUpPageState extends State<SignUpPage> {
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
         hintText: 'أدخل رقم الجوال',
         labelText: 'رقم الجوال',
         hintStyle: TextStyle(
@@ -746,7 +745,11 @@ class _SignUpPageState extends State<SignUpPage> {
           snackbar3 = Snackbar(context, errorMessage);
           snackbar3!.showToast();
         } //end 2ed switch
-      }}).catchError((error) {
+      }
+        else{
+          Snackbar sb= Snackbar(context, "كود المسجد المدخل غير صالح");
+          sb.showToast();
+        };}).catchError((error) {
         Snackbar sb= Snackbar(context, "كود المسجد المدخل غير صالح");
         sb.showToast();
       });

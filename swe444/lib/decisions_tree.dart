@@ -57,7 +57,7 @@ class _DecisionsTreeState extends State<DecisionsTree> {
           if (data!['role'] == 'mosqueManager') {
             Navigator.of(context).push(
                 new MaterialPageRoute(builder: (context) => new mmHome()));
-          } else  if (data!['role'] == 'volunteer'){
+          } else  if (data['role'] == 'volunteer'){
             Navigator.of(context).push(
               new MaterialPageRoute(builder: (context) => new vHome()));}
         } else {  print('Not Authorized');
