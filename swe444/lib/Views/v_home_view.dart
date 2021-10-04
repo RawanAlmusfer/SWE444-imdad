@@ -38,6 +38,7 @@ class _HomeState extends State<vHome> {
               fontSize: 24,
             ),
           ),
+          automaticallyImplyLeading: false,
           backgroundColor: const Color(0xdeedd03c),
           bottomOpacity: 30,
           // elevation: 1,
