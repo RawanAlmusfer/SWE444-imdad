@@ -11,11 +11,14 @@ class vHome extends StatefulWidget {
 }
 
 class _HomeState extends State<vHome> {
-  int _currentIndex = 0;
+  // the default location which the user will be in:
+  int _currentIndex = 1;
   String _title = "الصفحة الرئيسية";
+
+  // nav bar redirection:
   final List<Widget> _children = [
-    v_feed(),
     logout(),
+    v_feed(),
     //searchPage(),
     //ProfilePage(),
   ];
@@ -73,16 +76,17 @@ class _HomeState extends State<vHome> {
                 currentIndex: _currentIndex,
                 items: [
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.home),
-                    label: "الصفحة الرئيسية",
+                    icon: new Icon(Icons.logout),
+                    label: "تسجيل الخروج",
                   ),
+
                   // BottomNavigationBarItem(
                   //   icon: new Icon(Icons.search),
                   //   label: "البحث",
                   // ),
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.logout),
-                    label: "تسجيل الخروج",
+                    icon: new Icon(Icons.home),
+                    label: "الصفحة الرئيسية",
                   ),
                 ]),
           ),
