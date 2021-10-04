@@ -344,8 +344,8 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 18, color: const Color(0xff334856)),
                         hoverColor: const Color(0xff334856),
                         alignLabelWithHint: true,
-                        hintText: 'أدخل كلمة السر',
-                        labelText: 'كلمة السر',
+                        hintText: 'أدخل كلمة المرور',
+                        labelText: 'كلمة المرور',
                         hintStyle: TextStyle(
                             fontSize: 14,
                             color: const Color(0xff334856),
