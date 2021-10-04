@@ -2,7 +2,7 @@ class UserModel {
   String? uid;
   String? email;
   String? mosque_name;
-  String? mosque_location;
+  String? mosque_location="default";
   int? mosque_phone;
   String? mosque_code;
 
