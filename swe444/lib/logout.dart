@@ -53,21 +53,54 @@ class _logout extends State<logout> {
               showDialog(
                   builder: (ctxt) {
                     return AlertDialog(
-                        title: Text("تسجيل خروج"),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(32.0))),
+                        contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
+                        title: Text(
+                          "تسجيل خروج",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            color: const Color(0xdeedd03c),
+                            fontFamily: 'Tajawal',
+                          ),
+                        ),
                         content: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text("هل أنت متأكد من تسجيل الخروج؟"),
+                            Text(
+                              "هل أنت متأكد من تسجيل الخروج؟",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(fontFamily: "Tajawal"),
+                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisSize: MainAxisSize.min,
+
                               children: [
-                                RaisedButton(
-                                  child: Text("إلغاء"),
+                                ElevatedButton(
+                                  child: const Text(
+                                    "إلغاء",
+                                    style: TextStyle(
+                                        color: const Color(0xdeedd03c),
+                                        fontFamily: "Tajawal"),
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              const Color(0xdeffffff)),
+                                      elevation:
+                                          MaterialStateProperty.all<double>(0)),
                                   onPressed: () {
-                                    Navigator.pop(context);
+                                    Navigator.of(context).pop(context);
                                   },
                                 ),
-                                RaisedButton(
-                                  child: Text("تسجيل الخروج"),
+                                ElevatedButton(
+                                  child: Text(
+                                    "تأكيد",
+                                    style: TextStyle(fontFamily: "Tajawal"),
+                                  ),
                                   onPressed: () async {
                                     await FirebaseAuth.instance.signOut();
                                     Navigator.pushReplacement(
@@ -76,6 +109,10 @@ class _logout extends State<logout> {
                                             builder: (context) =>
                                                 DecisionsTree()));
                                   },
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              const Color(0xdeedd03c))),
                                 )
                               ],
                             ),
