@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/painting.dart';
 import 'login_page.dart';
 import 'package:swe444/decisions_tree.dart';
+import 'signup_login_screen.dart';
 import 'users_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -70,7 +71,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0,top: 70),
+                      padding: const EdgeInsets.only(left: 0.0,top: 70),
                       child: Container(
                           height: 160,
                           width: 160,
@@ -126,7 +127,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           color: const Color(0xff334856),
                           fontFamily: 'Tajawal'),
                       alignLabelWithHint: true,
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(30),),
                     ),
                     autocorrect: false,
                   ),
@@ -167,7 +168,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DecisionsTree())));
+                                builder: (context) => LoginPage(onSignIn: (User ) { DecisionsTree(); },))));
                   },
                   child: Text(
                     'إعادة ضبط كلمة السر',
@@ -189,11 +190,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 )
 
-                // RaisedButton(
-                //     onPressed: () {
-                //       isLogin ? login() : createUser();
-                //     },
-                //     child: Text(isLogin ? "تسجيل الدخول" : "التسجيل")),
 
               ],
             ),
