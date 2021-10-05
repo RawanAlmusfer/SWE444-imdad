@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/painting.dart';
+import 'package:swe444/Widgets/show_snackbar.dart';
 import 'login_page.dart';
 import 'package:swe444/decisions_tree.dart';
 import 'signup_login_screen.dart';
@@ -163,8 +164,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () async{
+                    Snackbar snackbar  = Snackbar(context, "تم إسال رابط تفعيل  لكلمة المرور الجديدة على البريد الالكتروني الذي تم تزويدنا فيه  ");
+                    snackbar!.showToast();
                     await  auth.sendPasswordResetEmail(email: _controllerEmail.text)
                         .then((value) =>
+
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -190,6 +194,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 )
 
+                // RaisedButton(
+                //     onPressed: () {
+                //       isLogin ? login() : createUser();
+                //     },
+                //     child: Text(isLogin ? "تسجيل الدخول" : "التسجيل")),
 
               ],
             ),
