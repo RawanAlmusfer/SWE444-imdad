@@ -23,11 +23,12 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _controllerPass = TextEditingController();
   static const kYellow = const Color(0xdeedd03c);
   String errorMessage = '';
-  Snackbar? snackbar;
+  Snackbar? snackbar, snackbar2, snackbar3;
+
 
   final _formKey = GlobalKey<FormState>();
 
-  String? error = "";
+  String? error;
   bool isLogin = true;
 
   Future<void> login() async {
@@ -38,13 +39,10 @@ class _LoginPageState extends State<LoginPage> {
             .signInWithEmailAndPassword(
             email: _controllerEmail.text, password: _controllerPass.text);
         print(userCredential.user);
+        snackbar3 = Snackbar(context, "تم تسجيل الدخول بنجاح");
+        snackbar3!.showToast();
         widget.onSignIn(userCredential.user!);
-        //
       } on FirebaseAuthException catch (e) {
-//firebaseErrors[e.code]!;
-
-// if (check.isEmpty)
-//   {check=e.toString();}
 
         switch (e.code) {
           case "invalid-email":
@@ -139,9 +137,8 @@ class _LoginPageState extends State<LoginPage> {
       errorMessage = "الرجاء إدخال كلمة السر ";
     }
 
-      snackbar = Snackbar(context, errorMessage);
-      snackbar!.showToast();
-     //
+      snackbar2 = Snackbar(context, errorMessage);
+      snackbar2!.showToast();
 
     if (FirebaseAuth.instance.currentUser != null) {
       String userId = await FirebaseAuth.instance.currentUser!.uid;
@@ -167,22 +164,6 @@ class _LoginPageState extends State<LoginPage> {
 
 
   }}//end login
-
-  Future<void> createUser() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-          email: _controllerEmail.text, password: _controllerPass.text);
-      print(userCredential.user);
-      widget.onSignIn(userCredential.user!);
-      //
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        error = e.toString();
-        // bool login = true;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
