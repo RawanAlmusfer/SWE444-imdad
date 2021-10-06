@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'logout.dart';
-import '../Widgets/mm_feed.dart';
+import 'feed_view_model.dart';
+import 'mm_feed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../logout.dart';
-import 'post_request_view.dart';
+import '../post_request/post_request_view.dart';
 
 class mmHome extends StatefulWidget {
   @override
@@ -21,7 +23,7 @@ class _HomeState extends State<mmHome> {
   final List<Widget> _children = [
     logout(),
     PostRequest(),
-    mm_feed(),
+    MosqueMangerFeed(),
   ];
 
   @override
@@ -29,6 +31,7 @@ class _HomeState extends State<mmHome> {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             _title,
             textAlign: TextAlign.center,
@@ -49,7 +52,14 @@ class _HomeState extends State<mmHome> {
             ),
           ),
         ),
-        body: _children[_currentIndex],
+        body:
+        // MultiProvider(providers: [
+        //   ChangeNotifierProvider(
+        //     create: (_) => FeedViewModel(),
+        //   )
+        // ], child:
+        _children[_currentIndex],
+    // ),
         extendBody: true,
         bottomNavigationBar: Container(
           // height: 90,

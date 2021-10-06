@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'mm_feed.dart';
-import '../Widgets/v_feed.dart';
+import 'v_feed.dart';
 import '../logout.dart';
 
 class vHome extends StatefulWidget {
@@ -18,7 +18,7 @@ class _HomeState extends State<vHome> {
   // nav bar redirection:
   final List<Widget> _children = [
     logout(),
-    v_feed(),
+    VolunteerFeed(),
     //searchPage(),
     //ProfilePage(),
   ];
@@ -28,6 +28,7 @@ class _HomeState extends State<vHome> {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             _title,
             textAlign: TextAlign.center,

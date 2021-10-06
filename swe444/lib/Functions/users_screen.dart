@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:swe444/Views/signup_login_screen.dart';
-import 'package:swe444/Views/signup_login_screen_mm.dart';
+import 'package:swe444/Functions/signup_login_screen.dart';
+import 'package:swe444/Functions/signup_login_screen_mm.dart';
+
 
 class UsersScreen extends StatefulWidget {
   @override
