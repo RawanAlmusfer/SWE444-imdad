@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swe444/Functions/decisions_tree.dart';
 import 'package:swe444/Functions/signup_login_screen.dart';
-import 'package:swe444/Functions/signup_login_screen_mm.dart';
-
+import 'login/login_page.dart';
 
 class UsersScreen extends StatefulWidget {
   @override
@@ -10,17 +10,15 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _UsersScreenState extends State<UsersScreen> {
-  static const kYellow = const Color(0xdeedd03c);
+  static const kYellow = Color(0xdeedd03c);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,
-      // appBar: AppBar(
-      //   backgroundColor: const Color(0xdeedd03c),
-      // ),
-      body: new Container(
-        padding: new EdgeInsets.only(
+      body: Container(
+        padding: const EdgeInsets.only(
           top: 120.0,
           left: 20,
           right: 20,
@@ -39,28 +37,26 @@ class _UsersScreenState extends State<UsersScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  Text(
+                  const Text(
                     "مرحباً بك",
                     style: TextStyle(
-                      color: Color(0xff334856),
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
-                    ),
+                        fontSize: 32.0,
+                        fontFamily: 'Tajawal',
+                        color: Color(0xff334856),
+                        fontWeight: FontWeight.w700),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
+                    height: MediaQuery.of(context).size.height * 0.08,
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Wrap(
+                  //       crossAxisAlignment: WrapCrossAlignment.center,
+                  //     ),
+                  //   ],
+                  // ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacement(
@@ -68,23 +64,20 @@ class _UsersScreenState extends State<UsersScreen> {
                           MaterialPageRoute(
                               builder: (context) => SignupLoginScreen()));
                     },
-                    child: Text(
-                      'متطوع',
+                    child: const Text(
+                      'تسجيل جديد',
                       style: TextStyle(
-                        color: Color(0xff334856),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                          fontSize: 20.0,
+                          fontFamily: 'Tajawal',
+                          color: Color(0xff334856),
+                          fontWeight: FontWeight.w700),
+                      textAlign: TextAlign.center,
                     ),
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(0),
-                      backgroundColor:
-                          MaterialStateProperty.all(Color(0xdeedd03c)),
-                      minimumSize: MaterialStateProperty.all(Size(300, 64)),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(500),
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(300, 64),
+                      primary: kYellow,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
                   ),
@@ -96,25 +89,26 @@ class _UsersScreenState extends State<UsersScreen> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => mSignupLoginScreen()));
+                              builder: (context) => LoginPage(
+                                    onSignIn: (User) {
+                                      DecisionsTree();
+                                    },
+                                  )));
                     },
-                    child: Text(
-                      'مالك مسجد',
+                    child: const Text(
+                      'تسجيل الدخول',
                       style: TextStyle(
-                        color: Color(0xff334856),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                          fontSize: 20.0,
+                          fontFamily: 'Tajawal',
+                          color: Color(0xff334856),
+                          fontWeight: FontWeight.w700),
+                      textAlign: TextAlign.center,
                     ),
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(0),
-                      backgroundColor:
-                          MaterialStateProperty.all(Color(0xdeedd03c)),
-                      minimumSize: MaterialStateProperty.all(Size(300, 64)),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(500),
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(300, 64),
+                      primary: kYellow,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
                   )
