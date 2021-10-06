@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:swe444/Functions/signup/signup.dart';
 import 'package:swe444/Functions/users_screen.dart';
+import 'CustomPageRoute.dart';
 import 'signup/signup_v.dart';
 import 'package:swe444/Functions/decisions_tree.dart';
 
@@ -84,14 +85,12 @@ class _SignupLoginScreenState extends State<SignupLoginScreen> {
                       // ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => VSignUpPage(
-                                        onSignIn: (User) {
-                                          DecisionsTree();
-                                        },
-                                      )));
+                          Navigator.of(context)
+                              .push(CustomPageRoute(child: VSignUpPage(
+                            onSignIn: (User) {
+                              DecisionsTree();
+                            },
+                          )));
                         },
                         child: const Text(
                           'متطوع',
@@ -115,14 +114,12 @@ class _SignupLoginScreenState extends State<SignupLoginScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignUpPage(
-                                        onSignIn: (User) {
-                                          DecisionsTree();
-                                        },
-                                      )));
+                          Navigator.of(context)
+                              .push(CustomPageRoute(child: SignUpPage(
+                            onSignIn: (User) {
+                              DecisionsTree();
+                            },
+                          )));
                         },
                         child: const Text(
                           'مالك المسجد',

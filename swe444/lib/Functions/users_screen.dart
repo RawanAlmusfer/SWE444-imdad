@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swe444/Functions/decisions_tree.dart';
 import 'package:swe444/Functions/signup_login_screen.dart';
+import 'CustomPageRoute.dart';
 import 'login/login_page.dart';
 
 class UsersScreen extends StatefulWidget {
@@ -59,10 +60,8 @@ class _UsersScreenState extends State<UsersScreen> {
                   // ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignupLoginScreen()));
+                      Navigator.of(context)
+                          .push(CustomPageRoute(child: SignupLoginScreen()));
                     },
                     child: const Text(
                       'تسجيل جديد',
@@ -86,14 +85,12 @@ class _UsersScreenState extends State<UsersScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginPage(
-                                    onSignIn: (User) {
-                                      DecisionsTree();
-                                    },
-                                  )));
+                      Navigator.of(context)
+                          .push(CustomPageRoute(child: LoginPage(
+                        onSignIn: (User) {
+                          DecisionsTree();
+                        },
+                      )));
                     },
                     child: const Text(
                       'تسجيل الدخول',
