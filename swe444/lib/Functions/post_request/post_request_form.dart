@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/mm_home_view.dart';
-import 'package:swe444/Models/request.dart';
+import 'package:swe444/Functions/post_request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
 class PostRequestForm extends StatefulWidget {
@@ -683,26 +683,32 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   void add(String? id) async {
+    RequestViewModel requestVM= RequestViewModel();
     // save to db
-    postedBy = id;
-    amount = int.parse(_amount.text);
-    FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
+    // postedBy = id;
+    // FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
+
+    requestVM.postedBy = id;
+
     var document =
-        await FirebaseFirestore.instance.collection("users").doc(id).get();
+    await requestVM.userDocument;
+
     if (document.exists) {
       Map<String, dynamic>? data = document.data();
-      mosque_name = data?['mosque_name'];
-      mosque_location = data?['location'];
-      Request request = Request(title.text, type, amount, postedBy, description.text,
-          mosque_name, mosque_location, time);
-      Snackbar? snackbar;
-      String msg = "";
+      requestVM.setMName = data?['mosque_name'];
+      requestVM.setMLocation = data?['location'];
 
-      await FirebaseFirestore.instance
-          .collection('requests')
-          .add(request.toJson())
-          .then((value) => {msg = 'تمت إضافة الطلب بنجاح'})
-          .catchError((error) => msg = " فشل في إضافة الطلب:" + error);
+      requestVM.setDescription= description.text;
+      requestVM.setTitle= title.text;
+      requestVM.setType= type;
+      requestVM.setUploadTime= time;
+      amount = int.parse(_amount.text);
+      requestVM.setAmount = amount;
+
+      await requestVM.add();
+
+      Snackbar? snackbar;
+      String msg = requestVM.message;
 
       snackbar = Snackbar(context, msg);
       snackbar.showToast();

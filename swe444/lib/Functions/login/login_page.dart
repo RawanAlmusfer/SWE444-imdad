@@ -139,8 +139,10 @@ class _LoginPageState extends State<LoginPage> {
       errorMessage = "الرجاء إدخال كلمة السر ";
     }
 
+      if (errorMessage != null) {
       snackbar2 = Snackbar(context, errorMessage!);
       snackbar2!.showToast();
+      }
 
     if (FirebaseAuth.instance.currentUser != null) {
       String userId = await FirebaseAuth.instance.currentUser!.uid;
