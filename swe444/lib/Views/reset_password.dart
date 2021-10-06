@@ -14,11 +14,9 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-
   static const kYellow = const Color(0xdeedd03c);
   TextEditingController _controllerEmail = TextEditingController();
   final auth = FirebaseAuth.instance;
-
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +24,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text('إعادة ضبط كلمة السر',    textAlign: TextAlign.center,
+        title: Text(
+          'إعادة ضبط كلمة السر',
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Color(0xff334856),
             fontWeight: FontWeight.w700,
             fontFamily: 'Tajawal',
             fontSize: 24,
-          ),),
-
+          ),
+        ),
         bottomOpacity: 30,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(50),
           ),
         ),
-
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 15.0),
@@ -59,8 +58,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           color: Color(0xff334856), //change your color here.
         ),
         backgroundColor: const Color(0xdeedd03c),
-
-
       ),
       body: new Container(
         padding: new EdgeInsets.all(20.0),
@@ -72,14 +69,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 0.0,top: 70),
+                      padding: const EdgeInsets.only(left: 0.0, top: 70),
                       child: Container(
                           height: 160,
                           width: 160,
                           child: Image.asset('images/logo.png')),
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(left: 0.0, top: 115),
+                      padding: EdgeInsets.only(left: 0.0, top: 115),
                       child: Text(
                         "مرحباً بك في",
                         style: TextStyle(
@@ -93,10 +90,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 new Directionality(
                   textDirection: TextDirection.rtl,
@@ -105,15 +99,24 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     cursorColor: const Color(0xdeedd03c),
                     textAlign: TextAlign.right,
                     controller: _controllerEmail,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return ("الرجاء إدخال البريد الإلكتروني ");
+                      }
+                      return null;
+                    },
                     decoration: new InputDecoration(
-                      focusedBorder:  OutlineInputBorder(
+                      focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(
                           color: kYellow,
                         ),
                       ),
-                      prefixIcon: Icon(Icons.email_outlined,color: const Color(0xff334856),),
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        color: const Color(0xff334856),
+                      ),
                       prefixStyle: TextStyle(
                           fontSize: 18, color: const Color(0xff334856)),
                       hoverColor: const Color(0xff334856),
@@ -128,23 +131,19 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           color: const Color(0xff334856),
                           fontFamily: 'Tajawal'),
                       alignLabelWithHint: true,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(30),),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                     autocorrect: false,
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.03,
+                  height: MediaQuery.of(context).size.height * 0.03,
                 ),
 
                 SizedBox(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.02,
+                  height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,45 +151,45 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                     ),
-
-
                   ],
                 ),
                 SizedBox(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.04,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 ElevatedButton(
-                  onPressed: () async{
-                    Snackbar snackbar  = Snackbar(context, "تم إسال رابط تفعيل  لكلمة المرور الجديدة على البريد الالكتروني الذي تم تزويدنا فيه  ");
+                  onPressed: () async {
+                    Snackbar snackbar = Snackbar(context,
+                        "تم إسال رابط تفعيل  لكلمة المرور الجديدة على البريد الالكتروني الذي تم تزويدنا فيه  ");
                     snackbar!.showToast();
-                    await  auth.sendPasswordResetEmail(email: _controllerEmail.text)
-                        .then((value) =>
-
-                        Navigator.pushReplacement(
+                    await auth
+                        .sendPasswordResetEmail(email: _controllerEmail.text)
+                        .then((value) => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginPage(onSignIn: (User ) { DecisionsTree(); },))));
+                                builder: (context) => LoginPage(
+                                      onSignIn: (User) {
+                                        DecisionsTree();
+                                      },
+                                    ))));
                   },
                   child: Text(
                     'إعادة ضبط كلمة السر',
-                    style: TextStyle(color: Color(0xff334856),
+                    style: TextStyle(
+                      color: Color(0xff334856),
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(0),
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0xdeedd03c)),
+                        MaterialStateProperty.all(Color(0xdeedd03c)),
                     minimumSize: MaterialStateProperty.all(Size(300, 64)),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(500),
                       ),
                     ),
-
                   ),
                 )
 
@@ -199,7 +198,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 //       isLogin ? login() : createUser();
                 //     },
                 //     child: Text(isLogin ? "تسجيل الدخول" : "التسجيل")),
-
               ],
             ),
           ),
