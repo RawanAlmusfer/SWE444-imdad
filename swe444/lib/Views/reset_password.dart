@@ -158,9 +158,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    Snackbar snackbar = Snackbar(context,
-                        "تم إسال رابط تفعيل  لكلمة المرور الجديدة على البريد الالكتروني الذي تم تزويدنا فيه  ");
-                    snackbar!.showToast();
+
                     await auth
                         .sendPasswordResetEmail(email: _controllerEmail.text)
                         .then((value) => Navigator.pushReplacement(
