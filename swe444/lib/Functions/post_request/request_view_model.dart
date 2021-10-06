@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:swe444/Models/request.dart';
+import 'package:swe444/Widgets/show_snackbar.dart';
 
 class RequestViewModel {
   String? _posted_by;
@@ -87,6 +88,18 @@ class RequestViewModel {
         .catchError((error) => _message = " فشل في إضافة الطلب:" + error);
 
     message = _message;
+  }
+
+  Future cancelRequest(DocumentSnapshot document) async {
+    String _message = "";
+    return await
+    FirebaseFirestore.instance.collection('requests').doc(document.id).delete().then((value) {
+      _message= "تم إلغاء الطلب بنجاح";
+      message= _message;
+    }).catchError((error) {
+      _message= "فشل في إلغاء الطلب";
+      message= _message;
+    });
   }
 
 }
