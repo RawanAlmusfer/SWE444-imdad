@@ -13,14 +13,16 @@ class mmHome extends StatefulWidget {
 }
 
 class _HomeState extends State<mmHome> {
-  int _currentIndex = 0;
+  // the default location which the user will be in:
+  int _currentIndex = 2;
   String _title = "الصفحة الرئيسية";
+
+  // nav bar redirection:
   final List<Widget> _children = [
-    mm_feed(),
-    PostRequest(),
     logout(),
+    PostRequest(),
+    mm_feed(),
   ];
-//style: TextStyle(fontFamily: 'Tajawal'),
 
   @override
   Widget build(BuildContext context) {
@@ -75,16 +77,16 @@ class _HomeState extends State<mmHome> {
                 currentIndex: _currentIndex,
                 items: [
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.home),
-                    label: "الصفحة الرئيسية",
+                    icon: new Icon(Icons.logout),
+                    label: "تسجيل الخروج",
                   ),
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.add),
                     label: "إضافة طلب",
                   ),
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.logout),
-                    label: "تسجيل الخروج",
+                    icon: new Icon(Icons.home),
+                    label: "الصفحة الرئيسية",
                   ),
                 ]),
           ),
@@ -97,7 +99,7 @@ class _HomeState extends State<mmHome> {
       switch (index) {
         case 0:
           {
-            _title = 'الصفحة الرئيسية';
+            _title = 'تسجيل الخروج';
           }
           break;
         case 1:
@@ -107,7 +109,7 @@ class _HomeState extends State<mmHome> {
           break;
         case 2:
           {
-            _title = 'تسجيل الخروج';
+            _title = 'الصفحة الرئيسية';
           }
           break;
       }

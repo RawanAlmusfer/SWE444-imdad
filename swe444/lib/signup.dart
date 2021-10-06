@@ -27,6 +27,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController mosqueLocation = TextEditingController();
   final TextEditingController mosqueCode = TextEditingController();
 
+  String errorMessage = "";
+
   final _formKey = GlobalKey<FormState>();
 
   static const kYellow = const Color(0xdeedd03c);
@@ -35,30 +37,21 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final _auth = FirebaseAuth.instance;
   Snackbar? snackbar;
-  Snackbar? snackbar2;
-
-  //const LoginPage ({required Key key, required this.onSignInAno}) : super(key: key);
-  /*Future<void> loginAno() async {
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInAnonymously();
-    print(userCredential.user);
-    //User? user2= userCredential.user;
-    widget.onSignIn(userCredential.user);
-    //Can't record in the database if line above is hided
-  } */
+  Snackbar? snackbar2, snackbar3;
+  bool valid = true;
 
   Future<void> login() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: _controllerEmail.text, password: _controllerPass.text);
-      print(userCredential.user);
-      widget.onSignIn(userCredential.user!);
-      //
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        error = e.toString();
-      });
+   {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: _controllerEmail.text, password: _controllerPass.text);
+        print(userCredential.user);
+        widget.onSignIn(userCredential.user!);
+        //
+      } on FirebaseAuthException catch (e) {
+        //Snackbar(context, e.toString()).showToast();
+      }
     }
   }
 
@@ -172,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildConformPasswordField() {
+  Widget _buildConfirmPasswordField() {
     return TextFormField(
       validator: (value) {
         if (value!.isEmpty) {
@@ -293,10 +286,10 @@ class _SignUpPageState extends State<SignUpPage> {
           return ("الرجاء إدخال رقم جوال المسجد ");
         }
         if (!regex.hasMatch(value)) {
-          return ("Enter Valid Phone number");
+          return ("رقم الجوال المدخل غير صالح");
         }
         if (value.length < 10) {
-          return ("Enter Valid Phone number");
+          return ("رقم الجوال المدخل غير صالح");
         }
         return null;
       },
@@ -326,7 +319,6 @@ class _SignUpPageState extends State<SignUpPage> {
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
         hintText: 'أدخل رقم الجوال',
         labelText: 'رقم الجوال',
         hintStyle: TextStyle(
@@ -343,60 +335,60 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildLocationField() {
-    return TextFormField(
-      onSaved: (value) {
-        mosqueLocation.text = value!;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("الرجاء قم بإدخال موقع المسجد");
-        }
-        return null;
-      },
-      showCursor: true,
-      cursorColor: const Color(0xdeedd03c),
-      // style:
-      //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
-      textAlign: TextAlign.right,
-      controller: mosqueLocation,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // width: 0.0 produces a thin "hairline" border
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: const Color(0xdeedd03c),
-          ),
-        ),
-        prefixIcon: Icon(
-          Icons.location_on,
-          color: const Color(0xff334856),
-        ),
-        prefixStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        hoverColor: const Color(0xff334856),
-        alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        hintText: 'أدخل رابط موقع المسجد',
-        labelText: 'موقع المسجد',
-        hintStyle: TextStyle(
-            fontSize: 14,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        labelStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-      ),
-      autocorrect: false,
-      obscureText: false,
-    );
-  }
+  // Widget _buildLocationField() {
+  //   return TextFormField(
+  //     onSaved: (value) {
+  //       mosqueLocation.text = value!;
+  //     },
+  //     validator: (value) {
+  //       if (value!.isEmpty) {
+  //         return ("الرجاء قم بإدخال موقع المسجد");
+  //       }
+  //       return null;
+  //     },
+  //     showCursor: true,
+  //     cursorColor: const Color(0xdeedd03c),
+  //     // style:
+  //     //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
+  //     textAlign: TextAlign.right,
+  //     controller: mosqueLocation,
+  //     decoration: InputDecoration(
+  //       border: OutlineInputBorder(
+  //         borderRadius: BorderRadius.circular(50),
+  //       ),
+  //       focusedBorder: OutlineInputBorder(
+  //         // width: 0.0 produces a thin "hairline" border
+  //         borderRadius: BorderRadius.circular(30),
+  //         borderSide: BorderSide(
+  //           color: const Color(0xdeedd03c),
+  //         ),
+  //       ),
+  //       prefixIcon: Icon(
+  //         Icons.location_on,
+  //         color: const Color(0xff334856),
+  //       ),
+  //       prefixStyle: TextStyle(
+  //           fontSize: 18,
+  //           color: const Color(0xff334856),
+  //           fontFamily: 'Tajawal'),
+  //       hoverColor: const Color(0xff334856),
+  //       alignLabelWithHint: true,
+  //       //border: OutlineInputBorder(),
+  //       hintText: 'أدخل رابط موقع المسجد',
+  //       labelText: 'موقع المسجد',
+  //       hintStyle: TextStyle(
+  //           fontSize: 14,
+  //           color: const Color(0xff334856),
+  //           fontFamily: 'Tajawal'),
+  //       labelStyle: TextStyle(
+  //           fontSize: 18,
+  //           color: const Color(0xff334856),
+  //           fontFamily: 'Tajawal'),
+  //     ),
+  //     autocorrect: false,
+  //     obscureText: false,
+  //   );
+  // }
 
   Widget _buildCodeField() {
     return TextFormField(
@@ -411,7 +403,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      maxLength: 7,
+      maxLength: 8,
       keyboardType: TextInputType.number,
       // style:
       //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
@@ -441,8 +433,8 @@ class _SignUpPageState extends State<SignUpPage> {
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
-        hintText: 'أدخل رمز المسجد',
-        labelText: 'رمز المسجد',
+        hintText: 'أدخل كود المسجد',
+        labelText: 'كود المسجد',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -554,7 +546,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: 330,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
-                      child: _buildConformPasswordField(),
+                      child: _buildConfirmPasswordField(),
                     ),
                   ), // conform container
                   SizedBox(
@@ -580,16 +572,16 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildLocationField(),
-                    ),
-                  ), // location
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
+                  // Container(
+                  //   width: 330,
+                  //   child: Directionality(
+                  //     textDirection: TextDirection.rtl,
+                  //     child: _buildLocationField(),
+                  //   ),
+                  // ), // location
+                  // SizedBox(
+                  //   height: MediaQuery.of(context).size.height * 0.02,
+                  // ),
                   Container(
                     width: 330,
                     child: Directionality(
@@ -610,7 +602,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
+                    height: MediaQuery.of(context).size.height * 0.07,
                   ),
                   ElevatedButton(
                       onPressed: () {
@@ -631,6 +623,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             fontFamily: 'Tajawal'),
                       )),
                   Text(error),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                  ),
                 ],
               ),
             ),
@@ -640,14 +635,123 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  void signUp(String email, String password) async {
+  Future<void> signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore()})
-          .catchError((e) {
-        snackbar2 = new Snackbar(context, e!.message);
-        snackbar2?.showToast();
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      firebaseFirestore
+          .collection('mosques_code')
+          .where('code', isEqualTo: mosqueCode.text)
+          .get()
+          .then((value) {
+        if(value.docs.isNotEmpty){
+        try {
+          _auth
+              .createUserWithEmailAndPassword(email: email, password: password)
+              .then((value) => {postDetailsToFirestore()});
+          login();
+
+        } on FirebaseAuthException catch (e) {
+          switch (e.code) {
+            case "email-already-in-use":
+              setState(() {
+                errorMessage = 'البريد الإلكتروني مستخدم مسبقًا';
+              });
+              break;
+            case "invalid-email":
+              setState(() {
+                errorMessage = 'البديد الإلكتروني غير صالح';
+              });
+              break;
+            case "too-many-requests":
+              setState(() {
+                errorMessage =
+                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+              });
+              break;
+            case "operation-not-allowed":
+              setState(() {
+                errorMessage =
+                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+              });
+              break;
+            case "network-request-failed":
+              setState(() {
+                errorMessage =
+                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+              });
+              break;
+            case "credential-already-in-use":
+              setState(() {
+                errorMessage =
+                    'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+              });
+              break;
+
+            case "invalid-email":
+              errorMessage = 'البريد الالكتروني غير صحيح';
+              break;
+
+            default:
+              setState(() {
+                errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
+              });
+              break;
+          }
+          snackbar2 = Snackbar(context, errorMessage);
+          snackbar2!.showToast();
+        }
+        ;
+        if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
+          errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
+        } else if (_controllerEmail.text.isEmpty) {
+          errorMessage = " الرجاء إدخال البريد الالكتروني ";
+        } else if (_controllerPass.text.isEmpty) {
+          errorMessage = "الرجاء إدخال كلمة السر ";
+
+          switch ("invalid-email") {
+            case "invalid-email":
+              errorMessage = 'البريد الالكتروني غير صحيح';
+              break;
+            case "too-many-requests":
+              setState(() {
+                errorMessage =
+                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+              });
+              break;
+            case "operation-not-allowed":
+              setState(() {
+                errorMessage =
+                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+              });
+              break;
+            case "network-request-failed":
+              setState(() {
+                errorMessage =
+                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+              });
+              break;
+            case "credential-already-in-use":
+              setState(() {
+                errorMessage =
+                    'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+              });
+              break;
+            default:
+              setState(() {
+                errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
+              });
+              break;
+          }
+          snackbar3 = Snackbar(context, errorMessage);
+          snackbar3!.showToast();
+        } //end 2ed switch
+      }
+        else{
+          Snackbar sb= Snackbar(context, "كود المسجد المدخل غير صالح");
+          sb.showToast();
+        };}).catchError((error) {
+        Snackbar sb= Snackbar(context, "كود المسجد المدخل غير صالح");
+        sb.showToast();
       });
     }
   }
@@ -663,19 +767,43 @@ class _SignUpPageState extends State<SignUpPage> {
     userModel.uid = user.uid;
     userModel.mosque_name = mosqueName.text;
     userModel.mosque_phone = int.parse(phoneNum.text);
-    userModel.mosque_location = mosqueLocation.text;
+    // userModel.mosque_location = mosqueLocation.text;
     userModel.mosque_code = mosqueCode.text;
     userModel.role='mosqueManager';
 
     await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
-    snackbar = new Snackbar(context, "تم التسجيل بنجاح ");
+        .collection('mosques_code')
+        .where('code', isEqualTo: userModel.mosque_code)
+        .get()
+        .then((mosques) {
+      for (var mosque in mosques.docs) {
+        Map<String, dynamic>? data = mosque.data();
+        userModel.mosque_location = data['location'];
+        firebaseFirestore
+            .collection("users")
+            .doc(user.uid)
+            .set(userModel.toMap())
+            .then((value) {
+          snackbar = new Snackbar(context, "تم التسجيل بنجاح ");
+        }).catchError(
+          (e) {
+            valid = false;
+            snackbar = new Snackbar(context, "حدث خطأ ");
+          },
+        );
+      }
+    }).catchError(
+          (e) {
+        valid = false;
+        snackbar = new Snackbar(context, "حدث خطأ ");
+      },
+    );
+
     snackbar?.showToast();
 
-    login();
-    Navigator.pushAndRemoveUntil((context),
-        MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
+    if (valid == true) {
+      Navigator.pushAndRemoveUntil((context),
+          MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
+    }
   }
 }
