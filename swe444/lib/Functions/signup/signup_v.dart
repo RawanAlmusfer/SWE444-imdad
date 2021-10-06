@@ -2,56 +2,61 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swe444/Functions/home_screen/v_home_view.dart';
 
-import 'Models/UserModel.dart';
-import 'Views/login_page.dart';
-import 'Views/signup_login_screen_mm.dart';
-import 'Widgets/show_snackbar.dart';
-import 'Views/mm_home_view.dart';
+import '../../Models/UserModel.dart';
+import '../../Models/VUserModel.dart';
+// import '../../Views/login_page.dart';
+// import '../../Views/signup_login_screen_mm.dart';
+// import '../../Views/v_home_view.dart';
+import '../../Widgets/show_snackbar.dart';
+// import '../../Views/mm_home_view.dart';
+import '../signup_login_screen.dart';
 
-class SignUpPage extends StatefulWidget {
+class VSignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
 
-  const SignUpPage({required this.onSignIn});
+  const VSignUpPage({required this.onSignIn});
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<VSignUpPage> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPass = TextEditingController();
   final TextEditingController _controllerPass2 = TextEditingController();
-  final TextEditingController mosqueName = TextEditingController();
+  final TextEditingController firstName = TextEditingController();
+  final TextEditingController lastName = TextEditingController();
   final TextEditingController phoneNum = TextEditingController();
   final TextEditingController mosqueLocation = TextEditingController();
   final TextEditingController mosqueCode = TextEditingController();
-
-  String errorMessage = "";
 
   final _formKey = GlobalKey<FormState>();
 
   static const kYellow = const Color(0xdeedd03c);
   String error = "";
   bool isLogin = true;
+  String errorMessage = "";
 
   final _auth = FirebaseAuth.instance;
   Snackbar? snackbar;
-  Snackbar? snackbar2, snackbar3;
+  Snackbar? snackbar2;
+  Snackbar? snackbar3;
   bool valid = true;
 
   Future<void> login() async {
-   {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: _controllerEmail.text, password: _controllerPass.text);
-        print(userCredential.user);
-        widget.onSignIn(userCredential.user!);
-        //
-      } on FirebaseAuthException catch (e) {
-        //Snackbar(context, e.toString()).showToast();
-      }
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _controllerEmail.text, password: _controllerPass.text);
+      print(userCredential.user);
+      widget.onSignIn(userCredential.user!);
+      //
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        error = e.toString();
+      });
     }
   }
 
@@ -165,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildConfirmPasswordField() {
+  Widget _buildConformPasswordField() {
     return TextFormField(
       validator: (value) {
         if (value!.isEmpty) {
@@ -219,18 +224,18 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildMosqueNameField() {
+  Widget _buildfirstNameField() {
     return TextFormField(
       onSaved: (value) {
-        mosqueName.text = value!;
+        firstName.text = value!;
       },
       validator: (value) {
-        RegExp regex = RegExp(r'^.{5,}$');
+        RegExp regex = RegExp(r'^.{2,}$');
         if (value!.isEmpty) {
-          return ("الرجاء قم بإدخال اسم المسجد");
+          return ("الرجاء قم بإدخال اسمك الاول");
         }
         if (!regex.hasMatch(value)) {
-          return ("يجب ان يحتوي على 5 حروف على الأقل");
+          return ("يجب ان يحتوي على حرفين على الأقل");
         }
         return null;
       },
@@ -238,7 +243,7 @@ class _SignUpPageState extends State<SignUpPage> {
       cursorColor: const Color(0xdeedd03c),
       style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
-      controller: mosqueName,
+      controller: firstName,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
@@ -251,15 +256,71 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
         prefixIcon: Icon(
-          Icons.account_balance,
+          Icons.perm_identity,
           color: const Color(0xff334856),
         ),
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
-        hintText: 'أدخل اسم المسجد',
-        labelText: 'اسم المسجد',
+        hintText: 'أدخل اسمك الاول',
+        labelText: 'الاسم الاول',
+        hintStyle: TextStyle(
+            fontSize: 14,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+
+        labelStyle: TextStyle(
+            fontSize: 18,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+      ),
+      autocorrect: false,
+      obscureText: false,
+    );
+  }
+
+  Widget _buildlastNameField() {
+    return TextFormField(
+      onSaved: (value) {
+        lastName.text = value!;
+      },
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{2,}$');
+        if (value!.isEmpty) {
+          return ("الرجاء قم بإدخال اسم عائلتك");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("يجب ان يحتوي على حرفين على الأقل");
+        }
+        return null;
+      },
+      showCursor: true,
+      cursorColor: const Color(0xdeedd03c),
+      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      textAlign: TextAlign.right,
+      controller: lastName,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixIcon: Icon(
+          Icons.perm_identity,
+          color: const Color(0xff334856),
+        ),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: 'أدخل اسم عائلتك',
+        labelText: 'اسم العائلة',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -283,13 +344,13 @@ class _SignUpPageState extends State<SignUpPage> {
       validator: (value) {
         RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
         if (value!.isEmpty) {
-          return ("الرجاء إدخال رقم جوال المسجد ");
+          return ("الرجاء إدخال رقم الجوال ");
         }
         if (!regex.hasMatch(value)) {
-          return ("رقم الجوال المدخل غير صالح");
+          return ("Enter Valid Phone number");
         }
         if (value.length < 10) {
-          return ("رقم الجوال المدخل غير صالح");
+          return ("Enter Valid Phone number");
         }
         return null;
       },
@@ -319,122 +380,9 @@ class _SignUpPageState extends State<SignUpPage> {
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
         hintText: 'أدخل رقم الجوال',
         labelText: 'رقم الجوال',
-        hintStyle: TextStyle(
-            fontSize: 14,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        labelStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-      ),
-      autocorrect: false,
-      obscureText: false,
-    );
-  }
-
-  // Widget _buildLocationField() {
-  //   return TextFormField(
-  //     onSaved: (value) {
-  //       mosqueLocation.text = value!;
-  //     },
-  //     validator: (value) {
-  //       if (value!.isEmpty) {
-  //         return ("الرجاء قم بإدخال موقع المسجد");
-  //       }
-  //       return null;
-  //     },
-  //     showCursor: true,
-  //     cursorColor: const Color(0xdeedd03c),
-  //     // style:
-  //     //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
-  //     textAlign: TextAlign.right,
-  //     controller: mosqueLocation,
-  //     decoration: InputDecoration(
-  //       border: OutlineInputBorder(
-  //         borderRadius: BorderRadius.circular(50),
-  //       ),
-  //       focusedBorder: OutlineInputBorder(
-  //         // width: 0.0 produces a thin "hairline" border
-  //         borderRadius: BorderRadius.circular(30),
-  //         borderSide: BorderSide(
-  //           color: const Color(0xdeedd03c),
-  //         ),
-  //       ),
-  //       prefixIcon: Icon(
-  //         Icons.location_on,
-  //         color: const Color(0xff334856),
-  //       ),
-  //       prefixStyle: TextStyle(
-  //           fontSize: 18,
-  //           color: const Color(0xff334856),
-  //           fontFamily: 'Tajawal'),
-  //       hoverColor: const Color(0xff334856),
-  //       alignLabelWithHint: true,
-  //       //border: OutlineInputBorder(),
-  //       hintText: 'أدخل رابط موقع المسجد',
-  //       labelText: 'موقع المسجد',
-  //       hintStyle: TextStyle(
-  //           fontSize: 14,
-  //           color: const Color(0xff334856),
-  //           fontFamily: 'Tajawal'),
-  //       labelStyle: TextStyle(
-  //           fontSize: 18,
-  //           color: const Color(0xff334856),
-  //           fontFamily: 'Tajawal'),
-  //     ),
-  //     autocorrect: false,
-  //     obscureText: false,
-  //   );
-  // }
-
-  Widget _buildCodeField() {
-    return TextFormField(
-      onSaved: (value) {
-        mosqueCode.text = value!;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("الرجاء قم بإدخال رمز المسجد");
-        }
-        return null;
-      },
-      showCursor: true,
-      cursorColor: const Color(0xdeedd03c),
-      maxLength: 8,
-      keyboardType: TextInputType.number,
-      // style:
-      //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
-      textAlign: TextAlign.right,
-      controller: mosqueCode,
-      decoration: InputDecoration(
-        counterText: "",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // width: 0.0 produces a thin "hairline" border
-
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: const Color(0xdeedd03c),
-          ),
-        ),
-        prefixIcon: Icon(
-          Icons.shield,
-          color: const Color(0xff334856),
-        ),
-        prefixStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        hoverColor: const Color(0xff334856),
-        alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        hintText: 'أدخل كود المسجد',
-        labelText: 'كود المسجد',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -480,7 +428,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => mSignupLoginScreen()));
+                        builder: (context) => SignupLoginScreen()));
               },
               child: Icon(
                 Icons.arrow_forward_ios,
@@ -546,7 +494,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: 330,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
-                      child: _buildConfirmPasswordField(),
+                      child: _buildConformPasswordField(),
                     ),
                   ), // conform container
                   SizedBox(
@@ -556,7 +504,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: 330,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
-                      child: _buildMosqueNameField(),
+                      child: _buildfirstNameField(),
+                    ),
+                  ), // mosque name
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Container(
+                    width: 330,
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: _buildlastNameField(),
                     ),
                   ), // mosque name
                   SizedBox(
@@ -572,26 +530,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  // Container(
-                  //   width: 330,
-                  //   child: Directionality(
-                  //     textDirection: TextDirection.rtl,
-                  //     child: _buildLocationField(),
-                  //   ),
-                  // ), // location
-                  // SizedBox(
-                  //   height: MediaQuery.of(context).size.height * 0.02,
-                  // ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildCodeField(),
-                    ),
-                  ), // code
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -602,7 +540,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   ElevatedButton(
                       onPressed: () {
@@ -623,9 +561,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             fontFamily: 'Tajawal'),
                       )),
                   Text(error),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                  ),
                 ],
               ),
             ),
@@ -637,122 +572,101 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future<void> signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
-      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-      firebaseFirestore
-          .collection('mosques_code')
-          .where('code', isEqualTo: mosqueCode.text)
-          .get()
-          .then((value) {
-        if(value.docs.isNotEmpty){
-        try {
-          _auth
-              .createUserWithEmailAndPassword(email: email, password: password)
-              .then((value) => {postDetailsToFirestore()});
-          login();
-
-        } on FirebaseAuthException catch (e) {
-          switch (e.code) {
-            case "email-already-in-use":
-              setState(() {
-                errorMessage = 'البريد الإلكتروني مستخدم مسبقًا';
-              });
-              break;
-            case "invalid-email":
-              setState(() {
-                errorMessage = 'البديد الإلكتروني غير صالح';
-              });
-              break;
-            case "too-many-requests":
-              setState(() {
-                errorMessage =
-                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-              });
-              break;
-            case "operation-not-allowed":
-              setState(() {
-                errorMessage =
-                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-              });
-              break;
-            case "network-request-failed":
-              setState(() {
-                errorMessage =
-                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-              });
-              break;
-            case "credential-already-in-use":
-              setState(() {
-                errorMessage =
-                    'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
-              });
-              break;
-
-            case "invalid-email":
-              errorMessage = 'البريد الالكتروني غير صحيح';
-              break;
-
-            default:
-              setState(() {
-                errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
-              });
-              break;
-          }
-          snackbar2 = Snackbar(context, errorMessage);
-          snackbar2!.showToast();
+      try {
+        await _auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) => {postDetailsToFirestore()});
+        login();
+      } on FirebaseAuthException catch (e) {
+        switch (e.code) {
+          case "email-already-in-use":
+            setState(() {
+              errorMessage = 'البريد الإلكتروني مستخدم مسبقًا';
+            });
+            break;
+          case "invalid-email":
+            setState(() {
+              errorMessage = 'البديد الإلكتروني غير صالح';
+            });
+            break;
+          case "too-many-requests":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "operation-not-allowed":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "network-request-failed":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "credential-already-in-use":
+            setState(() {
+              errorMessage =
+                  'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+            });
+            break;
+          default:
+            setState(() {
+              errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
+            });
+            break;
         }
-        ;
-        if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
-          errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
-        } else if (_controllerEmail.text.isEmpty) {
-          errorMessage = " الرجاء إدخال البريد الالكتروني ";
-        } else if (_controllerPass.text.isEmpty) {
-          errorMessage = "الرجاء إدخال كلمة السر ";
-
-          switch ("invalid-email") {
-            case "invalid-email":
-              errorMessage = 'البريد الالكتروني غير صحيح';
-              break;
-            case "too-many-requests":
-              setState(() {
-                errorMessage =
-                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-              });
-              break;
-            case "operation-not-allowed":
-              setState(() {
-                errorMessage =
-                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-              });
-              break;
-            case "network-request-failed":
-              setState(() {
-                errorMessage =
-                    'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
-              });
-              break;
-            case "credential-already-in-use":
-              setState(() {
-                errorMessage =
-                    'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
-              });
-              break;
-            default:
-              setState(() {
-                errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
-              });
-              break;
-          }
-          snackbar3 = Snackbar(context, errorMessage);
-          snackbar3!.showToast();
-        } //end 2ed switch
+        snackbar2 = Snackbar(context, errorMessage);
+        snackbar2!.showToast();
       }
-        else{
-          Snackbar sb= Snackbar(context, "كود المسجد المدخل غير صالح");
-          sb.showToast();
-        };}).catchError((error) {
-        Snackbar sb= Snackbar(context, "كود المسجد المدخل غير صالح");
-        sb.showToast();
-      });
+      ;
+      if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
+        errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
+      } else if (_controllerEmail.text.isEmpty) {
+        errorMessage = " الرجاء إدخال البريد الالكتروني ";
+      } else if (_controllerPass.text.isEmpty) {
+        errorMessage = "الرجاء إدخال كلمة السر ";
+
+        switch ("invalid-email") {
+          case "invalid-email":
+            errorMessage = 'البريد الالكتروني غير صحيح';
+            break;
+          case "too-many-requests":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "operation-not-allowed":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "network-request-failed":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "credential-already-in-use":
+            setState(() {
+              errorMessage =
+                  'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+            });
+            break;
+          default:
+            setState(() {
+              errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
+            });
+            break;
+        }
+        snackbar3 = Snackbar(context, errorMessage);
+        snackbar3!.showToast();
+      } //end 2ed switch
     }
   }
 
@@ -760,50 +674,32 @@ class _SignUpPageState extends State<SignUpPage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
-    UserModel userModel = UserModel();
+    VUserModel userModel = VUserModel();
 
     // writing all the values
     userModel.email = user!.email;
     userModel.uid = user.uid;
-    userModel.mosque_name = mosqueName.text;
-    userModel.mosque_phone = int.parse(phoneNum.text);
-    // userModel.mosque_location = mosqueLocation.text;
-    userModel.mosque_code = mosqueCode.text;
-    userModel.role='mosqueManager';
+    userModel.first_name = firstName.text;
+    userModel.last_name = lastName.text;
+    userModel.volunteer_phone = int.parse(phoneNum.text);
+     userModel.role='volunteer';
 
     await firebaseFirestore
-        .collection('mosques_code')
-        .where('code', isEqualTo: userModel.mosque_code)
-        .get()
-        .then((mosques) {
-      for (var mosque in mosques.docs) {
-        Map<String, dynamic>? data = mosque.data();
-        userModel.mosque_location = data['location'];
-        firebaseFirestore
-            .collection("users")
-            .doc(user.uid)
-            .set(userModel.toMap())
-            .then((value) {
-          snackbar = new Snackbar(context, "تم التسجيل بنجاح ");
-        }).catchError(
-          (e) {
-            valid = false;
-            snackbar = new Snackbar(context, "حدث خطأ ");
-          },
-        );
-      }
-    }).catchError(
-          (e) {
-        valid = false;
-        snackbar = new Snackbar(context, "حدث خطأ ");
-      },
-    );
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap())
+        .then((value) => snackbar = Snackbar(context, "تم التسجيل بنجاح "))
+        .catchError((e) {
+      valid = false;
+      snackbar = Snackbar(context, "حدث خطأ ");
+    });
 
     snackbar?.showToast();
 
     if (valid == true) {
+      login();
       Navigator.pushAndRemoveUntil((context),
-          MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
+          MaterialPageRoute(builder: (context) => vHome()), (route) => false);
     }
   }
 }

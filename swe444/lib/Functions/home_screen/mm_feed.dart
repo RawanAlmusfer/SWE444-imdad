@@ -2,7 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
+
+class MosqueMangerFeed extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<FeedViewModel>(
+            create: (_) => FeedViewModel(),
+            child: Container(
+              height: 1200,
+                width: 450,
+                child: mm_feed())
+          );
+  }
+}
 
 class mm_feed extends StatefulWidget {
   @override
@@ -15,14 +30,29 @@ class mmFeed extends State<mm_feed> {
   User? user = FirebaseAuth.instance.currentUser;
 
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+        Duration.zero, () => setState(() {
+      setup();
+    }));
+  }
+
+  setup() async {
+    await Provider.of<FeedViewModel>(context, listen: false)
+        .fetchRequests();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? requests = Provider.of<FeedViewModel>(context, listen: false)
+        .requests;
+    // Navigator.pop(context);
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('requests')
-              .orderBy('uplaod_time', descending: true)
-              .snapshots(),
+          stream: requests,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
@@ -37,7 +67,7 @@ class mmFeed extends State<mm_feed> {
   }
 
   Widget buildCards(
-      BuildContext context, DocumentSnapshot document, String? id) {
+  BuildContext context, DocumentSnapshot document, String? id) {
     if (document['posted_by'].toString() == id) {
       //print('posted user Id ' + document['posted_by'].toString());
       //print('current user Id ' + id.toString());

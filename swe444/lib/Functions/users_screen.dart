@@ -1,61 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/painting.dart';
-import 'package:swe444/Views/login_page_mm.dart';
-import 'login_page.dart';
-import 'package:swe444/decisions_tree.dart';
-import 'package:swe444/Views/users_screen.dart';
-import 'package:swe444/signup.dart';
+import 'package:swe444/Functions/signup_login_screen.dart';
+import 'package:swe444/Functions/signup_login_screen_mm.dart';
 
-class mSignupLoginScreen extends StatefulWidget {
+
+class UsersScreen extends StatefulWidget {
   @override
-  _SignupLoginScreenState createState() => _SignupLoginScreenState();
+  _UsersScreenState createState() => _UsersScreenState();
 }
 
-class _SignupLoginScreenState extends State<mSignupLoginScreen> {
-  // User? user = FirebaseAuth.instance.currentUser;
+class _UsersScreenState extends State<UsersScreen> {
   static const kYellow = const Color(0xdeedd03c);
-
-  // onRefresh(userCred) {
-  //   setState(() {
-  //     // User user = userCred;
-  //     user = userCred;
-  //   });}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffededed),
+
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        bottomOpacity: 30,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50),
-          ),
-        ),
-
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => UsersScreen()));
-              },
-              child: Icon(Icons.arrow_forward_ios),
-            ),
-          )
-        ],
-        iconTheme: IconThemeData(
-          // Padding(padding: EdgeInsets.only(right: 20.0)),
-
-          color: Color(0xff334856), //change your color here.
-        ),
         backgroundColor: const Color(0xdeedd03c),
       ),
       body: new Container(
+
         padding: new EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: ConstrainedBox(
@@ -77,6 +43,7 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
+
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
@@ -86,22 +53,19 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
                     Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                     ),
+
                   ],
                 ),
+
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SignUpPage(onSignIn: (User ) { DecisionsTree(); },)));
+
+                  onPressed: () {  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => SignupLoginScreen()));
                   },
+
                   child: Text(
-                    'تسجيل جديد',
-                    style: TextStyle(
-                      color: Color(0xff334856),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    'متطوع',
+                    style: TextStyle(   color: Color(0xff334856), fontSize: 20,fontWeight: FontWeight.bold,),
                   ),
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(0),
@@ -115,23 +79,20 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
                     ),
                   ),
                 ),
+
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LoginPage(onSignIn: (User ) { DecisionsTree(); },)));
+
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => mSignupLoginScreen()));
+
                   },
                   child: Text(
-                    'تسجيل دخول',
-                    style: TextStyle(
-                      color: Color(0xff334856),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    'مالك مسجد',
+                    style: TextStyle(   color: Color(0xff334856), fontSize: 20,fontWeight: FontWeight.bold,),
                   ),
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(0),
@@ -143,8 +104,11 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
                         borderRadius: BorderRadius.circular(500),
                       ),
                     ),
+
                   ),
                 )
+
+
               ],
             ),
           ),

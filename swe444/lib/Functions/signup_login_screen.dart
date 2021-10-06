@@ -1,27 +1,58 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:swe444/Views/signup_login_screen.dart';
-import 'package:swe444/Views/signup_login_screen_mm.dart';
+import 'package:flutter/painting.dart';
+import 'package:swe444/Functions/users_screen.dart';
+import 'signup/signup_v.dart';
+import 'login/login_page.dart';
+import 'package:swe444/Functions/decisions_tree.dart';
 
-class UsersScreen extends StatefulWidget {
+class SignupLoginScreen extends StatefulWidget {
   @override
-  _UsersScreenState createState() => _UsersScreenState();
+  _SignupLoginScreenState createState() => _SignupLoginScreenState();
 }
 
-class _UsersScreenState extends State<UsersScreen> {
+class _SignupLoginScreenState extends State<SignupLoginScreen> {
+  // User? user = FirebaseAuth.instance.currentUser;
   static const kYellow = const Color(0xdeedd03c);
+
+  // onRefresh(userCred) {
+  //   setState(() {
+  //     // User user = userCred;
+  //     user = userCred;
+  //   });}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        bottomOpacity: 30,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(50),
+          ),
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 15.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => UsersScreen()));
+              },
+              child: Icon(Icons.arrow_forward_ios),
+            ),
+          )
+        ],
+        iconTheme: IconThemeData(
+          // Padding(padding: EdgeInsets.only(right: 20.0)),
+
+          color: Color(0xff334856), //change your color here.
+        ),
         backgroundColor: const Color(0xdeedd03c),
       ),
       body: new Container(
-
         padding: new EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: ConstrainedBox(
@@ -43,7 +74,6 @@ class _UsersScreenState extends State<UsersScreen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
-
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
@@ -53,24 +83,31 @@ class _UsersScreenState extends State<UsersScreen> {
                     Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                     ),
-
                   ],
                 ),
-
                 ElevatedButton(
-
-                  onPressed: () {  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SignupLoginScreen()));
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VSignUpPage(
+                                  onSignIn: (User) {
+                                    DecisionsTree();
+                                  },
+                                )));
                   },
-
                   child: Text(
-                    'متطوع',
-                    style: TextStyle(   color: Color(0xff334856), fontSize: 20,fontWeight: FontWeight.bold,),
+                    'تسجيل جديد',
+                    style: TextStyle(
+                      color: Color(0xff334856),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(0),
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0xdeedd03c)),
+                        MaterialStateProperty.all(Color(0xdeedd03c)),
                     minimumSize: MaterialStateProperty.all(Size(300, 64)),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
@@ -79,36 +116,40 @@ class _UsersScreenState extends State<UsersScreen> {
                     ),
                   ),
                 ),
-
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 ElevatedButton(
                   onPressed: () {
-
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => mSignupLoginScreen()));
-
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginPage(
+                                  onSignIn: (User) {
+                                    DecisionsTree();
+                                  },
+                                )));
                   },
                   child: Text(
-                    'مالك مسجد',
-                    style: TextStyle(   color: Color(0xff334856), fontSize: 20,fontWeight: FontWeight.bold,),
+                    'تسجيل دخول',
+                    style: TextStyle(
+                      color: Color(0xff334856),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(0),
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0xdeedd03c)),
+                        MaterialStateProperty.all(Color(0xdeedd03c)),
                     minimumSize: MaterialStateProperty.all(Size(300, 64)),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(500),
                       ),
                     ),
-
                   ),
                 )
-
-
               ],
             ),
           ),

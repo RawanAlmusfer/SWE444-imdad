@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/painting.dart';
 import 'login_page.dart';
-import 'package:swe444/decisions_tree.dart';
-import 'signup_login_screen.dart';
-import 'users_screen.dart';
+import 'package:swe444/Functions/decisions_tree.dart';
+import '../signup_login_screen.dart';
+import '../users_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   @override

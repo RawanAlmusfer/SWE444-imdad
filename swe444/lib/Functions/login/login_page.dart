@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:swe444/Views/users_screen.dart';
-import 'package:swe444/Views/v_home_view.dart';
+import 'package:swe444/Functions/home_screen/v_home_view.dart';
+// import 'package:swe444/Views/users_screen.dart';
+// import 'package:swe444/Views/v_home_view.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
-import '../decisions_tree.dart';
-import 'mm_home_view.dart';
-import 'signup_login_screen.dart';
+// import '../decisions_tree.dart';
+import '../home_screen/mm_home_view.dart';
+import '../signup_login_screen.dart';
+import '../users_screen.dart';
 import 'reset_password.dart';
 
 class LoginPage extends StatefulWidget {
@@ -22,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerPass = TextEditingController();
   static const kYellow = const Color(0xdeedd03c);
-  String errorMessage = '';
+  String? errorMessage ;
   Snackbar? snackbar, snackbar2, snackbar3;
 
 
@@ -38,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
             email: _controllerEmail.text, password: _controllerPass.text);
-        print(userCredential.user);
+        // print(userCredential.user);
         snackbar3 = Snackbar(context, "تم تسجيل الدخول بنجاح");
         snackbar3!.showToast();
         widget.onSignIn(userCredential.user!);
@@ -114,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
             break;
         }
 
-        snackbar = Snackbar(context, errorMessage);
+        snackbar = Snackbar(context, errorMessage!);
         snackbar!.showToast();
 
         setState(() {
@@ -137,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
       errorMessage = "الرجاء إدخال كلمة السر ";
     }
 
-      snackbar2 = Snackbar(context, errorMessage);
+      snackbar2 = Snackbar(context, errorMessage!);
       snackbar2!.showToast();
 
     if (FirebaseAuth.instance.currentUser != null) {
@@ -145,21 +147,22 @@ class _LoginPageState extends State<LoginPage> {
       var document = await FirebaseFirestore.instance.collection('users').doc(
           userId).get();
 
-      if (document.exists)
+      if (document.exists) {
         if (document != null) {
           Map<String, dynamic>? data = document.data();
           if (data?['role'] == 'mosqueManager') {
             Navigator.of(context).push(
-                new MaterialPageRoute(builder: (context) => new mmHome()));
+                MaterialPageRoute(builder: (context) => mmHome()));
           } else if (data?['role'] == 'volunteer') {
             Navigator.of(context).push(
-                new MaterialPageRoute(builder: (context) => new vHome()));
+                MaterialPageRoute(builder: (context) => vHome()));
           }
         } else {
           print('Not Authorized');
           Navigator.of(context).push(
-              new MaterialPageRoute(builder: (context) => UsersScreen()));
+              MaterialPageRoute(builder: (context) => UsersScreen()));
         }
+    }
     }
 
 
@@ -210,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
 
       ),
-      body: new Container(
+      body: Container(
         padding: new EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: ConstrainedBox(
@@ -251,9 +254,9 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05,
                   ),
-                  new Directionality(
+                  Directionality(
                     textDirection: TextDirection.rtl,
-                    child: new TextFormField(
+                    child: TextFormField(
 
                       showCursor: true,
                       cursorColor: const Color(0xdeedd03c),
@@ -264,7 +267,7 @@ class _LoginPageState extends State<LoginPage> {
                           return ("الرجاء إدخال البريد الإلكتروني ");}
                         return null;
                       },
-                      decoration: new InputDecoration(
+                      decoration: InputDecoration(
                         focusedBorder:  OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           // width: 0.0 produces a thin "hairline" border
@@ -295,7 +298,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
-                  new Directionality(
+                   Directionality(
                     textDirection: TextDirection.rtl,
                     child: TextFormField(
                       onSaved: (value) {
@@ -309,31 +312,31 @@ class _LoginPageState extends State<LoginPage> {
                       cursorColor: const Color(0xdeedd03c),
                       textAlign: TextAlign.right,
                       controller: _controllerPass,
-                      decoration: new InputDecoration(
+                      decoration:  InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
                         focusedBorder: OutlineInputBorder(
                           // width: 0.0 produces a thin "hairline" border
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: const Color(0xdeedd03c),
+                          borderSide: const BorderSide(
+                            color: Color(0xdeedd03c),
                           ),
                         ),
-                        prefixIcon: Icon(Icons.lock_outline, color: const Color(0xff334856),),
-                        prefixStyle: TextStyle(
-                            fontSize: 18, color: const Color(0xff334856)),
+                        prefixIcon: const Icon(Icons.lock_outline, color: Color(0xff334856),),
+                        prefixStyle: const TextStyle(
+                            fontSize: 18, color: Color(0xff334856)),
                         hoverColor: const Color(0xff334856),
                         alignLabelWithHint: true,
                         hintText: 'أدخل كلمة المرور',
                         labelText: 'كلمة المرور',
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                             fontSize: 14,
-                            color: const Color(0xff334856),
+                            color: Color(0xff334856),
                             fontFamily: 'Tajawal'),
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                             fontSize: 18,
-                            color: const Color(0xff334856),
+                            color: Color(0xff334856),
                             fontFamily: 'Tajawal'),
 
                       ),
@@ -358,10 +361,8 @@ class _LoginPageState extends State<LoginPage> {
                               MaterialPageRoute(
                                   builder: (context) => ResetPasswordScreen()));
                         },
-                        child: Text(
+                        child: const Text(
                           'هل نسيت كلمة السر؟',
-
-                          // 'هل نسيت كلمة السر؟',
                           style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: Color(0xff334856),
@@ -388,36 +389,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () {
                          login();
-                        // Navigator.pushAndRemoveUntil(
-                        //     (context),
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             DecisionsTree()
-                        //     ),
-                        //        (route) => false);
-
-                        //or via connected logic
-                        // Navigator.pushReplacement(context,
-                        //     MaterialPageRoute(builder: (context) => DecisionsTree()));
-
                       },
                       child: Text(
                         isLogin ? "تسجيل الدخول" : "التسجيل",
                         style: TextStyle(color: Color(0xff334856), fontSize: 20),
                       )),
 
-                  // RaisedButton(
-                  //     onPressed: () {
-                  //       isLogin ? login() : createUser();
-                  //     },
-                  //     child: Text(isLogin ? "تسجيل الدخول" : "التسجيل")),
-                  // OutlinedButton(
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         isLogin = !isLogin;
-                  //       });
-                  //     },
-                  //     child: Text('Temp: Switch sign in/up'))
                 ],
               ),
             ),
@@ -428,29 +405,3 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-//signUp
-
-/*
-
-Future<void> login() async {
-
-    try{
-    UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-            email: _controllerEmail.text, password: _controllerPass.text);
-    print(userCredential.user);
-   // widget.onSignIn(userCredential.user);
-    //
-    }
-
-   on FirebaseAuthException catch (e){
-
-setState(() {
-  error = e.toString();
-  bool login = true;
-});
-
-
-    }
-  }
- */
