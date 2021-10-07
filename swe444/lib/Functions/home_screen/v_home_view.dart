@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
-//import 'logout.dart';
-import '../Widgets/mm_feed.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'mm_feed.dart';
+import 'v_feed.dart';
 import '../logout.dart';
-import 'post_request_view.dart';
 
-class mmHome extends StatefulWidget {
+class vHome extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _HomeState();
   }
 }
 
-class _HomeState extends State<mmHome> {
-  int _currentIndex = 0;
+class _HomeState extends State<vHome> {
+  // the default location which the user will be in:
+  int _currentIndex = 1;
   String _title = "الصفحة الرئيسية";
+
+  // nav bar redirection:
   final List<Widget> _children = [
-    mm_feed(),
-    PostRequest(),
     logout(),
+    VolunteerFeed(),
+    //searchPage(),
+    //ProfilePage(),
   ];
-//style: TextStyle(fontFamily: 'Tajawal'),
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             _title,
             textAlign: TextAlign.center,
@@ -75,16 +77,17 @@ class _HomeState extends State<mmHome> {
                 currentIndex: _currentIndex,
                 items: [
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.home),
-                    label: "الصفحة الرئيسية",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: new Icon(Icons.add),
-                    label: "إضافة طلب",
-                  ),
-                  BottomNavigationBarItem(
                     icon: new Icon(Icons.logout),
                     label: "تسجيل الخروج",
+                  ),
+
+                  // BottomNavigationBarItem(
+                  //   icon: new Icon(Icons.search),
+                  //   label: "البحث",
+                  // ),
+                  BottomNavigationBarItem(
+                    icon: new Icon(Icons.home),
+                    label: "الصفحة الرئيسية",
                   ),
                 ]),
           ),
@@ -100,12 +103,12 @@ class _HomeState extends State<mmHome> {
             _title = 'الصفحة الرئيسية';
           }
           break;
+        // case 1:
+        //   {
+        //     _title = 'البحث';
+        //   }
+        //   break;
         case 1:
-          {
-            _title = 'إضافة طلب';
-          }
-          break;
-        case 2:
           {
             _title = 'تسجيل الخروج';
           }

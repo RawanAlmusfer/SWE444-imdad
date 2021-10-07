@@ -3,22 +3,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class v_feed extends StatelessWidget {
+class VolunteerFeed extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<FeedViewModel>(
+        create: (_) => FeedViewModel(),
+        child: Container(
+            height: 1200,
+            width: 450,
+            child: v_feed())
+    );
+  }
+}
+
+
+class v_feed extends StatefulWidget {
   const v_feed({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() {
+    return vFeed();
+  }
+}
+
+class vFeed extends State<v_feed> {
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+        Duration.zero, () => setState(() {
+      setup();
+    }));
+  }
+
+  setup() async {
+    await Provider.of<FeedViewModel>(context, listen: false)
+        .fetchRequests();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? requests = Provider.of<FeedViewModel>(context, listen: false)
+        .requests;
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('requests')
-              .orderBy('uplaod_time', descending: true)
-              .snapshots(),
+          stream: requests,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(

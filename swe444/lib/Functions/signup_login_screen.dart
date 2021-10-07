@@ -1,19 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/painting.dart';
-import 'package:swe444/Views/login_page_mm.dart';
-import 'login_page.dart';
-import 'package:swe444/decisions_tree.dart';
-import 'package:swe444/Views/users_screen.dart';
-import 'package:swe444/signup.dart';
+import 'package:swe444/Functions/users_screen.dart';
+import 'signup/signup_v.dart';
+import 'login/login_page.dart';
+import 'package:swe444/Functions/decisions_tree.dart';
 
-class mSignupLoginScreen extends StatefulWidget {
+class SignupLoginScreen extends StatefulWidget {
   @override
   _SignupLoginScreenState createState() => _SignupLoginScreenState();
 }
 
-class _SignupLoginScreenState extends State<mSignupLoginScreen> {
+class _SignupLoginScreenState extends State<SignupLoginScreen> {
   // User? user = FirebaseAuth.instance.currentUser;
   static const kYellow = const Color(0xdeedd03c);
 
@@ -35,7 +33,6 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
             bottom: Radius.circular(50),
           ),
         ),
-
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 15.0),
@@ -93,7 +90,11 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SignUpPage()));
+                            builder: (context) => VSignUpPage(
+                                  onSignIn: (User) {
+                                    DecisionsTree();
+                                  },
+                                )));
                   },
                   child: Text(
                     'تسجيل جديد',
@@ -106,7 +107,7 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(0),
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0xdeedd03c)),
+                        MaterialStateProperty.all(Color(0xdeedd03c)),
                     minimumSize: MaterialStateProperty.all(Size(300, 64)),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
@@ -123,7 +124,11 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => mLoginPage(onSignIn: (User ) { DecisionsTree(); },)));
+                            builder: (context) => LoginPage(
+                                  onSignIn: (User) {
+                                    DecisionsTree();
+                                  },
+                                )));
                   },
                   child: Text(
                     'تسجيل دخول',
@@ -136,7 +141,7 @@ class _SignupLoginScreenState extends State<mSignupLoginScreen> {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(0),
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0xdeedd03c)),
+                        MaterialStateProperty.all(Color(0xdeedd03c)),
                     minimumSize: MaterialStateProperty.all(Size(300, 64)),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(

@@ -4,6 +4,7 @@ class VUserModel {
   String? first_name;
   String? last_name;
   int? volunteer_phone;
+  String? role;
 
   VUserModel({
     this.uid,
@@ -11,6 +12,7 @@ class VUserModel {
     this.first_name,
     this.last_name,
     this.volunteer_phone,
+    this.role,
   });
 
   // receiving data from server
@@ -21,6 +23,7 @@ class VUserModel {
       first_name: map['first_name'],
       last_name: map['last_name'],
       volunteer_phone: map['volunteer_phone'],
+      role: map['role'],
     );
   }
 
@@ -32,6 +35,7 @@ class VUserModel {
       'first_name': first_name,
       'last_name': last_name,
       'phone_number': volunteer_phone,
+      'role':role,
     };
   }
 }

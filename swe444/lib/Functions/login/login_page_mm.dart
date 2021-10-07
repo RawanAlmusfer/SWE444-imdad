@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:swe444/Views/v_home_view.dart';
+import 'package:swe444/Functions/home_screen/mm_home_view.dart';
+import 'package:swe444/Functions/signup_login_screen_mm.dart';
+// import 'package:swe444/Views/mm_home_view.dart';
+// import 'package:swe444/Views/signup_login_screen_mm.dart';
+// import 'package:swe444/Views/v_home_view.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
-import 'signup_login_screen.dart';
+import '../signup_login_screen.dart';
 import 'reset_password.dart';
 
-class LoginPage extends StatefulWidget {
+class mLoginPage extends StatefulWidget {
   final Function(User) onSignIn;
 
-  LoginPage({required this.onSignIn});
+  mLoginPage({required this.onSignIn});
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<mLoginPage> {
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerPass = TextEditingController();
   static const kYellow = const Color(0xdeedd03c);
@@ -32,16 +36,11 @@ class _LoginPageState extends State<LoginPage> {
       try {
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
-            email: _controllerEmail.text, password: _controllerPass.text);
+                email: _controllerEmail.text, password: _controllerPass.text);
         print(userCredential.user);
         widget.onSignIn(userCredential.user!);
         //
       } on FirebaseAuthException catch (e) {
-//firebaseErrors[e.code]!;
-
-// if (check.isEmpty)
-//   {check=e.toString();}
-
         switch (e.code) {
           case "invalid-email":
             setState(() {
@@ -64,49 +63,49 @@ class _LoginPageState extends State<LoginPage> {
           case "requires-recent-login":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
 
           case "too-many-requests":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
 
           case "operation-not-allowed":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
 
           case "network-request-failed":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
 
           case "credential-already-in-use":
             setState(() {
               errorMessage =
-              'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+                  'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
             });
             break;
 
           case "user-disabled":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
 
           case "user-disabled":
             setState(() {
               errorMessage =
-              'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
             });
             break;
 
@@ -159,49 +158,49 @@ class _LoginPageState extends State<LoginPage> {
         case "requires-recent-login":
           setState(() {
             errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
           });
           break;
 
         case "too-many-requests":
           setState(() {
             errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
           });
           break;
 
         case "operation-not-allowed":
           setState(() {
             errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
           });
           break;
 
         case "network-request-failed":
           setState(() {
             errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
           });
           break;
 
         case "credential-already-in-use":
           setState(() {
             errorMessage =
-            'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+                'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
           });
           break;
 
         case "user-disabled":
           setState(() {
             errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
           });
           break;
 
         case "user-disabled":
           setState(() {
             errorMessage =
-            'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
           });
           break;
 
@@ -214,16 +213,14 @@ class _LoginPageState extends State<LoginPage> {
 
       snackbar = Snackbar(context, errorMessage);
       snackbar!.showToast();
-
     } //end 2ed switch
-
   } //end login
 
   Future<void> createUser() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-          email: _controllerEmail.text, password: _controllerPass.text);
+              email: _controllerEmail.text, password: _controllerPass.text);
       print(userCredential.user);
       widget.onSignIn(userCredential.user!);
       //
@@ -251,7 +248,6 @@ class _LoginPageState extends State<LoginPage> {
             fontSize: 24,
           ),
         ),
-
         backgroundColor: const Color(0xdeedd03c),
         bottomOpacity: 30,
         shape: const RoundedRectangleBorder(
@@ -267,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SignupLoginScreen()));
+                        builder: (context) => mSignupLoginScreen()));
               },
               child: Icon(Icons.arrow_forward_ios),
             ),
@@ -278,9 +274,8 @@ class _LoginPageState extends State<LoginPage> {
 
           color: Color(0xff334856), //change your color here.
         ),
-
       ),
-      body: new Container(
+      body: Container(
         padding: new EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: ConstrainedBox(
@@ -298,7 +293,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Image.asset('images/logo.png')),
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(left: 0.0, top: 55),
+                      padding: EdgeInsets.only(left: 0.0, top: 55),
                       child: Text(
                         "مرحباً بك في",
                         style: TextStyle(
@@ -319,26 +314,28 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
-                new Directionality(
+                Directionality(
                   textDirection: TextDirection.rtl,
-                  child: new TextFormField(
+                  child: TextFormField(
                     showCursor: true,
                     cursorColor: const Color(0xdeedd03c),
                     textAlign: TextAlign.right,
                     controller: _controllerEmail,
-                    decoration: new InputDecoration(
-                      focusedBorder:  OutlineInputBorder(
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(
                           color: kYellow,
                         ),
                       ),
-                      prefixIcon: Icon(Icons.email_outlined, color: const Color(0xff334856),),
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        color: const Color(0xff334856),
+                      ),
                       prefixStyle: TextStyle(
                           fontSize: 18, color: const Color(0xff334856)),
                       hoverColor: const Color(0xff334856),
-
                       hintText: 'أدخل البريد الالكتروني',
                       labelText: 'البريد الالكتروني',
                       hintStyle: TextStyle(
@@ -350,7 +347,9 @@ class _LoginPageState extends State<LoginPage> {
                           color: const Color(0xff334856),
                           fontFamily: 'Tajawal'),
                       alignLabelWithHint: true,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(30),),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                     autocorrect: false,
                   ),
@@ -358,27 +357,32 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
-                new Directionality(
+                Directionality(
                   textDirection: TextDirection.rtl,
-                  child: new TextFormField(
+                  child: TextFormField(
                     showCursor: true,
                     cursorColor: const Color(0xdeedd03c),
                     textAlign: TextAlign.right,
                     controller: _controllerPass,
-                    decoration: new InputDecoration(
-                      focusedBorder:  OutlineInputBorder(
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         // width: 0.0 produces a thin "hairline" border
-                        borderSide:  BorderSide(
+                        borderSide: BorderSide(
                           color: const Color(0xdeedd03c),
                         ),
                       ),
-                      prefixIcon: Icon(Icons.lock_outline, color: const Color(0xff334856),),
+                      prefixIcon: Icon(
+                        Icons.lock_outline,
+                        color: const Color(0xff334856),
+                      ),
                       prefixStyle: TextStyle(
                           fontSize: 18, color: const Color(0xff334856)),
                       hoverColor: const Color(0xff334856),
                       alignLabelWithHint: true,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(30),),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                       hintText: 'أدخل كلمة السر',
                       labelText: 'كلمة السر',
                       hintStyle: TextStyle(
@@ -389,9 +393,7 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 18,
                           color: const Color(0xff334856),
                           fontFamily: 'Tajawal'),
-
                     ),
-
                     autocorrect: false,
                     obscureText: true,
                   ),
@@ -432,7 +434,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all(0),
                       backgroundColor:
-                      MaterialStateProperty.all(Color(0xdeedd03c)),
+                          MaterialStateProperty.all(Color(0xdeedd03c)),
                       minimumSize: MaterialStateProperty.all(Size(300, 64)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
@@ -444,12 +446,8 @@ class _LoginPageState extends State<LoginPage> {
                       login();
                       Navigator.pushAndRemoveUntil(
                           (context),
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  vHome()
-                          ),
-                              (route) => false);
-
+                          MaterialPageRoute(builder: (context) => mmHome()),
+                          (route) => false);
                     },
                     child: Text(
                       isLogin ? "تسجيل الدخول" : "التسجيل",
