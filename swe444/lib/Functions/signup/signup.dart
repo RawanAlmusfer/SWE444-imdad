@@ -42,13 +42,14 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty ) {
           return ("الرجاء قم بإدخال بريد إلكتروني");
         }
         // reg expression for email validation
         if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
           return ("البريد الإلكتروني غير صحيح");
         }
+
         return null;
       },
       onSaved: (value) {
@@ -98,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       validator: (value) {
         RegExp regex = new RegExp(r'^.{6,}$');
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty  ) {
           return ("الرجاء تعيين كلمة مرور");
         }
         if (!regex.hasMatch(value)) {
@@ -151,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildConfirmPasswordField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("رجاءً قم بتأكيد كلمة مرور");
         }
         if (_controllerPass2.text != _controllerPass.text) {
@@ -207,13 +208,17 @@ class _SignUpPageState extends State<SignUpPage> {
       onSaved: (value) {
         mosqueName.text = value!;
       },
+
       validator: (value) {
         RegExp regex = RegExp(r'^.{5,}$');
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال اسم المسجد");
         }
         if (!regex.hasMatch(value)) {
           return ("يجب ان يحتوي على 5 حروف على الأقل");
+        }
+        if (!RegExp(r"^[\p{L} ,.'-]*$", caseSensitive: false, unicode: true, dotAll: true).hasMatch(value)) {
+          return ("يجب ان يحتوي اسم المسجد على أحرف فقط");
         }
         return null;
       },
@@ -265,7 +270,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء إدخال رقم جوال المسجد ");
         }
         if (!regex.hasMatch(value)) {
@@ -379,7 +384,7 @@ class _SignUpPageState extends State<SignUpPage> {
         mosqueCode.text = value!;
       },
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال رمز المسجد");
         }
         return null;

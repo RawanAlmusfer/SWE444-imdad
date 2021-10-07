@@ -18,9 +18,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   TextEditingController _controllerEmail = TextEditingController();
   final auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  String? errorMessage , errorMessage2 ;
+  String? errorMessage, errorMessage2;
 
-  Snackbar? snackbar, snackbar2,snackbar3;
+  Snackbar? snackbar, snackbar2, snackbar3;
 
   Future<void> resetPass() async {
     if (_formKey.currentState!.validate()) {
@@ -84,11 +84,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           if (errorMessage != null) {
             snackbar = Snackbar(context, errorMessage!);
             snackbar!.showToast();
-            errorMessage=null;
+            errorMessage = null;
           }
-
-
-
         }
       } //end if
 
@@ -102,14 +99,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       }
 
       if (errorMessage == null) {
+        snackbar3 = Snackbar(context,
+            "تم إسال رابط تفعيل  لكلمة المرور الجديدة على البريد الالكتروني الذي تم تزويدنا فيه");
+        snackbar3!.showToast();
 
-        snackbar3 = Snackbar(context,"تم إسال رابط تفعيل  لكلمة المرور الجديدة على البريد الالكتروني الذي تم تزويدنا فيه");
-      snackbar3!.showToast();
-
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => DecisionsTree())); }
-
-
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => DecisionsTree()));
+      }
     }
   } //end login
 
@@ -154,6 +150,44 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
         backgroundColor: const Color(0xdeedd03c),
       ),
+      // appBar:
+      // AppBar(
+      //   title: Text('إعادة ضبط كلمة السر',    textAlign: TextAlign.center,
+      //     style: TextStyle(
+      //       color: Color(0xff334856),
+      //       fontWeight: FontWeight.w700,
+      //       fontFamily: 'Tajawal',
+      //       fontSize: 24,
+      //     ),),
+      //
+      //   bottomOpacity: 30,
+      //   shape: const RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.vertical(
+      //       bottom: Radius.circular(50),
+      //     ),
+      //   ),
+      //
+      //   actions: <Widget>[
+      //     Padding(
+      //       padding: EdgeInsets.only(right: 15.0),
+      //       child: GestureDetector(
+      //         onTap: () {
+      //           Navigator.pushReplacement(context,
+      //               MaterialPageRoute(builder: (context) => DecisionsTree()));
+      //         },
+      //         child: Icon(Icons.arrow_forward_ios),
+      //       ),
+      //     )
+      //   ],
+      //   iconTheme: IconThemeData(
+      //     // Padding(padding: EdgeInsets.only(right: 20.0)),
+      //
+      //     color: Color(0xff334856), //change your color here.
+      //   ),
+      //   backgroundColor: const Color(0xdeedd03c),
+      //
+      //
+      // ),
       body: new Container(
         padding: new EdgeInsets.all(20.0),
         child: SingleChildScrollView(

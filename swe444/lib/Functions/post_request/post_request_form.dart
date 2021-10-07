@@ -226,7 +226,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     textAlign: TextAlign.right,
                     maxLines: 1,
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty || value.trim().isEmpty)
                         return "مطلوب";
                       if (value.length > 30)
                         return "لا يمكن ان يزيد عن 30 حرف ";
@@ -363,7 +363,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                       EdgeInsets.only(right: h2, left: l2, bottom: 0, top: 0),
                   child: TextFormField(
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty || value.trim().isEmpty)
                         return "مطلوب";
                       else {
                         _value = double.parse(value);
