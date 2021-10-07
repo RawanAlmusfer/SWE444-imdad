@@ -6,6 +6,7 @@ import 'package:swe444/Functions/home_screen/v_home_view.dart';
 // import 'package:swe444/Views/v_home_view.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 // import '../decisions_tree.dart';
+import '../CustomPageRoute.dart';
 import '../home_screen/mm_home_view.dart';
 // import '../signup_login_screen.dart';
 import '../users_screen.dart';
@@ -59,7 +60,8 @@ class _LoginPageState extends State<LoginPage> {
 
             case "user-not-found":
               setState(() {
-                errorMessage1 = 'لايوجد مستخدم مسجل بهذا الحساب في تطبيق إمْداد';
+                errorMessage1 =
+                    'لايوجد مستخدم مسجل بهذا الحساب في تطبيق إمْداد';
               });
               break;
 
@@ -383,11 +385,8 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ResetPasswordScreen()));
+                                Navigator.of(context).push(CustomPageRoute(
+                                    child: ResetPasswordScreen()));
                               },
                               child: const Text(
                                 'هل نسيت كلمة السر؟',
