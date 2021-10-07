@@ -333,7 +333,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return ("الرجاء إدخال كلمة المرور ");
+                                return ("الرجاء إدخال كلمة السر ");
                               }
                             },
                             showCursor: true,
@@ -359,8 +359,8 @@ class _LoginPageState extends State<LoginPage> {
                                   fontSize: 18, color: Color(0xff334856)),
                               hoverColor: const Color(0xff334856),
                               alignLabelWithHint: true,
-                              hintText: 'أدخل كلمة المرور',
-                              labelText: 'كلمة المرور',
+                              hintText: 'أدخل كلمة السر',
+                              labelText: 'كلمة السر',
                               hintStyle: const TextStyle(
                                   fontSize: 14,
                                   color: Color(0xff334856),
