@@ -1,12 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:swe444/Models/request.dart';
+import 'package:swe444/Functions/home_screen/mm_home_view.dart';
+import 'package:swe444/Functions/post_request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
-import '../Views/mm_home_view.dart';
 
 class PostRequestForm extends StatefulWidget {
   PostRequestForm({
@@ -23,10 +22,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
   String? type, mosque_name, mosque_location;
   String? postedBy;
   int? amount;
-  String description = " ";
-  String? title;
+  TextEditingController _amount =  TextEditingController();
+  TextEditingController title= TextEditingController();
   DateTime time = DateTime.now();
   final List<String> items = <String>['مبلغ'];
+  TextEditingController description= TextEditingController();
+
 
   Widget _buildType(bool orientation) {
     double h1 = 0, h2 = 0, b1 = 0;
@@ -75,8 +76,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     width: orientation == true ? 190.w : 180.w,
                     height: orientation == true ? 55.h : 110.h,
                     child: Padding(
-                      padding:
-                          EdgeInsets.only(left: h2, right: h2, top: b1),
+                      padding: EdgeInsets.only(left: h2, right: h2, top: b1),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration.collapsed(
@@ -117,7 +117,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                           onChanged: (value) =>
                               setState(() => this.type = value),
                           validator: (value) =>
-                              value == null ? 'رجاءً قم بالاختيار' : null,
+                              value == null ? 'مطلوب' : null,
                           icon: Icon(Icons.arrow_drop_down_circle),
                           hint: Padding(
                             padding: EdgeInsets.only(top: 5.h),
@@ -227,8 +227,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     maxLines: 1,
                     validator: (value) {
                       if (value == null || value.isEmpty)
-                        return "رجاءً قم بأدخال العنوان";
+                        return "مطلوب";
+                      if (value.length > 30)
+                        return "لا يمكن ان يزيد عن 30 حرف ";
                     },
+                    controller: title,
                     decoration: InputDecoration(
                         hintText: "العنوان",
                         border: InputBorder.none,
@@ -243,8 +246,9 @@ class _AddRequestFormState extends State<PostRequestForm> {
                         contentPadding: EdgeInsets.fromLTRB(15.w, 0, 10.w, 16),
                         hintStyle: const TextStyle(
                             fontSize: 14, fontFamily: "Tajawal")),
-                    onChanged: (_val) {
-                      title = _val;
+                    onSaved: (_val) {
+                      if (_val != null)
+                          title.text = _val;
                     }, // onchanged
                     inputFormatters: [LengthLimitingTextInputFormatter(30)],
                   ),
@@ -339,8 +343,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.0),
                     color: Color(0xffffffff),
-                    border: Border.all(
-                        width: 0.5, color: const Color(0xffdfdfdf)),
+                    border:
+                        Border.all(width: 0.5, color: const Color(0xffdfdfdf)),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0x29000000),
@@ -355,30 +359,30 @@ class _AddRequestFormState extends State<PostRequestForm> {
                 width: orientation == true ? 174.w : 130.w,
                 height: orientation == true ? 62.h : 120.h,
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      right: h2, left: l2, bottom: 0, top: 0),
+                  padding:
+                      EdgeInsets.only(right: h2, left: l2, bottom: 0, top: 0),
                   child: TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty)
                         return "مطلوب";
                       else {
                         _value = double.parse(value);
-                        if (_value > 50000 || _value <= 0)
-                          return "الاقصى= 50000";
+                        if (_value > 50000 )
+                          return "الآقصى= 50000";
+                        if (_value < 10)
+                          return "الآدنى= 10";
                       }
                     },
                     textAlign: TextAlign.right,
                     decoration: InputDecoration(
-                      hintText: "000",
+                        hintText: "000",
                         border: InputBorder.none,
                         errorBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.red, width: 1),
+                          borderSide: BorderSide(color: Colors.red, width: 1),
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.red, width: 1),
+                          borderSide: BorderSide(color: Colors.red, width: 1),
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                         contentPadding:
@@ -389,16 +393,17 @@ class _AddRequestFormState extends State<PostRequestForm> {
                       LengthLimitingTextInputFormatter(30),
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                     ],
+                    controller: _amount,
                     keyboardType: TextInputType.number,
-                    onChanged: (_val) {
-                      amount = int.parse(_val);
-                    }, // onchanged
+                    onSaved: (_val) {
+                      if (_val != null) {
+                        _amount.text = _val;
+                      }}, // onsaved
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 20.0, left: 160, top: 7),
+                padding: const EdgeInsets.only(bottom: 20.0, left: 160, top: 7),
                 child: const Text("*",
                     textAlign: TextAlign.right,
                     style: TextStyle(
@@ -515,11 +520,13 @@ class _AddRequestFormState extends State<PostRequestForm> {
                               inputFormatters: [
                                 LengthLimitingTextInputFormatter(150)
                               ],
+                              controller: description,
                               keyboardType: TextInputType.multiline,
                               maxLines: 5,
-                              onChanged: (_val) {
-                                description = _val;
-                              }, // onchanged
+                              onSaved: (_val) {
+                                if (_val != null)
+                                description.text = _val;
+                              }, // onsaved
                             ),
                           ),
                         ),
@@ -607,8 +614,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
           children: [
             Container(
               width: portrait == true ? 300.w : 400.w,
-                child: _buildType(portrait),
-              ),
+              child: _buildType(portrait),
+            ),
             // email container
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -643,7 +650,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
               ],
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+              height: MediaQuery.of(context).size.height * 0.01,
             ),
 
             ElevatedButton(
@@ -675,24 +682,32 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   void add(String? id) async {
+    RequestViewModel requestVM= RequestViewModel();
     // save to db
-    postedBy = id;
+    // postedBy = id;
+    // FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
+
+    requestVM.postedBy = id;
+
     var document =
-        await FirebaseFirestore.instance.collection("users").doc(id).get();
+    await requestVM.userDocument;
+
     if (document.exists) {
       Map<String, dynamic>? data = document.data();
-      mosque_name = data?['mosque_name'];
-      mosque_location = data?['location'];
-      Request request = Request(title, type, amount, postedBy, description,
-          mosque_name, mosque_location, time);
-      Snackbar? snackbar;
-      String msg = "";
+      requestVM.setMName = data?['mosque_name'];
+      requestVM.setMLocation = data?['location'];
 
-      await FirebaseFirestore.instance
-          .collection('requests')
-          .add(request.toJson())
-          .then((value) => {msg = 'تمت إضافة الطلب بنجاح'})
-          .catchError((error) => msg = " فشل في إضافة الطلب:" + error);
+      requestVM.setDescription= description.text;
+      requestVM.setTitle= title.text;
+      requestVM.setType= type;
+      requestVM.setUploadTime= time;
+      amount = int.parse(_amount.text);
+      requestVM.setAmount = amount;
+
+      await requestVM.add();
+
+      Snackbar? snackbar;
+      String msg = requestVM.message;
 
       snackbar = Snackbar(context, msg);
       snackbar.showToast();

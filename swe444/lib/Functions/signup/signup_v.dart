@@ -2,14 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'Models/UserModel.dart';
-import 'Models/VUserModel.dart';
-import 'Views/login_page.dart';
-import 'Views/signup_login_screen_mm.dart';
-import 'Views/v_home_view.dart';
-import 'Widgets/show_snackbar.dart';
-import 'Views/mm_home_view.dart';
+import 'package:swe444/Functions/home_screen/v_home_view.dart';
+import '../../Models/VUserModel.dart';
+import '../../Widgets/show_snackbar.dart';
+import '../signup_login_screen.dart';
 
 class VSignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
@@ -35,20 +31,13 @@ class _SignUpPageState extends State<VSignUpPage> {
   static const kYellow = const Color(0xdeedd03c);
   String error = "";
   bool isLogin = true;
+  String errorMessage = "";
 
   final _auth = FirebaseAuth.instance;
   Snackbar? snackbar;
   Snackbar? snackbar2;
-
-  //const LoginPage ({required Key key, required this.onSignInAno}) : super(key: key);
-  /*Future<void> loginAno() async {
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInAnonymously();
-    print(userCredential.user);
-    //User? user2= userCredential.user;
-    widget.onSignIn(userCredential.user);
-    //Can't record in the database if line above is hided
-  } */
+  Snackbar? snackbar3;
+  bool valid = true;
 
   Future<void> login() async {
     try {
@@ -235,12 +224,12 @@ class _SignUpPageState extends State<VSignUpPage> {
         firstName.text = value!;
       },
       validator: (value) {
-        RegExp regex = RegExp(r'^.{5,}$');
+        RegExp regex = RegExp(r'^.{2,}$');
         if (value!.isEmpty) {
-          return ("الرجاء قم بإدخال اسم المسجد");
+          return ("الرجاء قم بإدخال اسمك الاول");
         }
         if (!regex.hasMatch(value)) {
-          return ("يجب ان يحتوي على 5 حروف على الأقل");
+          return ("يجب ان يحتوي على حرفين على الأقل");
         }
         return null;
       },
@@ -291,12 +280,12 @@ class _SignUpPageState extends State<VSignUpPage> {
         lastName.text = value!;
       },
       validator: (value) {
-        RegExp regex = RegExp(r'^.{5,}$');
+        RegExp regex = RegExp(r'^.{2,}$');
         if (value!.isEmpty) {
-          return ("الرجاء قم بإدخال اسم المسجد");
+          return ("الرجاء قم بإدخال اسم عائلتك");
         }
         if (!regex.hasMatch(value)) {
-          return ("يجب ان يحتوي على 5 حروف على الأقل");
+          return ("يجب ان يحتوي على حرفين على الأقل");
         }
         return null;
       },
@@ -349,7 +338,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       validator: (value) {
         RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
         if (value!.isEmpty) {
-          return ("الرجاء إدخال رقم جوال المسجد ");
+          return ("الرجاء إدخال رقم الجوال ");
         }
         if (!regex.hasMatch(value)) {
           return ("Enter Valid Phone number");
@@ -407,167 +396,156 @@ class _SignUpPageState extends State<VSignUpPage> {
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(
-          "التسجيل",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color(0xff334856),
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Tajawal',
-            fontSize: 24,
-          ),
-        ),
-        backgroundColor: const Color(0xdeedd03c),
-        bottomOpacity: 30,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50),
-          ),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 25.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => mSignupLoginScreen()));
-              },
-              child: Icon(
-                Icons.arrow_forward_ios,
-                color: Color(0xff334856),
-              ),
-            ),
-          )
-        ],
-      ),
       body: Container(
         padding: EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: const BoxConstraints(),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Row(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    right: 0,
+                    left: 290,
+                    top: 45,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignupLoginScreen()));
+                    },
+                    child: Icon(
+                      Icons.keyboard_backspace_rounded,
+                      textDirection: TextDirection.rtl,
+                      size: 30,
+                      color: Color(0xff334856),
+                    ),
+                  ),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
                     children: [
-                      Container(
-                          height: 160,
-                          width: 160,
-                          child: Image.asset('images/logo.png')), // email
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0, top: 55),
-                        child: Text(
-                          "مرحباً بك في",
-                          style: TextStyle(
-                            color: Color(0xff334856),
-                            fontSize: 32,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Tajawal',
+                      Row(
+                        children: [
+                          Container(
+                              height: 160,
+                              width: 160,
+                              child: Image.asset('images/logo.png')), // email
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5.0, top: 55),
+                            child: Text(
+                              "مرحباً بك في",
+                              style: TextStyle(
+                                color: Color(0xff334856),
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                  ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildEmailField(),
-                    ),
-                  ), // email container
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildPasswordField(),
-                    ),
-                  ), // password container
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildConformPasswordField(),
-                    ),
-                  ), // conform container
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildfirstNameField(),
-                    ),
-                  ), // mosque name
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildlastNameField(),
-                    ),
-                  ), // mosque name
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Container(
-                    width: 330,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: _buildPhoneField(),
-                    ),
-                  ), // phone
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                      Container(
+                        width: 330,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: _buildEmailField(),
+                        ),
+                      ), // email container
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Container(
+                        width: 330,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: _buildPasswordField(),
+                        ),
+                      ), // password container
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Container(
+                        width: 330,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: _buildConformPasswordField(),
+                        ),
+                      ), // conform container
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Container(
+                        width: 330,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: _buildfirstNameField(),
+                        ),
+                      ), // mosque name
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Container(
+                        width: 330,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: _buildlastNameField(),
+                        ),
+                      ), // mosque name
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Container(
+                        width: 330,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: _buildPhoneField(),
+                        ),
+                      ), // phone
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                          ),
+                        ],
                       ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            signUp(_controllerEmail.text, _controllerPass.text);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(180.w, 50.h),
+                            primary: const Color(0xdeedd03c),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          child: Text(
+                            "التسجيل",
+                            style: TextStyle(
+                                color: Color(0xff334856),
+                                fontSize: 20,
+                                fontFamily: 'Tajawal'),
+                          )),
+                      Text(error),
                     ],
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        signUp(_controllerEmail.text, _controllerPass.text);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(180.w, 50.h),
-                        primary: const Color(0xdeedd03c),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                      ),
-                      child: Text(
-                        "التسجيل",
-                        style: TextStyle(
-                            color: Color(0xff334856),
-                            fontSize: 20,
-                            fontFamily: 'Tajawal'),
-                      )),
-                  Text(error),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -575,15 +553,103 @@ class _SignUpPageState extends State<VSignUpPage> {
     );
   }
 
-  void signUp(String email, String password) async {
+  Future<void> signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore()})
-          .catchError((e) {
-        snackbar2 = new Snackbar(context, e!.message);
-        snackbar2?.showToast();
-      });
+      try {
+        await _auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) => {postDetailsToFirestore()});
+        login();
+      } on FirebaseAuthException catch (e) {
+        switch (e.code) {
+          case "email-already-in-use":
+            setState(() {
+              errorMessage = 'البريد الإلكتروني مستخدم مسبقًا';
+            });
+            break;
+          case "invalid-email":
+            setState(() {
+              errorMessage = 'البديد الإلكتروني غير صالح';
+            });
+            break;
+          case "too-many-requests":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "operation-not-allowed":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "network-request-failed":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "credential-already-in-use":
+            setState(() {
+              errorMessage =
+                  'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+            });
+            break;
+          default:
+            setState(() {
+              errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
+            });
+            break;
+        }
+        snackbar2 = Snackbar(context, errorMessage);
+        snackbar2!.showToast();
+      }
+      ;
+      if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
+        errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
+      } else if (_controllerEmail.text.isEmpty) {
+        errorMessage = " الرجاء إدخال البريد الالكتروني ";
+      } else if (_controllerPass.text.isEmpty) {
+        errorMessage = "الرجاء إدخال كلمة السر ";
+
+        switch ("invalid-email") {
+          case "invalid-email":
+            errorMessage = 'البريد الالكتروني غير صحيح';
+            break;
+          case "too-many-requests":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "operation-not-allowed":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "network-request-failed":
+            setState(() {
+              errorMessage =
+                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+            });
+            break;
+          case "credential-already-in-use":
+            setState(() {
+              errorMessage =
+                  'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+            });
+            break;
+          default:
+            setState(() {
+              errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
+            });
+            break;
+        }
+        snackbar3 = Snackbar(context, errorMessage);
+        snackbar3!.showToast();
+      } //end 2ed switch
     }
   }
 
@@ -599,16 +665,24 @@ class _SignUpPageState extends State<VSignUpPage> {
     userModel.first_name = firstName.text;
     userModel.last_name = lastName.text;
     userModel.volunteer_phone = int.parse(phoneNum.text);
+    userModel.role = 'volunteer';
 
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
-        .set(userModel.toMap());
-    snackbar = new Snackbar(context, "تم التسجيل بنجاح ");
+        .set(userModel.toMap())
+        .then((value) => snackbar = Snackbar(context, "تم التسجيل بنجاح "))
+        .catchError((e) {
+      valid = false;
+      snackbar = Snackbar(context, "حدث خطأ ");
+    });
+
     snackbar?.showToast();
 
-    login();
-    Navigator.pushAndRemoveUntil((context),
-        MaterialPageRoute(builder: (context) => vHome()), (route) => false);
+    if (valid == true) {
+      login();
+      Navigator.pushAndRemoveUntil((context),
+          MaterialPageRoute(builder: (context) => vHome()), (route) => false);
+    }
   }
 }

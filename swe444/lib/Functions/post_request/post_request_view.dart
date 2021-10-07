@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../Widgets/post_request_form.dart';
-import 'mm_home_view.dart';
+import 'post_request_form.dart';
+import '../home_screen/mm_home_view.dart';
 
 class PostRequest extends StatefulWidget {
   PostRequest.ensureInitialized();
@@ -55,7 +55,7 @@ class _PostRequestState extends State<PostRequest> {
                     height: portrait == true ? 540.h : 1100.h,
                     width: portrait == true ? 330.w : 280.w,
                     padding:
-                        const EdgeInsets.only(left: 12, right: 12, top: 24),
+                    const EdgeInsets.only(left: 12, right: 12, top: 24),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25.0),
                       color: Color(0xffffffff),
