@@ -12,14 +12,9 @@ class VolunteerFeed extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedViewModel>(
         create: (_) => FeedViewModel(),
-        child: Container(
-            height: 1200,
-            width: 450,
-            child: v_feed())
-    );
+        child: Container(height: 1200, width: 450, child: v_feed()));
   }
 }
-
 
 class v_feed extends StatefulWidget {
   const v_feed({
@@ -33,25 +28,24 @@ class v_feed extends StatefulWidget {
 }
 
 class vFeed extends State<v_feed> {
-
   @override
   void initState() {
     super.initState();
     Future.delayed(
-        Duration.zero, () => setState(() {
-      setup();
-    }));
+        Duration.zero,
+        () => setState(() {
+              setup();
+            }));
   }
 
   setup() async {
-    await Provider.of<FeedViewModel>(context, listen: false)
-        .fetchRequests();
+    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
   }
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>>? requests = Provider.of<FeedViewModel>(context, listen: false)
-        .requests;
+    Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
+        Provider.of<FeedViewModel>(context, listen: false).requests;
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
@@ -202,35 +196,36 @@ class vFeed extends State<v_feed> {
                 padding: const EdgeInsets.only(
                     top: 5.0, bottom: 5.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
-                  Container(
-                    // decoration: BoxDecoration(
-                    //   boxShadow: [
-                    //     BoxShadow(
-                    //         color: Color(0xffededed),
-                    //         spreadRadius: 1,
-                    //         blurRadius: 10),
-                    //   ],
-                    // ),
-                    height: 30,
-                    width: 65,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        "تبرع",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Tajawal',
-                            color: const Color(0xff334856)),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(65.w, 30.h),
-                        primary: const Color(0xdeedd03c),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // This button for sprint 2
+                  // Container(
+                  //   // decoration: BoxDecoration(
+                  //   //   boxShadow: [
+                  //   //     BoxShadow(
+                  //   //         color: Color(0xffededed),
+                  //   //         spreadRadius: 1,
+                  //   //         blurRadius: 10),
+                  //   //   ],
+                  //   // ),
+                  //   height: 30,
+                  //   width: 65,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {},
+                  //     child: Text(
+                  //       "تبرع",
+                  //       textAlign: TextAlign.center,
+                  //       style: TextStyle(
+                  //           fontFamily: 'Tajawal',
+                  //           color: const Color(0xff334856)),
+                  //     ),
+                  //     style: ElevatedButton.styleFrom(
+                  //       minimumSize: Size(65.w, 30.h),
+                  //       primary: const Color(0xdeedd03c),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(50),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),

@@ -3,16 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/mm_home_view.dart';
-import 'package:swe444/Models/UserModel.dart';
+import 'package:swe444/Models/SignupMViewModel.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
-
 import '../signup_login_screen.dart';
-
-// import 'Models/UserModel.dart';
-// import 'Views/login_page.dart';
-// import 'Views/signup_login_screen_mm.dart';
-// import 'Widgets/show_snackbar.dart';
-// import 'Views/mm_home_view.dart';
 
 class SignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
@@ -44,21 +37,6 @@ class _SignUpPageState extends State<SignUpPage> {
   Snackbar? snackbar;
   Snackbar? snackbar2, snackbar3;
   bool valid = true;
-
-  Future<void> login() async {
-    {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: _controllerEmail.text, password: _controllerPass.text);
-        print(userCredential.user);
-        widget.onSignIn(userCredential.user!);
-        //
-      } on FirebaseAuthException catch (e) {
-        //Snackbar(context, e.toString()).showToast();
-      }
-    }
-  }
 
   Widget _buildEmailField() {
     return TextFormField(
@@ -629,6 +607,21 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  Future<void> authen() async {
+    {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: _controllerEmail.text, password: _controllerPass.text);
+        print(userCredential.user);
+        widget.onSignIn(userCredential.user!);
+        //
+      } on FirebaseAuthException catch (e) {
+        //Snackbar(context, e.toString()).showToast();
+      }
+    }
+  }
+
   Future<void> signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -643,7 +636,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 .createUserWithEmailAndPassword(
                     email: email, password: password)
                 .then((value) => {postDetailsToFirestore()});
-            login();
+            authen();
           } on FirebaseAuthException catch (e) {
             switch (e.code) {
               case "email-already-in-use":
