@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerPass = TextEditingController();
   static const kYellow = const Color(0xdeedd03c);
-  String? errorMessage;
+  String? errorMessage1, errorMessage2;
   Snackbar? snackbar, snackbar2, snackbar3;
 
   final _formKey = GlobalKey<FormState>();
@@ -47,76 +47,76 @@ class _LoginPageState extends State<LoginPage> {
           switch (e.code) {
             case "invalid-email":
               setState(() {
-                errorMessage = 'البريد الالكتروني غير صحيح';
+                errorMessage1 = 'البريد الالكتروني غير صحيح';
               });
               break;
 
             case "wrong-password":
               setState(() {
-                errorMessage = 'كلمة السر غير صحيحة';
+                errorMessage1 = 'كلمة السر غير صحيحة';
               });
               break;
 
             case "user-not-found":
               setState(() {
-                errorMessage = 'لايوجد مستخدم مسجل بهذا الحساب في تطبيق إمْداد';
+                errorMessage1 = 'لايوجد مستخدم مسجل بهذا الحساب في تطبيق إمْداد';
               });
               break;
 
             case "requires-recent-login":
               setState(() {
-                errorMessage =
+                errorMessage1 =
                     'تم حظره من الجهاز بسبب نشاط غير عادي. المحاولة مرة أخرى بعد بعض التأخير قد يفتح.';
               });
               break;
 
             case "too-many-requests":
               setState(() {
-                errorMessage =
+                errorMessage1 =
                     'تم حظره من الجهاز بسبب نشاط غير عادي. المحاولة مرة أخرى بعد بعض التأخير قد يفتح.';
               });
               break;
 
             case "operation-not-allowed":
               setState(() {
-                errorMessage =
+                errorMessage1 =
                     'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
               });
               break;
 
             case "network-request-failed":
               setState(() {
-                errorMessage =
+                errorMessage1 =
                     'حدث خطأ في الشبكة (مثل انتهاء المهلة أو انقطاع الاتصال أو مضيف لا يمكن الوصول إليه).';
               });
               break;
 
             case "credential-already-in-use":
               setState(() {
-                errorMessage =
+                errorMessage1 =
                     'أنت تقوم بترقية مستخدم مجهول إلى مستخدم Google عن طريق ربط بيانات اعتماد Google به وبيانات اعتماد Google المستخدمة مرتبطة بالفعل بمستخدم Firebase Google الحالي.';
               });
               break;
 
             case "user-disabled":
               setState(() {
-                errorMessage =
+                errorMessage1 =
                     'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
               });
               break;
 
             default:
               setState(() {
-                errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
+                errorMessage1 = 'حدث خطأ ما ، أعد المحاولة من فضلك';
               });
               break;
           }
 
-          snackbar = Snackbar(context, errorMessage!);
+          snackbar = Snackbar(context, errorMessage1!);
           snackbar!.showToast();
 
           setState(() {
-            error = errorMessage;
+            error = errorMessage1;
           });
         } catch (e) {
           String ourE = e.toString();
@@ -126,15 +126,15 @@ class _LoginPageState extends State<LoginPage> {
       } //end if
 
       if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
-        errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
+        errorMessage2 = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
       } else if (_controllerEmail.text.isEmpty) {
-        errorMessage = " الرجاء إدخال البريد الالكتروني ";
+        errorMessage2 = " الرجاء إدخال البريد الالكتروني ";
       } else if (_controllerPass.text.isEmpty) {
-        errorMessage = "الرجاء إدخال كلمة السر ";
+        errorMessage2 = "الرجاء إدخال كلمة السر ";
       }
 
-      if (errorMessage != null) {
-        snackbar2 = Snackbar(context, errorMessage!);
+      if (errorMessage2 != null) {
+        snackbar2 = Snackbar(context, errorMessage2!);
         snackbar2!.showToast();
       }
 
