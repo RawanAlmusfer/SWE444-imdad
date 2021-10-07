@@ -105,8 +105,6 @@ class _LoginPageState extends State<LoginPage> {
             });
             break;
 
-
-
           default:
             setState(() {
               errorMessage = 'حدث خطأ ما ، أعد المحاولة من فضلك';
@@ -361,7 +359,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           'هل نسيت كلمة السر؟',
 
-                          // 'هل نسيت كلمة السر؟',
+
                           style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: Color(0xff334856),

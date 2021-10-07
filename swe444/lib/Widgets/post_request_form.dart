@@ -546,7 +546,9 @@ class _AddRequestFormState extends State<PostRequestForm> {
 // https://medium.com/multiverse-software/alert-dialog-and-confirmation-dialog-in-flutter-8d8c160f4095
   showAlertDialog(String? id) {
     // set up the buttons
-    Widget cancelButton = ElevatedButton(
+    Widget cancelButton =  Padding(
+      padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
+        child:ElevatedButton(
       child: const Text(
         "إلغاء",
         style: TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
@@ -556,24 +558,39 @@ class _AddRequestFormState extends State<PostRequestForm> {
       },
       style: ButtonStyle(
           backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
-          elevation: MaterialStateProperty.all<double>(0)),
-    );
-    Widget confirmButton = ElevatedButton(
+          MaterialStateProperty.all<Color>(
+              const Color(0xdeffffff)),
+          elevation:
+          MaterialStateProperty.all<double>(0)),
+        ), );
+    Widget confirmButton =
+    Padding(
+        padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
+   child: ElevatedButton(
+
       child: Text(
         "تأكيد",
         style: TextStyle(fontFamily: "Tajawal"),
       ),
+
+      style: ButtonStyle(
+
+
+          backgroundColor:
+          MaterialStateProperty.all<Color>(
+              const Color(0xdeedd03c))),
+
       onPressed: () {
         Navigator.of(context).pop(context);
         add(id);
       },
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-    );
+
+
+   ), );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
       contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
       title: Text(
         "إضافة",
@@ -582,10 +599,13 @@ class _AddRequestFormState extends State<PostRequestForm> {
           color: const Color(0xdeedd03c),
           fontFamily: 'Tajawal',
         ),
+
       ),
+
+
       content: Text(
         "هل أنت متأكد من رغبتك في\n إضافة الطلب؟",
-        textAlign: TextAlign.right,
+        textAlign: TextAlign.center,
         style: TextStyle(fontFamily: "Tajawal"),
       ),
       actions: [
