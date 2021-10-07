@@ -5,8 +5,6 @@ import 'package:flutter/painting.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 import 'login_page.dart';
 import 'package:swe444/Functions/decisions_tree.dart';
-import '../signup_login_screen.dart';
-import '../users_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   @override
@@ -164,7 +162,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 0.0, top: 115),
-                              child: Text(
+                              child: const Text(
                                 "مرحباً بك في",
                                 style: TextStyle(
                                   color: Color(0xff334856),
@@ -246,7 +244,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           onPressed: () {
                             resetPass();
                           },
-                          child: Text(
+                          child: const Text(
                             'إعادة ضبط كلمة السر',
                             style: TextStyle(
                                 fontSize: 20.0,
