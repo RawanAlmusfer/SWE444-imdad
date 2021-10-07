@@ -39,6 +39,7 @@ class _HomeState extends State<vHome> {
               fontSize: 24,
             ),
           ),
+          //automaticallyImplyLeading: false,
           backgroundColor: const Color(0xdeedd03c),
           bottomOpacity: 30,
           // elevation: 1,
@@ -100,7 +101,7 @@ class _HomeState extends State<vHome> {
       switch (index) {
         case 0:
           {
-            _title = 'الصفحة الرئيسية';
+            _title = 'تسجيل الخروج';
           }
           break;
         // case 1:
@@ -110,7 +111,7 @@ class _HomeState extends State<vHome> {
         //   break;
         case 1:
           {
-            _title = 'تسجيل الخروج';
+            _title = 'الصفحة الرئيسية';
           }
           break;
       }

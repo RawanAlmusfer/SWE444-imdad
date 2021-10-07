@@ -24,43 +24,44 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('إعادة ضبط كلمة السر',    textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color(0xff334856),
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Tajawal',
-            fontSize: 24,
-          ),),
-
-        bottomOpacity: 30,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50),
-          ),
-        ),
-
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => DecisionsTree()));
-              },
-              child: Icon(Icons.arrow_forward_ios),
-            ),
-          )
-        ],
-        iconTheme: IconThemeData(
-          // Padding(padding: EdgeInsets.only(right: 20.0)),
-
-          color: Color(0xff334856), //change your color here.
-        ),
-        backgroundColor: const Color(0xdeedd03c),
-
-
-      ),
+      // appBar:
+      // AppBar(
+      //   title: Text('إعادة ضبط كلمة السر',    textAlign: TextAlign.center,
+      //     style: TextStyle(
+      //       color: Color(0xff334856),
+      //       fontWeight: FontWeight.w700,
+      //       fontFamily: 'Tajawal',
+      //       fontSize: 24,
+      //     ),),
+      //
+      //   bottomOpacity: 30,
+      //   shape: const RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.vertical(
+      //       bottom: Radius.circular(50),
+      //     ),
+      //   ),
+      //
+      //   actions: <Widget>[
+      //     Padding(
+      //       padding: EdgeInsets.only(right: 15.0),
+      //       child: GestureDetector(
+      //         onTap: () {
+      //           Navigator.pushReplacement(context,
+      //               MaterialPageRoute(builder: (context) => DecisionsTree()));
+      //         },
+      //         child: Icon(Icons.arrow_forward_ios),
+      //       ),
+      //     )
+      //   ],
+      //   iconTheme: IconThemeData(
+      //     // Padding(padding: EdgeInsets.only(right: 20.0)),
+      //
+      //     color: Color(0xff334856), //change your color here.
+      //   ),
+      //   backgroundColor: const Color(0xdeedd03c),
+      //
+      //
+      // ),
       body: new Container(
         padding: new EdgeInsets.all(20.0),
         child: SingleChildScrollView(

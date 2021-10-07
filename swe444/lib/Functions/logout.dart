@@ -47,10 +47,40 @@ class _logout extends State<logout> {
                 borderRadius: BorderRadius.circular(50),
               ),
             ),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => DecisionsTree()));
+            onPressed: () {
+              showDialog(
+                  builder: (ctxt) {
+                    return AlertDialog(
+                        title: Text("تسجيل خروج"),
+                        content: Column(
+                          children: [
+                            Text("هل أنت متأكد من تسجيل الخروج؟"),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                RaisedButton(
+                                  child: Text("إلغاء"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                RaisedButton(
+                                  child: Text("تسجيل الخروج"),
+                                  onPressed: () async {
+                                    await FirebaseAuth.instance.signOut();
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DecisionsTree()));
+                                  },
+                                )
+                              ],
+                            ),
+                          ],
+                        ));
+                  },
+                  context: context);
             },
           ),
         ),
@@ -64,3 +94,9 @@ class _logout extends State<logout> {
         context, MaterialPageRoute(builder: (context) => DecisionsTree()));
   }
 }
+//
+// onPressed: () async {
+// await FirebaseAuth.instance.signOut();
+// Navigator.pushReplacement(context,
+// MaterialPageRoute(builder: (context) => DecisionsTree()));
+// },

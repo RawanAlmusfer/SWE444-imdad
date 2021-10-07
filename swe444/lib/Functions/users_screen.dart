@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swe444/Functions/decisions_tree.dart';
 import 'package:swe444/Functions/signup_login_screen.dart';
-import 'package:swe444/Functions/signup_login_screen_mm.dart';
-
+import 'CustomPageRoute.dart';
+import 'login/login_page.dart';
 
 class UsersScreen extends StatefulWidget {
   @override
@@ -10,106 +11,106 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _UsersScreenState extends State<UsersScreen> {
-  static const kYellow = const Color(0xdeedd03c);
+  static const kYellow = Color(0xdeedd03c);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: const Color(0xdeedd03c),
-      ),
-      body: new Container(
-
-        padding: new EdgeInsets.all(20.0),
+      body: Container(
+        padding: const EdgeInsets.only(
+          top: 120.0,
+          left: 20,
+          right: 20,
+          bottom: 20,
+        ),
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(),
-            child: Column(
-              children: [
-                Image.asset('images/logo.png'),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                Text(
-                  "مرحباً بك",
-                  style: TextStyle(
-                    color: Color(0xff334856),
-                    fontSize: 32,
-                    fontWeight: FontWeight.w700,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: Column(
+                children: [
+                  Image.asset('images/logo.png'),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.03,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
+                  const Text(
+                    "مرحباً بك",
+                    style: TextStyle(
+                        fontSize: 32.0,
+                        fontFamily: 'Tajawal',
+                        color: Color(0xff334856),
+                        fontWeight: FontWeight.w700),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Wrap(
+                  //       crossAxisAlignment: WrapCrossAlignment.center,
+                  //     ),
+                  //   ],
+                  // ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(CustomPageRoute(child: SignupLoginScreen()));
+                    },
+                    child: const Text(
+                      'تسجيل جديد',
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'Tajawal',
+                          color: Color(0xff334856),
+                          fontWeight: FontWeight.w700),
+                      textAlign: TextAlign.center,
                     ),
-
-                  ],
-                ),
-
-                ElevatedButton(
-
-                  onPressed: () {  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SignupLoginScreen()));
-                  },
-
-                  child: Text(
-                    'متطوع',
-                    style: TextStyle(   color: Color(0xff334856), fontSize: 20,fontWeight: FontWeight.bold,),
-                  ),
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(0),
-                    backgroundColor:
-                    MaterialStateProperty.all(Color(0xdeedd03c)),
-                    minimumSize: MaterialStateProperty.all(Size(300, 64)),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(500),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(300, 64),
+                      primary: kYellow,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
                   ),
-                ),
-
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.04,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => mSignupLoginScreen()));
-
-                  },
-                  child: Text(
-                    'مالك مسجد',
-                    style: TextStyle(   color: Color(0xff334856), fontSize: 20,fontWeight: FontWeight.bold,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.04,
                   ),
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(0),
-                    backgroundColor:
-                    MaterialStateProperty.all(Color(0xdeedd03c)),
-                    minimumSize: MaterialStateProperty.all(Size(300, 64)),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(500),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(CustomPageRoute(child: LoginPage(
+                        onSignIn: (User) {
+                          DecisionsTree();
+                        },
+                      )));
+                    },
+                    child: const Text(
+                      'تسجيل الدخول',
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'Tajawal',
+                          color: Color(0xff334856),
+                          fontWeight: FontWeight.w700),
+                      textAlign: TextAlign.center,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(300, 64),
+                      primary: kYellow,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-
-                  ),
-                )
-
-
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

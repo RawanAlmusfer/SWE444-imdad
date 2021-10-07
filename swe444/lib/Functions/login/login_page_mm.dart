@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swe444/Functions/home_screen/mm_home_view.dart';
-import 'package:swe444/Functions/signup_login_screen_mm.dart';
 // import 'package:swe444/Views/mm_home_view.dart';
 // import 'package:swe444/Views/signup_login_screen_mm.dart';
 // import 'package:swe444/Views/v_home_view.dart';
@@ -263,7 +262,7 @@ class _LoginPageState extends State<mLoginPage> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => mSignupLoginScreen()));
+                        builder: (context) => SignupLoginScreen()));
               },
               child: Icon(Icons.arrow_forward_ios),
             ),

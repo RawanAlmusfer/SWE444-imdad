@@ -42,6 +42,7 @@ class _HomeState extends State<mmHome> {
               fontSize: 24,
             ),
           ),
+          //automaticallyImplyLeading: false,
           backgroundColor: const Color(0xdeedd03c),
           bottomOpacity: 30,
           // elevation: 1,
@@ -52,13 +53,13 @@ class _HomeState extends State<mmHome> {
           ),
         ),
         body:
-        // MultiProvider(providers: [
-        //   ChangeNotifierProvider(
-        //     create: (_) => FeedViewModel(),
-        //   )
-        // ], child:
-        _children[_currentIndex],
-    // ),
+            // MultiProvider(providers: [
+            //   ChangeNotifierProvider(
+            //     create: (_) => FeedViewModel(),
+            //   )
+            // ], child:
+            _children[_currentIndex],
+        // ),
         extendBody: true,
         bottomNavigationBar: Container(
           // height: 90,
