@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
-//import 'mm_feed.dart';
-import '../Widgets/v_feed.dart';
+import 'package:provider/provider.dart';
+//import 'logout.dart';
+import 'feed_view_model.dart';
+import 'mm_feed.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../logout.dart';
+import '../post_request/post_request_view.dart';
 
-class vHome extends StatefulWidget {
+class mmHome extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _HomeState();
   }
 }
 
-class _HomeState extends State<vHome> {
+class _HomeState extends State<mmHome> {
   // the default location which the user will be in:
-  int _currentIndex = 1;
+  int _currentIndex = 2;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
     logout(),
-    v_feed(),
-    //searchPage(),
-    //ProfilePage(),
+    PostRequest(),
+    MosqueMangerFeed(),
   ];
 
   @override
@@ -28,6 +31,7 @@ class _HomeState extends State<vHome> {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             _title,
             textAlign: TextAlign.center,
@@ -38,6 +42,7 @@ class _HomeState extends State<vHome> {
               fontSize: 24,
             ),
           ),
+          //automaticallyImplyLeading: false,
           backgroundColor: const Color(0xdeedd03c),
           bottomOpacity: 30,
           // elevation: 1,
@@ -47,7 +52,14 @@ class _HomeState extends State<vHome> {
             ),
           ),
         ),
-        body: _children[_currentIndex],
+        body:
+            // MultiProvider(providers: [
+            //   ChangeNotifierProvider(
+            //     create: (_) => FeedViewModel(),
+            //   )
+            // ], child:
+            _children[_currentIndex],
+        // ),
         extendBody: true,
         bottomNavigationBar: Container(
           // height: 90,
@@ -79,11 +91,10 @@ class _HomeState extends State<vHome> {
                     icon: new Icon(Icons.logout),
                     label: "تسجيل الخروج",
                   ),
-
-                  // BottomNavigationBarItem(
-                  //   icon: new Icon(Icons.search),
-                  //   label: "البحث",
-                  // ),
+                  BottomNavigationBarItem(
+                    icon: new Icon(Icons.add),
+                    label: "إضافة طلب",
+                  ),
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.home),
                     label: "الصفحة الرئيسية",
@@ -99,17 +110,17 @@ class _HomeState extends State<vHome> {
       switch (index) {
         case 0:
           {
-            _title = 'الصفحة الرئيسية';
+            _title = 'تسجيل الخروج';
           }
           break;
-        // case 1:
-        //   {
-        //     _title = 'البحث';
-        //   }
-        //   break;
         case 1:
           {
-            _title = 'تسجيل الخروج';
+            _title = 'إضافة طلب';
+          }
+          break;
+        case 2:
+          {
+            _title = 'الصفحة الرئيسية';
           }
           break;
       }

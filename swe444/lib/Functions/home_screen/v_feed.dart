@@ -3,22 +3,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class v_feed extends StatelessWidget {
+class VolunteerFeed extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<FeedViewModel>(
+        create: (_) => FeedViewModel(),
+        child: Container(height: 1200, width: 450, child: v_feed()));
+  }
+}
+
+class v_feed extends StatefulWidget {
   const v_feed({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() {
+    return vFeed();
+  }
+}
+
+class vFeed extends State<v_feed> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+        Duration.zero,
+        () => setState(() {
+              setup();
+            }));
+  }
+
+  setup() async {
+    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
+        Provider.of<FeedViewModel>(context, listen: false).requests;
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('requests')
-              .orderBy('uplaod_time', descending: true)
-              .snapshots(),
+          stream: requests,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
@@ -165,35 +196,36 @@ class v_feed extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     top: 5.0, bottom: 5.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
-                  Container(
-                    // decoration: BoxDecoration(
-                    //   boxShadow: [
-                    //     BoxShadow(
-                    //         color: Color(0xffededed),
-                    //         spreadRadius: 1,
-                    //         blurRadius: 10),
-                    //   ],
-                    // ),
-                    height: 30,
-                    width: 65,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        "تبرع",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Tajawal',
-                            color: const Color(0xff334856)),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(65.w, 30.h),
-                        primary: const Color(0xdeedd03c),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // This button for sprint 2
+                  // Container(
+                  //   // decoration: BoxDecoration(
+                  //   //   boxShadow: [
+                  //   //     BoxShadow(
+                  //   //         color: Color(0xffededed),
+                  //   //         spreadRadius: 1,
+                  //   //         blurRadius: 10),
+                  //   //   ],
+                  //   // ),
+                  //   height: 30,
+                  //   width: 65,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {},
+                  //     child: Text(
+                  //       "تبرع",
+                  //       textAlign: TextAlign.center,
+                  //       style: TextStyle(
+                  //           fontFamily: 'Tajawal',
+                  //           color: const Color(0xff334856)),
+                  //     ),
+                  //     style: ElevatedButton.styleFrom(
+                  //       minimumSize: Size(65.w, 30.h),
+                  //       primary: const Color(0xdeedd03c),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(50),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
