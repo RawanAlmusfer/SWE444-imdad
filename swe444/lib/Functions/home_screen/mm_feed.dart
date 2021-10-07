@@ -11,12 +11,8 @@ class MosqueMangerFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedViewModel>(
-            create: (_) => FeedViewModel(),
-            child: Container(
-              height: 1200,
-                width: 450,
-                child: mm_feed())
-          );
+        create: (_) => FeedViewModel(),
+        child: Container(height: 1200, width: 450, child: mm_feed()));
   }
 }
 
@@ -34,21 +30,20 @@ class mmFeed extends State<mm_feed> {
   void initState() {
     super.initState();
     Future.delayed(
-        Duration.zero, () => setState(() {
-      setup();
-    }));
+        Duration.zero,
+        () => setState(() {
+              setup();
+            }));
   }
 
   setup() async {
-    await Provider.of<FeedViewModel>(context, listen: false)
-        .fetchRequests();
+    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
   }
-
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>>? requests = Provider.of<FeedViewModel>(context, listen: false)
-        .requests;
+    Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
+        Provider.of<FeedViewModel>(context, listen: false).requests;
     // Navigator.pop(context);
     return Scaffold(
       backgroundColor: const Color(0xffededed),
@@ -68,7 +63,7 @@ class mmFeed extends State<mm_feed> {
   }
 
   Widget buildCards(
-  BuildContext context, DocumentSnapshot document, String? id) {
+      BuildContext context, DocumentSnapshot document, String? id) {
     if (document['posted_by'].toString() == id) {
       //print('posted user Id ' + document['posted_by'].toString());
       //print('current user Id ' + id.toString());
@@ -173,14 +168,12 @@ class mmFeed extends State<mm_feed> {
   // }
 
   showAlertDialog(DocumentSnapshot document) {
-    RequestViewModel requestVM= RequestViewModel();
+    RequestViewModel requestVM = RequestViewModel();
     // set up the buttons
     Widget cancelButton = ElevatedButton(
       child: const Text(
         "إلغاء",
-          style: TextStyle(
-          fontFamily: "Tajawal",
-      color: const Color(0xdeedd03c)),
+        style: TextStyle(fontFamily: "Tajawal", color: const Color(0xdeedd03c)),
       ),
       onPressed: () {
         Navigator.of(context).pop(context);
@@ -191,10 +184,10 @@ class mmFeed extends State<mm_feed> {
           elevation: MaterialStateProperty.all<double>(0)),
     );
     Widget confirmButton = ElevatedButton(
-      child: Text("تأكيد",
-      style: TextStyle(
-          fontFamily: "Tajawal"
-      ),),
+      child: Text(
+        "تأكيد",
+        style: TextStyle(fontFamily: "Tajawal"),
+      ),
       onPressed: () async {
         Navigator.of(context).pop(context);
         await requestVM.cancelRequest(document);
@@ -212,12 +205,15 @@ class mmFeed extends State<mm_feed> {
         "إلغاء",
         textAlign: TextAlign.right,
         style: TextStyle(
-            fontFamily: "Tajawal"
+          fontFamily: "Tajawal",
+          color: const Color(0xdeedd03c),
         ),
       ),
-      content: Text("هل أنت متأكد من رغبتك في\n إلغاء الطلب؟", textAlign: TextAlign.right, style: TextStyle(
-          fontFamily: "Tajawal"
-      ),),
+      content: Text(
+        "هل أنت متأكد من رغبتك في\n إلغاء الطلب؟",
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal"),
+      ),
       actions: [
         cancelButton,
         confirmButton,
