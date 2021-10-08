@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
 
             case "wrong-password":
               setState(() {
-                errorMessage1 = 'كلمة السر غير صحيحة';
+                errorMessage1 = 'كلمة المرور غير صحيحة';
               });
               break;
 
