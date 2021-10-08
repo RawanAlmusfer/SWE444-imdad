@@ -172,7 +172,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 builder: (context) => LoginPage(onSignIn: (User ) { DecisionsTree(); },))));
                   },
                   child: Text(
-                    'إعادة ضبط كلمة السر',
+                    'إعادة ضبط كلمة المرور',
                     style: TextStyle(color: Color(0xff334856),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,),

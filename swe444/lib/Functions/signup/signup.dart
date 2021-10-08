@@ -68,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
           return ("الرجاء قم بإدخال بريد إلكتروني");
         }
         // reg expression for email validation
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+        if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
           return ("البريد الإلكتروني غير صحيح");
         }
 

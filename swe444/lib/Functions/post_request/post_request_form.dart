@@ -228,6 +228,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     validator: (value) {
                       if (value == null || value.isEmpty || value.trim().isEmpty)
                         return "مطلوب";
+                      if (!RegExp(r"^[\p{L} ,.'-]*$", caseSensitive: false, unicode: true, dotAll: true).hasMatch(value) )
+                        return "يجب أن يحتوي على أحرف او أرقام فقط";
                       if (value.length > 30)
                         return "لا يمكن ان يزيد عن 30 حرف ";
                     },
@@ -375,7 +377,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     },
                     textAlign: TextAlign.right,
                     decoration: InputDecoration(
-                        hintText: "000",
+                        hintText: "00000",
                         border: InputBorder.none,
                         errorBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.red, width: 1),

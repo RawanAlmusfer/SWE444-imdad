@@ -391,7 +391,7 @@ class _LoginPageState extends State<LoginPage> {
                                             ResetPasswordScreen()));
                               },
                               child: const Text(
-                                'هل نسيت كلمة السر؟',
+                                'هل نسيت كلمة المرور؟',
                                 style: TextStyle(
                                   decoration: TextDecoration.underline,
                                   color: Color(0xff334856),
