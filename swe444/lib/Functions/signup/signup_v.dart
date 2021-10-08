@@ -62,7 +62,7 @@ class _SignUpPageState extends State<VSignUpPage> {
           return ("الرجاء قم بإدخال بريد إلكتروني");
         }
         // reg expression for email validation
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+        if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
           return ("البريد الإلكتروني غير صحيح");
         }
         return null;
@@ -164,7 +164,7 @@ class _SignUpPageState extends State<VSignUpPage> {
     );
   }
 
-  Widget _buildConformPasswordField() {
+  Widget _buildConfirmPasswordField() {
     return TextFormField(
       validator: (value) {
         if (value!.isEmpty || value.trim().isEmpty) {
@@ -233,7 +233,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         }
         if (!RegExp(r"^[\p{L} ,.'-]*$", caseSensitive: false, unicode: true, dotAll: true).hasMatch(value))
           {
-          return ("يجب ان يحتوي الأسم الأخير على أحرف فقط");
+          return ("يجب ان يحتوي الأسم الأول على أحرف فقط");
         }
         return null;
       },
@@ -482,7 +482,7 @@ class _SignUpPageState extends State<VSignUpPage> {
                         width: 330,
                         child: Directionality(
                           textDirection: TextDirection.rtl,
-                          child: _buildConformPasswordField(),
+                          child: _buildConfirmPasswordField(),
                         ),
                       ), // conform container
                       SizedBox(

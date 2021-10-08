@@ -62,6 +62,7 @@ class vFeed extends State<v_feed> {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
+    FeedViewModel feedVM= FeedViewModel();
     //print("location:" + document['location'].toString());
     return Container(
       padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
@@ -229,8 +230,8 @@ class vFeed extends State<v_feed> {
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
-                    onPressed: () {
-                      _lunchURL(document['mosque_location'].toString());
+                    onPressed: () async {
+                      await feedVM.lunchURL(document['mosque_location'].toString());
                     },
                   ),
                 ]),
@@ -240,14 +241,6 @@ class vFeed extends State<v_feed> {
         ),
       ),
     );
-  }
-}
-
-Future<void> _lunchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw "Could not lunch the url";
   }
 }
 

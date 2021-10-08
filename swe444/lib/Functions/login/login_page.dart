@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
 
             case "wrong-password":
               setState(() {
-                errorMessage1 = 'كلمة السر غير صحيحة';
+                errorMessage1 = 'كلمة المرور غير صحيحة';
               });
               break;
 
@@ -389,7 +389,7 @@ class _LoginPageState extends State<LoginPage> {
                                     child: ResetPasswordScreen()));
                               },
                               child: const Text(
-                                'هل نسيت كلمة السر؟',
+                                'هل نسيت كلمة المرور؟',
                                 style: TextStyle(
                                   decoration: TextDecoration.underline,
                                   color: Color(0xff334856),
