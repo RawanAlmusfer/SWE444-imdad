@@ -229,7 +229,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                       if (value == null || value.isEmpty || value.trim().isEmpty)
                         return "مطلوب";
                       if (!RegExp(r"^[\p{L} ,.'-]*$", caseSensitive: false, unicode: true, dotAll: true).hasMatch(value) )
-                        return "يجب أن يحتوي على أحرف او أرقام فقط";
+                        return "يجب أن يحتوي على أحرف فقط";
                       if (value.length > 30)
                         return "لا يمكن ان يزيد عن 30 حرف ";
                     },
