@@ -1,15 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'Functions/decisions_tree.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseFirestore.instance.settings =
+      const Settings(persistenceEnabled: false);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application...
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return ScreenUtilInit(
+      builder: () => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: DecisionsTree(),
+      ),
+      designSize: const Size(390, 844),
+    );
   }
 }
