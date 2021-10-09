@@ -68,7 +68,7 @@ class mmFeed extends State<mm_feed> {
       //print('posted user Id ' + document['posted_by'].toString());
       //print('current user Id ' + id.toString());
       return Container(
-        padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
+        padding: const EdgeInsets.only(top: 10.0, left: 3, right: 3),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(19.0),

@@ -169,267 +169,241 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffededed),
-      resizeToAvoidBottomInset: false,
-      // appBar: AppBar(
-      //   title: const Text(
-      //     "تسجيل الدخول",
-      //     textAlign: TextAlign.center,
-      //     style: TextStyle(
-      //       color: Color(0xff334856),
-      //       fontWeight: FontWeight.w700,
-      //       fontFamily: 'Tajawal',
-      //       fontSize: 24,
-      //     ),
-      //   ),
-      //   backgroundColor: const Color(0xdeedd03c),
-      //   bottomOpacity: 30,
-      //   shape: const RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.vertical(
-      //       bottom: Radius.circular(50),
-      //     ),
-      //   ),
-      //   actions: <Widget>[
-      //     Padding(
-      //       padding: EdgeInsets.only(right: 15.0),
-      //       child: GestureDetector(
-      //         onTap: () {
-      //           Navigator.pushReplacement(
-      //               context,
-      //               MaterialPageRoute(
-      //                   builder: (context) => SignupLoginScreen()));
-      //         },
-      //         child: Icon(Icons.arrow_forward_ios),
-      //       ),
-      //     )
-      //   ],
-      //   iconTheme: IconThemeData(
-      //     // Padding(padding: EdgeInsets.only(right: 20.0)),
-      //
-      //     color: Color(0xff334856), //change your color here.
-      //   ),
-      // ),
-      body: Container(
-        padding: new EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                right: 0,
-                left: 290,
-                top: 45,
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => UsersScreen()));
-                },
-                child: Icon(
-                  Icons.keyboard_backspace_rounded,
-                  textDirection: TextDirection.rtl,
-                  size: 30,
-                  color: Color(0xff334856),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xffededed),
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          // padding: new EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                  right: 0,
+                  left: 290,
+                  top: 60,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => UsersScreen()));
+                  },
+                  child: Icon(
+                    Icons.keyboard_backspace_rounded,
+                    textDirection: TextDirection.rtl,
+                    size: 30,
+                    color: Color(0xff334856),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 35,
-              ),
-              child: SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        // showAlert(),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 0.0),
-                              child: Container(
-                                  height: 160,
-                                  width: 160,
-                                  child: Image.asset('images/logo.png')),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 0,
+                  left: 15,
+                  right: 15,
+                  // bottom: 15,
+                ),
+                child: SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          // showAlert(),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 0.0),
+                                child: Container(
+                                    height: 160,
+                                    width: 160,
+                                    child: Image.asset('images/logo.png')),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 0.0, top: 55),
+                                child: const Text(
+                                  "مرحباً بك في",
+                                  style: TextStyle(
+                                      fontSize: 32.0,
+                                      fontFamily: 'Tajawal',
+                                      color: Color(0xff334856),
+                                      fontWeight: FontWeight.w700),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                          ),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextFormField(
+                              showCursor: true,
+                              cursorColor: const Color(0xdeedd03c),
+                              textAlign: TextAlign.right,
+                              controller: _controllerEmail,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return ("الرجاء إدخال البريد الإلكتروني ");
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  // width: 0.0 produces a thin "hairline" border
+                                  borderSide: const BorderSide(
+                                    color: kYellow,
+                                  ),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.email_outlined,
+                                  color: const Color(0xff334856),
+                                ),
+                                prefixStyle: TextStyle(
+                                    fontSize: 18,
+                                    color: const Color(0xff334856)),
+                                hoverColor: const Color(0xff334856),
+                                hintText: 'أدخل البريد الالكتروني',
+                                labelText: 'البريد الالكتروني',
+                                hintStyle: TextStyle(
+                                    fontSize: 14,
+                                    color: const Color(0xff334856),
+                                    fontFamily: 'Tajawal'),
+                                labelStyle: TextStyle(
+                                    fontSize: 18,
+                                    color: const Color(0xff334856),
+                                    fontFamily: 'Tajawal'),
+                                alignLabelWithHint: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              autocorrect: false,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 0.0, top: 55),
-                              child: const Text(
-                                "مرحباً بك في",
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.03,
+                          ),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextFormField(
+                              onSaved: (value) {
+                                _controllerPass.text = value!;
+                              },
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return ("الرجاء إدخال كلمة السر ");
+                                }
+                              },
+                              showCursor: true,
+                              cursorColor: const Color(0xdeedd03c),
+                              textAlign: TextAlign.right,
+                              controller: _controllerPass,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  // width: 0.0 produces a thin "hairline" border
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xdeedd03c),
+                                  ),
+                                ),
+                                prefixIcon: const Icon(
+                                  Icons.lock_outline,
+                                  color: Color(0xff334856),
+                                ),
+                                prefixStyle: const TextStyle(
+                                    fontSize: 18, color: Color(0xff334856)),
+                                hoverColor: const Color(0xff334856),
+                                alignLabelWithHint: true,
+                                hintText: 'أدخل كلمة السر',
+                                labelText: 'كلمة السر',
+                                hintStyle: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xff334856),
+                                    fontFamily: 'Tajawal'),
+                                labelStyle: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0xff334856),
+                                    fontFamily: 'Tajawal'),
+                              ),
+                              autocorrect: false,
+                              obscureText: true,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(CustomPageRoute(
+                                      child: ResetPasswordScreen()));
+                                },
+                                child: const Text(
+                                  'هل نسيت كلمة المرور؟',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Color(0xff334856),
+                                    fontWeight: FontWeight.w900,
+                                    fontFamily: 'Tajawal',
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size(300, 64),
+                                primary: const Color(0xdeedd03c),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                              ),
+                              onPressed: () {
+                                login();
+                              },
+                              child: Text(
+                                isLogin ? "تسجيل الدخول" : "التسجيل",
                                 style: TextStyle(
-                                    fontSize: 32.0,
+                                    fontSize: 20.0,
                                     fontFamily: 'Tajawal',
                                     color: Color(0xff334856),
                                     fontWeight: FontWeight.w700),
                                 textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                        ),
-                        Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: TextFormField(
-                            showCursor: true,
-                            cursorColor: const Color(0xdeedd03c),
-                            textAlign: TextAlign.right,
-                            controller: _controllerEmail,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return ("الرجاء إدخال البريد الإلكتروني ");
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                // width: 0.0 produces a thin "hairline" border
-                                borderSide: const BorderSide(
-                                  color: kYellow,
-                                ),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.email_outlined,
-                                color: const Color(0xff334856),
-                              ),
-                              prefixStyle: TextStyle(
-                                  fontSize: 18, color: const Color(0xff334856)),
-                              hoverColor: const Color(0xff334856),
-                              hintText: 'أدخل البريد الالكتروني',
-                              labelText: 'البريد الالكتروني',
-                              hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: const Color(0xff334856),
-                                  fontFamily: 'Tajawal'),
-                              labelStyle: TextStyle(
-                                  fontSize: 18,
-                                  color: const Color(0xff334856),
-                                  fontFamily: 'Tajawal'),
-                              alignLabelWithHint: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                            autocorrect: false,
+                              )),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.10,
                           ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: TextFormField(
-                            onSaved: (value) {
-                              _controllerPass.text = value!;
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return ("الرجاء إدخال كلمة السر ");
-                              }
-                            },
-                            showCursor: true,
-                            cursorColor: const Color(0xdeedd03c),
-                            textAlign: TextAlign.right,
-                            controller: _controllerPass,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                // width: 0.0 produces a thin "hairline" border
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: const BorderSide(
-                                  color: Color(0xdeedd03c),
-                                ),
-                              ),
-                              prefixIcon: const Icon(
-                                Icons.lock_outline,
-                                color: Color(0xff334856),
-                              ),
-                              prefixStyle: const TextStyle(
-                                  fontSize: 18, color: Color(0xff334856)),
-                              hoverColor: const Color(0xff334856),
-                              alignLabelWithHint: true,
-                              hintText: 'أدخل كلمة السر',
-                              labelText: 'كلمة السر',
-                              hintStyle: const TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xff334856),
-                                  fontFamily: 'Tajawal'),
-                              labelStyle: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xff334856),
-                                  fontFamily: 'Tajawal'),
-                            ),
-                            autocorrect: false,
-                            obscureText: true,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).push(CustomPageRoute(
-                                    child: ResetPasswordScreen()));
-                              },
-                              child: const Text(
-                                'هل نسيت كلمة المرور؟',
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Color(0xff334856),
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'Tajawal',
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(300, 64),
-                              primary: const Color(0xdeedd03c),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                            onPressed: () {
-                              login();
-                            },
-                            child: Text(
-                              isLogin ? "تسجيل الدخول" : "التسجيل",
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'Tajawal',
-                                  color: Color(0xff334856),
-                                  fontWeight: FontWeight.w700),
-                              textAlign: TextAlign.center,
-                            )),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

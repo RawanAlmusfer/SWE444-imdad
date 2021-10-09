@@ -62,10 +62,10 @@ class vFeed extends State<v_feed> {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    FeedViewModel feedVM= FeedViewModel();
+    FeedViewModel feedVM = FeedViewModel();
     //print("location:" + document['location'].toString());
     return Container(
-      padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
+      padding: const EdgeInsets.only(top: 10.0, left: 3, right: 3),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(19.0),
@@ -231,7 +231,8 @@ class vFeed extends State<v_feed> {
                   IconButton(
                     icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
                     onPressed: () async {
-                      await feedVM.lunchURL(document['mosque_location'].toString());
+                      await feedVM
+                          .lunchURL(document['mosque_location'].toString());
                     },
                   ),
                 ]),
