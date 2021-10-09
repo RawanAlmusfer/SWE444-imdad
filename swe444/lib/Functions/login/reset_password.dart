@@ -250,7 +250,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               resetPass();
                             },
                             child: const Text(
-                              'إعادة ضبط كلمة السر',
+                              'إعادة ضبط كلمة المرور',
                               style: TextStyle(
                                   fontSize: 20.0,
                                   fontFamily: 'Tajawal',

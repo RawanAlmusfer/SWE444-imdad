@@ -150,8 +150,8 @@ class _SignUpPageState extends State<VSignUpPage> {
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
-        hintText: 'أدخل كلمة السر',
-        labelText: 'كلمة السر',
+        hintText: 'أدخل كلمة المرور',
+        labelText: 'كلمة المرور',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -204,8 +204,8 @@ class _SignUpPageState extends State<VSignUpPage> {
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
-        hintText: 'أدخل كلمة السر مره اخرى',
-        labelText: 'تاكيد كلمة السر',
+        hintText: 'أدخل كلمة المرور مره اخرى',
+        labelText: 'تاكيد كلمة المرور',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -629,11 +629,11 @@ class _SignUpPageState extends State<VSignUpPage> {
       }
       ;
       if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
-        errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
+        errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة المرور ";
       } else if (_controllerEmail.text.isEmpty) {
         errorMessage = " الرجاء إدخال البريد الالكتروني ";
       } else if (_controllerPass.text.isEmpty) {
-        errorMessage = "الرجاء إدخال كلمة السر ";
+        errorMessage = "الرجاء إدخال كلمة المرور ";
 
         switch ("invalid-email") {
           case "invalid-email":

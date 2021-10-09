@@ -128,11 +128,11 @@ class _LoginPageState extends State<LoginPage> {
       } //end if
 
       if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
-        errorMessage2 = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
+        errorMessage2 = "الرجاء إدخال البريد الالكتروني وكلمة المرور ";
       } else if (_controllerEmail.text.isEmpty) {
         errorMessage2 = " الرجاء إدخال البريد الالكتروني ";
       } else if (_controllerPass.text.isEmpty) {
-        errorMessage2 = "الرجاء إدخال كلمة السر ";
+        errorMessage2 = "الرجاء إدخال كلمة المرور ";
       }
 
       if (errorMessage2 != null) {
@@ -303,7 +303,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return ("الرجاء إدخال كلمة السر ");
+                                  return ("الرجاء إدخال كلمة المرور ");
                                 }
                               },
                               showCursor: true,
@@ -329,8 +329,8 @@ class _LoginPageState extends State<LoginPage> {
                                     fontSize: 18, color: Color(0xff334856)),
                                 hoverColor: const Color(0xff334856),
                                 alignLabelWithHint: true,
-                                hintText: 'أدخل كلمة السر',
-                                labelText: 'كلمة السر',
+                                hintText: 'أدخل كلمة المرور',
+                                labelText: 'كلمة المرور',
                                 hintStyle: const TextStyle(
                                     fontSize: 14,
                                     color: Color(0xff334856),
