@@ -64,7 +64,7 @@ class vFeed extends State<v_feed> {
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     //print("location:" + document['location'].toString());
     return Container(
-      padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
+      padding: const EdgeInsets.only(top: 10.0, left: 3, right: 3),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(19.0),

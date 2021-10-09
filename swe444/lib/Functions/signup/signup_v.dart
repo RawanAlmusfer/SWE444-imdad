@@ -397,7 +397,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(15.0),
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: const BoxConstraints(),

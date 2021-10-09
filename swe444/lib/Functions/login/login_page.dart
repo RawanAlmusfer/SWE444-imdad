@@ -209,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
       //   ),
       // ),
       body: Container(
-        padding: new EdgeInsets.all(20.0),
+        padding: new EdgeInsets.all(15.0),
         child: Column(
           children: [
             Container(
@@ -253,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Image.asset('images/logo.png')),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 0.0, top: 55),
+                              padding: EdgeInsets.only(top: 55),
                               child: const Text(
                                 "مرحباً بك في",
                                 style: TextStyle(
