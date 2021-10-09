@@ -52,8 +52,10 @@ class _logout extends State<logout> {
                   builder: (ctxt) {
                     return AlertDialog(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                        contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(32.0))),
+                        contentPadding: EdgeInsets.only(
+                            right: 20.w, top: 20.h, bottom: 10.h),
                         title: Text(
                           "تسجيل خروج",
                           textAlign: TextAlign.right,
@@ -67,15 +69,17 @@ class _logout extends State<logout> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              "هل أنت متأكد من تسجيل الخروج؟",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(fontFamily: "Tajawal"),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(
+                                "هل أنت متأكد من تسجيل الخروج؟",
+                                textAlign: TextAlign.right,
+                                style: TextStyle(fontFamily: "Tajawal"),
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               mainAxisSize: MainAxisSize.min,
-
                               children: [
                                 ElevatedButton(
                                   child: const Text(

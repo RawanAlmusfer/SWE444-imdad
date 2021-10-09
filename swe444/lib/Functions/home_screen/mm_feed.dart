@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -183,24 +184,29 @@ class mmFeed extends State<mm_feed> {
               MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
           elevation: MaterialStateProperty.all<double>(0)),
     );
-    Widget confirmButton = ElevatedButton(
-      child: Text(
-        "تأكيد",
-        style: TextStyle(fontFamily: "Tajawal"),
+    Widget confirmButton = Padding(
+      padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
+      child: ElevatedButton(
+        child: Text(
+          "تأكيد",
+          style: TextStyle(fontFamily: "Tajawal"),
+        ),
+        style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+        onPressed: () async {
+          Navigator.of(context).pop(context);
+          await requestVM.cancelRequest(document);
+          Snackbar bar = Snackbar(context, requestVM.message);
+          bar.showToast();
+        },
       ),
-      onPressed: () async {
-        Navigator.of(context).pop(context);
-        await requestVM.cancelRequest(document);
-        Snackbar bar = Snackbar(context, requestVM.message);
-        bar.showToast();
-      },
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      contentPadding: EdgeInsets.only(right: 20, top: 20, bottom: 10),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
       title: Text(
         "إلغاء",
         textAlign: TextAlign.right,

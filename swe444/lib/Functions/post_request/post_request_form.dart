@@ -22,12 +22,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
   String? type, mosque_name, mosque_location;
   String? postedBy;
   int? amount;
-  TextEditingController _amount =  TextEditingController();
-  TextEditingController title= TextEditingController();
+  TextEditingController _amount = TextEditingController();
+  TextEditingController title = TextEditingController();
   DateTime time = DateTime.now();
   final List<String> items = <String>['مبلغ'];
-  TextEditingController description= TextEditingController();
-
+  TextEditingController description = TextEditingController();
 
   Widget _buildType(bool orientation) {
     double h1 = 0, h2 = 0, b1 = 0;
@@ -116,8 +115,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                           }).toList(),
                           onChanged: (value) =>
                               setState(() => this.type = value),
-                          validator: (value) =>
-                              value == null ? 'مطلوب' : null,
+                          validator: (value) => value == null ? 'مطلوب' : null,
                           icon: Icon(Icons.arrow_drop_down_circle),
                           hint: Padding(
                             padding: EdgeInsets.only(top: 5.h),
@@ -226,10 +224,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     textAlign: TextAlign.right,
                     maxLines: 1,
                     validator: (value) {
-                      if (value == null || value.isEmpty || value.trim().isEmpty)
-                        return "مطلوب";
-                      if (!RegExp(r"^[\p{L} ,.'-]*$", caseSensitive: false, unicode: true, dotAll: true).hasMatch(value) )
-                        return "يجب أن يحتوي على أحرف فقط";
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.trim().isEmpty) return "مطلوب";
+                      if (!RegExp(r"^[\p{L} ,.'-]*$",
+                              caseSensitive: false, unicode: true, dotAll: true)
+                          .hasMatch(value)) return "يجب أن يحتوي على أحرف فقط";
                       if (value.length > 30)
                         return "لا يمكن ان يزيد عن 30 حرف ";
                     },
@@ -249,8 +249,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                         hintStyle: const TextStyle(
                             fontSize: 14, fontFamily: "Tajawal")),
                     onSaved: (_val) {
-                      if (_val != null)
-                          title.text = _val;
+                      if (_val != null) title.text = _val;
                     }, // onchanged
                     inputFormatters: [LengthLimitingTextInputFormatter(30)],
                   ),
@@ -365,14 +364,14 @@ class _AddRequestFormState extends State<PostRequestForm> {
                       EdgeInsets.only(right: h2, left: l2, bottom: 0, top: 0),
                   child: TextFormField(
                     validator: (value) {
-                      if (value == null || value.isEmpty || value.trim().isEmpty)
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.trim().isEmpty)
                         return "مطلوب";
                       else {
                         _value = double.parse(value);
-                        if (_value > 50000 )
-                          return "الآقصى= 50000";
-                        if (_value < 10)
-                          return "الآدنى= 10";
+                        if (_value > 50000) return "الآقصى= 50000";
+                        if (_value < 10) return "الآدنى= 10";
                       }
                     },
                     textAlign: TextAlign.right,
@@ -400,7 +399,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     onSaved: (_val) {
                       if (_val != null) {
                         _amount.text = _val;
-                      }}, // onsaved
+                      }
+                    }, // onsaved
                   ),
                 ),
               ),
@@ -526,8 +526,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                               keyboardType: TextInputType.multiline,
                               maxLines: 5,
                               onSaved: (_val) {
-                                if (_val != null)
-                                description.text = _val;
+                                if (_val != null) description.text = _val;
                               }, // onsaved
                             ),
                           ),
@@ -547,47 +546,39 @@ class _AddRequestFormState extends State<PostRequestForm> {
 // https://medium.com/multiverse-software/alert-dialog-and-confirmation-dialog-in-flutter-8d8c160f4095
   showAlertDialog(String? id) {
     // set up the buttons
-    Widget cancelButton =  Padding(
+    Widget cancelButton = Padding(
       padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
-        child:ElevatedButton(
-      child: const Text(
-        "إلغاء",
-        style: TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
+      child: ElevatedButton(
+        child: const Text(
+          "إلغاء",
+          style:
+              TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop(context);
+        },
+        style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+            elevation: MaterialStateProperty.all<double>(0)),
       ),
-      onPressed: () {
-        Navigator.of(context).pop(context);
-      },
-      style: ButtonStyle(
-          backgroundColor:
-          MaterialStateProperty.all<Color>(
-              const Color(0xdeffffff)),
-          elevation:
-          MaterialStateProperty.all<double>(0)),
-        ), );
-    Widget confirmButton =
-    Padding(
-        padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
-   child: ElevatedButton(
-
-      child: Text(
-        "تأكيد",
-        style: TextStyle(fontFamily: "Tajawal"),
+    );
+    Widget confirmButton = Padding(
+      padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
+      child: ElevatedButton(
+        child: Text(
+          "تأكيد",
+          style: TextStyle(fontFamily: "Tajawal"),
+        ),
+        style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+        onPressed: () {
+          Navigator.of(context).pop(context);
+          add(id);
+        },
       ),
-
-      style: ButtonStyle(
-
-
-          backgroundColor:
-          MaterialStateProperty.all<Color>(
-              const Color(0xdeedd03c))),
-
-      onPressed: () {
-        Navigator.of(context).pop(context);
-        add(id);
-      },
-
-
-   ), );
+    );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
@@ -600,13 +591,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
           color: const Color(0xdeedd03c),
           fontFamily: 'Tajawal',
         ),
-
       ),
-
-
       content: Text(
         "هل أنت متأكد من رغبتك في\n إضافة الطلب؟",
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.right,
         style: TextStyle(fontFamily: "Tajawal"),
       ),
       actions: [
@@ -704,25 +692,24 @@ class _AddRequestFormState extends State<PostRequestForm> {
   }
 
   void add(String? id) async {
-    RequestViewModel requestVM= RequestViewModel();
+    RequestViewModel requestVM = RequestViewModel();
     // save to db
     // postedBy = id;
     // FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
 
     requestVM.postedBy = id;
 
-    var document =
-    await requestVM.userDocument;
+    var document = await requestVM.userDocument;
 
     if (document.exists) {
       Map<String, dynamic>? data = document.data();
       requestVM.setMName = data?['mosque_name'];
       requestVM.setMLocation = data?['location'];
 
-      requestVM.setDescription= description.text;
-      requestVM.setTitle= title.text;
-      requestVM.setType= type;
-      requestVM.setUploadTime= time;
+      requestVM.setDescription = description.text;
+      requestVM.setTitle = title.text;
+      requestVM.setType = type;
+      requestVM.setUploadTime = time;
       amount = int.parse(_amount.text);
       requestVM.setAmount = amount;
 
