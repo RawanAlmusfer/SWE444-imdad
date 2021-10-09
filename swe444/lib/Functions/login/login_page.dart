@@ -393,9 +393,6 @@ class _LoginPageState extends State<LoginPage> {
                                     fontWeight: FontWeight.w700),
                                 textAlign: TextAlign.center,
                               )),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.10,
-                          ),
                         ],
                       ),
                     ),
