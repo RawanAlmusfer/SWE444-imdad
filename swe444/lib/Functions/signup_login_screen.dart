@@ -122,7 +122,7 @@ class _SignupLoginScreenState extends State<SignupLoginScreen> {
                           )));
                         },
                         child: const Text(
-                          'مالك المسجد',
+                          'مدير المسجد',
                           style: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'Tajawal',

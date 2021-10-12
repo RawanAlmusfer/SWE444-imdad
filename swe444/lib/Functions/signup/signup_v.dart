@@ -58,11 +58,13 @@ class _SignUpPageState extends State<VSignUpPage> {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال بريد إلكتروني");
         }
         // reg expression for email validation
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+        if (!RegExp(
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            .hasMatch(value)) {
           return ("البريد الإلكتروني غير صحيح");
         }
         return null;
@@ -114,7 +116,7 @@ class _SignUpPageState extends State<VSignUpPage> {
     return TextFormField(
       validator: (value) {
         RegExp regex = new RegExp(r'^.{6,}$');
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء تعيين كلمة مرور");
         }
         if (!regex.hasMatch(value)) {
@@ -148,8 +150,8 @@ class _SignUpPageState extends State<VSignUpPage> {
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
-        hintText: 'أدخل كلمة السر',
-        labelText: 'كلمة السر',
+        hintText: 'أدخل كلمة المرور',
+        labelText: 'كلمة المرور',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -164,10 +166,10 @@ class _SignUpPageState extends State<VSignUpPage> {
     );
   }
 
-  Widget _buildConformPasswordField() {
+  Widget _buildConfirmPasswordField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("رجاءً قم بتأكيد كلمة مرور");
         }
         if (_controllerPass2.text != _controllerPass.text) {
@@ -202,8 +204,8 @@ class _SignUpPageState extends State<VSignUpPage> {
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
-        hintText: 'أدخل كلمة السر مره اخرى',
-        labelText: 'تاكيد كلمة السر',
+        hintText: 'أدخل كلمة المرور مره اخرى',
+        labelText: 'تاكيد كلمة المرور',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -225,11 +227,16 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^.{2,}$');
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال اسمك الاول");
         }
         if (!regex.hasMatch(value)) {
           return ("يجب ان يحتوي على حرفين على الأقل");
+        }
+        if (!RegExp(r"^[\p{L} ,.'-]*$",
+                caseSensitive: false, unicode: true, dotAll: true)
+            .hasMatch(value)) {
+          return ("يجب ان يحتوي الأسم الأول على أحرف فقط");
         }
         return null;
       },
@@ -281,11 +288,16 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^.{2,}$');
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال اسم عائلتك");
         }
         if (!regex.hasMatch(value)) {
           return ("يجب ان يحتوي على حرفين على الأقل");
+        }
+        if (!RegExp(r"^[\p{L} ,.'-]*$",
+                caseSensitive: false, unicode: true, dotAll: true)
+            .hasMatch(value)) {
+          return ("يجب ان يحتوي الأسم الأخير على أحرف فقط");
         }
         return null;
       },
@@ -337,7 +349,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء إدخال رقم الجوال ");
         }
         if (!regex.hasMatch(value)) {
@@ -393,159 +405,169 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffededed),
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        padding: EdgeInsets.all(15.0),
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(),
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    right: 0,
-                    left: 290,
-                    top: 45,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignupLoginScreen()));
-                    },
-                    child: Icon(
-                      Icons.keyboard_backspace_rounded,
-                      textDirection: TextDirection.rtl,
-                      size: 30,
-                      color: Color(0xff334856),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xffededed),
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          padding: EdgeInsets.all(15.0),
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(),
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(
+                      right: 0,
+                      left: 290,
+                      top: 45,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignupLoginScreen()));
+                      },
+                      child: Icon(
+                        Icons.keyboard_backspace_rounded,
+                        textDirection: TextDirection.rtl,
+                        size: 30,
+                        color: Color(0xff334856),
+                      ),
                     ),
                   ),
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                              height: 160,
-                              width: 160,
-                              child: Image.asset('images/logo.png')), // email
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5.0, top: 55),
-                            child: Text(
-                              "مرحباً بك في",
-                              style: TextStyle(
-                                color: Color(0xff334856),
-                                fontSize: 32,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Tajawal',
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                                height: 160,
+                                width: 160,
+                                child: Image.asset('images/logo.png')), // email
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 5.0, top: 55),
+                              child: Text(
+                                "مرحباً بك في",
+                                style: TextStyle(
+                                  color: Color(0xff334856),
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'Tajawal',
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                        ),
+                        Container(
+                          width: 330,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: _buildEmailField(),
                           ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                      ),
-                      Container(
-                        width: 330,
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: _buildEmailField(),
+                        ), // email container
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                      ), // email container
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: 330,
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: _buildPasswordField(),
+                        Container(
+                          width: 330,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: _buildPasswordField(),
+                          ),
+                        ), // password container
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                      ), // password container
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: 330,
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: _buildConformPasswordField(),
+                        Container(
+                          width: 330,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: _buildConfirmPasswordField(),
+                          ),
+                        ), // conform container
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                      ), // conform container
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: 330,
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: _buildfirstNameField(),
+                        Container(
+                          width: 330,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: _buildfirstNameField(),
+                          ),
+                        ), // mosque name
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                      ), // mosque name
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: 330,
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: _buildlastNameField(),
+                        Container(
+                          width: 330,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: _buildlastNameField(),
+                          ),
+                        ), // mosque name
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                      ), // mosque name
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: 330,
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: _buildPhoneField(),
+                        Container(
+                          width: 330,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: _buildPhoneField(),
+                          ),
+                        ), // phone
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                      ), // phone
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            signUp(_controllerEmail.text, _controllerPass.text);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(180.w, 50.h),
-                            primary: const Color(0xdeedd03c),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
                             ),
-                          ),
-                          child: Text(
-                            "التسجيل",
-                            style: TextStyle(
-                                color: Color(0xff334856),
-                                fontSize: 20,
-                                fontFamily: 'Tajawal'),
-                          )),
-                      Text(error),
-                    ],
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              signUp(
+                                  _controllerEmail.text, _controllerPass.text);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size(180.w, 50.h),
+                              primary: const Color(0xdeedd03c),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                            child: Text(
+                              "التسجيل",
+                              style: TextStyle(
+                                  color: Color(0xff334856),
+                                  fontSize: 20,
+                                  fontFamily: 'Tajawal'),
+                            )),
+                        Text(error),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.15,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -607,11 +629,11 @@ class _SignUpPageState extends State<VSignUpPage> {
       }
       ;
       if (_controllerEmail.text.isEmpty && _controllerPass.text.isEmpty) {
-        errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة السر ";
+        errorMessage = "الرجاء إدخال البريد الالكتروني وكلمة المرور ";
       } else if (_controllerEmail.text.isEmpty) {
         errorMessage = " الرجاء إدخال البريد الالكتروني ";
       } else if (_controllerPass.text.isEmpty) {
-        errorMessage = "الرجاء إدخال كلمة السر ";
+        errorMessage = "الرجاء إدخال كلمة المرور ";
 
         switch ("invalid-email") {
           case "invalid-email":
