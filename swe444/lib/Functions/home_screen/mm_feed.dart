@@ -69,7 +69,7 @@ class mmFeed extends State<mm_feed> {
       //print('posted user Id ' + document['posted_by'].toString());
       //print('current user Id ' + id.toString());
       return Container(
-        padding: const EdgeInsets.only(top: 10.0, left: 3, right: 3),
+        padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(19.0),
@@ -81,7 +81,7 @@ class mmFeed extends State<mm_feed> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 5.0, left: 2, right: 8),
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
                     Container(
                         width: 25,
@@ -127,7 +127,7 @@ class mmFeed extends State<mm_feed> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 80),
+                      const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 70),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Container(
@@ -142,7 +142,7 @@ class mmFeed extends State<mm_feed> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 70),
+                      const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 63),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Text(document['amount'].toString()),

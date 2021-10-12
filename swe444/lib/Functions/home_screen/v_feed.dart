@@ -65,7 +65,7 @@ class vFeed extends State<v_feed> {
     FeedViewModel feedVM = FeedViewModel();
     //print("location:" + document['location'].toString());
     return Container(
-      padding: const EdgeInsets.only(top: 10.0, left: 3, right: 3),
+      padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(19.0),
