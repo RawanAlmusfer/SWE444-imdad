@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
       maxLines:2 ,
       minLines: 1,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerEmail,
       decoration: InputDecoration(
