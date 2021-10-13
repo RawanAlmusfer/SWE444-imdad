@@ -48,13 +48,13 @@ class _LoginPageState extends State<LoginPage> {
           switch (e.code) {
             case "invalid-email":
               setState(() {
-                errorMessage1 = 'البريد الالكتروني غير صحيح';
+                errorMessage1 = 'البريد الالكتروني/كلمة المرور غير صحيح';
               });
               break;
 
             case "wrong-password":
               setState(() {
-                errorMessage1 = 'كلمة المرور غير صحيحة';
+                errorMessage1 = 'البريد الالكتروني/كلمة المرور غير صحيحة';
               });
               break;
 
@@ -261,7 +261,7 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
-                                  // width: 0.0 produces a thin "hairline" border
+                               
                                   borderSide: const BorderSide(
                                     color: kYellow,
                                   ),
