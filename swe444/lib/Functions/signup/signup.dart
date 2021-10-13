@@ -340,7 +340,7 @@ class _SignUpPageState extends State<SignUpPage> {
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
       maxLength: 8,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.phone,
       // style:
       //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
@@ -423,6 +423,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Form(
+                    autovalidateMode: AutovalidateMode.always,
                     key: _formKey,
                     child: Column(
                       children: [

@@ -24,155 +24,245 @@ class _AddRequestFormState extends State<PostRequestForm> {
   int? amount;
   TextEditingController _amount = TextEditingController();
   TextEditingController title = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
   DateTime time = DateTime.now();
   final List<String> items = <String>['مبلغ'];
   TextEditingController description = TextEditingController();
 
-  Widget _buildType(bool orientation) {
-    double h1 = 0, h2 = 0, b1 = 0;
-    if (orientation == true) {
-      h1 = 10;
-      b1 = 5;
-      h2 = 18;
-    } else {
-      h1 = 60;
-      h2 = 70;
-      b1 = 5;
-    }
+  // Widget _buildType(bool orientation) {
+  //   double h1 = 0, h2 = 0, b1 = 0;
+  //   if (orientation == true) {
+  //     h1 = 10;
+  //     b1 = 5;
+  //     h2 = 18;
+  //   } else {
+  //     h1 = 60;
+  //     h2 = 70;
+  //     b1 = 5;
+  //   }
+  //
+  //   return Container(
+  //     width: orientation == true ? 300.w : 300.w,
+  //     height: orientation == true ? 55.h : 110.h,
+  //     // margin: EdgeInsets.only(bottom: 8.h),
+  //     child: Row(
+  //       children: [
+  //         Column(
+  //           children: [
+  //             Stack(
+  //               children: <Widget>[
+  //                 Container(
+  //                   width: orientation == true ? 190.w : 180.w,
+  //                   height: orientation == true ? 35.h : 70.h,
+  //                   padding: EdgeInsets.symmetric(horizontal: h1, vertical: 0),
+  //                   child: DecoratedBox(
+  //                     decoration: BoxDecoration(
+  //                       borderRadius: BorderRadius.circular(25.0),
+  //                       color: Color(0xffffffff),
+  //                       border: Border.all(
+  //                           width: 0.5, color: const Color(0xffdfdfdf)),
+  //                       boxShadow: [
+  //                         BoxShadow(
+  //                           color: const Color(0x29000000),
+  //                           offset: Offset(0, 3),
+  //                           blurRadius: 6,
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 Container(
+  //                   alignment: Alignment.topRight,
+  //                   width: orientation == true ? 190.w : 180.w,
+  //                   height: orientation == true ? 55.h : 110.h,
+  //                   child: Padding(
+  //                     padding: EdgeInsets.only(left: h2, right: h2, top: b1),
+  //                     child: DropdownButtonHideUnderline(
+  //                       child: DropdownButtonFormField<String>(
+  //                         decoration: InputDecoration.collapsed(
+  //                           hintText: "",
+  //                         ),
+  //                         selectedItemBuilder: (BuildContext context) {
+  //                           return items.map<Widget>((String item) {
+  //                             return Container(
+  //                               alignment: Alignment.centerRight,
+  //                               width: 120,
+  //                               child: Text(
+  //                                 item,
+  //                                 textAlign: TextAlign.end,
+  //                                 style: TextStyle(
+  //                                   fontFamily: 'Tajawal',
+  //                                 ),
+  //                               ),
+  //                             );
+  //                           }).toList();
+  //                         },
+  //                         value: type,
+  //                         items: items.map<DropdownMenuItem<String>>(
+  //                             (dropdownMenuItem) {
+  //                           return DropdownMenuItem(
+  //                             value: dropdownMenuItem,
+  //                             child: SizedBox(
+  //                               width: 150.w,
+  //                               child: Text(
+  //                                 dropdownMenuItem,
+  //                                 textAlign: TextAlign.right,
+  //                                 style: TextStyle(
+  //                                   fontFamily: 'Tajawal',
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           );
+  //                         }).toList(),
+  //                         onChanged: (value) =>
+  //                             setState(() => this.type = value),
+  //                         validator: (value) => value == null ? 'مطلوب' : null,
+  //                         icon: Icon(Icons.arrow_drop_down_circle),
+  //                         hint: Padding(
+  //                           padding: EdgeInsets.only(top: 5.h),
+  //                           child: SizedBox(
+  //                             width: 125.w,
+  //                             child: Text(
+  //                               "اختر نوعًا",
+  //                               textAlign: TextAlign.right,
+  //                               style: TextStyle(
+  //                                 fontFamily: 'Tajawal',
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                         isExpanded: true,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //         SizedBox(
+  //           width: orientation == true ? 40.w : 30.w,
+  //           child: Padding(
+  //             padding: const EdgeInsets.only(bottom: 20.0, right: 5),
+  //             child: const Text("*",
+  //                 textAlign: TextAlign.right,
+  //                 style: TextStyle(
+  //                   color: Color(0xffa01527),
+  //                   fontWeight: FontWeight.w400,
+  //                   fontFamily: 'Tajawal',
+  //                   fontSize: 17,
+  //                 )),
+  //           ),
+  //         ),
+  //         Column(
+  //           children: <Widget>[
+  //             Padding(
+  //               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+  //             ),
+  //             Text(
+  //               "نوع الطلب",
+  //               textAlign: TextAlign.right,
+  //               style: TextStyle(
+  //                 color: const Color(0xff334856),
+  //                 fontWeight: FontWeight.w400,
+  //                 fontFamily: 'Tajawal',
+  //                 fontSize: 15,
+  //               ),
+  //             )
+  //           ],
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
-    return Container(
-      width: orientation == true ? 300.w : 300.w,
-      height: orientation == true ? 55.h : 110.h,
-      // margin: EdgeInsets.only(bottom: 8.h),
-      child: Row(
-        children: [
-          Column(
-            children: [
-              Stack(
-                children: <Widget>[
-                  Container(
-                    width: orientation == true ? 190.w : 180.w,
-                    height: orientation == true ? 35.h : 70.h,
-                    padding: EdgeInsets.symmetric(horizontal: h1, vertical: 0),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25.0),
-                        color: Color(0xffffffff),
-                        border: Border.all(
-                            width: 0.5, color: const Color(0xffdfdfdf)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0x29000000),
-                            offset: Offset(0, 3),
-                            blurRadius: 6,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    width: orientation == true ? 190.w : 180.w,
-                    height: orientation == true ? 55.h : 110.h,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: h2, right: h2, top: b1),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButtonFormField<String>(
-                          decoration: InputDecoration.collapsed(
-                            hintText: "",
-                          ),
-                          selectedItemBuilder: (BuildContext context) {
-                            return items.map<Widget>((String item) {
-                              return Container(
-                                alignment: Alignment.centerRight,
-                                width: 120,
-                                child: Text(
-                                  item,
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontFamily: 'Tajawal',
-                                  ),
-                                ),
-                              );
-                            }).toList();
-                          },
-                          value: type,
-                          items: items.map<DropdownMenuItem<String>>(
-                              (dropdownMenuItem) {
-                            return DropdownMenuItem(
-                              value: dropdownMenuItem,
-                              child: SizedBox(
-                                width: 150.w,
-                                child: Text(
-                                  dropdownMenuItem,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    fontFamily: 'Tajawal',
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (value) =>
-                              setState(() => this.type = value),
-                          validator: (value) => value == null ? 'مطلوب' : null,
-                          icon: Icon(Icons.arrow_drop_down_circle),
-                          hint: Padding(
-                            padding: EdgeInsets.only(top: 5.h),
-                            child: SizedBox(
-                              width: 125.w,
-                              child: Text(
-                                "اختر نوعًا",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontFamily: 'Tajawal',
-                                ),
-                              ),
-                            ),
-                          ),
-                          isExpanded: true,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            width: orientation == true ? 40.w : 30.w,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20.0, right: 5),
-              child: const Text("*",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: Color(0xffa01527),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Tajawal',
-                    fontSize: 17,
-                  )),
+  Widget _buildType() {
+    return DropdownButtonHideUnderline(
+        child: DropdownButtonFormField<String>(
+          decoration:
+          InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
             ),
-          ),
-          Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+            focusedBorder: OutlineInputBorder(
+              // width: 0.0 produces a thin "hairline" border
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide(
+                color: const Color(0xdeedd03c),
               ),
-              Text(
-                "نوع الطلب",
+            ),
+            contentPadding: EdgeInsets.all(18),
+            prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+            hoverColor: const Color(0xff334856),
+            hintText: 'إختر نوعًا',
+            labelText: 'نوع الطلب',
+            hintStyle: TextStyle(
+                fontSize: 14,
+                color: const Color(0xff334856),
+                fontFamily: 'Tajawal'),
+            labelStyle: TextStyle(
+                fontSize: 18,
+                color: const Color(0xff334856),
+                fontFamily: 'Tajawal'),
+            alignLabelWithHint: true,
+            //border: OutlineInputBorder(),
+            // hoverColor: const Color(0xff334856),
+          ),
+          // InputDecoration.collapsed(
+          //   hintText: "",
+          // ),
+          selectedItemBuilder: (BuildContext context) {
+            return items.map<Widget>((String item) {
+              return Container(
+                alignment: Alignment.centerRight,
+                width: 200,
+                child: Text(
+                  item,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+              );
+            }).toList();
+          },
+          value: type,
+          items: items.map<DropdownMenuItem<String>>(
+                  (dropdownMenuItem) {
+                return DropdownMenuItem(
+                  value: dropdownMenuItem,
+                  child: SizedBox(
+                    width: 200.w,
+                    child: Text(
+                      dropdownMenuItem,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+          onChanged: (value) =>
+              setState(() => this.type = value),
+          validator: (value) => value == null ? 'مطلوب' : null,
+          style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+          icon: Icon(Icons.arrow_drop_down_circle),
+          hint: Padding(
+            padding: EdgeInsets.only(top: 5.h),
+            child: SizedBox(
+              // width: 125.w,
+              child: Text(
+                "اختر نوعًا",
                 textAlign: TextAlign.right,
                 style: TextStyle(
-                  color: const Color(0xff334856),
-                  fontWeight: FontWeight.w400,
                   fontFamily: 'Tajawal',
-                  fontSize: 15,
                 ),
-              )
-            ],
-          )
-        ],
-      ),
-    );
+              ),
+            ),
+          ),
+          // isExpanded: true,
+    ));
   }
 
   Widget _buildTitle(bool orientation) {
@@ -292,6 +382,58 @@ class _AddRequestFormState extends State<PostRequestForm> {
       ),
     );
   }
+
+  Widget _buildEmailField() {
+    return TextFormField(
+      maxLines: 1,
+      validator: (value) {
+        if (value == null ||
+            value.isEmpty ||
+            value.trim().isEmpty) return "مطلوب";
+        if (!RegExp(r"^[\p{L} ,.'-]*$",
+            caseSensitive: false, unicode: true, dotAll: true)
+            .hasMatch(value)) return "يجب أن يحتوي على أحرف فقط";
+        if (value.length > 30)
+          return "لا يمكن ان يزيد عن 30 حرف ";
+      },
+      controller: title,
+      onSaved: (_val) {
+        if (_val != null) title.text = _val;
+      },
+      showCursor: true,
+      cursorColor: const Color(0xdeedd03c),
+      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+        hoverColor: const Color(0xff334856),
+        hintText: 'أدخل عنوان الطلب',
+        labelText: 'عنوان الطلب',
+        hintStyle: TextStyle(
+            fontSize: 14,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        labelStyle: TextStyle(
+            fontSize: 18,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        // hoverColor: const Color(0xff334856),
+      ),
+    );
+  }
+
 
   Widget _buildDetails(bool orientation) {
     double h1 = 0, h2 = 0, _value = 0, l2 = 0, l3 = 0, t1 = 0;
@@ -617,22 +759,36 @@ class _AddRequestFormState extends State<PostRequestForm> {
     bool portrait = true;
 
     if (deviceOrientation == Orientation.landscape) portrait = false;
-    return Container(
+    return GestureDetector(
+        onTap: () {
+      FocusScope.of(context).requestFocus(FocusNode());
+    },
+    child: Container(
       child: Form(
+        autovalidateMode: AutovalidateMode.always,
         key: _formKey,
         child: Column(
           children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
             Container(
-              width: portrait == true ? 300.w : 400.w,
-              child: _buildType(portrait),
+              width: portrait == true ? 270.w : 300.w,
+              child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: _buildType(),
+        ),
             ),
             // email container
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
-              width: portrait == true ? 300.w : 400.w,
-              child: _buildTitle(portrait),
+              width: portrait == true ? 270.w : 300.w,
+              child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: _buildEmailField(),
+            ),
             ), // password container
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -688,7 +844,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   void add(String? id) async {

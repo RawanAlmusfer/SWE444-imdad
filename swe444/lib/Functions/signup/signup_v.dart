@@ -441,6 +441,7 @@ class _SignUpPageState extends State<VSignUpPage> {
                     ),
                   ),
                   Form(
+                    autovalidateMode: AutovalidateMode.always,
                     key: _formKey,
                     child: Column(
                       children: [
