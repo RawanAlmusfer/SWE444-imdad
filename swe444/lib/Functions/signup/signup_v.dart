@@ -95,7 +95,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         hintText: 'أدخل البريد الالكتروني',
-        labelText: 'البريد الالكتروني',
+        labelText: 'البريد الالكتروني*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -151,7 +151,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كلمة المرور',
-        labelText: 'كلمة المرور',
+        labelText: 'كلمة المرور*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -173,7 +173,7 @@ class _SignUpPageState extends State<VSignUpPage> {
           return ("رجاءً قم بتأكيد كلمة مرور");
         }
         if (_controllerPass2.text != _controllerPass.text) {
-          return "كلمة المرور مختلفة";
+          return "كلمة المرور مختلفة*";
         }
         return null;
       },
@@ -205,7 +205,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كلمة المرور مره اخرى',
-        labelText: 'تاكيد كلمة المرور',
+        labelText: 'تاكيد كلمة المرور*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -265,7 +265,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل اسمك الاول',
-        labelText: 'الاسم الاول',
+        labelText: 'الاسم الاول*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -326,7 +326,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل اسم عائلتك',
-        labelText: 'اسم العائلة',
+        labelText: 'اسم العائلة*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -388,7 +388,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل رقم الجوال',
-        labelText: 'رقم الجوال',
+        labelText: 'رقم الجوال*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),

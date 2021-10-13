@@ -80,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         hintText: 'أدخل البريد الالكتروني',
-        labelText: 'البريد الالكتروني',
+        labelText: 'البريد الالكتروني*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -136,7 +136,7 @@ class _SignUpPageState extends State<SignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كلمة المرور',
-        labelText: 'كلمة المرور',
+        labelText: ' كلمة المرور* ',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -190,7 +190,7 @@ class _SignUpPageState extends State<SignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كلمة المرور مره اخرى',
-        labelText: 'تاكيد كلمة المرور',
+        labelText: 'تاكيد كلمة المرور*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -250,7 +250,7 @@ class _SignUpPageState extends State<SignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل اسم المسجد',
-        labelText: 'اسم المسجد',
+        labelText: 'اسم المسجد*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -311,7 +311,7 @@ class _SignUpPageState extends State<SignUpPage> {
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         hintText: 'أدخل رقم الجوال',
-        labelText: 'رقم الجوال',
+        labelText: 'رقم الجوال*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -370,7 +370,7 @@ class _SignUpPageState extends State<SignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كود المسجد',
-        labelText: 'كود المسجد',
+        labelText: 'كود المسجد*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),

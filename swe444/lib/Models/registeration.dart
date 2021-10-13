@@ -1,17 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Request {
+class Request1 {
   // String? documentId;
   String? email;
   String? passward;
 
 
-  Request(
-      this.email,
-      this.passward,
 
-      );
 
 
 

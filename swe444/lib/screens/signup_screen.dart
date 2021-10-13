@@ -18,7 +18,7 @@ import 'package:swe444/models/users.dart';
 
 
 
-import 'package:firebase_database/firebase_database.dart';
+
 
 
 
@@ -41,21 +41,21 @@ class _SignupScreenState extends State<SignupScreen> {
 
   //FirebaseFirestore Firestore = FirebaseFirestore.instance;
   //FirebaseApp secondaryApp = Firebase.app('SecondaryApp');
-  final databaseRef = FirebaseDatabase.instance.reference(); //database reference object
+  //final databaseRef = FirebaseDatabase.instance.reference(); //database reference object
 
   void addData(String data) {
-    databaseRef.push().set({'name': data, 'comment': 'A good season'});
+    //databaseRef.push().set({'name': data, 'comment': 'A good season'});
   }
   @override
   void initState() {
     _future.then((value) => null);
     super.initState();
   }
-  void printFirebase(){
-    databaseRef.once().then((DataSnapshot snapshot) {
-      print('Data : ${snapshot.value}');
-    });
-  }
+  //void printFirebase(){
+  // databaseRef.once().then((DataSnapshot snapshot) {
+   //   print('Data : ${snapshot.value}');
+    //});
+ // }
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final _key = GlobalKey<FormState>();
