@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,12 +12,8 @@ class MosqueMangerFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedViewModel>(
-            create: (_) => FeedViewModel(),
-            child: Container(
-              height: 1200,
-                width: 450,
-                child: mm_feed())
-          );
+        create: (_) => FeedViewModel(),
+        child: Container(height: 1200, width: 450, child: mm_feed()));
   }
 }
 
@@ -34,21 +31,20 @@ class mmFeed extends State<mm_feed> {
   void initState() {
     super.initState();
     Future.delayed(
-        Duration.zero, () => setState(() {
-      setup();
-    }));
+        Duration.zero,
+        () => setState(() {
+              setup();
+            }));
   }
 
   setup() async {
-    await Provider.of<FeedViewModel>(context, listen: false)
-        .fetchRequests();
+    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
   }
-
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>>? requests = Provider.of<FeedViewModel>(context, listen: false)
-        .requests;
+    Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
+        Provider.of<FeedViewModel>(context, listen: false).requests;
     // Navigator.pop(context);
     return Scaffold(
       backgroundColor: const Color(0xffededed),
@@ -68,12 +64,12 @@ class mmFeed extends State<mm_feed> {
   }
 
   Widget buildCards(
-  BuildContext context, DocumentSnapshot document, String? id) {
+      BuildContext context, DocumentSnapshot document, String? id) {
     if (document['posted_by'].toString() == id) {
       //print('posted user Id ' + document['posted_by'].toString());
       //print('current user Id ' + id.toString());
       return Container(
-        padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
+        padding: const EdgeInsets.only(top: 10.0, left: 3, right: 3),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(19.0),
@@ -173,14 +169,12 @@ class mmFeed extends State<mm_feed> {
   // }
 
   showAlertDialog(DocumentSnapshot document) {
-    RequestViewModel requestVM= RequestViewModel();
+    RequestViewModel requestVM = RequestViewModel();
     // set up the buttons
     Widget cancelButton = ElevatedButton(
       child: const Text(
         "إلغاء",
-          style: TextStyle(
-          fontFamily: "Tajawal",
-      color: const Color(0xdeedd03c)),
+        style: TextStyle(fontFamily: "Tajawal", color: const Color(0xdeedd03c)),
       ),
       onPressed: () {
         Navigator.of(context).pop(context);
@@ -190,34 +184,42 @@ class mmFeed extends State<mm_feed> {
               MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
           elevation: MaterialStateProperty.all<double>(0)),
     );
-    Widget confirmButton = ElevatedButton(
-      child: Text("تأكيد",
-      style: TextStyle(
-          fontFamily: "Tajawal"
-      ),),
-      onPressed: () async {
-        Navigator.of(context).pop(context);
-        await requestVM.cancelRequest(document);
-        Snackbar bar = Snackbar(context, requestVM.message);
-        bar.showToast();
-      },
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+    Widget confirmButton = Padding(
+      padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
+      child: ElevatedButton(
+        child: Text(
+          "تأكيد",
+          style: TextStyle(fontFamily: "Tajawal"),
+        ),
+        style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+        onPressed: () async {
+          Navigator.of(context).pop(context);
+          await requestVM.cancelRequest(document);
+          Snackbar bar = Snackbar(context, requestVM.message);
+          bar.showToast();
+        },
+      ),
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      contentPadding: EdgeInsets.only(right: 20, top: 20, bottom: 10),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
       title: Text(
         "إلغاء",
         textAlign: TextAlign.right,
         style: TextStyle(
-            fontFamily: "Tajawal"
+          fontFamily: "Tajawal",
+          color: const Color(0xdeedd03c),
         ),
       ),
-      content: Text("هل أنت متأكد من رغبتك في\n إلغاء الطلب؟", textAlign: TextAlign.right, style: TextStyle(
-          fontFamily: "Tajawal"
-      ),),
+      content: Text(
+        "هل أنت متأكد من رغبتك في\n إلغاء الطلب؟",
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal"),
+      ),
       actions: [
         cancelButton,
         confirmButton,
