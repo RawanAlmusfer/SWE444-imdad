@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/mm_home_view.dart';
 import 'package:swe444/Models/MUserModel.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 import '../signup_login_screen.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 
 class SignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
 
-  const SignUpPage({required this.onSignIn});
+  const SignUpPage({Key? key, required this.onSignIn}) : super(key: key);
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -26,13 +28,13 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController mosqueCode = TextEditingController();
 
   String errorMessage = "";
-
+  String? mCodeMessage  = null;
   final _formKey = GlobalKey<FormState>();
 
   static const kYellow = const Color(0xdeedd03c);
   String error = "";
   bool isLogin = true;
-
+  bool isFoucesedPassword = false;
   final _auth = FirebaseAuth.instance;
   Snackbar? snackbar;
   Snackbar? snackbar2, snackbar3;
@@ -42,7 +44,9 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
-        if (value!.isEmpty || value.trim().isEmpty) {
+        if (value!.isEmpty || value
+            .trim()
+            .isEmpty) {
           return ("الرجاء قم بإدخال بريد إلكتروني");
         }
         // reg expression for email validation
@@ -58,8 +62,10 @@ class _SignUpPageState extends State<SignUpPage> {
         _controllerEmail.text = value!;
       },
       showCursor: true,
+      maxLines:2 ,
+      minLines: 1,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerEmail,
       decoration: InputDecoration(
@@ -98,18 +104,10 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _buildPasswordField() {
-    return TextFormField(
-      validator: (value) {
-        RegExp regex = new RegExp(r'^.{6,}$');
-        if (value!.isEmpty || value.trim().isEmpty) {
-          return ("الرجاء تعيين كلمة مرور");
-        }
-        if (!regex.hasMatch(value)) {
-          return ("يجب أن تحتوي على 6 رموز او أكثر");
-        }
-      },
-      onSaved: (value) {
-        _controllerPass.text = value!;
+    return TextField(
+
+      onSubmitted: (value) {
+        _controllerPass.text = value;
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
@@ -118,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: _controllerPass,
       decoration: InputDecoration(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(30)
         ),
         focusedBorder: OutlineInputBorder(
           // width: 0.0 produces a thin "hairline" border
@@ -148,13 +146,18 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       autocorrect: false,
       obscureText: true,
+      onTap: (){setState(() {
+        isFoucesedPassword=true;
+      });},
     );
   }
 
   Widget _buildConfirmPasswordField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty || value.trim().isEmpty) {
+        if (value!.isEmpty || value
+            .trim()
+            .isEmpty) {
           return ("رجاءً قم بتأكيد كلمة مرور");
         }
         if (_controllerPass2.text != _controllerPass.text) {
@@ -212,7 +215,9 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^.{5,}$');
-        if (value!.isEmpty || value.trim().isEmpty) {
+        if (value!.isEmpty || value
+            .trim()
+            .isEmpty) {
           return ("الرجاء قم بإدخال اسم المسجد");
         }
         if (!regex.hasMatch(value)) {
@@ -273,7 +278,9 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
-        if (value!.isEmpty || value.trim().isEmpty) {
+        if (value!.isEmpty || value
+            .trim()
+            .isEmpty) {
           return ("الرجاء إدخال رقم جوال المسجد ");
         }
         if (!regex.hasMatch(value)) {
@@ -332,15 +339,20 @@ class _SignUpPageState extends State<SignUpPage> {
         mosqueCode.text = value!;
       },
       validator: (value) {
-        if (value!.isEmpty || value.trim().isEmpty) {
-          return ("الرجاء قم بإدخال رمز المسجد");
-        }
-        return null;
+
+        var pattern = r'\d{2}-\d{5}';
+        RegExp regex =  RegExp(pattern);
+        if (!regex.hasMatch(value!))
+          return 'Enter Valid Number';
+        else
+          return null;
       },
+      //keyboardType: TextInputType.numberWithOptions(decimal: true),
+
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
       maxLength: 8,
-      keyboardType: TextInputType.number,
+      //keyboardType: TextInputType.number,
       // style:
       //     TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
@@ -371,6 +383,8 @@ class _SignUpPageState extends State<SignUpPage> {
         //border: OutlineInputBorder(),
         hintText: 'أدخل كود المسجد',
         labelText: 'كود المسجد*',
+        errorText: mCodeMessage,
+
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -448,7 +462,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           ],
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.05,
                         ),
                         Container(
                           width: 330,
@@ -458,7 +475,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // email container
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
                         ),
                         Container(
                           width: 330,
@@ -466,9 +486,30 @@ class _SignUpPageState extends State<SignUpPage> {
                             textDirection: TextDirection.rtl,
                             child: _buildPasswordField(),
                           ),
+                        ),
+                        Visibility(
+                          visible: isFoucesedPassword,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FlutterPwValidator(
+                                controller: _controllerPass,
+                                minLength: 6,
+
+                                uppercaseCharCount: 2,
+                                numericCharCount: 3,
+                                specialCharCount: 1,
+                                width: 400,
+                                height: 150,
+                                onSuccess: (value) {
+                                  //_controllerPass.text = value;
+                                }),
+                          ),
                         ), // password container
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
                         ),
                         Container(
                           width: 330,
@@ -478,7 +519,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // conform container
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
                         ),
                         Container(
                           width: 330,
@@ -488,7 +532,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // mosque name
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
                         ),
                         Container(
                           width: 330,
@@ -498,7 +545,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // phone
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
                         ),
                         // Container(
                         //   width: 330,
@@ -518,7 +568,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // code
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
                         ),
 
                         Row(
@@ -530,7 +583,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           ],
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
                         ),
                         ElevatedButton(
                             onPressed: () {
@@ -553,7 +609,10 @@ class _SignUpPageState extends State<SignUpPage> {
                             )),
                         Text(error),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.15,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.15,
                         ),
                       ],
                     ),
@@ -693,13 +752,18 @@ class _SignUpPageState extends State<SignUpPage> {
             snackbar3!.showToast();
           } //end 2ed switch
         } else {
-          Snackbar sb = Snackbar(context, "كود المسجد المدخل غير صالح");
-          sb.showToast();
+
+          setState(() {
+            mCodeMessage = 'كود المسجد المدخل غير صالح';
+          });
         }
         ;
       }).catchError((error) {
-        Snackbar sb = Snackbar(context, "كود المسجد المدخل غير صالح");
-        sb.showToast();
+        // Snackbar sb = Snackbar(context, "كود المسجد المدخل غير صالح");
+        // sb.showToast();
+        setState(() {
+          mCodeMessage = 'bla bla bal';
+        });
       });
     }
   }

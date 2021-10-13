@@ -74,7 +74,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerEmail,
       decoration: InputDecoration(
@@ -128,7 +128,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass,
       decoration: InputDecoration(
@@ -182,7 +182,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass2,
       decoration: InputDecoration(
@@ -242,7 +242,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: firstName,
       decoration: InputDecoration(
@@ -303,7 +303,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: lastName,
       decoration: InputDecoration(
