@@ -20,8 +20,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
   final _formKey = GlobalKey<FormState>();
   User? user = FirebaseAuth.instance.currentUser;
   String? type, mosque_name, mosque_location;
+  String _enteredText= "";
   String? postedBy;
   int? amount;
+  int charLength= 0;
   TextEditingController _amount = TextEditingController();
   TextEditingController title = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
@@ -118,6 +120,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
   Widget _buildTitle() {
     return TextFormField(
       maxLines: 1,
+      maxLength: 30,
+
       validator: (value) {
         if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
@@ -130,11 +134,20 @@ class _AddRequestFormState extends State<PostRequestForm> {
       onSaved: (_val) {
         if (_val != null) title.text = _val;
       },
+
+      onChanged: (value) {
+        setState( () {
+            charLength = value.length;
+        },
+        );
+      },
+
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
       style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       decoration: InputDecoration(
+        // counterText: '${_enteredText.length.toString()}character(s)',
         contentPadding: EdgeInsets.only(right: 20, top: 15 ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
@@ -227,6 +240,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
   Widget _buildDescription() {
     return TextFormField(
+      maxLength: 150,
       textAlign: TextAlign.right,
       decoration: InputDecoration(
         contentPadding:
@@ -374,7 +388,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
               ),
             ), // password container
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.025,
+              height: MediaQuery.of(context).size.height * 0.005,
             ),
             Container(
               width: portrait == true ? 250.w : 300.w,
