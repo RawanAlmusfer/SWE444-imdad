@@ -29,372 +29,102 @@ class _AddRequestFormState extends State<PostRequestForm> {
   final List<String> items = <String>['مبلغ'];
   TextEditingController description = TextEditingController();
 
-  // Widget _buildType(bool orientation) {
-  //   double h1 = 0, h2 = 0, b1 = 0;
-  //   if (orientation == true) {
-  //     h1 = 10;
-  //     b1 = 5;
-  //     h2 = 18;
-  //   } else {
-  //     h1 = 60;
-  //     h2 = 70;
-  //     b1 = 5;
-  //   }
-  //
-  //   return Container(
-  //     width: orientation == true ? 300.w : 300.w,
-  //     height: orientation == true ? 55.h : 110.h,
-  //     // margin: EdgeInsets.only(bottom: 8.h),
-  //     child: Row(
-  //       children: [
-  //         Column(
-  //           children: [
-  //             Stack(
-  //               children: <Widget>[
-  //                 Container(
-  //                   width: orientation == true ? 190.w : 180.w,
-  //                   height: orientation == true ? 35.h : 70.h,
-  //                   padding: EdgeInsets.symmetric(horizontal: h1, vertical: 0),
-  //                   child: DecoratedBox(
-  //                     decoration: BoxDecoration(
-  //                       borderRadius: BorderRadius.circular(25.0),
-  //                       color: Color(0xffffffff),
-  //                       border: Border.all(
-  //                           width: 0.5, color: const Color(0xffdfdfdf)),
-  //                       boxShadow: [
-  //                         BoxShadow(
-  //                           color: const Color(0x29000000),
-  //                           offset: Offset(0, 3),
-  //                           blurRadius: 6,
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 Container(
-  //                   alignment: Alignment.topRight,
-  //                   width: orientation == true ? 190.w : 180.w,
-  //                   height: orientation == true ? 55.h : 110.h,
-  //                   child: Padding(
-  //                     padding: EdgeInsets.only(left: h2, right: h2, top: b1),
-  //                     child: DropdownButtonHideUnderline(
-  //                       child: DropdownButtonFormField<String>(
-  //                         decoration: InputDecoration.collapsed(
-  //                           hintText: "",
-  //                         ),
-  //                         selectedItemBuilder: (BuildContext context) {
-  //                           return items.map<Widget>((String item) {
-  //                             return Container(
-  //                               alignment: Alignment.centerRight,
-  //                               width: 120,
-  //                               child: Text(
-  //                                 item,
-  //                                 textAlign: TextAlign.end,
-  //                                 style: TextStyle(
-  //                                   fontFamily: 'Tajawal',
-  //                                 ),
-  //                               ),
-  //                             );
-  //                           }).toList();
-  //                         },
-  //                         value: type,
-  //                         items: items.map<DropdownMenuItem<String>>(
-  //                             (dropdownMenuItem) {
-  //                           return DropdownMenuItem(
-  //                             value: dropdownMenuItem,
-  //                             child: SizedBox(
-  //                               width: 150.w,
-  //                               child: Text(
-  //                                 dropdownMenuItem,
-  //                                 textAlign: TextAlign.right,
-  //                                 style: TextStyle(
-  //                                   fontFamily: 'Tajawal',
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           );
-  //                         }).toList(),
-  //                         onChanged: (value) =>
-  //                             setState(() => this.type = value),
-  //                         validator: (value) => value == null ? 'مطلوب' : null,
-  //                         icon: Icon(Icons.arrow_drop_down_circle),
-  //                         hint: Padding(
-  //                           padding: EdgeInsets.only(top: 5.h),
-  //                           child: SizedBox(
-  //                             width: 125.w,
-  //                             child: Text(
-  //                               "اختر نوعًا",
-  //                               textAlign: TextAlign.right,
-  //                               style: TextStyle(
-  //                                 fontFamily: 'Tajawal',
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ),
-  //                         isExpanded: true,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //         SizedBox(
-  //           width: orientation == true ? 40.w : 30.w,
-  //           child: Padding(
-  //             padding: const EdgeInsets.only(bottom: 20.0, right: 5),
-  //             child: const Text("*",
-  //                 textAlign: TextAlign.right,
-  //                 style: TextStyle(
-  //                   color: Color(0xffa01527),
-  //                   fontWeight: FontWeight.w400,
-  //                   fontFamily: 'Tajawal',
-  //                   fontSize: 17,
-  //                 )),
-  //           ),
-  //         ),
-  //         Column(
-  //           children: <Widget>[
-  //             Padding(
-  //               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-  //             ),
-  //             Text(
-  //               "نوع الطلب",
-  //               textAlign: TextAlign.right,
-  //               style: TextStyle(
-  //                 color: const Color(0xff334856),
-  //                 fontWeight: FontWeight.w400,
-  //                 fontFamily: 'Tajawal',
-  //                 fontSize: 15,
-  //               ),
-  //             )
-  //           ],
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _buildType() {
     return DropdownButtonHideUnderline(
         child: DropdownButtonFormField<String>(
-          decoration:
-          InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            focusedBorder: OutlineInputBorder(
-              // width: 0.0 produces a thin "hairline" border
-              borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(
-                color: const Color(0xdeedd03c),
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        contentPadding: EdgeInsets.all(18),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+        hoverColor: const Color(0xff334856),
+        hintText: 'إختر نوعًا',
+        labelText: ' نوع الطلب *',
+        hintStyle: TextStyle(
+            fontSize: 13,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        labelStyle: TextStyle(
+            fontSize: 16,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        // hoverColor: const Color(0xff334856),
+      ),
+      // InputDecoration.collapsed(
+      //   hintText: "",
+      // ),
+      selectedItemBuilder: (BuildContext context) {
+        return items.map<Widget>((String item) {
+          return Container(
+            alignment: Alignment.centerRight,
+            width: 150,
+            child: Text(
+              item,
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                fontFamily: 'Tajawal',
               ),
             ),
-            contentPadding: EdgeInsets.all(18),
-            prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-            hoverColor: const Color(0xff334856),
-            hintText: 'إختر نوعًا',
-            labelText: 'نوع الطلب',
-            hintStyle: TextStyle(
-                fontSize: 14,
-                color: const Color(0xff334856),
-                fontFamily: 'Tajawal'),
-            labelStyle: TextStyle(
-                fontSize: 18,
-                color: const Color(0xff334856),
-                fontFamily: 'Tajawal'),
-            alignLabelWithHint: true,
-            //border: OutlineInputBorder(),
-            // hoverColor: const Color(0xff334856),
-          ),
-          // InputDecoration.collapsed(
-          //   hintText: "",
-          // ),
-          selectedItemBuilder: (BuildContext context) {
-            return items.map<Widget>((String item) {
-              return Container(
-                alignment: Alignment.centerRight,
-                width: 200,
-                child: Text(
-                  item,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    fontFamily: 'Tajawal',
-                  ),
-                ),
-              );
-            }).toList();
-          },
-          value: type,
-          items: items.map<DropdownMenuItem<String>>(
-                  (dropdownMenuItem) {
-                return DropdownMenuItem(
-                  value: dropdownMenuItem,
-                  child: SizedBox(
-                    width: 200.w,
-                    child: Text(
-                      dropdownMenuItem,
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-          onChanged: (value) =>
-              setState(() => this.type = value),
-          validator: (value) => value == null ? 'مطلوب' : null,
-          style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-          icon: Icon(Icons.arrow_drop_down_circle),
-          hint: Padding(
-            padding: EdgeInsets.only(top: 5.h),
-            child: SizedBox(
-              // width: 125.w,
-              child: Text(
-                "اختر نوعًا",
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontFamily: 'Tajawal',
-                ),
+          );
+        }).toList();
+      },
+      value: type,
+      items: items.map<DropdownMenuItem<String>>((dropdownMenuItem) {
+        return DropdownMenuItem(
+          value: dropdownMenuItem,
+          child: SizedBox(
+            width: 200.w,
+            child: Text(
+              dropdownMenuItem,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontFamily: 'Tajawal',
               ),
             ),
           ),
-          // isExpanded: true,
+        );
+      }).toList(),
+      onChanged: (value) => setState(() => this.type = value),
+      validator: (value) => value == null ? 'مطلوب' : null,
+      style: TextStyle(fontSize: 16, color: const Color(0xff334856)),
+      icon: Icon(Icons.arrow_drop_down_circle),
+      hint: Padding(
+        padding: EdgeInsets.only(top: 5.h),
+        child: SizedBox(
+          // width: 125.w,
+          child: Text(
+            "اختر نوعًا",
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontFamily: 'Tajawal',
+            ),
+          ),
+        ),
+      ),
+      // isExpanded: true,
     ));
   }
 
-  Widget _buildTitle(bool orientation) {
-    double h1 = 0, l1 = 0, l2 = 0;
-    if (orientation == true) {
-      h1 = 10;
-      l1 = 9.w;
-      l2 = 0;
-    } else {
-      h1 = 60;
-      l1 = 15.w;
-      l2 = 12.w;
-    }
-
-    return Container(
-      width: orientation == true ? 300.w : 300.w,
-      height: orientation == true ? 60.h : 120.h,
-      child: Row(
-        children: [
-          Column(children: [
-            Stack(children: <Widget>[
-              Container(
-                width: orientation == true ? 190.w : 180.w,
-                height: orientation == true ? 33.h : 70.h,
-                padding: EdgeInsets.symmetric(horizontal: h1, vertical: 0),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0),
-                    color: Color(0xffffffff),
-                    border:
-                        Border.all(width: 0.5, color: const Color(0xffdfdfdf)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0x29000000),
-                        offset: Offset(0, 3),
-                        blurRadius: 6,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                width: orientation == true ? 180.w : 140.w,
-                height: orientation == true ? 58.h : 120.h,
-                margin: EdgeInsets.only(left: l2),
-                child: Padding(
-                  padding: EdgeInsets.only(left: l1),
-                  child: TextFormField(
-                    textAlign: TextAlign.right,
-                    maxLines: 1,
-                    validator: (value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          value.trim().isEmpty) return "مطلوب";
-                      if (!RegExp(r"^[\p{L} ,.'-]*$",
-                              caseSensitive: false, unicode: true, dotAll: true)
-                          .hasMatch(value)) return "يجب أن يحتوي على أحرف فقط";
-                      if (value.length > 30)
-                        return "لا يمكن ان يزيد عن 30 حرف ";
-                    },
-                    controller: title,
-                    decoration: InputDecoration(
-                        hintText: "العنوان",
-                        border: InputBorder.none,
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        contentPadding: EdgeInsets.fromLTRB(15.w, 0, 10.w, 16),
-                        hintStyle: const TextStyle(
-                            fontSize: 14, fontFamily: "Tajawal")),
-                    onSaved: (_val) {
-                      if (_val != null) title.text = _val;
-                    }, // onchanged
-                    inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  ),
-                ),
-              ),
-            ]),
-          ]),
-          SizedBox(
-            width: orientation == true ? 40.w : 30.w,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 35.0, right: 15.w),
-              child: const Text("*",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: Color(0xffa01527),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Tajawal',
-                    fontSize: 17,
-                  )),
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-              ),
-              Text(
-                "عنوان الطلب",
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: const Color(0xff334856),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'Tajawal',
-                  fontSize: 15,
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEmailField() {
+  Widget _buildTitle() {
     return TextFormField(
       maxLines: 1,
       validator: (value) {
-        if (value == null ||
-            value.isEmpty ||
-            value.trim().isEmpty) return "مطلوب";
+        if (value == null || value.isEmpty || value.trim().isEmpty)
+          return "مطلوب";
         if (!RegExp(r"^[\p{L} ,.'-]*$",
-            caseSensitive: false, unicode: true, dotAll: true)
+                caseSensitive: false, unicode: true, dotAll: true)
             .hasMatch(value)) return "يجب أن يحتوي على أحرف فقط";
-        if (value.length > 30)
-          return "لا يمكن ان يزيد عن 30 حرف ";
+        if (value.length > 30) return "لا يمكن ان يزيد عن 30 حرف ";
       },
       controller: title,
       onSaved: (_val) {
@@ -415,16 +145,16 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xdeedd03c),
           ),
         ),
-        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+        prefixStyle: TextStyle(fontSize: 15, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         hintText: 'أدخل عنوان الطلب',
-        labelText: 'عنوان الطلب',
+        labelText: 'عنوان الطلب *',
         hintStyle: TextStyle(
-            fontSize: 14,
+            fontSize: 13,
             color: const Color(0xff334856),
             fontFamily: 'Tajawal'),
         labelStyle: TextStyle(
-            fontSize: 18,
+            fontSize: 15,
             color: const Color(0xff334856),
             fontFamily: 'Tajawal'),
         alignLabelWithHint: true,
@@ -434,254 +164,205 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
-
-  Widget _buildDetails(bool orientation) {
-    double h1 = 0, h2 = 0, _value = 0, l2 = 0, l3 = 0, t1 = 0;
-
-    if (orientation == true) {
-      h1 = 15;
-      h2 = 25;
-      l2 = 13.w;
-      t1 = 10.h;
-      l3 = 25.w;
-    } else {
-      l2 = 27.w;
-      h1 = 60;
-      h2 = 0;
-      t1 = 15.h;
-      l3 = 30.w;
-    }
-
-    return Column(
-      children: [
-        Row(
-          children: [
-            Container(
-              width: orientation == true ? 293.w : 240.w,
-              height: orientation == true ? 20.h : 110.h,
-              margin: EdgeInsets.only(bottom: 5),
-              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                Text(
-                  "تفاصيل الطلب",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: const Color(0xff334856),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Tajawal',
-                    fontSize: 15,
-                  ),
-                ),
-              ]),
-            ),
-          ],
+  Widget _buildDetails() {
+    double _value;
+    return TextFormField(
+      validator: (value) {
+        if (value == null ||
+            value.isEmpty ||
+            value.trim().isEmpty)
+          return "مطلوب";
+        else {
+          _value = double.parse(value);
+          if (_value > 50000) return "الآقصى= 50000";
+          if (_value < 10) return "الآدنى= 10";
+        }
+      },
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        counterText: "",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
         ),
-        Row(
-          children: [
-            Stack(children: <Widget>[
-              Container(
-                width: orientation == true ? 150.w : 130.w,
-                height: orientation == true ? 38.h : 70.h,
-                padding: EdgeInsets.only(left: h1, top: 0),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0),
-                    color: Color(0xffffffff),
-                    border:
-                        Border.all(width: 0.5, color: const Color(0xffdfdfdf)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0x29000000),
-                        offset: Offset(0, 3),
-                        blurRadius: 6,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                width: orientation == true ? 174.w : 130.w,
-                height: orientation == true ? 62.h : 120.h,
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(right: h2, left: l2, bottom: 0, top: 0),
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          value.trim().isEmpty)
-                        return "مطلوب";
-                      else {
-                        _value = double.parse(value);
-                        if (_value > 50000) return "الآقصى= 50000";
-                        if (_value < 10) return "الآدنى= 10";
-                      }
-                    },
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(
-                        hintText: "00000",
-                        border: InputBorder.none,
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        contentPadding:
-                            EdgeInsets.fromLTRB(38.w, 0, 15.w, 12.h),
-                        hintStyle: const TextStyle(
-                            fontSize: 17, fontFamily: "Tajawal")),
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(30),
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                    ],
-                    controller: _amount,
-                    keyboardType: TextInputType.number,
-                    onSaved: (_val) {
-                      if (_val != null) {
-                        _amount.text = _val;
-                      }
-                    }, // onsaved
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0, left: 160, top: 7),
-                child: const Text("*",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Color(0xffa01527),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Tajawal',
-                      fontSize: 17,
-                    )),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(l3, t1, 0, 0),
-                child: Text(
-                  'ريال',
-                  style: TextStyle(
-                    fontFamily: 'Academy Engraved LET',
-                    fontSize: 12,
-                    color: const Color(0xffd2d2d2),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              )
-            ]),
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 15.h, left: 0),
-                  child: Text(
-                    "المبلغ",
-                    style: TextStyle(fontFamily: "Tajawal"),
-                  ),
-                ),
-              ],
-            ),
-          ],
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
         ),
+        prefixStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: '00000',
+        labelText: 'المبلغ *',
+        hintStyle: TextStyle(
+            fontSize: 13,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        labelStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+      ),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(30),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
       ],
+      controller: _amount,
+      keyboardType: TextInputType.number,
+      onSaved: (_val) {
+        if (_val != null) {
+          _amount.text = _val;
+        }
+      }, // onsaved
     );
   }
 
-  Widget _buildDescription(bool orientation) {
-    double h1 = 0, l1;
-    if (orientation == true) {
-      h1 = 10;
-      l1 = 0;
-    } else {
-      l1 = 20;
-      h1 = 60;
-    }
+  // Widget _buildDescription(bool orientation) {
+  //   double h1 = 0, l1;
+  //   if (orientation == true) {
+  //     h1 = 10;
+  //     l1 = 0;
+  //   } else {
+  //     l1 = 20;
+  //     h1 = 60;
+  //   }
+  //
+  //   return Container(
+  //     width: orientation == true ? 300.w : 300.w,
+  //     height: orientation == true ? 140.h : 285.h,
+  //     child: Column(
+  //       children: <Widget>[
+  //         Row(
+  //             mainAxisAlignment: MainAxisAlignment.end,
+  //             mainAxisSize: MainAxisSize.max,
+  //             children: [
+  //               Column(
+  //                 children: <Widget>[
+  //                   Text(
+  //                     "وصف إضافي",
+  //                     style: TextStyle(
+  //                       color: const Color(0xff334856),
+  //                       fontWeight: FontWeight.w400,
+  //                       fontFamily: 'Tajawal',
+  //                       fontSize: 15,
+  //                     ),
+  //                   )
+  //                 ],
+  //               ),
+  //               Column(
+  //                 children: [
+  //                   SizedBox(width: orientation == true ? 15.w : 29.w),
+  //                 ],
+  //               )
+  //             ]),
+  //         Row(
+  //           children: [
+  //             Column(
+  //               children: [
+  //                 Stack(
+  //                   children: <Widget>[
+  //                     Container(
+  //                       margin: EdgeInsets.only(top: 20, left: l1),
+  //                       width: orientation == true ? 300.w : 250.w,
+  //                       height: orientation == true ? 90.h : 200.h,
+  //                       padding:
+  //                           EdgeInsets.symmetric(horizontal: h1, vertical: 0),
+  //                       child: DecoratedBox(
+  //                         decoration: BoxDecoration(
+  //                           borderRadius: BorderRadius.circular(25.0),
+  //                           color: const Color(0xffffffff),
+  //                           border: Border.all(
+  //                               width: 0.5, color: const Color(0xffdfdfdf)),
+  //                           boxShadow: [
+  //                             BoxShadow(
+  //                               color: const Color(0x29000000),
+  //                               offset: Offset(0, 3),
+  //                               blurRadius: 6,
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.symmetric(
+  //                               horizontal: 15.0, vertical: 0.0),
+  //                           child: TextFormField(
+  //                             textAlign: TextAlign.right,
+  //                             decoration: const InputDecoration(
+  //                               border: InputBorder.none,
+  //                               contentPadding:
+  //                                   EdgeInsets.fromLTRB(0, 16, 0, 16),
+  //                             ),
+  //                             inputFormatters: [
+  //                               LengthLimitingTextInputFormatter(150)
+  //                             ],
+  //                             controller: description,
+  //                             keyboardType: TextInputType.multiline,
+  //                             maxLines: 5,
+  //                             onSaved: (_val) {
+  //                               if (_val != null) description.text = _val;
+  //                             }, // onsaved
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-    return Container(
-      width: orientation == true ? 300.w : 300.w,
-      height: orientation == true ? 140.h : 285.h,
-      child: Column(
-        children: <Widget>[
-          Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Column(
-                  children: <Widget>[
-                    Text(
-                      "وصف إضافي",
-                      style: TextStyle(
-                        color: const Color(0xff334856),
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'Tajawal',
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    SizedBox(width: orientation == true ? 15.w : 29.w),
-                  ],
-                )
-              ]),
-          Row(
-            children: [
-              Column(
-                children: [
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 20, left: l1),
-                        width: orientation == true ? 300.w : 250.w,
-                        height: orientation == true ? 90.h : 200.h,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: h1, vertical: 0),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.0),
-                            color: const Color(0xffffffff),
-                            border: Border.all(
-                                width: 0.5, color: const Color(0xffdfdfdf)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0x29000000),
-                                offset: Offset(0, 3),
-                                blurRadius: 6,
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 0.0),
-                            child: TextFormField(
-                              textAlign: TextAlign.right,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(0, 16, 0, 16),
-                              ),
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(150)
-                              ],
-                              controller: description,
-                              keyboardType: TextInputType.multiline,
-                              maxLines: 5,
-                              onSaved: (_val) {
-                                if (_val != null) description.text = _val;
-                              }, // onsaved
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+  Widget _buildDescription() {
+    return TextFormField(
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        contentPadding:
+        EdgeInsets.fromLTRB(0, 16, 0, 16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
           ),
-        ],
+        ),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+        hoverColor: const Color(0xff334856),
+        // alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        // hintText: 'أدخل اسم عائلتك',
+        // labelText: 'اسم العائلة',
+        // hintStyle: TextStyle(
+        //     fontSize: 14,
+        //     color: const Color(0xff334856),
+        //     fontFamily: 'Tajawal'),
+        //
+        // labelStyle: TextStyle(
+        //     fontSize: 18,
+        //     color: const Color(0xff334856),
+        //     fontFamily: 'Tajawal'),
       ),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(150)
+      ],
+      controller: description,
+      keyboardType: TextInputType.multiline,
+      maxLines: 5,
+      onSaved: (_val) {
+        if (_val != null) description.text = _val;
+      }, // onsaved
     );
   }
 
@@ -759,11 +440,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     bool portrait = true;
 
     if (deviceOrientation == Orientation.landscape) portrait = false;
-    return GestureDetector(
-        onTap: () {
-      FocusScope.of(context).requestFocus(FocusNode());
-    },
-    child: Container(
+    return SingleChildScrollView(
       child: Form(
         autovalidateMode: AutovalidateMode.always,
         key: _formKey,
@@ -773,39 +450,105 @@ class _AddRequestFormState extends State<PostRequestForm> {
               height: MediaQuery.of(context).size.height * 0.01,
             ),
             Container(
-              width: portrait == true ? 270.w : 300.w,
+              width: portrait == true ? 250.w : 300.w,
               child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: _buildType(),
-        ),
+                textDirection: TextDirection.rtl,
+                child: _buildType(),
+              ),
             ),
             // email container
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
-            Container(
-              width: portrait == true ? 270.w : 300.w,
-              child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: _buildEmailField(),
-            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                width: portrait == true ? 250.w : 300.w,
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: _buildTitle(),
+                ),
+              ),
             ), // password container
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+              height: MediaQuery.of(context).size.height * 0.025,
             ),
             Container(
-              width: portrait == true ? 300.w : 400.w,
-              child: _buildDetails(portrait),
-            ), // conform container
+              width: portrait == true ? 250.w : 300.w,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Text(
+                  "تفاصيل الطلب",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: const Color(0xff334856),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Tajawal',
+                    fontSize: 16,
+                  ),
+                ),
+
+              ),
+            ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+              height: MediaQuery.of(context).size.height * 0.015,
             ),
             Container(
-              width: portrait == true ? 300.w : 400.w,
-              child: _buildDescription(portrait),
-            ), // mosque name
+              width: portrait == true ? 250.w : 300.w,
+              child: Stack(
+                children: [
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: _buildDetails(),
+            ),Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(11, 20, 0, 0),
+                      child: Text(
+                        'ريال',
+                        style: TextStyle(
+                          fontFamily: 'Tajawal',
+                          fontSize: 16,
+                          color: const Color(0xffd2d2d2),
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  )
+                ],
+              ) ), // confirm container
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+              height: MediaQuery.of(context).size.height * 0.025,
+            ),
+            Container(
+              width: portrait == true ? 250.w : 300.w,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Text(
+                  "وصف إضافي",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: const Color(0xff334856),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Tajawal',
+                    fontSize: 16,
+                  ),
+                ),
+
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.015,
+            ),
+            Container(
+              width: portrait == true ? 265.w : 400.w,
+              height: portrait == true ? 140.w : 400.w,
+              child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: _buildDescription(),
+            ),),  // mosque name
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -814,9 +557,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                 ),
               ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
             ),
 
             ElevatedButton(
@@ -841,10 +581,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
                 primary: const Color(0xdeedd03c),
               ),
             ),
-          ],
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),],
         ),
       ),
-    ));
+    );
   }
 
   void add(String? id) async {
