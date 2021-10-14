@@ -44,13 +44,13 @@ class _LoginPageState extends State<LoginPage> {
           switch (e.code) {
             case "invalid-email":
               setState(() {
-                errorMessage = 'البريد الالكتروني غير صحيح';
+                errorMessage = 'البريد الالكتروني/كلمة المرور غير صحيحة';
               });
               break;
 
             case "wrong-password":
               setState(() {
-                errorMessage = 'كلمة السر غير صحيحة';
+                errorMessage = 'البريد الالكتروني/كلمة المرور غير صحيحة';
               });
               break;
 
