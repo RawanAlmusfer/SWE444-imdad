@@ -181,8 +181,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       },
       textAlign: TextAlign.right,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(right: 20, top: 25 ),
-        counterText: "",
+        contentPadding: const EdgeInsets.only(right: 20, top: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
         ),
@@ -204,7 +203,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         hintText: '00000',
         labelText: 'المبلغ *',
         hintStyle: TextStyle(
-            fontSize: 18,
+            fontSize: 19,
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: TextStyle(
@@ -407,7 +406,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             ),Directionality(
                     textDirection: TextDirection.ltr,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(11, 17, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(11, 15, 0, 0),
                       child: Text(
                         'ريال',
                         style: TextStyle(
@@ -445,8 +444,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
               height: MediaQuery.of(context).size.height * 0.015,
             ),
             Container(
-              width: portrait == true ? 265.w : 400.w,
-              height: portrait == true ? 140.w : 400.w,
+              width: portrait == true ? 265.w : 310.w,
+              height: portrait == true ? 140.w : 150.w,
               child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: _buildDescription(),
