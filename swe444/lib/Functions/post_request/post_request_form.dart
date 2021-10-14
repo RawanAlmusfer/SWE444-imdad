@@ -43,7 +43,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xdeedd03c),
           ),
         ),
-        contentPadding: EdgeInsets.all(18),
+        contentPadding: EdgeInsets.only(right: 20, top: 15, left: 23 ),
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         hintText: 'إختر نوعًا',
@@ -135,6 +135,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.only(right: 20, top: 15 ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -151,7 +152,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         labelText: 'عنوان الطلب *',
         hintStyle: TextStyle(
             fontSize: 13,
-            color: const Color(0xff334856),
+            color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: TextStyle(
             fontSize: 15,
@@ -180,6 +181,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       },
       textAlign: TextAlign.right,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.only(right: 20, top: 25 ),
         counterText: "",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
@@ -202,8 +204,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
         hintText: '00000',
         labelText: 'المبلغ *',
         hintStyle: TextStyle(
-            fontSize: 13,
-            color: const Color(0xff334856),
+            fontSize: 18,
+            color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: TextStyle(
             fontSize: 15,
@@ -224,110 +226,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
-  // Widget _buildDescription(bool orientation) {
-  //   double h1 = 0, l1;
-  //   if (orientation == true) {
-  //     h1 = 10;
-  //     l1 = 0;
-  //   } else {
-  //     l1 = 20;
-  //     h1 = 60;
-  //   }
-  //
-  //   return Container(
-  //     width: orientation == true ? 300.w : 300.w,
-  //     height: orientation == true ? 140.h : 285.h,
-  //     child: Column(
-  //       children: <Widget>[
-  //         Row(
-  //             mainAxisAlignment: MainAxisAlignment.end,
-  //             mainAxisSize: MainAxisSize.max,
-  //             children: [
-  //               Column(
-  //                 children: <Widget>[
-  //                   Text(
-  //                     "وصف إضافي",
-  //                     style: TextStyle(
-  //                       color: const Color(0xff334856),
-  //                       fontWeight: FontWeight.w400,
-  //                       fontFamily: 'Tajawal',
-  //                       fontSize: 15,
-  //                     ),
-  //                   )
-  //                 ],
-  //               ),
-  //               Column(
-  //                 children: [
-  //                   SizedBox(width: orientation == true ? 15.w : 29.w),
-  //                 ],
-  //               )
-  //             ]),
-  //         Row(
-  //           children: [
-  //             Column(
-  //               children: [
-  //                 Stack(
-  //                   children: <Widget>[
-  //                     Container(
-  //                       margin: EdgeInsets.only(top: 20, left: l1),
-  //                       width: orientation == true ? 300.w : 250.w,
-  //                       height: orientation == true ? 90.h : 200.h,
-  //                       padding:
-  //                           EdgeInsets.symmetric(horizontal: h1, vertical: 0),
-  //                       child: DecoratedBox(
-  //                         decoration: BoxDecoration(
-  //                           borderRadius: BorderRadius.circular(25.0),
-  //                           color: const Color(0xffffffff),
-  //                           border: Border.all(
-  //                               width: 0.5, color: const Color(0xffdfdfdf)),
-  //                           boxShadow: [
-  //                             BoxShadow(
-  //                               color: const Color(0x29000000),
-  //                               offset: Offset(0, 3),
-  //                               blurRadius: 6,
-  //                             ),
-  //                           ],
-  //                         ),
-  //                         child: Padding(
-  //                           padding: const EdgeInsets.symmetric(
-  //                               horizontal: 15.0, vertical: 0.0),
-  //                           child: TextFormField(
-  //                             textAlign: TextAlign.right,
-  //                             decoration: const InputDecoration(
-  //                               border: InputBorder.none,
-  //                               contentPadding:
-  //                                   EdgeInsets.fromLTRB(0, 16, 0, 16),
-  //                             ),
-  //                             inputFormatters: [
-  //                               LengthLimitingTextInputFormatter(150)
-  //                             ],
-  //                             controller: description,
-  //                             keyboardType: TextInputType.multiline,
-  //                             maxLines: 5,
-  //                             onSaved: (_val) {
-  //                               if (_val != null) description.text = _val;
-  //                             }, // onsaved
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _buildDescription() {
     return TextFormField(
       textAlign: TextAlign.right,
       decoration: InputDecoration(
         contentPadding:
-        EdgeInsets.fromLTRB(0, 16, 0, 16),
+        EdgeInsets.fromLTRB(16, 16, 16, 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -503,12 +407,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
             ),Directionality(
                     textDirection: TextDirection.ltr,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(11, 20, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(11, 17, 0, 0),
                       child: Text(
                         'ريال',
                         style: TextStyle(
                           fontFamily: 'Tajawal',
-                          fontSize: 16,
+                          fontSize: 15,
                           color: const Color(0xffd2d2d2),
                         ),
                         textAlign: TextAlign.left,
