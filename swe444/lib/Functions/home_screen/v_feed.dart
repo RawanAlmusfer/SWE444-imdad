@@ -84,25 +84,28 @@ class vFeed extends State<v_feed> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 20, top: 5),
                       child: Text(
-                        document['mosque_name'],
-                        style: TextStyle(fontFamily: 'Tajawal'),
+                        "مسجد " + document['mosque_name'],
+                        style: TextStyle(fontFamily: 'Tajawal', fontSize: 12),
                         textAlign: TextAlign.center,
                       ),
                     ),
                   ),
                   const Spacer(),
                   Padding(
-                    padding: const EdgeInsets.only(right: 20, top: 5),
+                    padding: const EdgeInsets.only(right: 10, top: 5),
                     child: Text(
                       document['title'],
-                      style: TextStyle(fontSize: 18.0, fontFamily: 'Tajawal'),
-                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                      // textAlign: TextAlign.left,
                     ),
                   ),
-                  SvgPicture.string(
-                    mosqueImage,
-                    allowDrawingOutsideViewBox: true,
-                    fit: BoxFit.fill,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: SvgPicture.string(
+                      mosqueImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ]),
               ),
@@ -197,36 +200,36 @@ class vFeed extends State<v_feed> {
                 padding: const EdgeInsets.only(
                     top: 5.0, bottom: 5.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
-                  // This button for sprint 2
-                  // Container(
-                  //   // decoration: BoxDecoration(
-                  //   //   boxShadow: [
-                  //   //     BoxShadow(
-                  //   //         color: Color(0xffededed),
-                  //   //         spreadRadius: 1,
-                  //   //         blurRadius: 10),
-                  //   //   ],
-                  //   // ),
-                  //   height: 30,
-                  //   width: 65,
-                  //   child: ElevatedButton(
-                  //     onPressed: () {},
-                  //     child: Text(
-                  //       "تبرع",
-                  //       textAlign: TextAlign.center,
-                  //       style: TextStyle(
-                  //           fontFamily: 'Tajawal',
-                  //           color: const Color(0xff334856)),
-                  //     ),
-                  //     style: ElevatedButton.styleFrom(
-                  //       minimumSize: Size(65.w, 30.h),
-                  //       primary: const Color(0xdeedd03c),
-                  //       shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(50),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  //This button for sprint 2
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0xffededed),
+                            spreadRadius: 1,
+                            blurRadius: 10),
+                      ],
+                    ),
+                    height: 30,
+                    width: 65,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        "تبرع",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'Tajawal',
+                            color: const Color(0xff334856)),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(65.w, 30.h),
+                        primary: const Color(0xdeedd03c),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                    ),
+                  ),
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
