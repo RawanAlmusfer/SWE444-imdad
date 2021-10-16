@@ -343,7 +343,7 @@ class _SignUpPageState extends State<SignUpPage> {
         var pattern = r'\d{2}-\d{5}';
         RegExp regex =  RegExp(pattern);
         if (!regex.hasMatch(value!))
-          return 'Enter Valid Number';
+          return 'الرجاء ادخال رقم كود المسجد';
         else
           return null;
       },

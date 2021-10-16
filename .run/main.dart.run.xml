@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" nameIsGenerated="true">
-    <option name="filePath" value="$PROJECT_DIR$/SWE444-imdad/swe444/lib/main.dart" />
+    <option name="filePath" value="$PROJECT_DIR$/swe444/lib/main.dart" />
     <method v="2" />
   </configuration>
 </component>

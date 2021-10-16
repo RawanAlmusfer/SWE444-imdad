@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/screens/users_screen.dart';
 import 'package:swe444/screens/users_screen2.dart';
+import 'ProfilePage.dart';
 import 'screens/home_screen.dart';
 import 'screens/signup_screen.dart';
 import 'models/authentication.dart';
@@ -29,10 +30,13 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
+      return ScreenUtilInit(
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: DecisionsTree(),
+       //home: DecisionsTree(),
+        home: ProfilePage(),
+
+
       ),
       designSize: const Size(390, 844),
     );
