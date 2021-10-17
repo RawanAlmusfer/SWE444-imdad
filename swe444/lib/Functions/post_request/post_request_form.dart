@@ -23,10 +23,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
   String _enteredText= "";
   String? postedBy;
   int? amount;
+  int? items_amount;
   int charLength= 0;
   TextEditingController _amount = TextEditingController();
   TextEditingController title = TextEditingController();
-  TextEditingController itemD = TextEditingController();
+  TextEditingController itemsD = TextEditingController();
   TextEditingController itemsAmount = TextEditingController();
   DateTime time = DateTime.now();
   final List<String> items = <String>['مبلغ', 'موارد'];
@@ -60,12 +61,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xff334856),
             fontFamily: 'Tajawal'),
         alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        // hoverColor: const Color(0xff334856),
       ),
-      // InputDecoration.collapsed(
-      //   hintText: "",
-      // ),
       selectedItemBuilder: (BuildContext context) {
         return items.map<Widget>((String item) {
           return Container(
@@ -253,9 +249,9 @@ class _AddRequestFormState extends State<PostRequestForm> {
             .hasMatch(value)) return "يجب أن يحتوي على أحرف فقط";
         if (value.length > 30) return "لا يمكن ان يزيد عن 30 حرف ";
       },
-      controller: itemD,
+      controller: itemsD,
       onFieldSubmitted: (_val) {
-        if (_val != null) itemD.text = _val;
+        if (_val != null) itemsD.text = _val;
       },
       onChanged: (value) {
         setState( () {
@@ -335,10 +331,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
         hoverColor: const Color(0xff334856),
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
-        hintText: '00',
+        hintText: '000',
         labelText: 'الكمية المطلوبة *',
         hintStyle: TextStyle(
-            fontSize: 19,
+            fontSize: 16,
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
@@ -350,11 +346,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
         LengthLimitingTextInputFormatter(30),
         FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
       ],
-      controller: _amount,
+      controller: itemsAmount,
       keyboardType: TextInputType.number,
       onSaved: (_val) {
         if (_val != null) {
-          _amount.text = _val;
+          itemsAmount.text = _val;
         }
       }, // onsaved
     );
@@ -667,13 +663,21 @@ class _AddRequestFormState extends State<PostRequestForm> {
       Map<String, dynamic>? data = document.data();
       requestVM.setMName = data?['mosque_name'];
       requestVM.setMLocation = data?['location'];
-
       requestVM.setDescription = description.text;
       requestVM.setTitle = title.text;
       requestVM.setType = type;
       requestVM.setUploadTime = time;
-      amount = int.parse(_amount.text);
-      requestVM.setAmount = amount;
+
+      if (type == "مبلغ") {
+        amount = int.parse(_amount.text);
+        requestVM.setAmount = amount;
+      }
+
+      if (type == "موارد") {
+        items_amount = int.parse(itemsAmount.text);
+        requestVM.setRequested = items_amount;
+        requestVM.setItem= itemsD.text;
+      }
 
       await requestVM.add();
 

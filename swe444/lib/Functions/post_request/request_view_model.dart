@@ -12,14 +12,12 @@ class RequestViewModel {
   String? _mosque_name;
   String? _mosque_location;
   DateTime? _uplaod_time;
+  String? _item;
+  int? _requested;
   late String message;
 
-
   get userDocument {
-    return FirebaseFirestore.instance
-        .collection("users")
-        .doc(_posted_by)
-        .get();
+    return FirebaseFirestore.instance.collection("users").doc(_posted_by).get();
   }
 
   set postedBy(String? value) {
@@ -76,30 +74,72 @@ class RequestViewModel {
     }
   }
 
+  /// items requests
+  set setItem(String? value) {
+    if (value != null) {
+      _item = value;
+    }
+  }
+
+  set setRequested(int? value) {
+    if (value != null) {
+      _requested = value;
+    }
+  }
+
   Future<void> add() async {
     String _message = "";
-    Request request = Request(_title, _type, _amount, _posted_by, _description,
-        _mosque_name, _mosque_location, _uplaod_time);
 
-    await FirebaseFirestore.instance
-        .collection('requests')
-        .add(request.toJson())
-        .then((value) => {_message = 'تمت إضافة الطلب بنجاح'})
-        .catchError((error) => _message = " فشل في إضافة الطلب:" + error);
+    if (_type == "مبلغ") {
+      FundsRequest request = FundsRequest(
+          amount: _amount,
+          type: _type,
+          posted_by: _posted_by,
+          description: _description,
+          mosque_name: _mosque_name,
+          mosque_location: _mosque_location,
+          title: _title,
+          uplaod_time: _uplaod_time);
+
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .add(request.toJson())
+          .then((value) => {_message = 'تمت إضافة الطلب بنجاح'})
+          .catchError((error) => _message = " فشل في إضافة الطلب:" + error);
+    } else if (_type == "موارد") {
+      ItemsRequest request = ItemsRequest(
+          item: _item,
+          type: _type,
+          requested: _requested,
+          posted_by: _posted_by,
+          description: _description,
+          mosque_name: _mosque_name,
+          mosque_location: _mosque_location,
+          title: _title,
+          uplaod_time: _uplaod_time);
+
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .add(request.toJson())
+          .then((value) => {_message = 'تمت إضافة الطلب بنجاح'})
+          .catchError((error) => _message = " فشل في إضافة الطلب:" + error);
+    }
 
     message = _message;
   }
 
   Future cancelRequest(DocumentSnapshot document) async {
     String _message = "";
-    return await
-    FirebaseFirestore.instance.collection('requests').doc(document.id).delete().then((value) {
-      _message= "تم إلغاء الطلب بنجاح";
-      message= _message;
+    return await FirebaseFirestore.instance
+        .collection('requests')
+        .doc(document.id)
+        .delete()
+        .then((value) {
+      _message = "تم إلغاء الطلب بنجاح";
+      message = _message;
     }).catchError((error) {
-      _message= "فشل في إلغاء الطلب";
-      message= _message;
+      _message = "فشل في إلغاء الطلب";
+      message = _message;
     });
   }
-
 }
