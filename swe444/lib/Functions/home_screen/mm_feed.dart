@@ -162,10 +162,10 @@ class mmFeed extends State<mm_feed> {
                     child: Row(children: <Widget>[
                       const Spacer(),
                       Text(
-                          document['item'].toString()
+                          document['amount_requested'].toString()
                       ),
                       const Text(
-                        " :المورد المطلوب",
+                        " :الكمية",
                         style: TextStyle(fontFamily: 'Tajawal'),
                       ),
                     ]),

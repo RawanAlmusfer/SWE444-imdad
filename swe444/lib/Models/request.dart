@@ -43,12 +43,13 @@ class FundsRequest extends Request {
 
 
 class ItemsRequest extends Request {
-  String? item;
-  int? requested;
+  // String? item;
+  int? amount;
   int donated=0;
 
   ItemsRequest({
-    this.item, this.requested, String? posted_by,
+    // this.item,
+    this.amount, String? posted_by,
     String? type,
     String? description,
     String? title,
@@ -61,8 +62,8 @@ class ItemsRequest extends Request {
     'title': title,
     'type': type,
     'description': description,
-    'item': item,
-    'amount_requested': requested,
+    // 'item': item,
+    'amount_requested': amount,
     'donated': donated,
     'mosque_name': mosque_name,
     'mosque_location': mosque_location,

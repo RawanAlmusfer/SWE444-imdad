@@ -75,11 +75,12 @@ class RequestViewModel {
   }
 
   /// items requests
-  set setItem(String? value) {
-    if (value != null) {
-      _item = value;
-    }
-  }
+
+  // set setItem(String? value) {
+  //   if (value != null) {
+  //     _item = value;
+  //   }
+  // }
 
   set setRequested(int? value) {
     if (value != null) {
@@ -108,9 +109,9 @@ class RequestViewModel {
           .catchError((error) => _message = " فشل في إضافة الطلب:" + error);
     } else if (_type == "موارد") {
       ItemsRequest request = ItemsRequest(
-          item: _item,
+          // item: _item,
           type: _type,
-          requested: _requested,
+          amount: _requested,
           posted_by: _posted_by,
           description: _description,
           mosque_name: _mosque_name,
