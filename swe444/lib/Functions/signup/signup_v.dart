@@ -44,7 +44,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: _controllerEmail.text, password: _controllerPass.text);
-      print(userCredential.user);
+     // userCredential.user..updateDisplayName(displayName);
       widget.onSignIn(userCredential.user!);
       //
     } on FirebaseAuthException catch (e) {

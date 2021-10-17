@@ -161,7 +161,7 @@ class _ProfilePageState extends State<ProfilePage>{
                   SizedBox(height: 20,),
                   Text(  "firebase", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
                       SizedBox(height: 20,),
-                  Text('متطوع', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                  Text('مالك المسجد', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                   SizedBox(height: 10,),
                   Container(
                     padding: EdgeInsets.all(10),
@@ -197,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                           leading: Icon(Icons.account_balance),
                                           title: Text("اسم المسجد "),
                                           subtitle: Text(
-                                              "firebase"),),
+                                              "firebasexx"),),
                                         ListTile(
                                             leading: Icon(Icons.shield),
                                             title: Text("كود المسجد"),

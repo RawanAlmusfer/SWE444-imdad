@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/users_screen.dart';
+import 'package:swe444/ProfilePage1.dart';
 //import 'logout.dart';
 import 'feed_view_model.dart';
 import 'mm_feed.dart';
@@ -21,7 +23,7 @@ class _HomeState extends State<mmHome> {
 
   // nav bar redirection:
   final List<Widget> _children = [
-    logout(),
+    ProfilePage(),
     PostRequest(),
     MosqueMangerFeed(),
   ];
@@ -31,6 +33,16 @@ class _HomeState extends State<mmHome> {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
         appBar: AppBar(
+          actions: [
+            IconButton(onPressed: (){
+              FirebaseAuth.instance.signOut().then((value) {
+                Navigator.pushAndRemoveUntil(context,       MaterialPageRoute<void>(
+                           builder: (BuildContext context) =>  UsersScreen(),
+                        ), (route) => false);
+              });
+
+            }, icon: Icon(Icons.logout))
+          ],
           automaticallyImplyLeading: false,
           title: Text(
             _title,

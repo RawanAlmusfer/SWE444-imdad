@@ -1,6 +1,11 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'Functions/logout.dart';
 
 
 
@@ -19,34 +24,74 @@ class _ProfilePageState extends State<ProfilePage>{
   double _drawerFontSize = 17;
   String _title = "الملف الشخصي";
 
+  final auth = FirebaseAuth.instance;
+
+   String _userFirstName = 'User NAme';
+   String _userLastName = 'Last Name';
+   late String _userEmail;
+   String _userPhone = '05XXX';
+   String role = '';
+   String? mosqueName;
+   String? mosqueCode;
+
+  User? user()  {
+    return  auth.currentUser;
+  }
+
+  getUserInformation(){
+    FirebaseFirestore.instance.collection('users').doc(auth.currentUser?.uid).get().then((value){
+        setState(() {
+          if(value.exists){
+            role = value.get('role');
+            if(isVolunteer()){
+              if(value.data()!.containsKey('first_name')
+                  && value.data()!.containsKey('last_name')
+                  && value.data()!.containsKey('phone_number')
+              ){
+                _userFirstName = value.get('first_name');
+                _userLastName = value.get('last_name');
+                _userPhone = value.get('phone_number').toString();
+
+              }
+            } else{
+
+              if(value.data()!.containsKey('mosque_name')
+                  && value.data()!.containsKey('mosque_code')
+                  && value.data()!.containsKey('phone_number')
+              ){
+                mosqueName = value.get('mosque_name');
+                mosqueCode = value.get('mosque_code');
+                _userPhone = value.get('phone_number').toString();
+
+              }
+
+            }
+            print(value.data().toString());
+
+
+          }
+
+        });
+    });
+  }
+
+  @override
+  void initState() {
+    if(auth.currentUser != null){
+      _userEmail = user()!.email ?? '';
+      getUserInformation();
+    }
+
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       backgroundColor: const Color(0xffededed),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          _title,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color(0xff334856),
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Tajawal',
-            fontSize: 24,
-          ),
-        ),
-        //automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xdeedd03c),
-        //  backgroundColor: const Color(0xffededed),
-        bottomOpacity: 30,
-        // elevation: 1,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50),
-          ),
-        ),
-      ),
+
       drawer: Drawer(
 
         child: Container(
@@ -137,7 +182,7 @@ class _ProfilePageState extends State<ProfilePage>{
         ),
       ),
       body: SingleChildScrollView(
-        child: Stack(
+        child: Column(
           children: [
             //  Container(height: 100, child: HeaderWidget(100,false,Icons.house_rounded),),
             Container(
@@ -159,9 +204,9 @@ class _ProfilePageState extends State<ProfilePage>{
                     child: Icon(Icons.person, size: 80, color: Colors.grey.shade300,),
                   ),
                   SizedBox(height: 20,),
-                  Text(  "firebase", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                  Text(isVolunteer()?  "${_userFirstName} ${_userLastName}": "${mosqueName} ${mosqueCode}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
                   SizedBox(height: 20,),
-                  Text('متطوع', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                  Text(isVolunteer() ? 'متطوع' : 'مسجد', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                   SizedBox(height: 10,),
                   Container(
                     padding: EdgeInsets.all(10),
@@ -195,14 +240,14 @@ class _ProfilePageState extends State<ProfilePage>{
                                       tiles: [
                                         ListTile(
                                           leading: Icon(Icons.person),
-                                          title: Text("الاسم الاول "),
+                                          title: Text(isVolunteer() ? "الاسم الاول " : "اسم المسجد"),
                                           subtitle: Text(
-                                              "firebase"),),
+                                              "${isVolunteer() ? _userFirstName : mosqueName}"),),
                                         ListTile(
                                             leading: Icon(Icons.person),
-                                            title: Text("الاسم الاخير "),
+                                            title: Text(isVolunteer() ? "الاسم الاخير " : "رقم المسجد"),
                                             subtitle: Text(
-                                                "firebase")
+                                                "${isVolunteer() ? _userLastName : mosqueCode}")
                                         ),
                                         // ListTile(
                                         //  contentPadding: EdgeInsets.symmetric(
@@ -214,12 +259,12 @@ class _ProfilePageState extends State<ProfilePage>{
                                         ListTile(
                                           leading: Icon(Icons.email),
                                           title: Text("البريد الالكتروني"),
-                                          subtitle: Text("firebase"),
+                                          subtitle: Text("${_userEmail}"),
                                         ),
                                         ListTile(
                                           leading: Icon(Icons.phone),
                                           title: Text("رقم الجوال"),
-                                          subtitle: Text("firebase"),
+                                          subtitle: Text("${_userPhone}"),
                                         ),
 
                                       ],
@@ -229,17 +274,23 @@ class _ProfilePageState extends State<ProfilePage>{
                               ],
                             ),
                           ),
-                        )
+                        ),
+                        SizedBox(height: 20,),
+                        logout()
                       ],
                     ),
                   )
                 ],
               ),
-            )
+            ),
+            SizedBox(height: 70,),
+
           ],
         ),
       ),
     );
-  }
+  }//QWEqwerty123@
+
+  bool isVolunteer() => role == 'volunteer';
 
 }

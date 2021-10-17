@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swe444/ProfilePage1.dart';
 //import 'mm_feed.dart';
 import 'v_feed.dart';
 import '../logout.dart';
@@ -17,7 +18,7 @@ class _HomeState extends State<vHome> {
 
   // nav bar redirection:
   final List<Widget> _children = [
-    logout(),
+    ProfilePage(),
     VolunteerFeed(),
     //searchPage(),
     //ProfilePage(),

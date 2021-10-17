@@ -6,8 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/mm_home_view.dart';
 import 'package:swe444/Models/MUserModel.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
+import 'package:swe444/password/flutter_pw_validator.dart';
 import '../signup_login_screen.dart';
-import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+
 
 class SignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
