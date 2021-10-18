@@ -30,7 +30,11 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_core: "^1.6.0"
+  http_auth: ^1.0.1
+  webview_flutter: ^2.1.1
   cloud_firestore: ^2.5.2
+  shared_preferences: ^2.0.8
+  http: ^0.13.4
   adobe_xd: ^2.0.0+1
   google_fonts: ^2.1.0
   flutter_screenutil: 5.0.0+2
