@@ -14,10 +14,10 @@ class PaypalServices {
   String secret = 'EDjvPfYgTYqdYWR2BfOiBW4dz_jeeuadqH7Z98pZMDvY33PcViiooqYFWVPFSGbfKBfNOb3LnroSI1hv';
 
   // for getting the access token from Paypal
-  Future<String> getAccessToken() async {
+  Future<String?> getAccessToken() async {
     try {
       var client = BasicAuthClient(clientId, secret);
-      var response = await client.post('$domain/v1/oauth2/token?grant_type=client_credentials');
+      var response = await client.post(Uri.parse('$domain/v1/oauth2/token?grant_type=client_credentials'));
       if (response.statusCode == 200) {
         final body = convert.jsonDecode(response.body);
         return body["access_token"];
@@ -32,7 +32,7 @@ class PaypalServices {
   Future<Map<String, String>?> createPaypalPayment(
       transactions, accessToken) async {
     try {
-      var response = await http.post("$domain/v1/payments/payment",
+      var response = await http.post(Uri.parse("$domain/v1/payments/payment"),
           body: convert.jsonEncode(transactions),
           headers: {
             "content-type": "application/json",
