@@ -47,7 +47,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
         if (res != null) {
           setState(() {
             checkoutUrl = res["approvalUrl"];
-            executeUrl = res!["executeUrl"];
+            executeUrl = res["executeUrl"];
           });
         }
       } catch (e) {
