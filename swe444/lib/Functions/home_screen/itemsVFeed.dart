@@ -104,7 +104,8 @@ class ivFeed extends State<itemsv_feed> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "غرض") {
+    if (document['type'].toString() == "موارد") {
+      // here is the tpye
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(
@@ -171,7 +172,8 @@ class ivFeed extends State<itemsv_feed> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              'المبلغ: ' + document['amount'].toString(),
+                              'العدد: ' +
+                                  document['amount_requested'].toString(),
                               style: TextStyle(fontFamily: 'Tajawal'),
                               textDirection: TextDirection
                                   .rtl, // make the text from right to left
@@ -211,7 +213,7 @@ class ivFeed extends State<itemsv_feed> {
                                       borderRadius: BorderRadius.circular(50),
                                       child: LinearProgressIndicator(
                                         value: (document['donated'] /
-                                            document['amount']),
+                                            document['amount_requested']),
                                         valueColor: AlwaysStoppedAnimation(
                                             Color(0xdeedd03c)),
                                         backgroundColor: Color(0xffededed),
@@ -220,14 +222,15 @@ class ivFeed extends State<itemsv_feed> {
                                     Center(
                                         child: buildLinearProgress(
                                             (document['donated'] /
-                                                document['amount']))),
+                                                document['amount_requested']))),
                                   ],
                                 ),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['amount'].toString(),
+                              child: Text(
+                                  document['amount_requested'].toString(),
                                   style: TextStyle(
                                       fontFamily: 'Tajawal', fontSize: 10)),
                             ),
