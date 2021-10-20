@@ -5,26 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/swe444/lib/password/Components/ValidationBarWidget.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/password/Components/ValidationTextWidget.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/password/Resource/MyColors.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/password/Resource/Strings.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/password/Utilities/ConditionsHelper.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/password/Utilities/SizeConfig.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/password/Utilities/Validator.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swe444/lib/password/flutter_pw_validator.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/decisions_tree.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/decisions_tree.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/mm_home_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/mm_home_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/v_home_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/v_home_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/logout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/logout.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/ProfilePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/ProfilePage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/ProfilePage1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/ProfilePage1.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
