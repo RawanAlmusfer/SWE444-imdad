@@ -4,30 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/mm_home_view.dart';
-import 'package:swe444/Functions/post_request/request_view_model.dart';
+import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
-class PostRequestForm extends StatefulWidget {
-  PostRequestForm({
+class EditRequestForm extends StatefulWidget {
+  EditRequestForm({
     Key? key,
   }) : super(key: key);
 
   @override
-  _AddRequestFormState createState() => _AddRequestFormState();
+  _EditRequestFormState createState() => _EditRequestFormState();
 }
 
-class _AddRequestFormState extends State<PostRequestForm> {
+class _EditRequestFormState extends State<EditRequestForm> {
   final _formKey = GlobalKey<FormState>();
   User? user = FirebaseAuth.instance.currentUser;
   String? type, mosque_name, mosque_location;
-  String _enteredText= "";
   String? postedBy;
   int? amount;
   int? items_amount;
   int charLength= 0;
   TextEditingController _amount = TextEditingController();
   TextEditingController title = TextEditingController();
-  // TextEditingController itemsD = TextEditingController();
   TextEditingController itemsAmount = TextEditingController();
   DateTime time = DateTime.now();
   final List<String> items = <String>['مبلغ', 'موارد'];
@@ -36,83 +34,83 @@ class _AddRequestFormState extends State<PostRequestForm> {
   Widget _buildType() {
     return DropdownButtonHideUnderline(
         child: DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // width: 0.0 produces a thin "hairline" border
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: const Color(0xdeedd03c),
-          ),
-        ),
-        contentPadding: EdgeInsets.only(right: 20, top: 15, left: 23 ),
-        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-        hoverColor: const Color(0xff334856),
-        hintText: 'إختر نوعًا',
-        labelText: ' نوع الطلب *',
-        hintStyle: TextStyle(
-            fontSize: 13,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        labelStyle: TextStyle(
-            fontSize: 16,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        alignLabelWithHint: true,
-      ),
-      selectedItemBuilder: (BuildContext context) {
-        return items.map<Widget>((String item) {
-          return Container(
-            alignment: Alignment.centerRight,
-            width: 150,
-            child: Text(
-              item,
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontFamily: 'Tajawal',
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            focusedBorder: OutlineInputBorder(
+              // width: 0.0 produces a thin "hairline" border
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide(
+                color: const Color(0xdeedd03c),
               ),
             ),
-          );
-        }).toList();
-      },
-      value: type,
-      items: items.map<DropdownMenuItem<String>>((dropdownMenuItem) {
-        return DropdownMenuItem(
-          key: UniqueKey(),
-          value: dropdownMenuItem,
-          child: SizedBox(
-            width: 200.w,
-            child: Text(
-              dropdownMenuItem,
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                fontFamily: 'Tajawal',
+            contentPadding: EdgeInsets.only(right: 20, top: 15, left: 23 ),
+            prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+            hoverColor: const Color(0xff334856),
+            hintText: 'إختر نوعًا',
+            labelText: ' نوع الطلب *',
+            hintStyle: TextStyle(
+                fontSize: 13,
+                color: const Color(0xff334856),
+                fontFamily: 'Tajawal'),
+            labelStyle: TextStyle(
+                fontSize: 16,
+                color: const Color(0xff334856),
+                fontFamily: 'Tajawal'),
+            alignLabelWithHint: true,
+          ),
+          selectedItemBuilder: (BuildContext context) {
+            return items.map<Widget>((String item) {
+              return Container(
+                alignment: Alignment.centerRight,
+                width: 150,
+                child: Text(
+                  item,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+              );
+            }).toList();
+          },
+          value: type,
+          items: items.map<DropdownMenuItem<String>>((dropdownMenuItem) {
+            return DropdownMenuItem(
+              key: UniqueKey(),
+              value: dropdownMenuItem,
+              child: SizedBox(
+                width: 200.w,
+                child: Text(
+                  dropdownMenuItem,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+          onChanged: (value) => setState(() => this.type = value),
+          validator: (value) => value == null ? 'مطلوب' : null,
+          style: TextStyle(fontSize: 16, color: const Color(0xff334856)),
+          icon: Icon(Icons.arrow_drop_down_circle),
+          hint: Padding(
+            padding: EdgeInsets.only(top: 5.h),
+            child: SizedBox(
+              // width: 125.w,
+              child: Text(
+                "اختر نوعًا",
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  fontFamily: 'Tajawal',
+                ),
               ),
             ),
           ),
-        );
-      }).toList(),
-      onChanged: (value) => setState(() => this.type = value),
-      validator: (value) => value == null ? 'مطلوب' : null,
-      style: TextStyle(fontSize: 16, color: const Color(0xff334856)),
-      icon: Icon(Icons.arrow_drop_down_circle),
-      hint: Padding(
-        padding: EdgeInsets.only(top: 5.h),
-        child: SizedBox(
-          // width: 125.w,
-          child: Text(
-            "اختر نوعًا",
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              fontFamily: 'Tajawal',
-            ),
-          ),
-        ),
-      ),
-      // isExpanded: true,
-    ));
+          // isExpanded: true,
+        ));
   }
 
   Widget _buildTitle() {
@@ -124,7 +122,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
         if (!RegExp(r"^[\p{L} ,.'-]*$",
-                caseSensitive: false, unicode: true, dotAll: true)
+            caseSensitive: false, unicode: true, dotAll: true)
             .hasMatch(value)) return "يجب أن يحتوي على أحرف فقط";
         if (value.length > 30) return "لا يمكن ان يزيد عن 30 حرف ";
       },
@@ -135,7 +133,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
       onChanged: (value) {
         setState( () {
-            charLength = value.length;
+          charLength = value.length;
         },
         );
       },
@@ -235,66 +233,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
       }, // onsaved
     );
   }
-
-  // Widget _buildDetailsItems() {
-  //   return TextFormField(
-  //     maxLines: 1,
-  //     maxLength: 30,
-  //
-  //     validator: (value) {
-  //       if (value == null || value.isEmpty || value.trim().isEmpty)
-  //         return "مطلوب";
-  //       if (!RegExp(r"^[\p{L} ,.'-]*$",
-  //           caseSensitive: false, unicode: true, dotAll: true)
-  //           .hasMatch(value)) return "يجب أن يحتوي على أحرف فقط";
-  //       if (value.length > 30) return "لا يمكن ان يزيد عن 30 حرف ";
-  //     },
-  //     controller: itemsD,
-  //     onFieldSubmitted: (_val) {
-  //       if (_val != null) itemsD.text = _val;
-  //     },
-  //     onChanged: (value) {
-  //       setState( () {
-  //         charLength = value.length;
-  //       },
-  //       );
-  //     },
-  //
-  //     showCursor: true,
-  //     cursorColor: const Color(0xdeedd03c),
-  //     style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-  //     textAlign: TextAlign.right,
-  //     decoration: InputDecoration(
-  //       // counterText: '${_enteredText.length.toString()}character(s)',
-  //       contentPadding: EdgeInsets.only(right: 20, top: 15 ),
-  //       border: OutlineInputBorder(
-  //         borderRadius: BorderRadius.circular(30),
-  //       ),
-  //       focusedBorder: OutlineInputBorder(
-  //         // width: 0.0 produces a thin "hairline" border
-  //         borderRadius: BorderRadius.circular(30),
-  //         borderSide: BorderSide(
-  //           color: const Color(0xdeedd03c),
-  //         ),
-  //       ),
-  //       prefixStyle: TextStyle(fontSize: 15, color: const Color(0xff334856)),
-  //       hoverColor: const Color(0xff334856),
-  //       hintText: 'أدخل اسم المورد المطلوب',
-  //       labelText: 'المورد *',
-  //       hintStyle: TextStyle(
-  //           fontSize: 13,
-  //           color: const Color(0xffcbcbcc),
-  //           fontFamily: 'Tajawal'),
-  //       labelStyle: TextStyle(
-  //           fontSize: 15,
-  //           color: const Color(0xff334856),
-  //           fontFamily: 'Tajawal'),
-  //       alignLabelWithHint: true,
-  //       //border: OutlineInputBorder(),
-  //       // hoverColor: const Color(0xff334856),
-  //     ),
-  //   );
-  // }
 
   Widget _buildDetailsItemsAmount() {
     double _value;
@@ -410,14 +348,14 @@ class _AddRequestFormState extends State<PostRequestForm> {
         child: const Text(
           "إلغاء",
           style:
-              TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
+          TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
         ),
         onPressed: () {
           Navigator.of(context).pop(context);
         },
         style: ButtonStyle(
             backgroundColor:
-                MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+            MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
             elevation: MaterialStateProperty.all<double>(0)),
       ),
     );
@@ -430,7 +368,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         ),
         style: ButtonStyle(
             backgroundColor:
-                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+            MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
         onPressed: () {
           Navigator.of(context).pop(context);
           add(id);
@@ -510,52 +448,52 @@ class _AddRequestFormState extends State<PostRequestForm> {
             ),
 
             if (type != null)
-            Container(
-              width: portrait == true ? 250.w : 300.w,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Text(
-                  "تفاصيل الطلب",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: const Color(0xff334856),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Tajawal',
-                    fontSize: 16,
+              Container(
+                width: portrait == true ? 250.w : 300.w,
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Text(
+                    "تفاصيل الطلب",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: const Color(0xff334856),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Tajawal',
+                      fontSize: 16,
+                    ),
                   ),
-                ),
 
+                ),
               ),
-            ),
             if (type != null)
               SizedBox(
-              height: MediaQuery.of(context).size.height * 0.015,
-            ),
+                height: MediaQuery.of(context).size.height * 0.015,
+              ),
             if (type == "مبلغ")
               Container(
-              width: portrait == true ? 250.w : 300.w,
-              child: Stack(
-                children: [
-                  Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: _buildDetailsFunds(),
-            ),Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(11, 15, 0, 0),
-                      child: Text(
-                        'ريال',
-                        style: TextStyle(
-                          fontFamily: 'Tajawal',
-                          fontSize: 15,
-                          color: const Color(0xffd2d2d2),
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Stack(
+                    children: [
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: _buildDetailsFunds(),
+                      ),Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(11, 15, 0, 0),
+                          child: Text(
+                            'ريال',
+                            style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              fontSize: 15,
+                              color: const Color(0xffd2d2d2),
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
                         ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  )
-                ],
-              ) ),
+                      )
+                    ],
+                  ) ),
             // if (type == "موارد")
             //   Container(
             //       width: portrait == true ? 250.w : 300.w,
@@ -575,9 +513,9 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     child: _buildDetailsItemsAmount(),
                   ) ),
             if (type != null) // funds container
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.025,
-            ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.025,
+              ),
 
 
             Container(
@@ -604,9 +542,9 @@ class _AddRequestFormState extends State<PostRequestForm> {
               width: portrait == true ? 265.w : 310.w,
               height: portrait == true ? 140.w : 150.w,
               child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: _buildDescription(),
-            ),),  // mosque name
+                textDirection: TextDirection.rtl,
+                child: _buildDescription(),
+              ),),  // mosque name
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
             ),

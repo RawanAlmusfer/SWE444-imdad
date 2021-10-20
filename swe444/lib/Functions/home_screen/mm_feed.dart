@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
-import 'package:swe444/Functions/post_request/request_view_model.dart';
+import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
 class MosqueMangerFeed extends StatelessWidget {
