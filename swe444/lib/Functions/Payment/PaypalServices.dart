@@ -33,6 +33,7 @@ class PaypalServices {
       transactions, accessToken) async {
     try {
       var response = await http.post(Uri.parse("$domain/v1/payments/payment"),
+          //v2/checkout/orders
           body: convert.jsonEncode(transactions),
           headers: {
             "content-type": "application/json",
