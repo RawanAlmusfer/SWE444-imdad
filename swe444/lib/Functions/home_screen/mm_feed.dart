@@ -155,21 +155,21 @@ class mmFeed extends State<mm_feed> {
                     ),
                   ]),
                 ),
-                if (document['type'].toString() == 'موارد')
-                  Padding(
-                    padding:
-                    const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 63),
-                    child: Row(children: <Widget>[
-                      const Spacer(),
-                      Text(
-                          document['amount_requested'].toString()
-                      ),
-                      const Text(
-                        " :الكمية",
-                        style: TextStyle(fontFamily: 'Tajawal'),
-                      ),
-                    ]),
-                  ),
+                // if (document['type'].toString() == 'موارد')
+                //   Padding(
+                //     padding:
+                //     const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 63),
+                //     child: Row(children: <Widget>[
+                //       const Spacer(),
+                //       Text(
+                //           document['amount_requested'].toString()
+                //       ),
+                //       const Text(
+                //         " :الكمية",
+                //         style: TextStyle(fontFamily: 'Tajawal'),
+                //       ),
+                //     ]),
+                //   ),
               ],
             ),
           ),
