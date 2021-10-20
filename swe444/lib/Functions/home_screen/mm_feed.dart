@@ -140,18 +140,32 @@ class mmFeed extends State<mm_feed> {
                         )),
                   ]),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 63),
-                  child: Row(children: <Widget>[
-                    const Spacer(),
-                    Text(document['amount'].toString()),
-                    const Text(
-                      " :المبلغ",
-                      style: TextStyle(fontFamily: 'Tajawal'),
-                    ),
-                  ]),
-                ),
+                if (document['type'].toString() == "مبلغ")
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0.1, bottom: 20.0, right: 63),
+                    child: Row(children: <Widget>[
+                      const Spacer(),
+                      Text(document['amount'].toString()),
+                      const Text(
+                        " :المبلغ",
+                        style: TextStyle(fontFamily: 'Tajawal'),
+                      ),
+                    ]),
+                  ),
+                if (document['type'].toString() == "موارد")
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0.1, bottom: 20.0, right: 63),
+                    child: Row(children: <Widget>[
+                      const Spacer(),
+                      Text(document['amount_requested'].toString()),
+                      const Text(
+                        " :العدد",
+                        style: TextStyle(fontFamily: 'Tajawal'),
+                      ),
+                    ]),
+                  ),
               ],
             ),
           ),

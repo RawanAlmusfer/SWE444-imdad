@@ -16,12 +16,13 @@ class mmHome extends StatefulWidget {
 
 class _HomeState extends State<mmHome> {
   // the default location which the user will be in:
-  int _currentIndex = 2;
+  int _currentIndex = 3;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
     logout(),
+    PostRequest(),
     PostRequest(),
     MosqueMangerFeed(),
   ];
@@ -42,6 +43,7 @@ class _HomeState extends State<mmHome> {
               fontSize: 24,
             ),
           ),
+
           //automaticallyImplyLeading: false,
           backgroundColor: const Color(0xdeedd03c),
           bottomOpacity: 30,
@@ -92,6 +94,10 @@ class _HomeState extends State<mmHome> {
                     label: "تسجيل الخروج",
                   ),
                   BottomNavigationBarItem(
+                    icon: new Icon(Icons.notifications),
+                    label: "الاشعارات",
+                  ),
+                  BottomNavigationBarItem(
                     icon: new Icon(Icons.add),
                     label: "إضافة طلب",
                   ),
@@ -115,10 +121,16 @@ class _HomeState extends State<mmHome> {
           break;
         case 1:
           {
-            _title = 'إضافة طلب';
+            _title = 'الاشعارات';
           }
           break;
         case 2:
+          {
+            _title = 'إضافة طلب';
+          }
+          break;
+
+        case 3:
           {
             _title = 'الصفحة الرئيسية';
           }
