@@ -22,7 +22,9 @@ class _ProfilePageState extends State<ProfilePage>{
   @override
   Widget build(BuildContext context) {
 
+
     return Scaffold(
+
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -183,10 +185,12 @@ class _ProfilePageState extends State<ProfilePage>{
                         ),
                         Card(
                           child: Container(
+
                             //
                             alignment: Alignment.topRight,
                             padding: EdgeInsets.all(15),
                             child: Column(
+
                               children: <Widget>[
                                 Column(
                                   children: <Widget>[
@@ -194,10 +198,15 @@ class _ProfilePageState extends State<ProfilePage>{
                                       color: Colors.grey,
                                       tiles: [
                                         ListTile(
-                                          leading: Icon(Icons.account_balance),
                                           title: Text("اسم المسجد "),
                                           subtitle: Text(
-                                              "firebasexx"),),
+                                              "firebasexx"),
+                                          leading: Icon(
+                                              Icons.account_balance,
+
+                                          ),),
+
+
                                         ListTile(
                                             leading: Icon(Icons.shield),
                                             title: Text("كود المسجد"),

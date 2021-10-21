@@ -223,22 +223,34 @@ class _ProfilePageState extends State<ProfilePage>{
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                             ),
-                            textAlign: TextAlign.left,
+                            textAlign: TextAlign.right,
                           ),
                         ),
                         Card(
                           child: Container(
-                            //
+
                             alignment: Alignment.topRight,
+
                             padding: EdgeInsets.all(15),
                             child: Column(
+
                               children: <Widget>[
-                                Column(
+                             //
+                            Column(
+
                                   children: <Widget>[
+
+
+
+
                                     ...ListTile.divideTiles(
+
                                       color: Colors.grey,
+
                                       tiles: [
                                         ListTile(
+
+
                                           leading: Icon(Icons.person),
                                           title: Text(isVolunteer() ? "الاسم الاول " : "اسم المسجد"),
                                           subtitle: Text(
@@ -248,6 +260,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                             title: Text(isVolunteer() ? "الاسم الاخير " : "رقم المسجد"),
                                             subtitle: Text(
                                                 "${isVolunteer() ? _userLastName : mosqueCode}")
+
                                         ),
                                         // ListTile(
                                         //  contentPadding: EdgeInsets.symmetric(
@@ -257,9 +270,14 @@ class _ProfilePageState extends State<ProfilePage>{
                                         //   subtitle: Text("USA"),
                                         // ),
                                         ListTile(
-                                          leading: Icon(Icons.email),
-                                          title: Text("البريد الالكتروني"),
+
+
+                                           title: Text("البريد الالكتروني"),
+
                                           subtitle: Text("${_userEmail}"),
+                                          leading: Icon(Icons.mail),
+
+
                                         ),
                                         ListTile(
                                           leading: Icon(Icons.phone),
@@ -274,7 +292,8 @@ class _ProfilePageState extends State<ProfilePage>{
                               ],
                             ),
                           ),
-                        ),
+                          ),
+
                         SizedBox(height: 20,),
                         logout()
                       ],

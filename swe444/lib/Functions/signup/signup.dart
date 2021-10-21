@@ -498,8 +498,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
                                 uppercaseCharCount: 2,
                                 numericCharCount: 3,
-                                specialCharCount: 1,
-                                width: 400,
+                               specialCharCount: 1,
+                                width: 360,
                                 height: 150,
                                 onSuccess: (value) {
                                   //_controllerPass.text = value;

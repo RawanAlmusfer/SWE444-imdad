@@ -2,8 +2,8 @@
 class Strings {
   Strings._();
 
-  static const String AT_LEAST = " - على الاقل 5 حروف";
-  static const String UPPERCASE_LETTER = "-   upper case حرفين";
-  static const String NUMERIC_CHARACTER = "- Numeric character";
-  static const String SPECIAL_CHARACTER = "- Special character";
+  static const String AT_LEAST = " حروف -  ";
+  static const String UPPERCASE_LETTER = "أحرف كبيره - ";
+  static const String NUMERIC_CHARACTER = "ارقام - ";
+  static const String SPECIAL_CHARACTER = "- رموز ";
 }

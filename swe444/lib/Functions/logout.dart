@@ -46,7 +46,8 @@ class _logout extends State<logout> {
                     contentPadding: EdgeInsets.only(
                         right: 20.w, top: 20.h, bottom: 10.h),
                     title: Text(
-                      "تسجيل خروج",
+
+                      "الملف الشخصي",
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         color: const Color(0xdeedd03c),

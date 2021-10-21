@@ -6,7 +6,7 @@ import 'package:swe444/Functions/home_screen/v_home_view.dart';
 import '../../Models/VUserModel.dart';
 import '../../Widgets/show_snackbar.dart';
 import '../signup_login_screen.dart';
-
+import 'package:swe444/password/flutter_pw_validator.dart';
 class VSignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
 
@@ -38,7 +38,7 @@ class _SignUpPageState extends State<VSignUpPage> {
   Snackbar? snackbar2;
   Snackbar? snackbar3;
   bool valid = true;
-
+  bool isFoucesedPassword = false;
   Future<void> login() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -163,6 +163,11 @@ class _SignUpPageState extends State<VSignUpPage> {
       ),
       autocorrect: false,
       obscureText: true,
+
+        onTap: (){setState(() {
+
+          isFoucesedPassword=true;
+        });},
     );
   }
 
@@ -468,6 +473,7 @@ class _SignUpPageState extends State<VSignUpPage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                         ),
+
                         Container(
                           width: 330,
                           child: Directionality(
@@ -483,6 +489,28 @@ class _SignUpPageState extends State<VSignUpPage> {
                           child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: _buildPasswordField(),
+                          ),
+                        ),
+                        Visibility(
+
+
+                          visible: isFoucesedPassword,
+                          child:
+                          Padding(
+
+                            padding: const EdgeInsets.all(8.0),
+                            child: FlutterPwValidator(
+                                controller: _controllerPass,
+                                minLength: 6,
+
+                                uppercaseCharCount: 2,
+                                numericCharCount: 3,
+                                specialCharCount: 1,
+                                width: 360,
+                                height: 150,
+                                onSuccess: (value) {
+                                  //_controllerPass.text = value;
+                                }),
                           ),
                         ), // password container
                         SizedBox(
