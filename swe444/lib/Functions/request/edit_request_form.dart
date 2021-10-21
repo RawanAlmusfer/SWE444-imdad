@@ -234,6 +234,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
     );
   }
 
+
   Widget _buildDetailsItemsAmount() {
     double _value;
     return TextFormField(
