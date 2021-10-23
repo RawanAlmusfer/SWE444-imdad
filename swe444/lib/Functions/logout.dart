@@ -47,7 +47,7 @@ class _logout extends State<logout> {
                         right: 20.w, top: 20.h, bottom: 10.h),
                     title: Text(
 
-                      "الملف الشخصي",
+                      "تسجيل الخروج",
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         color: const Color(0xdeedd03c),

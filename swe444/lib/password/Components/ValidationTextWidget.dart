@@ -14,6 +14,7 @@ class ValidationTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Row(
+
       children: [
         new Container(
           width: SizeConfig.width! * 0.03,

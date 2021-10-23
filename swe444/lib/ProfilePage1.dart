@@ -96,8 +96,10 @@ class _ProfilePageState extends State<ProfilePage>{
 
         child: Container(
 
+
           decoration:BoxDecoration(
               gradient: LinearGradient(
+
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
 
@@ -113,6 +115,7 @@ class _ProfilePageState extends State<ProfilePage>{
               DrawerHeader(
 
                 decoration: BoxDecoration(
+
 
                   color: Theme.of(context).primaryColor,
                   gradient: LinearGradient(
@@ -186,11 +189,13 @@ class _ProfilePageState extends State<ProfilePage>{
           children: [
             //  Container(height: 100, child: HeaderWidget(100,false,Icons.house_rounded),),
             Container(
-              alignment: Alignment.center,
+
+              alignment: Alignment.centerRight,
+
               margin: EdgeInsets.fromLTRB(25, 10, 25, 10),
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Column(
-                children: [
+                children: [//Positioned.directional(textDirection: TextDirection.rtl, child: ,),
                   Container(
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -231,15 +236,16 @@ class _ProfilePageState extends State<ProfilePage>{
 
                             alignment: Alignment.topRight,
 
-                            padding: EdgeInsets.all(15),
+                         //   padding: EdgeInsets.all(15),
                             child: Column(
 
                               children: <Widget>[
-                             //
-                            Column(
 
-                                  children: <Widget>[
+                              Column(
 
+                                 children: <Widget>[Container (alignment: Alignment.topRight,),
+
+                               
 
 
 
@@ -247,17 +253,18 @@ class _ProfilePageState extends State<ProfilePage>{
 
                                       color: Colors.grey,
 
+
                                       tiles: [
-                                        ListTile(
+                                       ListTile(
+
+                                            leading: Icon( Icons.person, ),title: Text(isVolunteer() ? "الاسم الاول " : "اسم المسجد",),
+                                                       subtitle: Text(
+                                                           "${isVolunteer() ? _userFirstName : mosqueName}")),
 
 
-                                          leading: Icon(Icons.person),
-                                          title: Text(isVolunteer() ? "الاسم الاول " : "اسم المسجد"),
-                                          subtitle: Text(
-                                              "${isVolunteer() ? _userFirstName : mosqueName}"),),
                                         ListTile(
-                                            leading: Icon(Icons.person),
-                                            title: Text(isVolunteer() ? "الاسم الاخير " : "رقم المسجد"),
+                                            leading:  Icon(Icons.person,textDirection:TextDirection.rtl  ),
+                                            title: Text( isVolunteer() ? "الاسم الاخير " : "رقم المسجد",),
                                             subtitle: Text(
                                                 "${isVolunteer() ? _userLastName : mosqueCode}")
 
@@ -280,7 +287,7 @@ class _ProfilePageState extends State<ProfilePage>{
 
                                         ),
                                         ListTile(
-                                          leading: Icon(Icons.phone),
+                                          leading: Icon(Icons.phone,),
                                           title: Text("رقم الجوال"),
                                           subtitle: Text("${_userPhone}"),
                                         ),
@@ -295,7 +302,7 @@ class _ProfilePageState extends State<ProfilePage>{
                           ),
 
                         SizedBox(height: 20,),
-                        logout()
+                       logout()
                       ],
                     ),
                   )

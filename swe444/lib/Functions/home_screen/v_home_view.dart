@@ -79,8 +79,8 @@ class _HomeState extends State<vHome> {
                 currentIndex: _currentIndex,
                 items: [
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.logout),
-                    label: "تسجيل الخروج",
+                    icon: new Icon(Icons.person),
+                    label: " تسجيل الخروج",
                   ),
 
                   // BottomNavigationBarItem(

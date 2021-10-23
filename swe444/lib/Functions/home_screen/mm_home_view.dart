@@ -100,8 +100,8 @@ class _HomeState extends State<mmHome> {
                 currentIndex: _currentIndex,
                 items: [
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.logout),
-                    label: "تسجيل الخروج",
+                    icon: new Icon(Icons.person),
+                    label: "تسجيل الخروج  ",
                   ),
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.add),
@@ -122,7 +122,7 @@ class _HomeState extends State<mmHome> {
       switch (index) {
         case 0:
           {
-            _title = 'تسجيل الخروج';
+            _title = 'تسجيل الخروج  ';
           }
           break;
         case 1:

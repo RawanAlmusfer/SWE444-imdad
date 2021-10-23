@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
           onPressed: () {
             logout();
           },
-          child: Text("تسجيل الخروج"),
+          child: Text("تسجيل الخروج "),
         )),
       ),
     );
