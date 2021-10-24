@@ -140,14 +140,14 @@ class _ProfilePageState extends State<ProfilePage>{
                   //  Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreen(title: "Splash Screen")));
                 },
               ),
-              ListTile(
-                leading: Icon(Icons.login_rounded,size: _drawerIconSize,color: Theme.of(context).accentColor),
-                title: Text('Login Page', style: TextStyle(fontSize: _drawerFontSize, color: Theme.of(context).accentColor),
-                ),
-                onTap: () {
+             // ListTile(
+             //   leading: Icon(Icons.login_rounded,size: _drawerIconSize,color: Theme.of(context).accentColor),
+              //  title: Text('Login Page', style: TextStyle(fontSize: _drawerFontSize, color: Theme.of(context).accentColor),
+              //  ),
+             //   onTap: () {
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
-                },
-              ),
+             //   },
+            //  ),
               Divider(color: Theme.of(context).primaryColor, height: 1,),
               ListTile(
                 leading: Icon(Icons.person_add_alt_1, size: _drawerIconSize,color: Theme.of(context).accentColor),
@@ -209,7 +209,8 @@ class _ProfilePageState extends State<ProfilePage>{
                     child: Icon(Icons.person, size: 80, color: Colors.grey.shade300,),
                   ),
                   SizedBox(height: 20,),
-                  Text(isVolunteer()?  "${_userFirstName} ${_userLastName}": "${mosqueName} ${mosqueCode}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                 // Text(isVolunteer()?  "${_userFirstName} ${_userLastName}": "${mosqueName} ${mosqueCode}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                  Text(isVolunteer()?  "${_userFirstName} ${_userLastName}": "${mosqueName} ", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
                   SizedBox(height: 20,),
                   Text(isVolunteer() ? 'متطوع' : 'مسجد', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                   SizedBox(height: 10,),
@@ -264,7 +265,7 @@ class _ProfilePageState extends State<ProfilePage>{
 
                                         ListTile(
                                             leading:  Icon(Icons.person,textDirection:TextDirection.rtl  ),
-                                            title: Text( isVolunteer() ? "الاسم الاخير " : "رقم المسجد",),
+                                            title: Text( isVolunteer() ? "الاسم الاخير " : " كود المسجد",),
                                             subtitle: Text(
                                                 "${isVolunteer() ? _userLastName : mosqueCode}")
 

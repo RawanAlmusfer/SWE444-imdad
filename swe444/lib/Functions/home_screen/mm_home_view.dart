@@ -32,38 +32,38 @@ class _HomeState extends State<mmHome> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
-        appBar: AppBar(
-          actions: [
-            IconButton(onPressed: (){
-              FirebaseAuth.instance.signOut().then((value) {
-                Navigator.pushAndRemoveUntil(context,       MaterialPageRoute<void>(
-                           builder: (BuildContext context) =>  UsersScreen(),
-                        ), (route) => false);
-              });
+       appBar: AppBar(
+         actions: [
+          // IconButton(onPressed: (){
+        //      FirebaseAuth.instance.signOut().then((value) {
+           //     Navigator.pushAndRemoveUntil(context,       MaterialPageRoute<void>(
+               //            builder: (BuildContext context) =>  UsersScreen(),
+                  //      ), (route) => false);
+            //  });
 
-            }, icon: Icon(Icons.logout))
-          ],
+          //  }, icon: Icon(Icons.logout))
+         ],
           automaticallyImplyLeading: false,
           title: Text(
             _title,
             textAlign: TextAlign.center,
-            style: TextStyle(
+    style: TextStyle(
               color: Color(0xff334856),
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Tajawal',
-              fontSize: 24,
+             fontWeight: FontWeight.w700,
+             fontFamily: 'Tajawal',
+             fontSize: 24,
             ),
-          ),
-          //automaticallyImplyLeading: false,
+        ),
+         // automaticallyImplyLeading: false,
           backgroundColor: const Color(0xdeedd03c),
           bottomOpacity: 30,
-          // elevation: 1,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(50),
-            ),
+           elevation: 1,
+         shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+             bottom: Radius.circular(50),
+           ),
           ),
-        ),
+       ),
         body:
             // MultiProvider(providers: [
             //   ChangeNotifierProvider(
@@ -101,7 +101,7 @@ class _HomeState extends State<mmHome> {
                 items: [
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.person),
-                    label: "تسجيل الخروج  ",
+                    label:  " تسجيل الخروج ",
                   ),
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.add),
@@ -122,7 +122,7 @@ class _HomeState extends State<mmHome> {
       switch (index) {
         case 0:
           {
-            _title = 'تسجيل الخروج  ';
+            _title = 'الملف الشخصي';
           }
           break;
         case 1:

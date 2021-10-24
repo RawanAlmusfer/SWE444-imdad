@@ -80,7 +80,7 @@ class _HomeState extends State<vHome> {
                 items: [
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.person),
-                    label: " تسجيل الخروج",
+                    label: " الملف الشخصي",
                   ),
 
                   // BottomNavigationBarItem(
@@ -102,7 +102,7 @@ class _HomeState extends State<vHome> {
       switch (index) {
         case 0:
           {
-            _title = 'تسجيل الخروج';
+            _title = 'الملف الشخصي';
           }
           break;
         // case 1:
