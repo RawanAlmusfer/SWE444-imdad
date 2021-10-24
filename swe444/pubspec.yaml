@@ -33,6 +33,7 @@ dependencies:
   http_auth: ^1.0.1
   flutter_inappwebview: ^5.3.2
   webview_flutter_wkwebview: ^2.0.14
+  razorpay_flutter: ^1.2.3
   webview_flutter: ^2.1.1
   cloud_firestore: ^2.5.2
   shared_preferences: ^2.0.8
