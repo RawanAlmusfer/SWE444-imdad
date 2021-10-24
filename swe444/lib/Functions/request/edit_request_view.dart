@@ -66,6 +66,21 @@ class _EditRequestState extends State<EditRequest> {
       child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
+            actions: <Widget> [
+              GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                margin: EdgeInsets.only(right: 20, bottom: 8),
+                child: Icon(
+                  Icons.keyboard_backspace_rounded,
+                  textDirection: TextDirection.rtl,
+                  size: 30,
+                  color: Color(0xff334856),
+                ),
+              ),
+            ),],
             title: Text(
               _title,
               textAlign: TextAlign.center,
@@ -129,47 +144,7 @@ class _EditRequestState extends State<EditRequest> {
             ),
           ),
 
-          bottomNavigationBar: Container(
-            // height: 90,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(50), topLeft: Radius.circular(50)),
-              boxShadow: [
-                BoxShadow(
-                    color: Color(0xffededed), spreadRadius: 0, blurRadius: 10),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(50),
-                topRight: Radius.circular(50),
-              ),
-              child: BottomNavigationBar(
-                  backgroundColor: Colors.white,
-                  iconSize: 30,
-                  selectedItemColor: const Color(0xdeedd03c),
-                  unselectedItemColor: const Color(0xff334856),
-                  selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  showSelectedLabels: false,
-                  showUnselectedLabels: false,
-                  onTap: onTabTapped,
-                  currentIndex: _currentIndex,
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: new Icon(Icons.logout),
-                      label: "تسجيل الخروج",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: new Icon(Icons.add),
-                      label: "إضافة طلب",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: new Icon(Icons.home),
-                      label: "الصفحة الرئيسية",
-                    ),
-                  ]),
-            ),
-          )),
+          ),
 
     );
 

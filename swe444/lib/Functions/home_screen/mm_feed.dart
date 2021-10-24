@@ -130,11 +130,12 @@ class mmFeed extends State<mm_feed> {
                           onPressed: () async {
                             await showAlertDialogEdit(document);
                           },
-                          child: SvgPicture.string(
-                            cancelImage,
-                            allowDrawingOutsideViewBox: true,
-                            fit: BoxFit.fill,
+                          child: const Icon(
+                            Icons.edit,
+                            color: Color(0xdeedd03c),
+                            size: 25.0,
                           ),
+
                         )),
 
                     const Spacer(),
@@ -306,8 +307,8 @@ class mmFeed extends State<mm_feed> {
             backgroundColor:
             MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
         onPressed: () async {
-          Navigator.pushAndRemoveUntil((context),
-              MaterialPageRoute(builder: (context) => EditRequest()), (route) => false);
+          Navigator.of(context).pop();
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditRequest()));
         },
       ),
     );
@@ -317,7 +318,7 @@ class mmFeed extends State<mm_feed> {
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
       contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
       title: Text(
-        "إلغاء",
+        "تعديل",
         textAlign: TextAlign.right,
         style: TextStyle(
           fontFamily: "Tajawal",
