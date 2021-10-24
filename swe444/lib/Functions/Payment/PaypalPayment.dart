@@ -1,23 +1,44 @@
 
 import 'dart:core';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'PaypalServices.dart';
+import 'dart:io';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
 
 class PaypalPayment extends StatefulWidget {
   final Function onFinish;
 
   PaypalPayment({required this.onFinish});
 
+  //get browser => null;
+
   @override
   State<StatefulWidget> createState() {
     return PaypalPaymentState();
   }
 }
+// class MyApp extends StatefulWidget {
+//   final ChromeSafariBrowser browser = new ChromeSafariBrowser();
+//
+//   @override
+//   State<StatefulWidget> createState() {
+//     // TODO: implement createState
+//     throw UnimplementedError();
+//   }
+//
+//
+// }
+
 
 class PaypalPaymentState extends State<PaypalPayment> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
    String? checkoutUrl='';
    String? executeUrl='';
    String accessToken='';
@@ -34,9 +55,11 @@ class PaypalPaymentState extends State<PaypalPayment> {
 
 
   @override
+
+
   void initState() {
     super.initState();
-
+   // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     Future.delayed(Duration.zero, () async {
       try {
         accessToken = (await services.getAccessToken())!;
@@ -144,6 +167,45 @@ class PaypalPaymentState extends State<PaypalPayment> {
     return temp;
   }
 
+
+   _launchURL() async {
+     final ChromeSafariBrowser browser = new ChromeSafariBrowser();
+      await widget.browser.open(
+          url:   Uri.parse(checkoutUrl!),
+          javascriptMode: JavascriptMode.unrestricted,
+          navigationDelegate: (NavigationRequest request) {
+        if (request.url.contains(returnURL)) {
+          final uri = Uri.parse(request.url);
+          final payerID = uri.queryParameters['PayerID'];
+          if (payerID != null) {
+            services
+                .executePayment(executeUrl, payerID, accessToken)
+                .then((id) {
+              widget.onFinish(id);
+              Navigator.of(context).pop();
+            });
+          } else {
+            Navigator.of(context).pop();
+          }
+          Navigator.of(context).pop();
+        }
+        if (request.url.contains(cancelURL)) {
+          Navigator.of(context).pop();
+        }
+        return NavigationDecision.navigate;
+      },
+
+
+
+          options: ChromeSafariBrowserClassOptions(
+              android: AndroidChromeCustomTabsOptions(
+                  addDefaultShareMenuItem: false),
+              ios: IOSSafariOptions(barCollapsingEnabled: true)));
+
+    //WebView(
+ // initialUrl: checkoutUrl;
+}
+
   @override
   Widget build(BuildContext context) {
     print(checkoutUrl);
@@ -157,32 +219,35 @@ class PaypalPaymentState extends State<PaypalPayment> {
             onTap: () => Navigator.pop(context),
           ),
         ),
-        body: WebView(
-          initialUrl: checkoutUrl,
-          javascriptMode: JavascriptMode.unrestricted,
-          navigationDelegate: (NavigationRequest request) {
-            if (request.url.contains(returnURL)) {
-              final uri = Uri.parse(request.url);
-              final payerID = uri.queryParameters['PayerID'];
-              if (payerID != null) {
-                services
-                    .executePayment(executeUrl, payerID, accessToken)
-                    .then((id) {
-                  widget.onFinish(id);
-                  Navigator.of(context).pop();
-                });
-              } else {
-                Navigator.of(context).pop();
-              }
-              Navigator.of(context).pop();
-            }
-            if (request.url.contains(cancelURL)) {
-              Navigator.of(context).pop();
-            }
-            return NavigationDecision.navigate;
-          },
-        ),
-      );
+        body: Container(child: _launchURL(),));
+        // WebView(
+        //   initialUrl: checkoutUrl,
+        //   javascriptMode: JavascriptMode.unrestricted,
+        //   navigationDelegate: (NavigationRequest request) {
+        //     if (request.url.contains(returnURL)) {
+        //       final uri = Uri.parse(request.url);
+        //       final payerID = uri.queryParameters['PayerID'];
+        //       if (payerID != null) {
+        //         services
+        //             .executePayment(executeUrl, payerID, accessToken)
+        //             .then((id) {
+        //           widget.onFinish(id);
+        //           Navigator.of(context).pop();
+        //         });
+        //       } else {
+        //         Navigator.of(context).pop();
+        //       }
+        //       Navigator.of(context).pop();
+        //     }
+        //     if (request.url.contains(cancelURL)) {
+        //       Navigator.of(context).pop();
+        //     }
+        //     return NavigationDecision.navigate;
+        //   },
+        // ),
+
+
+
     } else {
       return Scaffold(
         key: _scaffoldKey,

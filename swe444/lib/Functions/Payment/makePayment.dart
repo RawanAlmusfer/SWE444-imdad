@@ -67,6 +67,24 @@ class _makePaymentState extends State<makePayment> {
 
 
                       },
+
+                      // onPressed: ()async {
+                      //   await widget.browser.open(
+                      //       url:   Uri.parse("https://www.sandbox.paypal.com/"),
+                      //
+                      //
+                      //       options: ChromeSafariBrowserClassOptions(
+                      //           android: AndroidChromeCustomTabsOptions(
+                      //               addDefaultShareMenuItem: false),
+                      //           ios: IOSSafariOptions(barCollapsingEnabled: true)));
+                      //
+                      //
+                      //   // make PayPal payment
+                      //
+                      //
+                      //
+                      //
+                      // },
                       child: Text('Pay with Paypal', textAlign: TextAlign.center,),
                     ),
 
