@@ -110,6 +110,7 @@ class mmFeed extends State<mm_feed> {
                             fit: BoxFit.fill,
                           ),
                         )),
+                    if (document['donated'].toString() == '0')
                     Container(
                         width: 25,
                         height: 52,
