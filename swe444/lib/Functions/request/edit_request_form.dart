@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,9 @@ import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
 class EditRequestForm extends StatefulWidget {
+  final DocumentSnapshot document;
   EditRequestForm({
-    Key? key,
+    Key? key, required this.document,
   }) : super(key: key);
 
   @override
@@ -31,87 +33,99 @@ class _EditRequestFormState extends State<EditRequestForm> {
   final List<String> items = <String>['مبلغ', 'موارد'];
   TextEditingController description = TextEditingController();
 
-  Widget _buildType() {
-    return DropdownButtonHideUnderline(
-        child: DropdownButtonFormField<String>(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            focusedBorder: OutlineInputBorder(
-              // width: 0.0 produces a thin "hairline" border
-              borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(
-                color: const Color(0xdeedd03c),
-              ),
-            ),
-            contentPadding: EdgeInsets.only(right: 20, top: 15, left: 23 ),
-            prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-            hoverColor: const Color(0xff334856),
-            hintText: 'إختر نوعًا',
-            labelText: ' نوع الطلب *',
-            hintStyle: TextStyle(
-                fontSize: 13,
-                color: const Color(0xff334856),
-                fontFamily: 'Tajawal'),
-            labelStyle: TextStyle(
-                fontSize: 16,
-                color: const Color(0xff334856),
-                fontFamily: 'Tajawal'),
-            alignLabelWithHint: true,
-          ),
-          selectedItemBuilder: (BuildContext context) {
-            return items.map<Widget>((String item) {
-              return Container(
-                alignment: Alignment.centerRight,
-                width: 150,
-                child: Text(
-                  item,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    fontFamily: 'Tajawal',
-                  ),
-                ),
-              );
-            }).toList();
-          },
-          value: type,
-          items: items.map<DropdownMenuItem<String>>((dropdownMenuItem) {
-            return DropdownMenuItem(
-              key: UniqueKey(),
-              value: dropdownMenuItem,
-              child: SizedBox(
-                width: 200.w,
-                child: Text(
-                  dropdownMenuItem,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontFamily: 'Tajawal',
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
-          onChanged: (value) => setState(() => this.type = value),
-          validator: (value) => value == null ? 'مطلوب' : null,
-          style: TextStyle(fontSize: 16, color: const Color(0xff334856)),
-          icon: Icon(Icons.arrow_drop_down_circle),
-          hint: Padding(
-            padding: EdgeInsets.only(top: 5.h),
-            child: SizedBox(
-              // width: 125.w,
-              child: Text(
-                "اختر نوعًا",
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-            ),
-          ),
-          // isExpanded: true,
-        ));
+  @override
+  void initState() {
+    super.initState();
+    title.text= widget.document['title'].toString();
+    description.text= widget.document['description'].toString();
+    type = widget.document['type'].toString();
+    if (type == "مبلغ")
+      _amount.text= widget.document['amount'].toString();
+    if (type == "موارد")
+      itemsAmount.text= widget.document['amount_requested'].toString();
   }
+
+  // Widget _buildType() {
+  //   return DropdownButtonHideUnderline(
+  //       child: DropdownButtonFormField<String>(
+  //         decoration: InputDecoration(
+  //           border: OutlineInputBorder(
+  //             borderRadius: BorderRadius.circular(30),
+  //           ),
+  //           focusedBorder: OutlineInputBorder(
+  //             // width: 0.0 produces a thin "hairline" border
+  //             borderRadius: BorderRadius.circular(30),
+  //             borderSide: BorderSide(
+  //               color: const Color(0xdeedd03c),
+  //             ),
+  //           ),
+  //           contentPadding: EdgeInsets.only(right: 20, top: 15, left: 23 ),
+  //           prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+  //           hoverColor: const Color(0xff334856),
+  //           hintText: 'إختر نوعًا',
+  //           labelText: ' نوع الطلب *',
+  //           hintStyle: TextStyle(
+  //               fontSize: 13,
+  //               color: const Color(0xff334856),
+  //               fontFamily: 'Tajawal'),
+  //           labelStyle: TextStyle(
+  //               fontSize: 16,
+  //               color: const Color(0xff334856),
+  //               fontFamily: 'Tajawal'),
+  //           alignLabelWithHint: true,
+  //         ),
+  //         selectedItemBuilder: (BuildContext context) {
+  //           return items.map<Widget>((String item) {
+  //             return Container(
+  //               alignment: Alignment.centerRight,
+  //               width: 150,
+  //               child: Text(
+  //                 item,
+  //                 textAlign: TextAlign.end,
+  //                 style: TextStyle(
+  //                   fontFamily: 'Tajawal',
+  //                 ),
+  //               ),
+  //             );
+  //           }).toList();
+  //         },
+  //         value: type,
+  //         items: items.map<DropdownMenuItem<String>>((dropdownMenuItem) {
+  //           return DropdownMenuItem(
+  //             key: UniqueKey(),
+  //             value: dropdownMenuItem,
+  //             child: SizedBox(
+  //               width: 200.w,
+  //               child: Text(
+  //                 dropdownMenuItem,
+  //                 textAlign: TextAlign.right,
+  //                 style: TextStyle(
+  //                   fontFamily: 'Tajawal',
+  //                 ),
+  //               ),
+  //             ),
+  //           );
+  //         }).toList(),
+  //         onChanged: (value) => setState(() => this.type = value),
+  //         validator: (value) => value == null ? 'مطلوب' : null,
+  //         style: TextStyle(fontSize: 16, color: const Color(0xff334856)),
+  //         icon: Icon(Icons.arrow_drop_down_circle),
+  //         hint: Padding(
+  //           padding: EdgeInsets.only(top: 5.h),
+  //           child: SizedBox(
+  //             // width: 125.w,
+  //             child: Text(
+  //               "اختر نوعًا",
+  //               textAlign: TextAlign.right,
+  //               style: TextStyle(
+  //                 fontFamily: 'Tajawal',
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         // isExpanded: true,
+  //       ));
+  // }
 
   Widget _buildTitle() {
     return TextFormField(
@@ -233,7 +247,6 @@ class _EditRequestFormState extends State<EditRequestForm> {
       }, // onsaved
     );
   }
-
 
   Widget _buildDetailsItemsAmount() {
     double _value;
@@ -423,17 +436,17 @@ class _EditRequestFormState extends State<EditRequestForm> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
             ),
-            Container(
-              width: portrait == true ? 250.w : 300.w,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: _buildType(),
-              ),
-            ),
-            // email container
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
+            // Container(
+            //   width: portrait == true ? 250.w : 300.w,
+            //   child: Directionality(
+            //     textDirection: TextDirection.rtl,
+            //     child: _buildType(),
+            //   ),
+            // ),
+            // // email container
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height * 0.02,
+            // ),
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Container(
@@ -448,7 +461,6 @@ class _EditRequestFormState extends State<EditRequestForm> {
               height: MediaQuery.of(context).size.height * 0.005,
             ),
 
-            if (type != null)
               Container(
                 width: portrait == true ? 250.w : 300.w,
                 child: Directionality(
@@ -466,7 +478,6 @@ class _EditRequestFormState extends State<EditRequestForm> {
 
                 ),
               ),
-            if (type != null)
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.015,
               ),
@@ -495,17 +506,6 @@ class _EditRequestFormState extends State<EditRequestForm> {
                       )
                     ],
                   ) ),
-            // if (type == "موارد")
-            //   Container(
-            //       width: portrait == true ? 250.w : 300.w,
-            //       child: Directionality(
-            //         textDirection: TextDirection.rtl,
-            //         child: _buildDetailsItems(),
-            //       ) ),
-            // if (type == "موارد")
-            //   SizedBox(
-            //     height: MediaQuery.of(context).size.height * 0.015,
-            //   ),
             if (type == "موارد")
               Container(
                   width: portrait == true ? 250.w : 300.w,
@@ -565,7 +565,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
                 }
               },
               child: Text(
-                "إضافة",
+                "إرسال",
                 style: TextStyle(
                   fontSize: 16.0,
                   fontFamily: 'Tajawal',
@@ -615,10 +615,9 @@ class _EditRequestFormState extends State<EditRequestForm> {
       if (type == "موارد") {
         items_amount = int.parse(itemsAmount.text);
         requestVM.setRequested = items_amount;
-        // requestVM.setItem= itemsD.text;
       }
 
-      await requestVM.add();
+      await requestVM.update(widget.document.id);
 
       Snackbar? snackbar;
       String msg = requestVM.message;

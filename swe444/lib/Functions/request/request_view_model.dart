@@ -129,6 +129,49 @@ class RequestViewModel {
     message = _message;
   }
 
+  Future update(String docId) async {
+    String _message = "";
+
+    if (_type == "مبلغ") {
+      FundsRequest request = FundsRequest(
+          amount: _amount,
+          type: _type,
+          posted_by: _posted_by,
+          description: _description,
+          mosque_name: _mosque_name,
+          mosque_location: _mosque_location,
+          title: _title,
+          uplaod_time: _uplaod_time);
+
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(docId)
+          .set(request.toJson())
+          .then((value) => {_message = 'تم تعديل الطلب بنجاح'})
+          .catchError((error) => _message = " فشل في تعديل الطلب:" + error);
+    } else if (_type == "موارد") {
+      ItemsRequest request = ItemsRequest(
+          // item: _item,
+          type: _type,
+          amount: _requested,
+          posted_by: _posted_by,
+          description: _description,
+          mosque_name: _mosque_name,
+          mosque_location: _mosque_location,
+          title: _title,
+          uplaod_time: _uplaod_time);
+
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(docId)
+          .set(request.toJson())
+          .then((value) => {_message = 'تم تعديل الطلب بنجاح'})
+          .catchError((error) => _message = " فشل في تعديل الطلب:" + error);
+    }
+
+    message = _message;
+  }
+
   Future cancelRequest(DocumentSnapshot document) async {
     String _message = "";
     return await FirebaseFirestore.instance

@@ -308,7 +308,7 @@ class mmFeed extends State<mm_feed> {
             MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
         onPressed: () async {
           Navigator.of(context).pop();
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditRequest()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditRequest(document: document)));
         },
       ),
     );
