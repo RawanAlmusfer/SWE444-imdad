@@ -226,7 +226,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
         hintText: '00000',
         labelText: 'المبلغ *',
         hintStyle: TextStyle(
-            fontSize: 19,
+            fontSize: 16,
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
@@ -395,7 +395,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
       contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
       title: Text(
-        "إضافة",
+        "تعديل",
         textAlign: TextAlign.right,
         style: TextStyle(
           color: const Color(0xdeedd03c),
@@ -403,7 +403,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
         ),
       ),
       content: Text(
-        "هل أنت متأكد من رغبتك في\n إضافة الطلب؟",
+        "هل أنت متأكد من رغبتك في\n تعديل الطلب؟",
         textAlign: TextAlign.right,
         style: TextStyle(fontFamily: "Tajawal"),
       ),
@@ -565,7 +565,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
                 }
               },
               child: Text(
-                "إرسال",
+                "تعديل",
                 style: TextStyle(
                   fontSize: 16.0,
                   fontFamily: 'Tajawal',

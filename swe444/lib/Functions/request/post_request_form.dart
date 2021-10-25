@@ -214,7 +214,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         hintText: '00000',
         labelText: 'المبلغ *',
         hintStyle: TextStyle(
-            fontSize: 19,
+            fontSize: 16,
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
