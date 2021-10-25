@@ -10,6 +10,7 @@ import 'Functions/logout.dart';
 
 
 
+
 class ProfilePage extends StatefulWidget{
 
   @override
@@ -89,15 +90,18 @@ class _ProfilePageState extends State<ProfilePage>{
   @override
   Widget build(BuildContext context) {
 
+
     return Scaffold(
-      backgroundColor: const Color(0xffededed),
+
+
+    backgroundColor: const Color(0xffededed),
 
       drawer: Drawer(
 
         child: Container(
 
-
           decoration:BoxDecoration(
+
               gradient: LinearGradient(
 
                   begin: Alignment.topLeft,
@@ -188,7 +192,9 @@ class _ProfilePageState extends State<ProfilePage>{
         child: Column(
           children: [
             //  Container(height: 100, child: HeaderWidget(100,false,Icons.house_rounded),),
-            Container(
+          Container(
+          //width: 250, // to wrap the text in multiline
+
 
               alignment: Alignment.centerRight,
 
@@ -206,7 +212,7 @@ class _ProfilePageState extends State<ProfilePage>{
                         BoxShadow(color: Colors.black12, blurRadius: 20, offset: const Offset(5, 5),),
                       ],
                     ),
-                    child: Icon(Icons.person, size: 80, color: Colors.grey.shade300,),
+                    child: Icon(isVolunteer() ? Icons.person:Icons.account_balance, size: 80, color: Colors.grey.shade300,),
                   ),
                   SizedBox(height: 20,),
                  // Text(isVolunteer()?  "${_userFirstName} ${_userLastName}": "${mosqueName} ${mosqueCode}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
@@ -223,11 +229,14 @@ class _ProfilePageState extends State<ProfilePage>{
                           //
                           alignment: Alignment.topRight,
                           child: Text(
+
                             "معلومات المستخدم",
+
                             style: TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
+
                             ),
                             textAlign: TextAlign.right,
                           ),
@@ -258,16 +267,17 @@ class _ProfilePageState extends State<ProfilePage>{
                                       tiles: [
                                        ListTile(
 
-                                            leading: Icon( Icons.person, ),title: Text(isVolunteer() ? "الاسم الاول " : "اسم المسجد",),
+                                            leading: Icon( isVolunteer() ? Icons.person:Icons.account_balance ),title: Text(isVolunteer() ? "الاسم الاول " : "اسم المسجد",),
                                                        subtitle: Text(
-                                                           "${isVolunteer() ? _userFirstName : mosqueName}")),
+
+                                                           "${isVolunteer() ? _userFirstName : mosqueName}"),  ),
 
 
                                         ListTile(
-                                            leading:  Icon(Icons.person,textDirection:TextDirection.rtl  ),
-                                            title: Text( isVolunteer() ? "الاسم الاخير " : " كود المسجد",),
+                                            leading:Icon(isVolunteer() ? Icons.person:Icons.shield),
+                                            title: Text( isVolunteer() ? "الاسم الاخير " : " كود المسجد", ),
                                             subtitle: Text(
-                                                "${isVolunteer() ? _userLastName : mosqueCode}")
+                                                "${isVolunteer() ? _userLastName : mosqueCode}", )
 
                                         ),
                                         // ListTile(

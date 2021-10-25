@@ -29,6 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   firebase_core: "^1.6.0"
   cloud_firestore: ^2.5.2
   adobe_xd: ^2.0.0+1
