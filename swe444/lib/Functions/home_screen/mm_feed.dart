@@ -138,7 +138,17 @@ class mmFeed extends State<mm_feed> {
                           ),
 
                         )),
-
+                    if (document['donated'].toString() != '0')
+                      Container(
+                          width: 25,
+                          height: 52,
+                          padding: const EdgeInsets.only(
+                              top: 0, bottom: 25, left: 0, right: 0),
+                          child: const Icon(
+                            Icons.edit,
+                            color: Color(0xff808080),
+                            size: 25.0,
+                          )),
                     const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(right: 20, top: 5),
@@ -217,7 +227,7 @@ class mmFeed extends State<mm_feed> {
   // }
 
   showAlertDialog(DocumentSnapshot document) {
-    
+
     RequestViewModel requestVM = RequestViewModel();
     // set up the buttons
     Widget cancelButton = ElevatedButton(
@@ -246,7 +256,7 @@ class mmFeed extends State<mm_feed> {
         onPressed: () async {
           Navigator.of(context).pop(context);
           await requestVM.cancelRequest(document);
-          Snackbar bar = Snackbar(context, requestVM.message);
+          Snackbar bar = Snackbar(context, requestVM.message, requestVM.msgType);
           bar.showToast();
         },
       ),

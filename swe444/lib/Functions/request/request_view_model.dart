@@ -15,6 +15,8 @@ class RequestViewModel {
   String? _item;
   int? _requested;
   late String message;
+  late String msgType;
+
 
   get userDocument {
     return FirebaseFirestore.instance.collection("users").doc(_posted_by).get();
@@ -90,6 +92,7 @@ class RequestViewModel {
 
   Future<void> add() async {
     String _message = "";
+    String _msgtype= "";
 
     if (_type == "مبلغ") {
       FundsRequest request = FundsRequest(
@@ -105,8 +108,8 @@ class RequestViewModel {
       await FirebaseFirestore.instance
           .collection('requests')
           .add(request.toJson())
-          .then((value) => {_message = 'تمت إضافة الطلب بنجاح'})
-          .catchError((error) => _message = " فشل في إضافة الطلب:" + error);
+          .then((value) => {_message = 'تمت إضافة الطلب بنجاح', _msgtype="success"})
+          .catchError((error) => {_message = " فشل في إضافة الطلب:" + error, _msgtype="fail"});
     } else if (_type == "موارد") {
       ItemsRequest request = ItemsRequest(
           // item: _item,
@@ -122,15 +125,18 @@ class RequestViewModel {
       await FirebaseFirestore.instance
           .collection('requests')
           .add(request.toJson())
-          .then((value) => {_message = 'تمت إضافة الطلب بنجاح'})
-          .catchError((error) => _message = " فشل في إضافة الطلب:" + error);
+          .then((value) => {_message = 'تمت إضافة الطلب بنجاح', _msgtype="success"})
+          .catchError((error) => {_message = " فشل في إضافة الطلب:" + error, _msgtype="fail"});
     }
 
     message = _message;
+    msgType= _msgtype;
   }
 
   Future update(String docId) async {
     String _message = "";
+    String _msgtype = "";
+
 
     if (_type == "مبلغ") {
       FundsRequest request = FundsRequest(
@@ -147,8 +153,8 @@ class RequestViewModel {
           .collection('requests')
           .doc(docId)
           .set(request.toJson())
-          .then((value) => {_message = 'تم تعديل الطلب بنجاح'})
-          .catchError((error) => _message = " فشل في تعديل الطلب:" + error);
+          .then((value) => {_message = 'تم تعديل الطلب بنجاح', _msgtype="success"})
+          .catchError((error) => {_message = " فشل في تعديل الطلب:" + error, _msgtype="fail"});
     } else if (_type == "موارد") {
       ItemsRequest request = ItemsRequest(
           // item: _item,
@@ -165,25 +171,32 @@ class RequestViewModel {
           .collection('requests')
           .doc(docId)
           .set(request.toJson())
-          .then((value) => {_message = 'تم تعديل الطلب بنجاح'})
-          .catchError((error) => _message = " فشل في تعديل الطلب:" + error);
+          .then((value) => {_message = 'تم تعديل الطلب بنجاح', _msgtype="success"})
+          .catchError((error) => {_message = " فشل في تعديل الطلب:" + error, _msgtype="fail"});
     }
 
     message = _message;
+    msgType= _msgtype;
   }
 
   Future cancelRequest(DocumentSnapshot document) async {
     String _message = "";
-    
+    String _msgtype = "";
+
+
     return await FirebaseFirestore.instance
         .collection('requests')
         .doc(document.id)
         .delete()
         .then((value) {
       _message = "تم إلغاء الطلب بنجاح";
+      _msgtype="success";
+      msgType= _msgtype;
       message = _message;
     }).catchError((error) {
       _message = "فشل في إلغاء الطلب";
+      _msgtype="fail";
+      msgType= _msgtype;
       message = _message;
     });
   }

@@ -645,7 +645,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 });
                 break;
             }
-            snackbar2 = Snackbar(context, errorMessage);
+            snackbar2 = Snackbar(context, errorMessage, "fail");
             snackbar2!.showToast();
           }
           ;
@@ -690,16 +690,16 @@ class _SignUpPageState extends State<SignUpPage> {
                 });
                 break;
             }
-            snackbar3 = Snackbar(context, errorMessage);
+            snackbar3 = Snackbar(context, errorMessage, "fail");
             snackbar3!.showToast();
           } //end 2ed switch
         } else {
-          Snackbar sb = Snackbar(context, "كود المسجد المدخل غير صالح");
+          Snackbar sb = Snackbar(context, "كود المسجد المدخل غير صالح", "fail");
           sb.showToast();
         }
         ;
       }).catchError((error) {
-        Snackbar sb = Snackbar(context, "كود المسجد المدخل غير صالح");
+        Snackbar sb = Snackbar(context, "كود المسجد المدخل غير صالح", "fail");
         sb.showToast();
       });
     }
@@ -733,18 +733,18 @@ class _SignUpPageState extends State<SignUpPage> {
             .doc(user.uid)
             .set(userModel.toMap())
             .then((value) {
-          snackbar = new Snackbar(context, "تم التسجيل بنجاح ");
+          snackbar = new Snackbar(context, "تم التسجيل بنجاح ", "success");
         }).catchError(
           (e) {
             valid = false;
-            snackbar = new Snackbar(context, "حدث خطأ ");
+            snackbar = new Snackbar(context, "حدث خطأ ", "fail");
           },
         );
       }
     }).catchError(
       (e) {
         valid = false;
-        snackbar = new Snackbar(context, "حدث خطأ ");
+        snackbar = new Snackbar(context, "حدث خطأ ", "fail");
       },
     );
 

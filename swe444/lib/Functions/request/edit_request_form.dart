@@ -621,8 +621,9 @@ class _EditRequestFormState extends State<EditRequestForm> {
 
       Snackbar? snackbar;
       String msg = requestVM.message;
+      String msgType = requestVM.msgType;
 
-      snackbar = Snackbar(context, msg);
+      snackbar = Snackbar(context, msg, msgType);
       snackbar.showToast();
 
       Navigator.pushAndRemoveUntil((context),
@@ -630,7 +631,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
 
       _formKey.currentState?.reset();
     } else {
-      Snackbar snackbar2 = Snackbar(context, "لا يمكن تعديل الطلب");
+      Snackbar snackbar2 = Snackbar(context, "لا يمكن تعديل الطلب", "fail");
       snackbar2.showToast();
     }
   }

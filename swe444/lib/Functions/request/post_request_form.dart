@@ -683,8 +683,9 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
       Snackbar? snackbar;
       String msg = requestVM.message;
+      String msgType = requestVM.msgType;
 
-      snackbar = Snackbar(context, msg);
+      snackbar = Snackbar(context, msg, msgType);
       snackbar.showToast();
 
       Navigator.pushAndRemoveUntil((context),
@@ -692,7 +693,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
       _formKey.currentState?.reset();
     } else {
-      Snackbar snackbar2 = Snackbar(context, "لا يمكن اضافة الطلب");
+      Snackbar snackbar2 = Snackbar(context, "لا يمكن اضافة الطلب", "fail");
       snackbar2.showToast();
     }
   }
