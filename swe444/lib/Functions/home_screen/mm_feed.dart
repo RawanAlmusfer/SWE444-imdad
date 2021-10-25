@@ -217,6 +217,7 @@ class mmFeed extends State<mm_feed> {
   // }
 
   showAlertDialog(DocumentSnapshot document) {
+    
     RequestViewModel requestVM = RequestViewModel();
     // set up the buttons
     Widget cancelButton = ElevatedButton(
