@@ -26,6 +26,7 @@ class EditRequest extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           automaticallyImplyLeading: false,
           actions: <Widget>[
             GestureDetector(
@@ -43,15 +44,21 @@ class EditRequest extends StatelessWidget {
               ),
             ),
           ],
-          title: Text(
-            _title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xff334856),
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Tajawal',
-              fontSize: 24,
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xff334856),
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Tajawal',
+                  fontSize: 24,
+                ),
+              ),
+            ],
           ),
           //automaticallyImplyLeading: false,
           backgroundColor: const Color(0xdeedd03c),
