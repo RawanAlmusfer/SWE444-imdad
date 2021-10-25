@@ -216,9 +216,9 @@ class _ProfilePageState extends State<ProfilePage>{
                   ),
                   SizedBox(height: 20,),
                  // Text(isVolunteer()?  "${_userFirstName} ${_userLastName}": "${mosqueName} ${mosqueCode}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                  Text(isVolunteer()?  "${_userFirstName} ${_userLastName}": "${mosqueName} ", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                  Text(isVolunteer()?  "${_userFirstName} ${_userLastName}": "مسجد "+"${mosqueName} ", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'Tajawal',),),
                   SizedBox(height: 20,),
-                  Text(isVolunteer() ? 'متطوع' : 'مسجد', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                  Text(isVolunteer() ? 'متطوع' : '', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Tajawal',),),
                   SizedBox(height: 10,),
                   Container(
                     padding: EdgeInsets.all(10),
@@ -236,6 +236,7 @@ class _ProfilePageState extends State<ProfilePage>{
                               color: Colors.black87,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
+                              fontFamily: 'Tajawal',
 
                             ),
                             textAlign: TextAlign.right,
@@ -267,17 +268,17 @@ class _ProfilePageState extends State<ProfilePage>{
                                       tiles: [
                                        ListTile(
 
-                                            leading: Icon( isVolunteer() ? Icons.person:Icons.account_balance ),title: Text(isVolunteer() ? "الاسم الاول " : "اسم المسجد",),
+                                            leading: Icon( isVolunteer() ? Icons.person:Icons.account_balance ),title: Text(isVolunteer() ? "الاسم الاول " : "اسم المسجد",style:TextStyle( fontFamily: 'Tajawal',),),
                                                        subtitle: Text(
 
-                                                           "${isVolunteer() ? _userFirstName : mosqueName}"),  ),
+                                                           "${isVolunteer() ? _userFirstName : mosqueName}",style:TextStyle( fontFamily: 'Tajawal',),),  ),
 
 
                                         ListTile(
                                             leading:Icon(isVolunteer() ? Icons.person:Icons.shield),
-                                            title: Text( isVolunteer() ? "الاسم الاخير " : " كود المسجد", ),
+                                            title: Text( isVolunteer() ? "الاسم الاخير " : " كود المسجد", style:TextStyle( fontFamily: 'Tajawal',),),
                                             subtitle: Text(
-                                                "${isVolunteer() ? _userLastName : mosqueCode}", )
+                                                "${isVolunteer() ? _userLastName : mosqueCode}",style:TextStyle( fontFamily: 'Tajawal',), )
 
                                         ),
                                         // ListTile(
@@ -290,17 +291,17 @@ class _ProfilePageState extends State<ProfilePage>{
                                         ListTile(
 
 
-                                           title: Text("البريد الالكتروني"),
+                                           title: Text("البريد الالكتروني",style:TextStyle( fontFamily: 'Tajawal'),),
 
-                                          subtitle: Text("${_userEmail}"),
+                                          subtitle: Text("${_userEmail}",style:TextStyle( fontFamily: 'Tajawal'),),
                                           leading: Icon(Icons.mail),
 
 
                                         ),
                                         ListTile(
                                           leading: Icon(Icons.phone,),
-                                          title: Text("رقم الجوال"),
-                                          subtitle: Text("${_userPhone}"),
+                                          title: Text("رقم الجوال",style:TextStyle( fontFamily: 'Tajawal', ),),
+                                          subtitle: Text("${_userPhone}",style:TextStyle( fontFamily: 'Tajawal', ),),
                                         ),
 
                                       ],
