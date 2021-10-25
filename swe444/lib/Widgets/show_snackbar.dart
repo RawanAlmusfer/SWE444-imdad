@@ -12,7 +12,7 @@ class Snackbar {
     scaffold.showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 10),
+        duration: const Duration(seconds: 10),
         content: Text(
           message,
           textAlign: TextAlign.right,
