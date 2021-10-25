@@ -174,6 +174,7 @@ class RequestViewModel {
 
   Future cancelRequest(DocumentSnapshot document) async {
     String _message = "";
+    
     return await FirebaseFirestore.instance
         .collection('requests')
         .doc(document.id)

@@ -385,7 +385,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
             MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
         onPressed: () {
           Navigator.of(context).pop(context);
-          add(id);
+          update(id);
         },
       ),
     );
@@ -588,7 +588,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
     );
   }
 
-  void add(String? id) async {
+  void update(String? id) async {
     RequestViewModel requestVM = RequestViewModel();
     // save to db
     // postedBy = id;
@@ -630,7 +630,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
 
       _formKey.currentState?.reset();
     } else {
-      Snackbar snackbar2 = Snackbar(context, "لا يمكن اضافة الطلب");
+      Snackbar snackbar2 = Snackbar(context, "لا يمكن تعديل الطلب");
       snackbar2.showToast();
     }
   }
