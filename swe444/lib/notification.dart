@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,7 @@ FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   @override
   Widget build(BuildContext context) {
-    messaging.getToken().then((token){
-      print("the token is: " + token.toString());
-    });
+    
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: Center(
@@ -45,7 +44,13 @@ FirebaseMessaging messaging = FirebaseMessaging.instance;
                 borderRadius: BorderRadius.circular(50),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              messaging.getToken().then((token){
+      FirebaseFirestore.instance.collection('tokens').add({
+        'token':token
+      });
+    });
+            },
           ),
         ),
       ),
