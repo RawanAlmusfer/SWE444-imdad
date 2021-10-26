@@ -6,6 +6,7 @@ import 'mm_feed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../logout.dart';
 import '../post_request/post_request_view.dart';
+import '../../notification.dart';
 
 class mmHome extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _HomeState extends State<mmHome> {
   // nav bar redirection:
   final List<Widget> _children = [
     logout(),
-    PostRequest(),
+    notification(),
     PostRequest(),
     MosqueMangerFeed(),
   ];
