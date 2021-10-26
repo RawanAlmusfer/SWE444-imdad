@@ -269,7 +269,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           : "مسجد " + "${mosqueName} ",
                       style: TextStyle(
                         fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                      //  fontWeight: FontWeight.bold,
                         fontFamily: 'Tajawal',
                       ),
                     ),
@@ -350,7 +350,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 isVolunteer()
                                                     ? "الاسم الاخير "
                                                     : " كود المسجد",
-                                                style: bold,
+                                               // style: bold,
                                               ),
                                               subtitle: Text(
                                                 "${isVolunteer() ? _userLastName : mosqueCode}",
@@ -368,7 +368,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ListTile(
                                             title: Text(
                                               "البريد الالكتروني",
-                                              style: bold,
+                                            //  style: bold,
                                             ),
                                             subtitle: Text(
                                               "${_userEmail}",
