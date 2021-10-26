@@ -37,6 +37,9 @@ class MyApp extends StatelessWidget {
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
        //home: DecisionsTree(),
+        theme: ThemeData(
+          fontFamily: 'Tajawal'
+        ),
          home: DecisionsTree(),
        // home:ProfilePage1(),
 
