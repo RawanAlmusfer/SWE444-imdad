@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 
-import 'Functions/logout.dart';
+import '../logout.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

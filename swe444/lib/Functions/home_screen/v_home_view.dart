@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swe444/ProfilePage1.dart';
+import 'package:swe444/Functions/profile/ProfilePage1.dart';
 //import 'mm_feed.dart';
 import 'v_feed.dart';
 import '../logout.dart';
