@@ -11,6 +11,7 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  var response ;
   @override
   void initState() {
     // TODO: implement initState
@@ -20,7 +21,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void payNow() async {
     //the amount must be transformed to cents
-    var response =
+     response =
     await StripeServices.payNowHandler(amount: '1000', currency: 'USD');
     //showSnackBar();
 
@@ -57,11 +58,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context) async{
 
     // set up the button
     Widget okButton = TextButton(
-      child: Text("OK"),
+      child: Text("موافق",   textAlign: TextAlign.right,
+        style: TextStyle(
+          fontFamily: "Tajawal",
+          color: const Color(0xdeedd03c),
+        ),),
+
       onPressed: () {
        // VolunteerFeed();
 //PaymentScreen();
@@ -77,8 +83,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("My title"),
-      content: Text("This is my message."),
+ title: Text("تأكيد عملية الدفع ",   textAlign: TextAlign.right,
+   style: TextStyle(
+     fontFamily: "Tajawal",
+     color: const Color(0xdeedd03c),
+   ),),
+
+      content: Text(feedbackResponse()!, textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal"),),
+
+
       actions: [
         okButton,
       ],
@@ -91,5 +105,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
         return alert;
       },
     );
+  }
+
+
+ String? feedbackResponse() {
+    if ((response.message) == 'تمت عملية الدفع بنجاح') {
+     return "تمت عملية التبرع بنجاح \n  شاكرين لك مساهمتك";
+    }
+
+    else if ((response.message) == 'Transaction canceled' || (response.message)=='Something went wrong' || (response.message)=="لم تتم عملية التبرع بنجاح") {
+      return "لم تتم عملية التبرع بنجاح";}
+
   }
 }
