@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swe444/ProfilePage1.dart';
 //import 'mm_feed.dart';
 import 'v_feed.dart';
 import '../logout.dart';
@@ -17,7 +18,7 @@ class _HomeState extends State<vHome> {
 
   // nav bar redirection:
   final List<Widget> _children = [
-    logout(),
+    ProfilePage(),
     VolunteerFeed(),
     //searchPage(),
     //ProfilePage(),
@@ -79,8 +80,8 @@ class _HomeState extends State<vHome> {
                 currentIndex: _currentIndex,
                 items: [
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.logout),
-                    label: "تسجيل الخروج",
+                    icon: new Icon(Icons.person),
+                    label: " الملف الشخصي",
                   ),
 
                   // BottomNavigationBarItem(
@@ -102,7 +103,7 @@ class _HomeState extends State<vHome> {
       switch (index) {
         case 0:
           {
-            _title = 'تسجيل الخروج';
+            _title = 'الملف الشخصي';
           }
           break;
         // case 1:

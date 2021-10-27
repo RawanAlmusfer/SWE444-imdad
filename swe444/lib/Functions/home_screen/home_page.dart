@@ -31,13 +31,14 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(title: Text("الرئيسية")),
       body: Center(
         child: Container(
-            child: RaisedButton(
-          onPressed: () {
+           child: RaisedButton(
+        onPressed: () {
             logout();
-          },
-          child: Text("تسجيل الخروج"),
-        )),
+         },
+          child: Text("تسجيل الخروج  "),
+        )
+    ),
       ),
-    );
+   );
   }
 }
