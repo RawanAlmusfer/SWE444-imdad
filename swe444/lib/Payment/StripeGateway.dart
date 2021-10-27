@@ -1,9 +1,15 @@
 import 'dart:convert';
+
+
+
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:stripe_payment/stripe_payment.dart';
+import 'package:swe444/Widgets/show_snackbar.dart';
 
 class StripeTransactionResponse {
   String message;
@@ -19,7 +25,8 @@ class StripeServices {
   static String paymentApiUrl = '${StripeServices.apiBase}/payment_intents';
   static Uri paymentApiUri = Uri.parse(paymentApiUrl);
   static String secret = 'sk_test_51JoVBWLZ1llzUX5WiTxtMR8HF3hVaMSAwO2LjcAzh9qQJT8MmlA4saZS466oRLHvTIgrpojv2OzIRCmjVgvuKwkh00FRoPO3Ci';
-
+ 
+  
   static Map<String, String> headers = {
     'Authorization': 'Bearer ${StripeServices.secret}',
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -51,7 +58,7 @@ class StripeServices {
   }
 
   static Future<StripeTransactionResponse> payNowHandler(
-      {required String amount, required String currency}) async {
+    {required String amount, required String currency}) async {
     try {
       var paymentMethod = await StripePayment.paymentRequestWithCardForm(
           CardFormPaymentRequest());
@@ -62,11 +69,34 @@ class StripeServices {
           paymentMethodId: paymentMethod.id));
 
       if (response.status == 'succeeded') {
+        // final GlobalKey<ScaffoldMessengerState> snackbarKey =
+        // GlobalKey<ScaffoldMessengerState>();
+
+        // final SnackBar snackBar = SnackBar(content: Text("عملية الدفع تمت بنجاح"));
+        // snackbarKey.currentState?.showSnackBar(snackBar);
+        // BuildContext context;
+        // String? errorMessage='عملية الدفع تمت بنجاح';
+        // Snackbar?  snackbar = Snackbar(context, errorMessage, "pass");
+        // snackbar.showToast();
+     //   Get.snackbar('Hi', 'i am a modern snackbar');
+     //    StripePayment.confirmPaymentIntent(
+     //      PaymentIntent(
+     //        clientSecret: secret,
+     //
+     //      ),
+     //    ).then((paymentIntent) {
+     //      _scaffoldKey.currentState
+     //          .showSnackBar(SnackBar(content: Text('Received ${paymentIntent.paymentIntentId}')));
+     //
+     //    });
+
+
         return StripeTransactionResponse(
-            message: 'Transaction succefull', success: true);
+            message: 'تمت عملية الدفع بنجاح', success: true);
+
       } else {
         return StripeTransactionResponse(
-            message: 'Transaction failed', success: false);
+            message: 'لم تتم عملية الدفع بنجاح', success: false);
       }
     }
 
