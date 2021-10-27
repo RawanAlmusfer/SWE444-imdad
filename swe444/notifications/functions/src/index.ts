@@ -1,23 +1,39 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-
 admin.initializeApp();
 
-const db = admin.firestore();
-
-// const fcm = admin.messaging();
-
-// Start writing Firebase Functions
-// https://firebase.google.com/docs/functions/typescript
-
-export const helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
-});
-
-export const notifyUsers = (functions.firestore.document("requests/{requestID}").onCreate(async ( snapshot ) => {
-  const querySnapshot = await (db.collection("tokens").get());
-  querySnapshot.forEach(async (tokenDoc) => {
-    console.log(tokenDoc.data().token);
+export const notifyMosqueManager = functions.firestore
+ .document('requests/{requestID}')
+    .onUpdate((snapshot, context) => {
+    let data = snapshot.after.data;
+   admin
+    .firestore()
+    .collection('tokens')
+    .get()
+    .then(async (snapshots) => {
+      let tokens = [];
+     if (snapshots.empty) {
+       console.log('No Device');
+     } else {
+       for (let token of snapshots.docs) {
+         tokens.push(token.data().token);
+        }
+     let  payloadData = {
+      title: 'تم اكتمال المبلغ',
+      message: 'لقد تم اكتمال طلبك:' + ' ' + data.name,
+      };
+      var payload = {
+        data: payloadData,
+      };
+      return await admin
+      .messaging()
+      .sendToDevice(tokens, payload)
+      .then((response) => {
+        console.log('Pushed All Notifications'); 
+      });
+    }
+  })
+  .catch((err) => {
+    console.log(err);
   });
-}));
+});
