@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/v_feed.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 //import 'package:stripe/StripeGateway.dart';
@@ -11,7 +12,7 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  var response ;
+ // var response ;
   @override
   void initState() {
     // TODO: implement initState
@@ -21,8 +22,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void payNow() async {
     //the amount must be transformed to cents
-     response =
+    var  response =
     await StripeServices.payNowHandler(amount: '1000', currency: 'USD');
+
     //showSnackBar();
 
     // Snackbar?  snackbar = Snackbar(context, response.message, "pass");
@@ -44,9 +46,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       body: Center(
           child: TextButton(
-            onPressed: () {
-              payNow();
-              showAlertDialog(context);
+            onPressed: () async {
+              var  response =
+                  await StripeServices.payNowHandler(amount: '1000', currency: 'USD');
+              print(response.message);
+              showAlertDialog(context,response);
             },
             child: Text('pay 1000 \$'),
 
@@ -58,16 +62,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  showAlertDialog(BuildContext context) async{
+  showAlertDialog(BuildContext context,  var  response) {
 
     // set up the button
     Widget okButton = TextButton(
+
       child: Text("موافق",   textAlign: TextAlign.right,
         style: TextStyle(
           fontFamily: "Tajawal",
-          color: const Color(0xdeedd03c),
+            color: Colors.white
         ),),
+      style: ButtonStyle(
 
+          backgroundColor:
+          MaterialStateProperty.all<Color>(
+              const Color(0xdeedd03c))),
       onPressed: () {
        // VolunteerFeed();
 //PaymentScreen();
@@ -83,13 +92,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
  title: Text("تأكيد عملية الدفع ",   textAlign: TextAlign.right,
    style: TextStyle(
      fontFamily: "Tajawal",
      color: const Color(0xdeedd03c),
    ),),
 
-      content: Text(feedbackResponse()!, textAlign: TextAlign.right,
+      content: Text(  feedbackResponse(response)!, textAlign: TextAlign.right,
         style: TextStyle(fontFamily: "Tajawal"),),
 
 
@@ -108,13 +120,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
 
- String? feedbackResponse() {
+ String? feedbackResponse(var response) {
+   //var response
     if ((response.message) == 'تمت عملية الدفع بنجاح') {
      return "تمت عملية التبرع بنجاح \n  شاكرين لك مساهمتك";
     }
 
     else if ((response.message) == 'Transaction canceled' || (response.message)=='Something went wrong' || (response.message)=="لم تتم عملية التبرع بنجاح") {
       return "لم تتم عملية التبرع بنجاح";}
+
+
+   else
+      return "لم تتم عملية التبرع بنجاح";
+
 
   }
 }
