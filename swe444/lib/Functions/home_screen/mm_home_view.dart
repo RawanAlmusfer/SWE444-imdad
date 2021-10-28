@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/request/post_request_view.dart';
 import 'package:swe444/Functions/users_screen.dart';
 import 'package:swe444/ProfilePage1.dart';
 //import 'logout.dart';
@@ -7,7 +8,6 @@ import 'feed_view_model.dart';
 import 'mm_feed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../logout.dart';
-import '../post_request/post_request_view.dart';
 
 class mmHome extends StatefulWidget {
   @override
@@ -33,6 +33,7 @@ class _HomeState extends State<mmHome> {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
        appBar: AppBar(
+         centerTitle: true,
          actions: [
           // IconButton(onPressed: (){
         //      FirebaseAuth.instance.signOut().then((value) {
