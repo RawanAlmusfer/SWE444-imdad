@@ -106,7 +106,8 @@ class vFeed extends State<v_feed> {
                   ),
                 ]),
               ),
-              Padding(
+              if (document['type'].toString() == 'مبلغ')
+                Padding(
                 padding:
                     const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
                 child: Row(children: <Widget>[
@@ -181,12 +182,15 @@ class vFeed extends State<v_feed> {
                               ),
                             ),
                           ),
-                          Padding(
+                          if (document['type'].toString() == 'مبلغ')
+                            Padding(
                             padding: const EdgeInsets.only(top: 14.0),
                             child: Text(document['amount'].toString(),
                                 style: TextStyle(
                                     fontFamily: 'Tajawal', fontSize: 10)),
                           ),
+
+
                         ],
                       ),
                     ],

@@ -15,6 +15,7 @@ class _UsersScreenState extends State<UsersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,
