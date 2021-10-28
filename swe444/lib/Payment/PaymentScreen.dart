@@ -12,9 +12,11 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
- // var response ;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  TextEditingController _controller = TextEditingController();
   @override
   void initState() {
+
     // TODO: implement initState
     super.initState();
     StripeServices.init();
@@ -23,7 +25,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   void payNow() async {
     //the amount must be transformed to cents
     var  response =
-    await StripeServices.payNowHandler(amount: '1000', currency: 'USD');
+    await StripeServices.payNowHandler(amount: (double.parse(_controller.text) * 100.roundToDouble()).toString(), currency: 'USD');
 
     //showSnackBar();
 
@@ -43,21 +45,80 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: Center(
-          child: TextButton(
-            onPressed: () async {
-              var  response =
-                  await StripeServices.payNowHandler(amount: '1000', currency: 'USD');
-              print(response.message);
-              showAlertDialog(context,response);
-            },
-            child: Text('pay 1000 \$'),
+      key: _scaffoldKey,
+      body:Container(
 
+        padding: const EdgeInsets.only(
+          top: 0,
+          left: 50,
+          right: 50,
+    ),
+        child: new Column(
+          children: <Widget>[
 
-          )
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.4,
+            ),
+            TextField(
+              showCursor: true,
+              cursorColor: const Color(0xdeedd03c),
 
+              controller: _controller,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: const BorderSide(
+                    color: Color(0xdeedd03c),
+                  ),
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(
+                      width: 5,
 
+                      color: Color(0xdeedd03c),
+                    )),
+              ),
+            ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
+            RaisedButton(
+                onPressed: () async {
+                  String amount= (int.parse(_controller.text) * 100).toString();
+                  var  response =
+                  await StripeServices.payNowHandler(amount: amount, currency: 'USD');
+                  print(response.message);
+
+                  // _scaffoldKey.currentState!.showSnackBar(
+                  //     new SnackBar(duration: new Duration(seconds: 4), content:
+                  //     new Row(
+                  //       children: <Widget>[
+                  //         new CircularProgressIndicator(),
+                  //         new Text("تتم معالجة عملية الدفع ...")
+                  //       ],
+                  //     ),
+                  //     ));
+                  // _handleSignIn()
+                  //     .whenComplete(() =>
+                  //     Navigator.of(context).pushNamed("/Home")
+                  // );
+
+                  showAlertDialog(context,response);
+
+                },
+color: const Color(0xdeedd03c),
+                child: Text('ادفع الآن',  style: TextStyle(
+                    fontFamily: "Tajawal",
+                    color: Colors.white
+                ),)
+
+            )
+          ],
+        ),
       ),
     );
   }
