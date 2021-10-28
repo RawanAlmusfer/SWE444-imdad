@@ -441,6 +441,7 @@ class _SignUpPageState extends State<VSignUpPage> {
                     ),
                   ),
                   Form(
+                    autovalidateMode: AutovalidateMode.always,
                     key: _formKey,
                     child: Column(
                       children: [
@@ -624,7 +625,7 @@ class _SignUpPageState extends State<VSignUpPage> {
             });
             break;
         }
-        snackbar2 = Snackbar(context, errorMessage);
+        snackbar2 = Snackbar(context, errorMessage, "fail");
         snackbar2!.showToast();
       }
       ;
@@ -669,7 +670,7 @@ class _SignUpPageState extends State<VSignUpPage> {
             });
             break;
         }
-        snackbar3 = Snackbar(context, errorMessage);
+        snackbar3 = Snackbar(context, errorMessage, "fail");
         snackbar3!.showToast();
       } //end 2ed switch
     }
@@ -693,10 +694,10 @@ class _SignUpPageState extends State<VSignUpPage> {
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap())
-        .then((value) => snackbar = Snackbar(context, "تم التسجيل بنجاح "))
+        .then((value) => snackbar = Snackbar(context, "تم التسجيل بنجاح ", "success"))
         .catchError((e) {
       valid = false;
-      snackbar = Snackbar(context, "حدث خطأ ");
+      snackbar = Snackbar(context, "حدث خطأ ", "fail");
     });
 
     snackbar?.showToast();

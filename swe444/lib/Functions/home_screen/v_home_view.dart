@@ -28,6 +28,7 @@ class _HomeState extends State<vHome> {
     return Scaffold(
         backgroundColor: const Color(0xffededed),
         appBar: AppBar(
+          centerTitle: true,
           automaticallyImplyLeading: false,
           title: Text(
             _title,

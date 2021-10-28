@@ -2,13 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swe444/Functions/home_screen/v_home_view.dart';
-// import 'package:swe444/Views/users_screen.dart';
-// import 'package:swe444/Views/v_home_view.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
-// import '../decisions_tree.dart';
 import '../CustomPageRoute.dart';
 import '../home_screen/mm_home_view.dart';
-// import '../signup_login_screen.dart';
 import '../users_screen.dart';
 import 'reset_password.dart';
 
@@ -41,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               .signInWithEmailAndPassword(
                   email: _controllerEmail.text, password: _controllerPass.text);
           // print(userCredential.user);
-          snackbar3 = Snackbar(context, "تم تسجيل الدخول بنجاح");
+          snackbar3 = Snackbar(context, "تم تسجيل الدخول بنجاح", "success");
           snackbar3!.showToast();
           widget.onSignIn(userCredential.user!);
         } on FirebaseAuthException catch (e) {
@@ -68,14 +64,14 @@ class _LoginPageState extends State<LoginPage> {
             case "requires-recent-login":
               setState(() {
                 errorMessage1 =
-                    'تم حظره من الجهاز بسبب نشاط غير عادي. المحاولة مرة أخرى بعد بعض التأخير قد يفتح.';
+                'تم حظر هذا الجهاز بسبب نشاط غير اعتيادي. الرجاء المحاولة مرة أخرى.';
               });
               break;
 
             case "too-many-requests":
               setState(() {
                 errorMessage1 =
-                    'تم حظره من الجهاز بسبب نشاط غير عادي. المحاولة مرة أخرى بعد بعض التأخير قد يفتح.';
+                'تم حظر هذا الجهاز بسبب نشاط غير اعتيادي. الرجاء المحاولة مرة أخرى.';
               });
               break;
 
@@ -114,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
               break;
           }
 
-          snackbar = Snackbar(context, errorMessage1!);
+          snackbar = Snackbar(context, errorMessage1!, "fail");
           snackbar!.showToast();
 
           setState(() {
@@ -136,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       if (errorMessage2 != null) {
-        snackbar2 = Snackbar(context, errorMessage2!);
+        snackbar2 = Snackbar(context, errorMessage2!, "fail");
         snackbar2!.showToast();
       }
 
@@ -181,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   right: 0,
                   left: 290,
                   top: 60,
@@ -191,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => UsersScreen()));
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.keyboard_backspace_rounded,
                     textDirection: TextDirection.rtl,
                     size: 30,

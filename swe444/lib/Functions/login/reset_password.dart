@@ -80,7 +80,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           }
 
           if (errorMessage != null) {
-            snackbar = Snackbar(context, errorMessage!);
+            snackbar = Snackbar(context, errorMessage!, "fail");
             snackbar!.showToast();
             errorMessage = null;
           }
@@ -92,13 +92,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       }
 
       if (errorMessage2 != null) {
-        snackbar2 = Snackbar(context, errorMessage2!);
+        snackbar2 = Snackbar(context, errorMessage2!, "fail");
         snackbar2!.showToast();
       }
 
       if (errorMessage == null) {
         snackbar3 = Snackbar(context,
-            "تم إسال رابط تفعيل  لكلمة المرور الجديدة على البريد الالكتروني الذي تم تزويدنا فيه");
+            "تم إسال رابط تفعيل  لكلمة المرور الجديدة على البريد الالكتروني الذي تم تزويدنا فيه", "success");
         snackbar3!.showToast();
 
         Navigator.pushReplacement(
