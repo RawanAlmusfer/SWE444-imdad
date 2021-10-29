@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-//import 'package:swe444/Functions/home_screen/v_feed.dart';
-import 'package:swe444/Functions/home_screen/moneyVFeed.dart';
+import 'package:swe444/Functions/home_screen/v_feed.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 //import 'package:stripe/StripeGateway.dart';
 
