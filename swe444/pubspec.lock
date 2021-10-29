@@ -254,6 +254,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  get:
+    dependency: "direct main"
+    description:
+      name: get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.8"
   google_fonts:
     dependency: "direct main"
     description:
@@ -415,6 +422,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.1"
+  random_string:
+    dependency: "direct main"
+    description:
+      name: random_string
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.1"
   rxdart:
     dependency: transitive
     description:

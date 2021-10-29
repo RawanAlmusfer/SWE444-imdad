@@ -26,5 +26,6 @@ export const notifyMosqueManager = functions.firestore.document("requests/{reque
   })
       .catch((err) => {
         console.log(err);
+        console.log("failed ya deema");
       });
 });
