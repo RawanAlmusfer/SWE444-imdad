@@ -102,7 +102,7 @@ class _HomeState extends State<mmHome> {
                 items: [
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.person),
-                    label:  " تسجيل الخروج ",
+                    label:  "الملف الشخصي",
                   ),
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.add),

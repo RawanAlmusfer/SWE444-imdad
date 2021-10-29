@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 
 
-class ProfilePage extends StatefulWidget{
+class MMProfilePage extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
@@ -13,7 +13,7 @@ class ProfilePage extends StatefulWidget{
   }
 }
 
-class _ProfilePageState extends State<ProfilePage>{
+class _ProfilePageState extends State<MMProfilePage>{
 
   double  _drawerIconSize = 24;
   double _drawerFontSize = 17;
