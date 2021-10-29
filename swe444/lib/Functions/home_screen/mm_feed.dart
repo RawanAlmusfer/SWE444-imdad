@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
-import 'package:swe444/Functions/post_request/request_view_model.dart';
+import '../request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
 class MosqueMangerFeed extends StatelessWidget {
@@ -212,7 +212,7 @@ class mmFeed extends State<mm_feed> {
         onPressed: () async {
           Navigator.of(context).pop(context);
           await requestVM.cancelRequest(document);
-          Snackbar bar = Snackbar(context, requestVM.message);
+          Snackbar bar = Snackbar(context, requestVM.message, requestVM.msgType);
           bar.showToast();
         },
       ),
