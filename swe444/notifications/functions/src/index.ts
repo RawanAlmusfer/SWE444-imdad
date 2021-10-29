@@ -2,8 +2,8 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 admin.initializeApp();
 
-export const notifyMosqueManager = functions.firestore.document("requests/{requestID}").onUpdate((snapshot, context) => {
-  const data = snapshot.after.data;
+export const notifyMosqueManager = functions.firestore.document("requests/{requestID}").onCreate((snapshot, context) => {
+  const data = snapshot.data();
   admin.firestore().collection("tokens").get().then(async (snapshots) => {
     const tokens = [];
     if (snapshots.empty) {
@@ -14,7 +14,7 @@ export const notifyMosqueManager = functions.firestore.document("requests/{reque
       }
       const payloadData = {
         title: "تم اكتمال المبلغ",
-        message: "لقد تم اكتمال طلبك:" + " " + data.name,
+        message: "لقد تم اكتمال طلبك:" + " " + data.title,
       };
       const payload = {
         data: payloadData,
