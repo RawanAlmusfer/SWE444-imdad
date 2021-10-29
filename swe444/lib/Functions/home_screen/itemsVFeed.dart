@@ -51,11 +51,11 @@ class ivFeed extends State<itemsv_feed> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: const EdgeInsets.only(left: 70.0),
+          padding: const EdgeInsets.only(left: 60.0),
           child: Row(
             children: [
               Text(
-                "طلبات التبرع بغرض",
+                "طلبات التبرع بالموارد",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff334856),
@@ -65,7 +65,7 @@ class ivFeed extends State<itemsv_feed> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30.0),
+                padding: const EdgeInsets.only(left: 20.0),
                 child: IconButton(
                   icon: Icon(
                     Icons.keyboard_backspace_rounded,
