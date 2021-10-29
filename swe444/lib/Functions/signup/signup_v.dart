@@ -6,7 +6,7 @@ import 'package:swe444/Functions/home_screen/v_home_view.dart';
 import '../../Models/VUserModel.dart';
 import '../../Widgets/show_snackbar.dart';
 import '../signup_login_screen.dart';
-
+import 'package:swe444/password/flutter_pw_validator.dart';
 class VSignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
 
@@ -38,13 +38,13 @@ class _SignUpPageState extends State<VSignUpPage> {
   Snackbar? snackbar2;
   Snackbar? snackbar3;
   bool valid = true;
-
+  bool isFoucesedPassword = false;
   Future<void> login() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: _controllerEmail.text, password: _controllerPass.text);
-      print(userCredential.user);
+     // userCredential.user..updateDisplayName(displayName);
       widget.onSignIn(userCredential.user!);
       //
     } on FirebaseAuthException catch (e) {
@@ -74,7 +74,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerEmail,
       decoration: InputDecoration(
@@ -95,7 +95,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         hintText: 'أدخل البريد الالكتروني',
-        labelText: 'البريد الالكتروني',
+        labelText: 'البريد الالكتروني*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -128,7 +128,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass,
       decoration: InputDecoration(
@@ -151,7 +151,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كلمة المرور',
-        labelText: 'كلمة المرور',
+        labelText: 'كلمة المرور*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -163,6 +163,11 @@ class _SignUpPageState extends State<VSignUpPage> {
       ),
       autocorrect: false,
       obscureText: true,
+
+        onTap: (){setState(() {
+
+          isFoucesedPassword=true;
+        });},
     );
   }
 
@@ -173,7 +178,7 @@ class _SignUpPageState extends State<VSignUpPage> {
           return ("رجاءً قم بتأكيد كلمة مرور");
         }
         if (_controllerPass2.text != _controllerPass.text) {
-          return "كلمة المرور مختلفة";
+          return "كلمة المرور مختلفة*";
         }
         return null;
       },
@@ -182,7 +187,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass2,
       decoration: InputDecoration(
@@ -205,7 +210,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كلمة المرور مره اخرى',
-        labelText: 'تاكيد كلمة المرور',
+        labelText: 'تاكيد كلمة المرور*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -242,7 +247,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: firstName,
       decoration: InputDecoration(
@@ -265,7 +270,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل اسمك الاول',
-        labelText: 'الاسم الاول',
+        labelText: 'الاسم الاول*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -303,7 +308,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: lastName,
       decoration: InputDecoration(
@@ -326,7 +331,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل اسم عائلتك',
-        labelText: 'اسم العائلة',
+        labelText: 'اسم العائلة*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -388,7 +393,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل رقم الجوال',
-        labelText: 'رقم الجوال',
+        labelText: 'رقم الجوال*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -469,6 +474,7 @@ class _SignUpPageState extends State<VSignUpPage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                         ),
+
                         Container(
                           width: 330,
                           child: Directionality(
@@ -484,6 +490,28 @@ class _SignUpPageState extends State<VSignUpPage> {
                           child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: _buildPasswordField(),
+                          ),
+                        ),
+                        Visibility(
+
+
+                          visible: isFoucesedPassword,
+                          child:
+                          Padding(
+
+                            padding: const EdgeInsets.all(8.0),
+                            child: FlutterPwValidator(
+                                controller: _controllerPass,
+                                minLength: 6,
+
+                                uppercaseCharCount: 2,
+                                numericCharCount: 3,
+                                specialCharCount: 1,
+                                width: 360,
+                                height: 150,
+                                onSuccess: (value) {
+                                  //_controllerPass.text = value;
+                                }),
                           ),
                         ), // password container
                         SizedBox(

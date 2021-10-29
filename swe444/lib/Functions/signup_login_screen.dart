@@ -24,6 +24,7 @@ class _SignupLoginScreenState extends State<SignupLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,
