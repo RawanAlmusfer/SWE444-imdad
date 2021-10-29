@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'mm_feed.dart';
-import 'v_feed.dart';
+import 'home.dart';
+import 'moneyVFeed.dart';
 import '../logout.dart';
 
 class vHome extends StatefulWidget {
@@ -18,7 +19,8 @@ class _HomeState extends State<vHome> {
   // nav bar redirection:
   final List<Widget> _children = [
     logout(),
-    VolunteerFeed(),
+    vhome(),
+    //VolunteerFeed(),
     //searchPage(),
     //ProfilePage(),
   ];
