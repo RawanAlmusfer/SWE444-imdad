@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: PaymentScreen(),
+        home: DecisionsTree(),
+
+        //PaymentScreen(),
       ),
       designSize: const Size(390, 844),
     );
