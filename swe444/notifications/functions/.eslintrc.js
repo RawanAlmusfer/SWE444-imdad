@@ -27,5 +27,7 @@ module.exports = {
   rules: {
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
+    "max-len": ["error", {"code": 150}],
+    "linebreak-style": 0,
   },
 };
