@@ -163,7 +163,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     .size
                     .height * 0.04,
               ),
-              RaisedButton(
+              ElevatedButton(
                   onPressed: () async {
                    // vDonatedAmount=(int.parse(_controller.text) * 100)*3.75050163;
                     PaymentScreen.vDonatedAmount=int.parse (_controller.text) ;
@@ -188,13 +188,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     showAlertDialog(context, response);
                     feedbackResponseDonation(response);
                   },
-                  color: const Color(0xdeedd03c),
+                  //color: const Color(0xdeedd03c),
 
                   child: Text(
                     'ادفع الآن',
                     style: TextStyle(
                         fontFamily: "Tajawal", color: Colors.white),
-                  ))
+                  ),
+                  style: ElevatedButton.styleFrom(
+                          minimumSize: Size(85.w, 40.h),
+                          primary: const Color(0xdeedd03c),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                  )
             ],
           ),
         ),
