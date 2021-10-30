@@ -270,8 +270,8 @@ class mvFeed extends State<mv_feed> {
                       child: ElevatedButton(
                         onPressed: () async {
 
-await 
-                          Navigator.push(
+await
+                          Navigator.pushReplacement(
                               context, MaterialPageRoute(builder: (context) => PaymentScreen()));
 
                          String? mmId =document['posted_by'];
