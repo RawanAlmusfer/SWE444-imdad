@@ -118,7 +118,7 @@ class mvFeed extends State<mv_feed> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "مبلغ") {
+    if (document['type'].toString() == "مبلغ" && document['donated'] != document['amount'] ) {
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(

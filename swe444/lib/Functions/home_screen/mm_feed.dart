@@ -67,6 +67,17 @@ class mmFeed extends State<mm_feed> {
   Widget buildCards(
       BuildContext context, DocumentSnapshot document, String? id) {
     if (document['posted_by'].toString() == id) {
+      if(document['type'].toString() == "مبلغ"){
+       if (document['donated'] == document['amount']){
+         return Container();
+       }
+      }
+      if(document['type'].toString() == "موارد"){
+       if (document['donated'] == document['amount_requested']){
+         return Container();
+       }
+      }
+      // && document['donated'] != document['amount']
       //print('posted user Id ' + document['posted_by'].toString());
       //print('current user Id ' + id.toString());
       return Container(
