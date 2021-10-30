@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -651,6 +653,13 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
   void add(String? id) async {
     RequestViewModel requestVM = RequestViewModel();
+    String? dToken;
+    FirebaseMessaging.instance.getToken().then((token) {
+      dToken= token.toString();
+      FirebaseFirestore.instance.collection('tokens').add({
+        'token':token
+      });
+    });
     // save to db
     // postedBy = id;
     // FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
@@ -667,6 +676,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
       requestVM.setTitle = title.text;
       requestVM.setType = type;
       requestVM.setUploadTime = time;
+      requestVM.setToken = dToken;
+
 
       if (type == "مبلغ") {
         amount = int.parse(_amount.text);
