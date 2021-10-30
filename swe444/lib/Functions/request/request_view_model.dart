@@ -97,6 +97,7 @@ class RequestViewModel {
     if (_type == "مبلغ") {
       FundsRequest request = FundsRequest(
           amount: _amount,
+          donated: _donated,
           type: _type,
           posted_by: _posted_by,
           description: _description,
@@ -114,6 +115,7 @@ class RequestViewModel {
       ItemsRequest request = ItemsRequest(
           // item: _item,
           type: _type,
+          donated: _donated,
           amount: _requested,
           posted_by: _posted_by,
           description: _description,
@@ -141,6 +143,7 @@ class RequestViewModel {
     if (_type == "مبلغ") {
       FundsRequest request = FundsRequest(
           amount: _amount,
+          donated: _donated,
           type: _type,
           posted_by: _posted_by,
           description: _description,
@@ -159,6 +162,7 @@ class RequestViewModel {
       ItemsRequest request = ItemsRequest(
           // item: _item,
           type: _type,
+          donated: _donated,
           amount: _requested,
           posted_by: _posted_by,
           description: _description,

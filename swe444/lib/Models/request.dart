@@ -20,7 +20,7 @@ class FundsRequest extends Request {
   int donated = 0;
 
   FundsRequest({
-    this.amount, String? posted_by,
+    this.amount, required this.donated, String? posted_by,
     String? type,
     String? description,
     String? title,
@@ -49,7 +49,7 @@ class ItemsRequest extends Request {
 
   ItemsRequest({
     // this.item,
-    this.amount, String? posted_by,
+    this.amount, required this.donated, String? posted_by,
     String? type,
     String? description,
     String? title,
