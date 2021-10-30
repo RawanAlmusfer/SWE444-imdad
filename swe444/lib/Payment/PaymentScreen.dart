@@ -224,10 +224,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
       onPressed: () {
         // VolunteerFeed();
 //PaymentScreen();
-        // Navigator.of(context).pop(context);
+        Navigator.of(context).pop(context);
 
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => moneyVFeed()));
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
       },
     );
 
@@ -269,13 +269,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
      // isVDonatedPaymentScreen=1;
 
       return "تمت عملية التبرع بنجاح \n  شاكرين لك مساهمتك";
+
     } else if ((response.message) == 'Transaction canceled' ||
         (response.message) == 'Something went wrong' ||
         (response.message) == "لم تتم عملية التبرع بنجاح") {
+
+      PaymentScreen.vDonatedAmount=0;
     //  isVDonatedPaymentScreen=0;
       return "لم تتم عملية التبرع بنجاح";
     } else{
     //  isVDonatedPaymentScreen=0;
+      PaymentScreen.vDonatedAmount=0;
       return "لم تتم عملية التبرع بنجاح";}
   }
 

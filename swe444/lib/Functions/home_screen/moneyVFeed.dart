@@ -270,8 +270,8 @@ class mvFeed extends State<mv_feed> {
                       child: ElevatedButton(
                         onPressed: () async {
 
-
-                          Navigator.pushReplacement(
+await 
+                          Navigator.push(
                               context, MaterialPageRoute(builder: (context) => PaymentScreen()));
 
                          String? mmId =document['posted_by'];
@@ -286,10 +286,6 @@ class mvFeed extends State<mv_feed> {
 
                          String? mmEmail=documentFormmId['email'];
                         mv_feed.mmEmailDonated=mmEmail;
-
-
-
-
                           cumDonated+=PaymentScreen.vDonatedAmount!;
                           print('$cumDonated iiiiiiii');
 
