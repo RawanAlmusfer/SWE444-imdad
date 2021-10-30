@@ -45,7 +45,7 @@ dependencies:
 
   firebase_database: ^8.0.0
   dio: ^4.0.0
-
+  uuid: ^3.0.5
   stripe_payment: ^1.1.4
   http: ^0.13.4
 
@@ -86,7 +86,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - fonts/
+    #- fonts/
+
     - images/items.png
     - images/logo.png
     - images/money.png

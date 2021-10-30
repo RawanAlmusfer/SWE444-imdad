@@ -5,9 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:swe444/Functions/request/request_view_model.dart';
+import 'package:swe444/Payment/PaymentScreen.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 class moneyVFeed extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedViewModel>(
@@ -17,9 +21,13 @@ class moneyVFeed extends StatelessWidget {
 }
 
 class mv_feed extends StatefulWidget {
+  static String? mmEmailDonated = '';
+  static String? mmNameDonated='';
+
   const mv_feed({
     Key? key,
   }) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -28,12 +36,15 @@ class mv_feed extends StatefulWidget {
 }
 
 class mvFeed extends State<mv_feed> {
+
+  //int? donated= PaymentScreen.vDonatedAmount;
   @override
   void initState() {
     super.initState();
     Future.delayed(
         Duration.zero,
-        () => setState(() {
+            () =>
+            setState(() {
               setup();
             }));
   }
@@ -45,7 +56,9 @@ class mvFeed extends State<mv_feed> {
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-        Provider.of<FeedViewModel>(context, listen: false).requests;
+        Provider
+            .of<FeedViewModel>(context, listen: false)
+            .requests;
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(
@@ -95,8 +108,9 @@ class mvFeed extends State<mv_feed> {
             if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-              itemBuilder: (BuildContext context, int index) => buildCards(
-                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+              itemBuilder: (BuildContext context, int index) =>
+                  buildCards(
+                      context, (snapshot.data! as QuerySnapshot).docs[index]),
             );
           }),
     );
@@ -152,7 +166,7 @@ class mvFeed extends State<mv_feed> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                  const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Column(
@@ -254,7 +268,41 @@ class mvFeed extends State<mv_feed> {
                       height: 30,
                       width: 65,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+
+await 
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => PaymentScreen()));
+
+                         String? mmId =document['posted_by'];
+                          int cumDonated=document['donated'];
+                          String? mName=document['mosque_name'];
+                          mv_feed.mmNameDonated=mName;
+
+                         var documentFormmId = await FirebaseFirestore.instance
+                             .collection('users')
+                             .doc(mmId)
+                             .get();
+
+                         String? mmEmail=documentFormmId['email'];
+                        mv_feed.mmEmailDonated=mmEmail;
+                          cumDonated+=PaymentScreen.vDonatedAmount!;
+                          print('$cumDonated iiiiiiii');
+
+                          String docId=document.id;
+                          await FirebaseFirestore.instance
+                              .collection('requests')
+                              .doc(docId)
+                              .update({'donated': cumDonated});
+
+                          //update the denoation for next user
+                          PaymentScreen
+                          .
+                          vDonatedAmount
+                          =
+                          0;
+                          //  db.collection("requests").doc(docId).update({donated: 10});
+                        },
                         child: Text(
                           "تبرع",
                           textAlign: TextAlign.center,
@@ -290,6 +338,21 @@ class mvFeed extends State<mv_feed> {
       return Container();
     }
   }
+
+
+  // void updateOnFirebase(String? id) async {
+  //   RequestViewModel requestVM = RequestViewModel();
+  //
+  //   var documentID;
+  //
+  //   var collection = FirebaseFirestore.instance.collection('requests');
+  //   var querySnapshots = await collection.get();
+  //   for (var snapshot in querySnapshots.docs) {
+  //     documentID = snapshot.id; // <-- Document ID
+  //
+  //
+  //   }
+  // }
 }
 
 Widget _buildWaitingScreen() {
@@ -302,7 +365,8 @@ Widget _buildWaitingScreen() {
   );
 }
 
-Widget buildLinearProgress(double val) => Text(
+Widget buildLinearProgress(double val) =>
+    Text(
       '${(val * 100).toStringAsFixed(1)} %',
       style: TextStyle(
           fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
