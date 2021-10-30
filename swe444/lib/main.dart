@@ -5,11 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Functions/decisions_tree.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'notificationHandler.dart';
 
