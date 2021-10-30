@@ -18,7 +18,7 @@ class vhome extends StatefulWidget {
 class _vhome extends State<vhome> {
   var type = [
     Type("التبرع بالمال", "images/money.png", 1),
-    Type("items التبرع بال", "images/items.png", 2)
+    Type(" التبرع بالموارد", "images/items.png", 2)
   ];
   @override
   Widget build(BuildContext context) {
