@@ -23,6 +23,7 @@ class moneyVFeed extends StatelessWidget {
 class mv_feed extends StatefulWidget {
   static String? mmEmailDonated = '';
   static String? mmNameDonated='';
+  static int wholeAmount=0;
 
   const mv_feed({
     Key? key,
@@ -118,7 +119,7 @@ class mvFeed extends State<mv_feed> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "مبلغ" && document['donated'] != document['amount'] ) {
+    if (document['type'].toString() == "مبلغ") {
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(
@@ -270,26 +271,27 @@ class mvFeed extends State<mv_feed> {
                       child: ElevatedButton(
                         onPressed: () async {
 
-                          String mmId =document['posted_by'];
-                          int cumDonated=document['donated'];
-                          String mName=document['mosque_name'];
-                          mv_feed.mmNameDonated=mName;
 
-                          var documentFormmId = await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(mmId)
-                              .get();
-
-                          String mmEmail=documentFormmId['email'];
-                          mv_feed.mmEmailDonated=mmEmail;
-
-
-                          await
-
-                          Navigator.push(
+await
+                          Navigator.pushReplacement(
                               context, MaterialPageRoute(builder: (context) => PaymentScreen()));
 
 
+
+                          String? mmId =document['posted_by'];
+                          double cumDonated=document['donated'];
+                          mv_feed.wholeAmount=document['amount'];
+                          String? mName=document['mosque_name'];
+
+                          mv_feed.mmNameDonated=mName;
+
+                         var documentFormmId = await FirebaseFirestore.instance
+                             .collection('users')
+                             .doc(mmId)
+                             .get();
+
+                         String? mmEmail=documentFormmId['email'];
+                        mv_feed.mmEmailDonated=mmEmail;
                           cumDonated+=PaymentScreen.vDonatedAmount!;
                           print('$cumDonated iiiiiiii');
 
