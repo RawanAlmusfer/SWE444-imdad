@@ -23,6 +23,7 @@ class moneyVFeed extends StatelessWidget {
 class mv_feed extends StatefulWidget {
   static String? mmEmailDonated = '';
   static String? mmNameDonated='';
+  static int wholeAmount=0;
 
   const mv_feed({
     Key? key,
@@ -270,6 +271,7 @@ class mvFeed extends State<mv_feed> {
                       child: ElevatedButton(
                         onPressed: () async {
 
+<<<<<<< Updated upstream
 await
                           Navigator.pushReplacement(
                               context, MaterialPageRoute(builder: (context) => PaymentScreen()));
@@ -277,6 +279,12 @@ await
                          String? mmId =document['posted_by'];
                           int cumDonated=document['donated'];
                           String? mName=document['mosque_name'];
+=======
+                          String mmId =document['posted_by'];
+                          double cumDonated=document['donated'];
+                          mv_feed.wholeAmount=document['amount'];
+                          String mName=document['mosque_name'];
+>>>>>>> Stashed changes
                           mv_feed.mmNameDonated=mName;
 
                          var documentFormmId = await FirebaseFirestore.instance
