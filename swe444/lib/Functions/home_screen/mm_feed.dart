@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:swe444/Functions/request/edit_request_view.dart';
 import '../request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
@@ -66,6 +67,17 @@ class mmFeed extends State<mm_feed> {
   Widget buildCards(
       BuildContext context, DocumentSnapshot document, String? id) {
     if (document['posted_by'].toString() == id) {
+      if(document['type'].toString() == "مبلغ"){
+       if (document['donated'] == document['amount']){
+         return Container();
+       }
+      }
+      if(document['type'].toString() == "موارد"){
+       if (document['donated'] == document['amount_requested']){
+         return Container();
+       }
+      }
+      // && document['donated'] != document['amount']
       //print('posted user Id ' + document['posted_by'].toString());
       //print('current user Id ' + id.toString());
       return Container(
@@ -108,7 +120,45 @@ class mmFeed extends State<mm_feed> {
                             allowDrawingOutsideViewBox: true,
                             fit: BoxFit.fill,
                           ),
-                        )),
+                        )),                
+                      // Container(
+                      //     width: 25,
+                      //     height: 52,
+                      //     padding: const EdgeInsets.only(
+                      //         top: 0, bottom: 25, left: 0, right: 0),
+                      //     child: ElevatedButton(
+                      //       style: ButtonStyle(
+                      //           padding:
+                      //           MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      //               const EdgeInsets.only(
+                      //                   top: 0,
+                      //                   bottom: 0,
+                      //                   left: 0,
+                      //                   right: 0)),
+                      //           elevation: MaterialStateProperty.all<double>(0),
+                      //           backgroundColor: MaterialStateProperty.all<Color>(
+                      //               Colors.white)),
+                      //       onPressed: () async {
+                      //         await showAlertDialogEdit(document);
+                      //       },
+                      //       child: const Icon(
+                      //         Icons.edit,
+                      //         color: Color(0xdeedd03c),
+                      //         size: 25.0,
+                      //       ),
+
+                      //     )),
+                    // if (document['donated'].toString() != '0')
+                    //   Container(
+                    //       width: 25,
+                    //       height: 52,
+                    //       padding: const EdgeInsets.only(
+                    //           top: 0, bottom: 25, left: 0, right: 0),
+                    //       child: const Icon(
+                    //         Icons.edit,
+                    //         color: Color(0xff808080),
+                    //         size: 25.0,
+                    //       )),
                     const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(right: 20, top: 5),
@@ -166,6 +216,82 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
+              if (document['donated'].toString() == '0')
+              Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  child: Row(children: <Widget>[
+                    //This button for sprint 2
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0xffededed),
+                              spreadRadius: 1,
+                              blurRadius: 10),
+                        ],
+                      ),
+                      height: 30,
+                      width: 75,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                              await showAlertDialogEdit(document);
+                            },
+                        child: Text(
+                          "تعديل",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              color: const Color(0xff334856)),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(65.w, 30.h),
+                          primary: const Color(0xdeedd03c),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                    )
+                  ]),
+                ),
+                if (document['donated'].toString() != '0')
+                  Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  child: Row(children: <Widget>[
+                    //This button for sprint 2
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0xffededed),
+                              spreadRadius: 1,
+                              blurRadius: 10),
+                        ],
+                      ),
+                      height: 30,
+                      width: 75,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: Text(
+                          "تعديل",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              color: Colors.grey),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(65.w, 30.h),
+                          primary: const Color(0xffededed),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                    )
+                  ]),
+                ),
               ],
             ),
           ),
@@ -248,6 +374,71 @@ class mmFeed extends State<mm_feed> {
       },
     );
   }
+
+  showAlertDialogEdit(DocumentSnapshot document) {
+    RequestViewModel requestVM = RequestViewModel();
+    // set up the buttons
+    Widget cancelButton = ElevatedButton(
+      child: const Text(
+        "إلغاء",
+        style: TextStyle(fontFamily: "Tajawal", color: const Color(0xdeedd03c)),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop(context);
+      },
+      style: ButtonStyle(
+          backgroundColor:
+          MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+          elevation: MaterialStateProperty.all<double>(0)),
+    );
+    Widget confirmButton = Padding(
+      padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
+      child: ElevatedButton(
+        child: Text(
+          "تأكيد",
+          style: TextStyle(fontFamily: "Tajawal"),
+        ),
+        style: ButtonStyle(
+            backgroundColor:
+            MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+        onPressed: () async {
+          Navigator.of(context).pop();
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditRequest(document: document)));
+        },
+      ),
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
+      title: Text(
+        "تعديل",
+        textAlign: TextAlign.right,
+        style: TextStyle(
+          fontFamily: "Tajawal",
+          color: const Color(0xdeedd03c),
+        ),
+      ),
+      content: Text(
+        "هل أنت متأكد من رغبتك في\n تعديل الطلب؟",
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal"),
+      ),
+      actions: [
+        cancelButton,
+        confirmButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 
   Widget _buildWaitingScreen() {
     return Scaffold(

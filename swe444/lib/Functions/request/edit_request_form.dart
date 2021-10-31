@@ -602,6 +602,8 @@ class _EditRequestFormState extends State<EditRequestForm> {
       Map<String, dynamic>? data = document.data();
       requestVM.setMName = data?['mosque_name'];
       requestVM.setMLocation = data?['location'];
+      requestVM.setDonations = int.parse(widget.document['donated'].toString());
+      requestVM.setToken= widget.document['token'].toString();
       requestVM.setDescription = description.text;
       requestVM.setTitle = title.text;
       requestVM.setType = type;
