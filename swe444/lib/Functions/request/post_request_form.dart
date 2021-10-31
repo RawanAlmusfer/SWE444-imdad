@@ -656,9 +656,9 @@ class _AddRequestFormState extends State<PostRequestForm> {
     String? dToken;
     FirebaseMessaging.instance.getToken().then((token) {
       dToken= token.toString();
-      FirebaseFirestore.instance.collection('tokens').add({
-        'token':token
-      });
+      // FirebaseFirestore.instance.collection('tokens').add({
+      //   'token':token
+      // });
     });
     // save to db
     // postedBy = id;
