@@ -22,6 +22,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
    TextEditingController _controller = TextEditingController();
   int isVDonatedPaymentScreen = 0;
+  double dollarToSR=0;
   //int? vDonatedAmount=int.parse(_controller.text);
 
   @override
@@ -75,7 +76,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       color: Color(0xff334856),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.pop(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
@@ -154,7 +155,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             color: Color(0xdeedd03c),
                           )),
                     ),
-                    textAlign: TextAlign.left,),
+                    textAlign: TextAlign.left,
+
+
+                   ),
                 ),
               ),
               SizedBox(
@@ -163,17 +167,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     .size
                     .height * 0.04,
               ),
+
+
+
               RaisedButton(
+
                   onPressed: () async {
-                   // vDonatedAmount=(int.parse(_controller.text) * 100)*3.75050163;
+                    dollarToSR=(int.parse(_controller.text) * 100)*3.75050163;
                     PaymentScreen.vDonatedAmount=int.parse (_controller.text) ;
                 int?  inGate= PaymentScreen.vDonatedAmount;
                 String? mmEmailToGate=mv_feed.mmEmailDonated;
                 String? mmNameToGate=mv_feed.mmNameDonated;
                 //   String description = '$mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني  $mmNameToGate ريال سعودي لصالح المسجد $inGate التبرع بالمبلغ ';
-                    List<String>list=["التبرع بالمبلغ $inGate ريال سعودي", " لصالح مسجد $mmNameToGate ", " $mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني "];
+                    List<String>list=["التبرع بالمبلغ $inGate ريال سعودي ", " لصالح مسجد $mmNameToGate ", " $mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني "];
                     var stringList = list.join("");
                     String description = stringList;
+
 
                     //convert from USD to saudi Riyal
                     String amount =
@@ -195,6 +204,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     style: TextStyle(
                         fontFamily: "Tajawal", color: Colors.white),
                   ))
+
+
             ],
           ),
         ),
@@ -289,6 +300,19 @@ int donated(){
     isVDonatedPaymentScreen=0;
     return int.parse(_controller.text) * 100;}
   else return 0;
+}
+
+void dollarToSRFunction(){
+    if(dollarToSR !=0){
+  Text(" يعادل ريال سعودي * $dollarToSR",  style: TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: const Color(0xff334856),
+  ),
+    textAlign: TextAlign.center,);}
+
+
 }
 
 int? feedbackResponseDonation(var response) {

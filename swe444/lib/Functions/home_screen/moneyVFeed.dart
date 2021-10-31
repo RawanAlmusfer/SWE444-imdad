@@ -270,22 +270,26 @@ class mvFeed extends State<mv_feed> {
                       child: ElevatedButton(
                         onPressed: () async {
 
-await
-                          Navigator.pushReplacement(
-                              context, MaterialPageRoute(builder: (context) => PaymentScreen()));
-
-                         String? mmId =document['posted_by'];
+                          String mmId =document['posted_by'];
                           int cumDonated=document['donated'];
-                          String? mName=document['mosque_name'];
+                          String mName=document['mosque_name'];
                           mv_feed.mmNameDonated=mName;
 
-                         var documentFormmId = await FirebaseFirestore.instance
-                             .collection('users')
-                             .doc(mmId)
-                             .get();
+                          var documentFormmId = await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(mmId)
+                              .get();
 
-                         String? mmEmail=documentFormmId['email'];
-                        mv_feed.mmEmailDonated=mmEmail;
+                          String mmEmail=documentFormmId['email'];
+                          mv_feed.mmEmailDonated=mmEmail;
+
+
+                          await
+
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => PaymentScreen()));
+
+
                           cumDonated+=PaymentScreen.vDonatedAmount!;
                           print('$cumDonated iiiiiiii');
 
