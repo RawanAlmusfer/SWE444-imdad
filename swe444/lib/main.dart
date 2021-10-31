@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Functions/decisions_tree.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -19,15 +17,12 @@ Future<void> main() async {
 FirebaseFirestore.instance.settings =
       const Settings(persistenceEnabled: false);
 
-// in backgroung
 FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-// trminated
 FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     await createLocalNotification(message: message.data);
   });
 
-// foreground
   FirebaseMessaging.onMessageOpenedApp.listen((message) async {
     await createLocalNotification(message: message.data);
   });
