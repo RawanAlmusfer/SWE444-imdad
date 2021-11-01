@@ -43,6 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildEmailField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty || value
@@ -105,19 +106,28 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _buildPasswordField() {
-    return TextField(
-
-      onSubmitted: (value) {
-        _controllerPass.text = value;
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        RegExp regex = new RegExp(r'^.{6,}$');
+        if (value!.isEmpty || value.trim().isEmpty) {
+          return ("الرجاء تعيين كلمة مرور");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("يجب أن تحتوي على 6 رموز او أكثر");
+        }
+      },
+      onSaved: (value) {
+        _controllerPass.text = value!;
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass,
       decoration: InputDecoration(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30)
+          borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
           // width: 0.0 produces a thin "hairline" border
@@ -135,7 +145,7 @@ class _SignUpPageState extends State<SignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كلمة المرور',
-        labelText: ' كلمة المرور* ',
+        labelText: 'كلمة المرور*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -147,7 +157,9 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       autocorrect: false,
       obscureText: true,
+
       onTap: (){setState(() {
+
         isFoucesedPassword=true;
       });},
     );
@@ -155,14 +167,13 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildConfirmPasswordField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("رجاءً قم بتأكيد كلمة مرور");
         }
         if (_controllerPass2.text != _controllerPass.text) {
-          return "كلمة المرور مختلفة";
+          return "كلمة المرور مختلفة*";
         }
         return null;
       },
@@ -171,7 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass2,
       decoration: InputDecoration(
@@ -211,6 +222,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildMosqueNameField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
         mosqueName.text = value!;
       },
@@ -274,6 +286,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildPhoneField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
         phoneNum.text = value!;
       },
@@ -336,6 +349,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildCodeField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
         mosqueCode.text = value!;
       },

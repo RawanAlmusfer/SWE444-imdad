@@ -138,6 +138,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       showCursor: true,
                       cursorColor: const Color(0xdeedd03c),
                       controller: _controller,
@@ -179,23 +180,25 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       validator: (value) {
                        // String text = _controller.text;
                         value =_controller.text;
-                        int donated = int.parse(value!);
-                        int check = mv_feed.wholeAmount - mv_feed.wholeDonated;
 
                         if (value == null || value.isEmpty || value.trim().isEmpty)
                           return "الرجاء إدخال قيمة التبرع المرغوبة";
                         else
-
                         {
-                          if (donated > 50000) return "أقصى قيمة للتبرع= 50000";
-                          if (donated < 10) return "أدنى قيمة للتبرع = 10";
+                          if (value != null) {
+                            int donated = int.parse(value);
+                            int check = mv_feed.wholeAmount -
+                                mv_feed.wholeDonated;
+                            if (donated > 50000)
+                              return "أقصى قيمة للتبرع= 50000";
+                            if (donated < 10) return "أدنى قيمة للتبرع = 10";
 
-                          if (check == 0)
-                            return "الحالة مكتملة ، شكراً لتعاونك";
+                            if (check == 0)
+                              return "الحالة مكتملة ، شكراً لتعاونك";
 
-                          if (donated > mv_feed.wholeAmount)
-                            return " قيمة التبرع أكبر من المبلغ المطلوب ، المبلغ المتبقي $check";
-                        }
+                            if (donated > mv_feed.wholeAmount)
+                              return " قيمة التبرع أكبر من المبلغ المطلوب ، المبلغ المتبقي $check";
+                          }}
 
                       //  return "الرجاء إدخال قيمة عددية";
                         // return null if the text is valid
@@ -231,7 +234,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     String description = stringList;
 
                     //convert from USD to saudi Riyal
-                    int amount1=((int.parse(_controller.text)!)*0.27* 100).toInt();
+                    int amount1=((int.parse(_controller.text))*0.27* 100).toInt();
                     String amount = amount1.toString();
 
                     var response = await StripeServices.payNowHandler(
@@ -290,8 +293,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 //PaymentScreen();
         Navigator.of(context).pop(context);
 
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
+        if ((response.message) == 'تمت عملية الدفع بنجاح') {
+          Navigator.of(context).pop(context);
+        }
       },
     );
 

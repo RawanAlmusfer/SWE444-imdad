@@ -16,7 +16,7 @@ class Snackbar {
     scaffold.showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 10),
+        duration: const Duration(seconds: 6),
         backgroundColor: Colors.green,
         content: Text(
           message,

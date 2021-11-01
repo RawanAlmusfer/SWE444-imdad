@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:swe444/Functions/decisions_tree.dart';
 import 'package:swe444/Functions/signup_login_screen.dart';
 import 'CustomPageRoute.dart';
@@ -13,9 +14,16 @@ class UsersScreen extends StatefulWidget {
 class _UsersScreenState extends State<UsersScreen> {
   static const kYellow = Color(0xdeedd03c);
 
+
   @override
   Widget build(BuildContext context) {
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_){
+      if (ScaffoldMessenger.of(context).mounted){
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();}
+    });
+
+
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       resizeToAvoidBottomInset: false,

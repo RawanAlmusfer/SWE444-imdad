@@ -56,6 +56,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildEmailField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty || value.trim().isEmpty) {
@@ -114,6 +115,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildPasswordField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         RegExp regex = new RegExp(r'^.{6,}$');
         if (value!.isEmpty || value.trim().isEmpty) {
@@ -173,6 +175,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildConfirmPasswordField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value!.isEmpty || value.trim().isEmpty) {
           return ("رجاءً قم بتأكيد كلمة مرور");
@@ -227,6 +230,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildfirstNameField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
         firstName.text = value!;
       },
@@ -288,6 +292,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildlastNameField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
         lastName.text = value!;
       },
@@ -349,6 +354,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildPhoneField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
         phoneNum.text = value!;
       },
@@ -446,7 +452,7 @@ class _SignUpPageState extends State<VSignUpPage> {
                     ),
                   ),
                   Form(
-                    autovalidateMode: AutovalidateMode.always,
+                    // autovalidateMode: AutovalidateMode.always,
                     key: _formKey,
                     child: Column(
                       children: [
