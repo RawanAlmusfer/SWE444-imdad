@@ -98,11 +98,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       color: Color(0xff334856),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => moneyVFeed()));
-
+                      Navigator.of(context).pop(); 
                       //   Navigator.pop(context);
                     }),
               ),
