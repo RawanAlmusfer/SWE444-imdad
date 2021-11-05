@@ -83,3 +83,5 @@ swe444/.DS_Store
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
+swe444/.DS_Store
+swe444/ios/.DS_Store
