@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -323,6 +324,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                         color: Colors.grey,
                                         tiles: [
                                           ListTile(
+                                            onTap: () async{
+                                              final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                              if(text != null)
+                                              FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
+                                                  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
+                                                    setState(() {
+                                                      _userFirstName = text[0];
+                                                    });
+                                              });
+                                            },
                                             leading: Icon(isVolunteer()
                                                 ? Icons.person
                                                 : Icons.account_balance),
@@ -343,6 +354,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
 
                                           ListTile(
+                                              onTap: () async{
+                                                final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                                if(text != null)
+                                                  FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
+                                                      {isVolunteer() ?'last_name': 'mosque_code':text[0]}).then((value) {
+                                                    setState(() {
+                                                      _userLastName = text[0];
+                                                    });
+                                                  });
+                                              },
                                               leading: Icon(isVolunteer()
                                                   ? Icons.person
                                                   : Icons.shield),
@@ -366,6 +387,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                           //   subtitle: Text("USA"),
                                           // ),
                                           ListTile(
+                                            onTap: () async{
+                                              final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                              if(text != null)
+                                                FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
+                                                    {'email':text[0]}).then((value) {
+                                                  setState(() {
+                                                    auth.currentUser?.updateEmail(text[0]);
+                                                    _userEmail = text[0];
+                                                  });
+                                                });
+                                            },
                                             title: Text(
                                               "البريد الالكتروني",
                                             //  style: bold,
@@ -378,6 +410,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                             leading: Icon(Icons.mail),
                                           ),
                                           ListTile(
+                                            onTap: () async{
+                                              final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                              if(text != null)
+                                                FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
+                                                    {'phone_number':text[0]}).then((value) {
+                                                  setState(() {
+                                                    _userPhone = text[0];
+                                                  });
+                                                });
+                                            },
                                             leading: Icon(
                                               Icons.phone,
                                             ),

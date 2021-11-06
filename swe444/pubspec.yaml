@@ -23,6 +23,7 @@ dependencies:
   get: ^4.3.8
   random_string: ^2.3.1
   url_launcher: ^6.0.12
+  adaptive_dialog: ^1.2.0
 
   firebase_database: ^8.0.0
   dio: ^4.0.0
