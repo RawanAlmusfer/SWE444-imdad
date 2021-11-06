@@ -6,7 +6,7 @@ import 'package:swe444/Functions/home_screen/v_home_view.dart';
 import '../../Models/VUserModel.dart';
 import '../../Widgets/show_snackbar.dart';
 import '../signup_login_screen.dart';
-
+import 'package:swe444/password/flutter_pw_validator.dart';
 class VSignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
 
@@ -38,13 +38,13 @@ class _SignUpPageState extends State<VSignUpPage> {
   Snackbar? snackbar2;
   Snackbar? snackbar3;
   bool valid = true;
-
+  bool isFoucesedPassword = false;
   Future<void> login() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: _controllerEmail.text, password: _controllerPass.text);
-      print(userCredential.user);
+     // userCredential.user..updateDisplayName(displayName);
       widget.onSignIn(userCredential.user!);
       //
     } on FirebaseAuthException catch (e) {
@@ -56,6 +56,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildEmailField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty || value.trim().isEmpty) {
@@ -74,7 +75,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerEmail,
       decoration: InputDecoration(
@@ -95,7 +96,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         hintText: 'أدخل البريد الالكتروني',
-        labelText: 'البريد الالكتروني',
+        labelText: 'البريد الالكتروني*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -114,6 +115,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildPasswordField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         RegExp regex = new RegExp(r'^.{6,}$');
         if (value!.isEmpty || value.trim().isEmpty) {
@@ -128,7 +130,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass,
       decoration: InputDecoration(
@@ -151,7 +153,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كلمة المرور',
-        labelText: 'كلمة المرور',
+        labelText: 'كلمة المرور*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -163,17 +165,23 @@ class _SignUpPageState extends State<VSignUpPage> {
       ),
       autocorrect: false,
       obscureText: true,
+
+        onTap: (){setState(() {
+
+          isFoucesedPassword=true;
+        });},
     );
   }
 
   Widget _buildConfirmPasswordField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value!.isEmpty || value.trim().isEmpty) {
           return ("رجاءً قم بتأكيد كلمة مرور");
         }
         if (_controllerPass2.text != _controllerPass.text) {
-          return "كلمة المرور مختلفة";
+          return "كلمة المرور مختلفة*";
         }
         return null;
       },
@@ -182,7 +190,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _controllerPass2,
       decoration: InputDecoration(
@@ -205,7 +213,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل كلمة المرور مره اخرى',
-        labelText: 'تاكيد كلمة المرور',
+        labelText: 'تاكيد كلمة المرور*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -222,6 +230,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildfirstNameField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
         firstName.text = value!;
       },
@@ -242,7 +251,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: firstName,
       decoration: InputDecoration(
@@ -265,7 +274,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل اسمك الاول',
-        labelText: 'الاسم الاول',
+        labelText: 'الاسم الاول*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -283,6 +292,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildlastNameField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
         lastName.text = value!;
       },
@@ -303,7 +313,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: lastName,
       decoration: InputDecoration(
@@ -326,7 +336,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل اسم عائلتك',
-        labelText: 'اسم العائلة',
+        labelText: 'اسم العائلة*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -344,6 +354,7 @@ class _SignUpPageState extends State<VSignUpPage> {
 
   Widget _buildPhoneField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
         phoneNum.text = value!;
       },
@@ -388,7 +399,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: 'أدخل رقم الجوال',
-        labelText: 'رقم الجوال',
+        labelText: 'رقم الجوال*',
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -441,6 +452,7 @@ class _SignUpPageState extends State<VSignUpPage> {
                     ),
                   ),
                   Form(
+                    // autovalidateMode: AutovalidateMode.always,
                     key: _formKey,
                     child: Column(
                       children: [
@@ -468,6 +480,7 @@ class _SignUpPageState extends State<VSignUpPage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                         ),
+
                         Container(
                           width: 330,
                           child: Directionality(
@@ -483,6 +496,28 @@ class _SignUpPageState extends State<VSignUpPage> {
                           child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: _buildPasswordField(),
+                          ),
+                        ),
+                        Visibility(
+
+
+                          visible: isFoucesedPassword,
+                          child:
+                          Padding(
+
+                            padding: const EdgeInsets.all(8.0),
+                            child: FlutterPwValidator(
+                                controller: _controllerPass,
+                                minLength: 6,
+
+                                uppercaseCharCount: 2,
+                                numericCharCount: 3,
+                                specialCharCount: 1,
+                                width: 360,
+                                height: 150,
+                                onSuccess: (value) {
+                                  //_controllerPass.text = value;
+                                }),
                           ),
                         ), // password container
                         SizedBox(
@@ -624,7 +659,7 @@ class _SignUpPageState extends State<VSignUpPage> {
             });
             break;
         }
-        snackbar2 = Snackbar(context, errorMessage);
+        snackbar2 = Snackbar(context, errorMessage, "fail");
         snackbar2!.showToast();
       }
       ;
@@ -669,7 +704,7 @@ class _SignUpPageState extends State<VSignUpPage> {
             });
             break;
         }
-        snackbar3 = Snackbar(context, errorMessage);
+        snackbar3 = Snackbar(context, errorMessage, "fail");
         snackbar3!.showToast();
       } //end 2ed switch
     }
@@ -693,10 +728,10 @@ class _SignUpPageState extends State<VSignUpPage> {
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap())
-        .then((value) => snackbar = Snackbar(context, "تم التسجيل بنجاح "))
+        .then((value) => snackbar = Snackbar(context, "تم التسجيل بنجاح ", "success"))
         .catchError((e) {
       valid = false;
-      snackbar = Snackbar(context, "حدث خطأ ");
+      snackbar = Snackbar(context, "حدث خطأ ", "fail");
     });
 
     snackbar?.showToast();

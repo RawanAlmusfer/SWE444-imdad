@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               .signInWithEmailAndPassword(
                   email: _controllerEmail.text, password: _controllerPass.text);
           print(userCredential.user);
-          snackbar3 = Snackbar(context, "تم تسجيل الدخول بنجاح");
+          snackbar3 = Snackbar(context, "تم تسجيل الدخول بنجاح", "success");
           snackbar3!.showToast();
           widget.onSignIn(userCredential.user!);
         } on FirebaseAuthException catch (e) {
@@ -63,14 +63,14 @@ class _LoginPageState extends State<LoginPage> {
             case "requires-recent-login":
               setState(() {
                 errorMessage =
-                    'تم حظره من الجهاز بسبب نشاط غير عادي. المحاولة مرة أخرى بعد بعض التأخير قد يفتح.';
+                'تم حظر هذا الجهاز بسبب نشاط غير اعتيادي. الرجاء المحاولة مرة أخرى.';
               });
               break;
 
             case "too-many-requests":
               setState(() {
                 errorMessage =
-                    'تم حظره من الجهاز بسبب نشاط غير عادي. المحاولة مرة أخرى بعد بعض التأخير قد يفتح.';
+                    'تم حظر هذا الجهاز بسبب نشاط غير اعتيادي. الرجاء المحاولة مرة أخرى.';
               });
               break;
 
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
               break;
           }
 
-          snackbar = Snackbar(context, errorMessage);
+          snackbar = Snackbar(context, errorMessage, "fail");
           snackbar!.showToast();
 
           setState(() {
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
         errorMessage = "الرجاء إدخال كلمة السر ";
       }
 
-      snackbar2 = Snackbar(context, errorMessage);
+      snackbar2 = Snackbar(context, errorMessage, "fail");
       snackbar2!.showToast();
 
       if (FirebaseAuth.instance.currentUser != null) {
