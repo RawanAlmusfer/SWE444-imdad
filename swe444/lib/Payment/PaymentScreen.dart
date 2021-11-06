@@ -98,7 +98,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       color: Color(0xff334856),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.pop(
                           context,
                           MaterialPageRoute(
                               builder: (context) => moneyVFeed()));
@@ -193,9 +193,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           if (check == 0)
                             return "الحالة مكتملة ، شكراً لتعاونك";
 
+<<<<<<< Updated upstream
                           if (donated > mv_feed.wholeAmount)
                             return " قيمة التبرع أكبر من المبلغ المطلوب ، المبلغ المتبقي $check";
                         }
+=======
+                            if (donated > mv_feed.wholeAmount )
+                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
+
+                            if(donated==mv_feed.wholeAmount && check != 0) {
+                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
+
+
+                            }
+                          }}
+>>>>>>> Stashed changes
 
                       //  return "الرجاء إدخال قيمة عددية";
                         // return null if the text is valid
