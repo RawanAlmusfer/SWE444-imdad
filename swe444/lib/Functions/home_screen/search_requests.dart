@@ -39,6 +39,8 @@ class _SearchRequests extends State<SearchRequests> {
   //int? donated= PaymentScreen.vDonatedAmount;
   bool isExecuted = true;
   TextEditingController searchTerm = TextEditingController();
+  int i=0;
+
 
   @override
   void initState() {
@@ -70,7 +72,7 @@ class _SearchRequests extends State<SearchRequests> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 20.0, right: 20, top: 15, bottom: 5),
+                    left: 30.0, right: 30, top: 15, bottom: 5),
                 child: TextField(
                   maxLines: 1,
                   controller: searchTerm,
@@ -84,13 +86,13 @@ class _SearchRequests extends State<SearchRequests> {
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Color(0xffffffff),
+                    fillColor: Color(0x8bffffff),
                     // counterText: '${_enteredText.length.toString()}character(s)',
                     contentPadding: EdgeInsets.only(right: 20, top: 15),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 0.30,
-                        color: const Color(0xff334856),
+                        color: const Color(0xd3334856),
                       ),
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -192,12 +194,12 @@ class _SearchRequests extends State<SearchRequests> {
           ],
         ),
       );
-    ;
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document["mosque_name"].toString().contains("الخلف")) {
+    i++;
+    if (document["mosque_name"].toString().contains("روان")) {
       if (document['type'].toString() == "مبلغ" &&
           document['donated'] != document['amount']) {
         return Container(
@@ -608,7 +610,13 @@ class _SearchRequests extends State<SearchRequests> {
         return Container();
       }
     } else {
-      return Container();
+      return Container(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text((i==1)? "no results" : ""),
+        ),
+      );
     }
   }
 
