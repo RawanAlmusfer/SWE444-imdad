@@ -325,10 +325,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                         tiles: [
                                           ListTile(
                                             onTap: () async{
-                                              final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                            //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                              final text  = await showTextInputDialog(context: context,title: 'أدخل الاسم الأول', textFields: [DialogTextField()] ,okLabel: 'تأكيد',
+                                                cancelLabel: 'الغاء',);
                                               if(text != null)
+
+
                                               FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
-                                                  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
+                                                //  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
+                                                   {'first_name':text[0]}).then((value) {
                                                     setState(() {
                                                       _userFirstName = text[0];
                                                     });
@@ -355,10 +360,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
                                           ListTile(
                                               onTap: () async{
-                                                final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                               // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                                final text  = await showTextInputDialog(context: context,title: 'أدخل الاسم الأخير', textFields: [DialogTextField()] ,okLabel: 'تأكيد',
+                                                  cancelLabel: 'الغاء',);
                                                 if(text != null)
                                                   FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
-                                                      {isVolunteer() ?'last_name': 'mosque_code':text[0]}).then((value) {
+                                                  //    {isVolunteer() ?'last_name': 'mosque_code':text[0]}).then((value) {
+                                                      {'last_name':text[0]}).then((value) {
                                                     setState(() {
                                                       _userLastName = text[0];
                                                     });
@@ -388,7 +396,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                           // ),
                                           ListTile(
                                             onTap: () async{
-                                              final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                             // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                              final text  = await showTextInputDialog(context: context,title: 'أدخل البريد الالكتروني',textFields: [DialogTextField()] ,okLabel: 'تأكيد',
+                                                cancelLabel: 'الغاء',);
                                               if(text != null)
                                                 FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
                                                     {'email':text[0]}).then((value) {
@@ -411,7 +421,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                           ListTile(
                                             onTap: () async{
-                                              final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                            //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                              final text  = await showTextInputDialog(context: context,title: 'أدخل رقم الجوال', textFields: [DialogTextField()] ,okLabel: 'تأكيد',
+                                                cancelLabel: 'الغاء',);
                                               if(text != null)
                                                 FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
                                                     {'phone_number':text[0]}).then((value) {
