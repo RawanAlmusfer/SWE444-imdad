@@ -64,15 +64,15 @@ class _SearchRequests extends State<SearchRequests> {
     if (isExecuted == true) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xffe4e4e4),
+        backgroundColor: const Color(0xffededed),
         automaticallyImplyLeading: false,
+        elevation: 0,
         actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Expanded(
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left:20.0, right: 20, top: 10, bottom: 10),
             child: TextField(
               maxLines: 1,
-              maxLength: 30,
               controller: searchTerm,
               onSubmitted: (_val) {
                 if (_val != null) searchTerm.text = _val;
@@ -116,22 +116,17 @@ class _SearchRequests extends State<SearchRequests> {
         ),
       ],),
       backgroundColor: const Color(0xffededed),
-      body: ListView(
-          scrollDirection: Axis.vertical,
-        children: [
-          StreamBuilder(
-              stream: requests,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return _buildWaitingScreen();
-                return ListView.builder(
-                    shrinkWrap: true,
-                  itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                  itemBuilder: (BuildContext context, int index) => buildCards(
-                      context, (snapshot.data! as QuerySnapshot).docs[index]),
-                );
-              }),
-        ],
-      ),
+      body: StreamBuilder(
+          stream: requests,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return _buildWaitingScreen();
+            return ListView.builder(
+                shrinkWrap: true,
+              itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+              itemBuilder: (BuildContext context, int index) => buildCards(
+                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+            );
+          }),
     ); }
     else return Scaffold(
       backgroundColor: const Color(0xffededed),
