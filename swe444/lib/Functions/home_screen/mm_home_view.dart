@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/request/post_request_view.dart';
 import 'package:swe444/Functions/users_screen.dart';
-import 'package:swe444/ProfilePage1.dart';
+import 'package:swe444/Functions/profile/ProfilePage1.dart';
 //import 'logout.dart';
 import 'feed_view_model.dart';
 import 'mm_feed.dart';
@@ -102,7 +102,7 @@ class _HomeState extends State<mmHome> {
                 items: [
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.person),
-                    label:  " تسجيل الخروج ",
+                    label:  "الملف الشخصي",
                   ),
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.add),

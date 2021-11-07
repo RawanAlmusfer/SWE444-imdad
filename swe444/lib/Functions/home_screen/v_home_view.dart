@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:swe444/ProfilePage1.dart';
+import 'package:swe444/Functions/profile/ProfilePage1.dart';
 //import 'mm_feed.dart';
-import 'v_feed.dart';
+import 'home.dart';
+import 'moneyVFeed.dart';
 import '../logout.dart';
 
 class vHome extends StatefulWidget {
@@ -19,7 +20,8 @@ class _HomeState extends State<vHome> {
   // nav bar redirection:
   final List<Widget> _children = [
     ProfilePage(),
-    VolunteerFeed(),
+    vhome(),
+    //VolunteerFeed(),
     //searchPage(),
     //ProfilePage(),
   ];
@@ -81,7 +83,7 @@ class _HomeState extends State<vHome> {
                 items: [
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.person),
-                    label: " الملف الشخصي",
+                    label: "الملف الشخصي",
                   ),
 
                   // BottomNavigationBarItem(
@@ -103,7 +105,7 @@ class _HomeState extends State<vHome> {
       switch (index) {
         case 0:
           {
-            _title = 'الملف الشخصي';
+            _title = "الملف الشخصي";
           }
           break;
         // case 1:

@@ -129,6 +129,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
 
   Widget _buildTitle() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: 1,
       maxLength: 30,
 
@@ -191,6 +192,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
   Widget _buildDetailsFunds() {
     double _value;
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null ||
             value.isEmpty ||
@@ -251,6 +253,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
   Widget _buildDetailsItemsAmount() {
     double _value;
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null ||
             value.isEmpty ||
@@ -310,6 +313,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
 
   Widget _buildDescription() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLength: 150,
       textAlign: TextAlign.right,
       decoration: InputDecoration(
@@ -602,6 +606,8 @@ class _EditRequestFormState extends State<EditRequestForm> {
       Map<String, dynamic>? data = document.data();
       requestVM.setMName = data?['mosque_name'];
       requestVM.setMLocation = data?['location'];
+      requestVM.setDonations = int.parse(widget.document['donated'].toString());
+      requestVM.setToken= widget.document['token'].toString();
       requestVM.setDescription = description.text;
       requestVM.setTitle = title.text;
       requestVM.setType = type;
