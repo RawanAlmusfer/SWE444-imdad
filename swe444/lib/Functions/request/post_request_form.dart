@@ -38,7 +38,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
   Widget _buildType() {
     return DropdownButtonHideUnderline(
         child: DropdownButtonFormField<String>(
-      decoration: InputDecoration(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -119,6 +120,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
   Widget _buildTitle() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: 1,
       maxLength: 30,
 
@@ -181,6 +183,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   Widget _buildDetailsFunds() {
     double _value;
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null ||
             value.isEmpty ||
@@ -301,6 +304,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   Widget _buildDetailsItemsAmount() {
     double _value;
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null ||
             value.isEmpty ||
@@ -360,6 +364,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
   Widget _buildDescription() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLength: 150,
       textAlign: TextAlign.right,
       decoration: InputDecoration(
@@ -398,7 +403,9 @@ class _AddRequestFormState extends State<PostRequestForm> {
       keyboardType: TextInputType.multiline,
       maxLines: 5,
       onSaved: (_val) {
-        if (_val != null) description.text = _val;
+        if (!(_val == null || _val.isEmpty || _val.trim().isEmpty))
+          description.text = _val;
+        else description.text= "";
       }, // onsaved
     );
   }
@@ -406,22 +413,18 @@ class _AddRequestFormState extends State<PostRequestForm> {
 // https://medium.com/multiverse-software/alert-dialog-and-confirmation-dialog-in-flutter-8d8c160f4095
   showAlertDialog(String? id) {
     // set up the buttons
-    Widget cancelButton = Padding(
-      padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
-      child: ElevatedButton(
-        child: const Text(
-          "إلغاء",
-          style:
-              TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
-        ),
-        onPressed: () {
-          Navigator.of(context).pop(context);
-        },
-        style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
-            elevation: MaterialStateProperty.all<double>(0)),
+    Widget cancelButton = ElevatedButton(
+      child: const Text(
+        "إلغاء",
+        style: TextStyle(fontFamily: "Tajawal", color: const Color(0xdeedd03c)),
       ),
+      onPressed: () {
+        Navigator.of(context).pop(context);
+      },
+      style: ButtonStyle(
+          backgroundColor:
+          MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+          elevation: MaterialStateProperty.all<double>(0)),
     );
     Widget confirmButton = Padding(
       padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
@@ -479,7 +482,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     if (deviceOrientation == Orientation.landscape) portrait = false;
     return SingleChildScrollView(
       child: Form(
-        autovalidateMode: AutovalidateMode.always,
+        // autovalidateMode: AutovalidateMode.always,
         key: _formKey,
         child: Column(
           children: [

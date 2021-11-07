@@ -321,7 +321,7 @@ class mmFeed extends State<mm_feed> {
       },
       style: ButtonStyle(
           backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+          MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
           elevation: MaterialStateProperty.all<double>(0)),
     );
 
@@ -334,7 +334,7 @@ class mmFeed extends State<mm_feed> {
         ),
         style: ButtonStyle(
             backgroundColor:
-                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+            MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
         onPressed: () async {
           Navigator.of(context).pop(context);
           await requestVM.cancelRequest(document);

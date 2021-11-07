@@ -62,7 +62,7 @@ class _logout extends State<logout> {
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text(
-                            "هل أنت متأكد من تسجيل الخروج؟",
+                            "هل أنت متأكد من رغبتك في\nتسجيل الخروج؟",
                             textAlign: TextAlign.right,
                             style: TextStyle(fontFamily: "Tajawal"),
                           ),
