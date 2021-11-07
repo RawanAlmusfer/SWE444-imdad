@@ -72,11 +72,11 @@ class _SearchRequests extends State<SearchRequests> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 30.0, right: 30, top: 15, bottom: 5),
+                    left: 30.0, right: 30, top: 15, bottom: 0),
                 child: TextField(
                   maxLines: 1,
                   controller: searchTerm,
-                  onSubmitted: (_val) {
+                  onChanged: (_val) {
                     if (_val != null) searchTerm.text = _val;
                   },
                   showCursor: true,
@@ -86,13 +86,13 @@ class _SearchRequests extends State<SearchRequests> {
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Color(0x8bffffff),
+                    fillColor: Color(0xbfffffff),
                     // counterText: '${_enteredText.length.toString()}character(s)',
                     contentPadding: EdgeInsets.only(right: 20, top: 15),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        width: 0.30,
-                        color: const Color(0xd3334856),
+                        width: 0.20,
+                        color: const Color(0xffc1c1c1),
                       ),
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -199,7 +199,7 @@ class _SearchRequests extends State<SearchRequests> {
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
     i++;
-    if (document["mosque_name"].toString().contains("روان")) {
+    if (document["mosque_name"].toString().contains(searchTerm.text)) {
       if (document['type'].toString() == "مبلغ" &&
           document['donated'] != document['amount']) {
         return Container(
@@ -613,7 +613,7 @@ class _SearchRequests extends State<SearchRequests> {
       return Container(
         alignment: Alignment.center,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(30.0),
           child: Text((i==1)? "no results" : ""),
         ),
       );
