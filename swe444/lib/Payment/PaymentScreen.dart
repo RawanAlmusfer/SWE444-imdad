@@ -224,13 +224,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     PaymentScreen.vDonatedAmount =
                         int.parse(_controller.text);
                    // int? inGate = (PaymentScreen.vDonatedAmount!* 0.27 ).toInt();
-                     double? inGate = PaymentScreen.vDonatedAmount!* 0.27;
+                    // double? inGate = PaymentScreen.vDonatedAmount!* 0.27;
+                  int? inGate = PaymentScreen.vDonatedAmount;
 
                     String? mmEmailToGate = mv_feed.mmEmailDonated;
                     String? mmNameToGate = mv_feed.mmNameDonated;
                     //   String description = '$mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني  $mmNameToGate ريال سعودي لصالح المسجد $inGate التبرع بالمبلغ ';
                     List<String> list = [
-                      "التبرع بالمبلغ $inGate  \$ ",
+                      "التبرع بالمبلغ $inGate  SR ",
                       " لصالح مسجد $mmNameToGate ",
                       " $mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني "
                     ];
