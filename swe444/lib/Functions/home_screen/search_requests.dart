@@ -63,8 +63,10 @@ class _SearchRequests extends State<SearchRequests> {
         Provider.of<FeedViewModel>(context, listen: false).requests;
     if (isExecuted == true) {
     return Scaffold(
+      appBar: ,
       backgroundColor: const Color(0xffededed),
       body: ListView(
+          scrollDirection: Axis.vertical,
         children: [
           Container(
             padding: EdgeInsets.all(20),
@@ -186,7 +188,7 @@ class _SearchRequests extends State<SearchRequests> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document["title"].toString().contains("اصلاح")) {
+    if (document["mosque_name"].toString().contains("الخلف")) {
       if (document['type'].toString() == "مبلغ" &&
           document['donated'] != document['amount']) {
         return Container(
