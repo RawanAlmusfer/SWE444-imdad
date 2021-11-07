@@ -63,7 +63,19 @@ class _SearchRequests extends State<SearchRequests> {
         Provider.of<FeedViewModel>(context, listen: false).requests;
     if (isExecuted == true) {
     return Scaffold(
-      appBar: ,
+      appBar: AppBar(
+        backgroundColor: const Color(0xffe4e4e4),
+        actions: <Widget>[
+        Container(
+          margin: EdgeInsets.only(right: 20, bottom: 8),
+          child: Icon(
+            Icons.keyboard_backspace_rounded,
+            textDirection: TextDirection.rtl,
+            size: 30,
+            color: Color(0xff334856),
+          ),
+        ),
+      ],),
       backgroundColor: const Color(0xffededed),
       body: ListView(
           scrollDirection: Axis.vertical,
