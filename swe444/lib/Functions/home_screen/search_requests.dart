@@ -65,14 +65,56 @@ class _SearchRequests extends State<SearchRequests> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xffe4e4e4),
+        automaticallyImplyLeading: false,
         actions: <Widget>[
         Container(
           margin: EdgeInsets.only(right: 20, bottom: 8),
-          child: Icon(
-            Icons.keyboard_backspace_rounded,
-            textDirection: TextDirection.rtl,
-            size: 30,
-            color: Color(0xff334856),
+          child:  Container(
+            padding: EdgeInsets.all(20),
+            child: Expanded(
+              child: TextField(
+                maxLines: 1,
+                maxLength: 30,
+                controller: searchTerm,
+                onSubmitted: (_val) {
+                  if (_val != null) searchTerm.text = _val;
+                },
+                showCursor: true,
+                cursorColor: const Color(0xdeedd03c),
+                style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+                textAlign: TextAlign.right,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xffffffff),
+                  // counterText: '${_enteredText.length.toString()}character(s)',
+                  contentPadding: EdgeInsets.only(right: 20, top: 15 ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 0.50),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    // width: 0.0 produces a thin "hairline" border
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(
+                      color: const Color(0xdeedd03c),
+                    ),
+                  ),
+                  prefixStyle: TextStyle(fontSize: 15, color: const Color(0xff334856)),
+                  hoverColor: const Color(0xff334856),
+                  hintStyle: TextStyle(
+                      fontSize: 13,
+                      color: const Color(0xffcbcbcc),
+                      fontFamily: 'Tajawal'),
+                  labelStyle: TextStyle(
+                      fontSize: 15,
+                      color: const Color(0xff334856),
+                      fontFamily: 'Tajawal'),
+                  alignLabelWithHint: true,
+                  //border: OutlineInputBorder(),
+                  // hoverColor: const Color(0xff334856),
+                ),
+              ),
+            ),
           ),
         ),
       ],),
@@ -80,51 +122,6 @@ class _SearchRequests extends State<SearchRequests> {
       body: ListView(
           scrollDirection: Axis.vertical,
         children: [
-          Container(
-            padding: EdgeInsets.all(20),
-            child: TextField(
-              maxLines: 1,
-              maxLength: 30,
-              controller: searchTerm,
-              onSubmitted: (_val) {
-                if (_val != null) searchTerm.text = _val;
-              },
-              showCursor: true,
-              cursorColor: const Color(0xdeedd03c),
-              style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-              textAlign: TextAlign.right,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Color(0xffffffff),
-                // counterText: '${_enteredText.length.toString()}character(s)',
-                contentPadding: EdgeInsets.only(right: 20, top: 15 ),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0.50),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  // width: 0.0 produces a thin "hairline" border
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(
-                    color: const Color(0xdeedd03c),
-                  ),
-                ),
-                prefixStyle: TextStyle(fontSize: 15, color: const Color(0xff334856)),
-                hoverColor: const Color(0xff334856),
-                hintStyle: TextStyle(
-                    fontSize: 13,
-                    color: const Color(0xffcbcbcc),
-                    fontFamily: 'Tajawal'),
-                labelStyle: TextStyle(
-                    fontSize: 15,
-                    color: const Color(0xff334856),
-                    fontFamily: 'Tajawal'),
-                alignLabelWithHint: true,
-                //border: OutlineInputBorder(),
-                // hoverColor: const Color(0xff334856),
-              ),
-            ),
-          ),
           StreamBuilder(
               stream: requests,
               builder: (context, snapshot) {
