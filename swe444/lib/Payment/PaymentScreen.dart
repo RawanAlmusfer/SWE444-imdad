@@ -179,7 +179,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       validator: (value) {
                        // String text = _controller.text;
                         value =_controller.text;
-                        int donated = int.parse(value!);
+                        int donated = int.parse(value);
                         int check = mv_feed.wholeAmount - mv_feed.wholeDonated;
 
                         if (value == null || value.isEmpty || value.trim().isEmpty)
@@ -193,21 +193,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           if (check == 0)
                             return "الحالة مكتملة ، شكراً لتعاونك";
 
-<<<<<<< Updated upstream
-                          if (donated > mv_feed.wholeAmount)
-                            return " قيمة التبرع أكبر من المبلغ المطلوب ، المبلغ المتبقي $check";
-                        }
-=======
                             if (donated > mv_feed.wholeAmount )
                               return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
 
-                            if(donated==mv_feed.wholeAmount && check != 0) {
+                            if(donated==mv_feed.wholeAmount && check != 0)
                               return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
 
 
-                            }
-                          }}
->>>>>>> Stashed changes
+
+                          }
+
 
                       //  return "الرجاء إدخال قيمة عددية";
                         // return null if the text is valid
@@ -243,7 +238,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     String description = stringList;
 
                     //convert from USD to saudi Riyal
-                    int amount1=((int.parse(_controller.text)!)*0.27* 100).toInt();
+                    int amount1=((int.parse(_controller.text))*0.27* 100).toInt();
                     String amount = amount1.toString();
 
                     var response = await StripeServices.payNowHandler(
