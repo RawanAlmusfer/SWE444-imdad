@@ -37,9 +37,19 @@ class FeedViewModel with ChangeNotifier {
 
   Future fetchRequestsSearch(String query) async {
     var firebase=  FirebaseFirestore.instance
-        .collection('requests').where({'mosque_name','title'}, isGreaterThanOrEqualTo: query ).snapshots();
+        .collection('requests').where('mosque_name', isGreaterThanOrEqualTo: query).snapshots();
+
+    if (firebase.length==0){
+      firebase=  FirebaseFirestore.instance
+          .collection('requests').where('title', isGreaterThanOrEqualTo: query).snapshots();
+    }
+    if (firebase.length==0){
+      firebase=  FirebaseFirestore.instance
+          .collection('requests').where('description', isGreaterThanOrEqualTo: query).snapshots();
+    }
     _requests2 =
         firebase;
+
     notifyListeners();
   }
 }
