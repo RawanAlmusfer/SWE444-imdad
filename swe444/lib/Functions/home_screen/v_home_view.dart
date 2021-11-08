@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
 //import 'mm_feed.dart';
 import 'home.dart';
@@ -14,15 +15,15 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 1;
+  int _currentIndex = 2;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
     ProfilePage(),
+    SearchPage(),
     vhome(),
     //VolunteerFeed(),
-    //searchPage(),
     //ProfilePage(),
   ];
 
@@ -85,11 +86,10 @@ class _HomeState extends State<vHome> {
                     icon: new Icon(Icons.person),
                     label: "الملف الشخصي",
                   ),
-
-                  // BottomNavigationBarItem(
-                  //   icon: new Icon(Icons.search),
-                  //   label: "البحث",
-                  // ),
+                  BottomNavigationBarItem(
+                    icon: new Icon(Icons.search),
+                    label: "البحث",
+                  ),
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.home),
                     label: "الصفحة الرئيسية",
@@ -108,12 +108,12 @@ class _HomeState extends State<vHome> {
             _title = "الملف الشخصي";
           }
           break;
-        // case 1:
-        //   {
-        //     _title = 'البحث';
-        //   }
-        //   break;
         case 1:
+          {
+            _title = 'البحث';
+          }
+          break;
+        case 2:
           {
             _title = 'الصفحة الرئيسية';
           }

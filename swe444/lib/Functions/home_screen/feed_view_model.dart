@@ -5,6 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class FeedViewModel with ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _requests;
+  Stream<QuerySnapshot<Map<String, dynamic>>>? _requests2;
+
 
   fetchRequests() async {
     var firebase=  FirebaseFirestore.instance
@@ -20,6 +22,11 @@ class FeedViewModel with ChangeNotifier {
   }
 
 
+  Stream<QuerySnapshot<Map<String, dynamic>>>? get requests2 {
+    return _requests2;
+  }
+
+
   Future<void> lunchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -28,6 +35,14 @@ class FeedViewModel with ChangeNotifier {
     }
   }
 
+  Future fetchRequestsSearch(String query) async {
+    var firebase=  FirebaseFirestore.instance
+        .collection('requests').where('title', isGreaterThanOrEqualTo: query);
+    _requests2 =
+        firebase
+            .snapshots();
+    notifyListeners();
+  }
 }
 //
 // class RequestViewModel {

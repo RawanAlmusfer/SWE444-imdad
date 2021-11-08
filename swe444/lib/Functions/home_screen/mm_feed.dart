@@ -235,8 +235,8 @@ class mmFeed extends State<mm_feed> {
                       width: 75,
                       child: ElevatedButton(
                         onPressed: () async {
-                              await showAlertDialogEdit(document);
-                            },
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditRequest(document: document)));
+                        },
                         child: Text(
                           "تعديل",
                           textAlign: TextAlign.center,
