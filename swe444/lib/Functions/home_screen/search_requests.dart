@@ -37,10 +37,10 @@ class SearchRequests extends StatefulWidget {
 
 class _SearchRequests extends State<SearchRequests> {
   //int? donated= PaymentScreen.vDonatedAmount;
-  bool isExecuted = true;
+  bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
-  int i=0;
-
+  String search = "";
+  int i = 0;
 
   @override
   void initState() {
@@ -69,11 +69,14 @@ class _SearchRequests extends State<SearchRequests> {
           automaticallyImplyLeading: false,
           elevation: 0,
           actions: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 30.0, right: 30, top: 15, bottom: 0),
-                child: TextField(
+            // IconButton(onPressed: () {}, icon: Icon(Icons.search, color: const Color(0xdeedd03c)),
+          ],
+          title: Padding(
+            padding: const EdgeInsets.only(
+                left: 30.0, right: 30, top: 35, bottom: 30),
+            child: Stack(
+              children: [
+                TextField(
                   maxLines: 1,
                   controller: searchTerm,
                   onChanged: (_val) {
@@ -85,10 +88,11 @@ class _SearchRequests extends State<SearchRequests> {
                       TextStyle(fontSize: 18, color: const Color(0xff334856)),
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
+                    // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
                     filled: true,
                     fillColor: Color(0xbfffffff),
                     // counterText: '${_enteredText.length.toString()}character(s)',
-                    contentPadding: EdgeInsets.only(right: 20, top: 15),
+                    contentPadding: EdgeInsets.only(right: 10, top: 20),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 0.20,
@@ -104,10 +108,11 @@ class _SearchRequests extends State<SearchRequests> {
                       ),
                     ),
                     prefixStyle:
-                        TextStyle(fontSize: 15, color: const Color(0xff334856)),
+                        TextStyle(fontSize: 18, color: const Color(0xff334856)),
                     hoverColor: const Color(0xff334856),
+                    hintText: "أبحث عن....",
                     hintStyle: TextStyle(
-                        fontSize: 13,
+                        fontSize: 16,
                         color: const Color(0xffcbcbcc),
                         fontFamily: 'Tajawal'),
                     labelStyle: TextStyle(
@@ -119,9 +124,14 @@ class _SearchRequests extends State<SearchRequests> {
                     // hoverColor: const Color(0xff334856),
                   ),
                 ),
-              ),
+                IconButton(
+                    onPressed: () {
+                      search = searchTerm.text;
+                    },
+                    icon: Icon(Icons.search, color: const Color(0xdeedd03c))),
+              ],
             ),
-          ],
+          ),
         ),
         backgroundColor: const Color(0xffededed),
         body: StreamBuilder(
@@ -139,59 +149,74 @@ class _SearchRequests extends State<SearchRequests> {
     } else
       return Scaffold(
         backgroundColor: const Color(0xffededed),
-        body: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              child: TextField(
-                maxLines: 1,
-                maxLength: 30,
-                controller: searchTerm,
-                onSubmitted: (_val) {
-                  if (_val != null) searchTerm.text = _val;
-                },
-                showCursor: true,
-                cursorColor: const Color(0xdeedd03c),
-                style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-                textAlign: TextAlign.right,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Color(0xffffffff),
-                  // counterText: '${_enteredText.length.toString()}character(s)',
-                  contentPadding: EdgeInsets.only(right: 20, top: 15),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 0.50),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    // width: 0.0 produces a thin "hairline" border
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(
-                      color: const Color(0xdeedd03c),
-                    ),
-                  ),
-                  prefixStyle:
-                      TextStyle(fontSize: 15, color: const Color(0xff334856)),
-                  hoverColor: const Color(0xff334856),
-                  hintStyle: TextStyle(
-                      fontSize: 13,
-                      color: const Color(0xffcbcbcc),
-                      fontFamily: 'Tajawal'),
-                  labelStyle: TextStyle(
-                      fontSize: 15,
-                      color: const Color(0xff334856),
-                      fontFamily: 'Tajawal'),
-                  alignLabelWithHint: true,
-                  //border: OutlineInputBorder(),
-                  // hoverColor: const Color(0xff334856),
-                ),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: Text("no results"),
-            ),
+        appBar: AppBar(
+          backgroundColor: const Color(0xffededed),
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          actions: <Widget>[
+            // IconButton(onPressed: () {}, icon: Icon(Icons.search, color: const Color(0xdeedd03c)),
           ],
+          title: Padding(
+            padding: const EdgeInsets.only(
+                left: 30.0, right: 30, top: 35, bottom: 30),
+            child: Stack(
+              children: [
+                TextField(
+                  maxLines: 1,
+                  controller: searchTerm,
+                  onChanged: (_val) {
+                    if (_val != null) searchTerm.text = _val;
+                  },
+                  showCursor: true,
+                  cursorColor: const Color(0xdeedd03c),
+                  style:
+                  TextStyle(fontSize: 18, color: const Color(0xff334856)),
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
+                    filled: true,
+                    fillColor: Color(0xbfffffff),
+                    // counterText: '${_enteredText.length.toString()}character(s)',
+                    contentPadding: EdgeInsets.only(right: 10, top: 20),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 0.20,
+                        color: const Color(0xffc1c1c1),
+                      ),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      // width: 0.0 produces a thin "hairline" border
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide(
+                        color: const Color(0xdeedd03c),
+                      ),
+                    ),
+                    prefixStyle:
+                    TextStyle(fontSize: 18, color: const Color(0xff334856)),
+                    hoverColor: const Color(0xff334856),
+                    hintText: "أبحث عن....",
+                    hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: const Color(0xffcbcbcc),
+                        fontFamily: 'Tajawal'),
+                    labelStyle: TextStyle(
+                        fontSize: 15,
+                        color: const Color(0xff334856),
+                        fontFamily: 'Tajawal'),
+                    alignLabelWithHint: true,
+                    //border: OutlineInputBorder(),
+                    // hoverColor: const Color(0xff334856),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      search = searchTerm.text;
+                    },
+                    icon: Icon(Icons.search, color: const Color(0xdeedd03c))),
+              ],
+            ),
+          ),
         ),
       );
   }
@@ -199,7 +224,7 @@ class _SearchRequests extends State<SearchRequests> {
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
     i++;
-    if (document["mosque_name"].toString().contains(searchTerm.text)) {
+    if (document["mosque_name"].toString().contains(search) && isExecuted==true) {
       if (document['type'].toString() == "مبلغ" &&
           document['donated'] != document['amount']) {
         return Container(
@@ -614,7 +639,7 @@ class _SearchRequests extends State<SearchRequests> {
         alignment: Alignment.center,
         child: Padding(
           padding: const EdgeInsets.all(30.0),
-          child: Text((i==1)? "no results" : ""),
+          child: Text((i == 1) ? "no results" : ""),
         ),
       );
     }
