@@ -37,10 +37,9 @@ class FeedViewModel with ChangeNotifier {
 
   Future fetchRequestsSearch(String query) async {
     var firebase=  FirebaseFirestore.instance
-        .collection('requests').where('title', isGreaterThanOrEqualTo: query);
-    _requests2 =
-        firebase
-            .snapshots();
+        .collection('requests').where('title', isGreaterThanOrEqualTo: query).snapshots();
+    _requests =
+        firebase;
     notifyListeners();
   }
 }

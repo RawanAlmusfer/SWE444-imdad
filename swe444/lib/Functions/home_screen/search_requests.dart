@@ -39,8 +39,9 @@ class _SearchRequests extends State<SearchRequests> {
   //int? donated= PaymentScreen.vDonatedAmount;
   bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
-  String search = "";
-  int i = 0;
+  String search="";
+  int i=0;
+
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _SearchRequests extends State<SearchRequests> {
 
   setup() async {
     if (isExecuted == true) {
-      await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
+      await Provider.of<FeedViewModel>(context, listen: false).fetchRequestsSearch(search);
     }
   }
 
@@ -62,7 +63,7 @@ class _SearchRequests extends State<SearchRequests> {
   Widget build(BuildContext context) {
     Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
         Provider.of<FeedViewModel>(context, listen: false).requests;
-    if (isExecuted == true) {
+    {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xffededed),
@@ -85,92 +86,7 @@ class _SearchRequests extends State<SearchRequests> {
                   showCursor: true,
                   cursorColor: const Color(0xdeedd03c),
                   style:
-                      TextStyle(fontSize: 18, color: const Color(0xff334856)),
-                  textAlign: TextAlign.right,
-                  decoration: InputDecoration(
-                    // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
-                    filled: true,
-                    fillColor: Color(0xbfffffff),
-                    // counterText: '${_enteredText.length.toString()}character(s)',
-                    contentPadding: EdgeInsets.only(right: 10, top: 20),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 0.20,
-                        color: const Color(0xffc1c1c1),
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(
-                        color: const Color(0xdeedd03c),
-                      ),
-                    ),
-                    prefixStyle:
-                        TextStyle(fontSize: 18, color: const Color(0xff334856)),
-                    hoverColor: const Color(0xff334856),
-                    hintText: "أبحث عن....",
-                    hintStyle: TextStyle(
-                        fontSize: 16,
-                        color: const Color(0xffcbcbcc),
-                        fontFamily: 'Tajawal'),
-                    labelStyle: TextStyle(
-                        fontSize: 15,
-                        color: const Color(0xff334856),
-                        fontFamily: 'Tajawal'),
-                    alignLabelWithHint: true,
-                    //border: OutlineInputBorder(),
-                    // hoverColor: const Color(0xff334856),
-                  ),
-                ),
-                IconButton(
-                    onPressed: () {
-                      search = searchTerm.text;
-                    },
-                    icon: Icon(Icons.search, color: const Color(0xdeedd03c))),
-              ],
-            ),
-          ),
-        ),
-        backgroundColor: const Color(0xffededed),
-        body: StreamBuilder(
-            stream: requests,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return _buildWaitingScreen();
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                itemBuilder: (BuildContext context, int index) => buildCards(
-                    context, (snapshot.data! as QuerySnapshot).docs[index]),
-              );
-            }),
-      );
-    } else
-      return Scaffold(
-        backgroundColor: const Color(0xffededed),
-        appBar: AppBar(
-          backgroundColor: const Color(0xffededed),
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          actions: <Widget>[
-            // IconButton(onPressed: () {}, icon: Icon(Icons.search, color: const Color(0xdeedd03c)),
-          ],
-          title: Padding(
-            padding: const EdgeInsets.only(
-                left: 30.0, right: 30, top: 35, bottom: 30),
-            child: Stack(
-              children: [
-                TextField(
-                  maxLines: 1,
-                  controller: searchTerm,
-                  onChanged: (_val) {
-                    if (_val != null) searchTerm.text = _val;
-                  },
-                  showCursor: true,
-                  cursorColor: const Color(0xdeedd03c),
-                  style:
-                  TextStyle(fontSize: 18, color: const Color(0xff334856)),
+                  TextStyle(fontSize: 20, color: const Color(0xff334856)),
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
                     // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
@@ -209,22 +125,33 @@ class _SearchRequests extends State<SearchRequests> {
                     // hoverColor: const Color(0xff334856),
                   ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      search = searchTerm.text;
-                    },
-                    icon: Icon(Icons.search, color: const Color(0xdeedd03c))),
+                IconButton(onPressed: () {search=searchTerm.text; isExecuted = true;}, icon: Icon(Icons.search, color: const Color(0xdeedd03c))),
+
               ],
             ),
           ),
+
         ),
+        backgroundColor: const Color(0xffededed),
+        body: StreamBuilder(
+            stream: requests,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return _buildWaitingScreen();
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+                itemBuilder: (BuildContext context, int index) => buildCards(
+                    context, (snapshot.data! as QuerySnapshot).docs[index]),
+              );
+            }),
       );
+    }
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
     i++;
-    if (document["mosque_name"].toString().contains(search) && isExecuted==true) {
+    // if (document["mosque_name"].toString().contains(search)) {
       if (document['type'].toString() == "مبلغ" &&
           document['donated'] != document['amount']) {
         return Container(
@@ -634,16 +561,17 @@ class _SearchRequests extends State<SearchRequests> {
       } else {
         return Container();
       }
-    } else {
-      return Container(
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Text((i == 1) ? "no results" : ""),
-        ),
-      );
     }
-  }
+    // else {
+    //   return Container(
+    //     alignment: Alignment.center,
+    //     child: Padding(
+    //       padding: const EdgeInsets.all(30.0),
+    //       child: Text((i==1)? "no results" : ""),
+    //     ),
+    //   );
+    // }
+  // }
 
 // void updateOnFirebase(String? id) async {
 //   RequestViewModel requestVM = RequestViewModel();
