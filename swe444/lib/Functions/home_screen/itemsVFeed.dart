@@ -281,6 +281,7 @@ class ivFeed extends State<itemsv_feed> {
                             .lunchURL(document['mosque_location'].toString());
                       },
                     ),
+
                   ]),
                 ),
               ],
