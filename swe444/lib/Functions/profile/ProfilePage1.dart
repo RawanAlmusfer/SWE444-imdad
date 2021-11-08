@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String _title = "الملف الشخصي";
 
   final auth = FirebaseAuth.instance;
-
+  static const IconData edit = IconData(0xe21a, fontFamily: 'MaterialIcons');
   String _userFirstName = 'User NAme';
   String _userLastName = 'Last Name';
   late String _userEmail;
@@ -323,26 +323,34 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ...ListTile.divideTiles(
                                         color: Colors.grey,
                                         tiles: [
-                                          ListTile(
-                                            onTap: () async{
+
+                                          ListTile( trailing:Icon( isVolunteer()?Icons.edit:null),onTap:()async{
                                             //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                              final text  = await showTextInputDialog(context: context,title: 'أدخل الاسم الأول', textFields: [DialogTextField()] ,okLabel: 'تأكيد',
-                                                cancelLabel: 'الغاء',);
-                                              if(text != null)
+                                            final text  = await showTextInputDialog(context: context,title: 'أدخل الاسم الأول', textFields: [DialogTextField()] ,okLabel: 'تأكيد',
+                                              cancelLabel: 'الغاء',);
+                                            if(text != null)
 
 
                                               FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
-                                                //  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
-                                                   {'first_name':text[0]}).then((value) {
-                                                    setState(() {
-                                                      _userFirstName = text[0];
-                                                    });
+                                               //  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
+                                                  {'first_name':text[0]}).then((value) {
+                                                setState(() {
+                                                  _userFirstName = text[0];
+                                                });
                                               });
-                                            },
+                                          },
+
+
+
+
                                             leading: Icon(isVolunteer()
                                                 ? Icons.person
                                                 : Icons.account_balance),
-                                            title: Text(
+
+
+
+
+                              title: Text(
                                               isVolunteer()
                                                   ? "الاسم الاول "
                                                   : "اسم المسجد",
@@ -359,8 +367,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
 
                                           ListTile(
-                                              onTap: () async{
-                                               // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                            onTap:() async{
+                                          // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
                                                 final text  = await showTextInputDialog(context: context,title: 'أدخل الاسم الأخير', textFields: [DialogTextField()] ,okLabel: 'تأكيد',
                                                   cancelLabel: 'الغاء',);
                                                 if(text != null)
@@ -371,22 +379,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       _userLastName = text[0];
                                                     });
                                                   });
-                                              },
-                                              leading: Icon(isVolunteer()
+                                               },
+                                           leading: Icon(isVolunteer()
                                                   ? Icons.person
                                                   : Icons.shield),
+                                              trailing:  Icon(isVolunteer()?Icons.edit:null),
                                               title: Text(
                                                 isVolunteer()
                                                     ? "الاسم الاخير "
                                                     : " كود المسجد",
                                                // style: bold,
                                               ),
-                                              subtitle: Text(
+                                            subtitle: Text(
+
                                                 "${isVolunteer() ? _userLastName : mosqueCode}",
-                                                style: TextStyle(
+                                               style: TextStyle(
                                                   fontFamily: 'Tajawal',
                                                 ),
-                                              )),
+                                              )
+                                           ),
                                           // ListTile(
                                           //  contentPadding: EdgeInsets.symmetric(
                                           //      horizontal: 12, vertical: 4),
@@ -398,7 +409,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             onTap: () async{
                                              // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
                                               final text  = await showTextInputDialog(context: context,title: 'أدخل البريد الالكتروني',textFields: [DialogTextField()] ,okLabel: 'تأكيد',
-                                                cancelLabel: 'الغاء',);
+                                                cancelLabel: 'الغاء');
                                               if(text != null)
                                                 FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
                                                     {'email':text[0]}).then((value) {
@@ -418,6 +429,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   fontFamily: 'Tajawal'),
                                             ),
                                             leading: Icon(Icons.mail),
+                                            trailing:  Icon(Icons.edit),
                                           ),
                                           ListTile(
                                             onTap: () async{
@@ -435,6 +447,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                             leading: Icon(
                                               Icons.phone,
                                             ),
+
+                                            trailing:  Icon(Icons.edit ) ,
                                             title: Text(
                                               "رقم الجوال",
                                               style: TextStyle(
