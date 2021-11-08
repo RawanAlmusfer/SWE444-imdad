@@ -173,7 +173,6 @@ class _SearchRequests extends State<SearchRequests> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    i++;
     if (document["mosque_name"].toString().contains(search) ||
         document["title"].toString().contains(search) || document["description"].toString().contains(search)) {
       if (document['type'].toString() == "مبلغ" &&
