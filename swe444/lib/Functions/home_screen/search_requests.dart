@@ -64,7 +64,7 @@ class _SearchRequests extends State<SearchRequests> {
     {
       return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
+          preferredSize: Size.fromHeight(70),
           child: AppBar(
             backgroundColor: const Color(0xffededed),
             automaticallyImplyLeading: false,
@@ -86,14 +86,14 @@ class _SearchRequests extends State<SearchRequests> {
                     showCursor: true,
                     cursorColor: const Color(0xdeedd03c),
                     style:
-                        TextStyle(fontSize: 16, color: const Color(0xff334856)),
+                        TextStyle(fontSize: 17, color: const Color(0xff334856)),
                     textAlign: TextAlign.right,
                     decoration: InputDecoration(
                       // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
                       filled: true,
                       fillColor: Color(0xbfffffff),
                       // counterText: '${_enteredText.length.toString()}character(s)',
-                      contentPadding: EdgeInsets.only(right: 10),
+                      contentPadding: EdgeInsets.only(right:20, top: 3),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 0.20,
@@ -109,11 +109,11 @@ class _SearchRequests extends State<SearchRequests> {
                         ),
                       ),
                       prefixStyle:
-                          TextStyle(fontSize: 18, color: const Color(0xff334856)),
+                          TextStyle(fontSize: 17, color: const Color(0xff334856)),
                       hoverColor: const Color(0xff334856),
                       hintText: "أبحث عن....",
                       hintStyle: TextStyle(
-                          fontSize: 14,
+                          fontSize: 17,
                           color: const Color(0xffcbcbcc),
                           fontFamily: 'Tajawal'),
                       labelStyle: TextStyle(
