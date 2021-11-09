@@ -59,22 +59,10 @@ class _SearchRequests extends State<SearchRequests> {
         .getSearchResults.clear();
     await Provider.of<FeedViewModel>(context, listen: false)
         .QueryRequests(s.trim());
-    print("here2");
-    // if (Provider.of<FeedViewModel>(context, listen: false)
-    //     .length == 0)
-    //   return Container(
-    //     alignment: Alignment.center,
-    //     child: Padding(
-    //       padding: const EdgeInsets.all(30.0),
-    //       child: Text("no results"),
-    //     ),
-    //   );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-    //     Provider.of<FeedViewModel>(context, listen: false).requests;
     {
       return Scaffold(
         appBar: PreferredSize(
@@ -83,9 +71,6 @@ class _SearchRequests extends State<SearchRequests> {
             backgroundColor: const Color(0xffededed),
             automaticallyImplyLeading: false,
             elevation: 0,
-            actions: <Widget>[
-              // IconButton(onPressed: () {}, icon: Icon(Icons.search, color: const Color(0xdeedd03c)),
-            ],
             flexibleSpace: Padding(
               padding: const EdgeInsets.only(
                   left: 30.0, right: 30, top: 20, bottom: 10),
@@ -147,7 +132,6 @@ class _SearchRequests extends State<SearchRequests> {
                               Duration.zero,
                               () => setState(() {
                                     searchFunc(search);
-                                    print("here1");
                                   }));
                         });
                       },
@@ -164,7 +148,8 @@ class _SearchRequests extends State<SearchRequests> {
               stream: Provider.of<FeedViewModel>(context, listen: false)
                   .requests,
               builder: (context, snapshot) {
-                if (!snapshot.hasData)
+                if (Provider.of<FeedViewModel>(context, listen: false)
+                    .getSearchResults.length==0)
                   return Container(
                     alignment: Alignment.center,
                     child: Padding(
@@ -173,7 +158,7 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                   );
                 // return _buildWaitingScreen();
-                return ListView.builder(
+                  return ListView.builder(
                   shrinkWrap: true,
                   itemCount: (snapshot.data! as QuerySnapshot).docs.length,
                   itemBuilder: (BuildContext context, int index) =>
@@ -182,14 +167,13 @@ class _SearchRequests extends State<SearchRequests> {
                 );
               }),
         ),
+
       );
     }
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    // if (document["mosque_name"].toString().contains(search) ||
-    //     document["title"].toString().contains(search) || document["description"].toString().contains(search))
     if (Provider.of<FeedViewModel>(context, listen: false)
         .getSearchResults.contains(document.id))
     {
