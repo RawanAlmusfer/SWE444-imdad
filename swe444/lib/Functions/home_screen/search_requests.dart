@@ -54,7 +54,21 @@ class _SearchRequests extends State<SearchRequests> {
 
   searchFunc(String s) async {
     await Provider.of<FeedViewModel>(context, listen: false)
-        .fetchRequestsSearch(s.trim());
+        .fetchRequests();
+    Provider.of<FeedViewModel>(context, listen: false)
+        .getSearchResults.clear();
+    await Provider.of<FeedViewModel>(context, listen: false)
+        .QueryRequests(s.trim());
+    print("here2");
+    // if (Provider.of<FeedViewModel>(context, listen: false)
+    //     .length == 0)
+    //   return Container(
+    //     alignment: Alignment.center,
+    //     child: Padding(
+    //       padding: const EdgeInsets.all(30.0),
+    //       child: Text("no results"),
+    //     ),
+    //   );
   }
 
   @override
@@ -133,6 +147,7 @@ class _SearchRequests extends State<SearchRequests> {
                               Duration.zero,
                               () => setState(() {
                                     searchFunc(search);
+                                    print("here1");
                                   }));
                         });
                       },
@@ -144,10 +159,10 @@ class _SearchRequests extends State<SearchRequests> {
         ),
         backgroundColor: const Color(0xffededed),
         body: Padding(
-          padding: const EdgeInsets.only(top: 5.0),
+          padding: const EdgeInsets.only(top: 0.0),
           child: StreamBuilder(
               stream: Provider.of<FeedViewModel>(context, listen: false)
-                  .requests2,
+                  .requests,
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
                   return Container(
@@ -173,8 +188,11 @@ class _SearchRequests extends State<SearchRequests> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document["mosque_name"].toString().contains(search) ||
-        document["title"].toString().contains(search) || document["description"].toString().contains(search)) {
+    // if (document["mosque_name"].toString().contains(search) ||
+    //     document["title"].toString().contains(search) || document["description"].toString().contains(search))
+    if (Provider.of<FeedViewModel>(context, listen: false)
+        .getSearchResults.contains(document.id))
+    {
       if (document['type'].toString() == "مبلغ" &&
           document['donated'] != document['amount']) {
         return Container(
