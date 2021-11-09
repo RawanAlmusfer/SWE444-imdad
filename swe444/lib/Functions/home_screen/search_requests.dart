@@ -41,6 +41,8 @@ class _SearchRequests extends State<SearchRequests> {
   TextEditingController searchTerm = TextEditingController();
   String search = "";
   int i = 0;
+  // int? numOfResults=0;
+  // bool change= false;
 
   @override
   void initState() {
@@ -53,12 +55,12 @@ class _SearchRequests extends State<SearchRequests> {
   // }
 
   searchFunc(String s) async {
-    await Provider.of<FeedViewModel>(context, listen: false)
-        .fetchRequests();
-    Provider.of<FeedViewModel>(context, listen: false)
-        .getSearchResults.clear();
+    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
+    Provider.of<FeedViewModel>(context, listen: false).getSearchResults.clear();
     await Provider.of<FeedViewModel>(context, listen: false)
         .QueryRequests(s.trim());
+    // numOfResults= await Provider.of<FeedViewModel>(context, listen: false).getLength();
+    // change= true;
   }
 
   @override
@@ -84,8 +86,8 @@ class _SearchRequests extends State<SearchRequests> {
                     },
                     showCursor: true,
                     cursorColor: const Color(0xdeedd03c),
-                    style:
-                        TextStyle(fontSize: 17, color: const Color(0xff334856)),
+                    style: TextStyle(
+                        fontSize: 17, color: const Color(0xff334856)),
                     textAlign: TextAlign.right,
                     decoration: InputDecoration(
                       // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
@@ -135,7 +137,8 @@ class _SearchRequests extends State<SearchRequests> {
                                   }));
                         });
                       },
-                      icon: Icon(Icons.search, color: const Color(0xdeedd03c))),
+                      icon:
+                          Icon(Icons.search, color: const Color(0xdeedd03c))),
                 ],
               ),
             ),
@@ -145,11 +148,13 @@ class _SearchRequests extends State<SearchRequests> {
         body: Padding(
           padding: const EdgeInsets.only(top: 0.0),
           child: StreamBuilder(
-              stream: Provider.of<FeedViewModel>(context, listen: false)
-                  .requests,
+              stream:
+                  Provider.of<FeedViewModel>(context, listen: false).requests,
               builder: (context, snapshot) {
                 if (Provider.of<FeedViewModel>(context, listen: false)
-                    .getSearchResults.length==0)
+                        .getSearchResults
+                        .length ==
+                    0)
                   return Container(
                     alignment: Alignment.center,
                     child: Padding(
@@ -158,16 +163,14 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                   );
                 // return _buildWaitingScreen();
-                  return ListView.builder(
+                return ListView.builder(
                   shrinkWrap: true,
                   itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                  itemBuilder: (BuildContext context, int index) =>
-                      buildCards(context,
-                          (snapshot.data! as QuerySnapshot).docs[index]),
+                  itemBuilder: (BuildContext context, int index) => buildCards(
+                      context, (snapshot.data! as QuerySnapshot).docs[index]),
                 );
               }),
         ),
-
       );
     }
   }
@@ -175,8 +178,13 @@ class _SearchRequests extends State<SearchRequests> {
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
     if (Provider.of<FeedViewModel>(context, listen: false)
-        .getSearchResults.contains(document.id))
-    {
+        .getSearchResults
+        .contains(document.id)) {
+      // if(Provider.of<FeedViewModel>(context, listen: false)
+      //     .getSearchResults
+      //     .first == document.id){
+      //   change=false;
+      // }
       if (document['type'].toString() == "مبلغ" &&
           document['donated'] != document['amount']) {
         return Container(
@@ -392,6 +400,29 @@ class _SearchRequests extends State<SearchRequests> {
                       ),
                     ]),
                   ),
+                  // if(Provider.of<FeedViewModel>(context, listen: false)
+                  //     .getSearchResults
+                  //     .last == document.id)
+                  //   Padding(
+                  //     padding: const EdgeInsets.only(
+                  //         top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  //     child: Row(children: <Widget>[
+                  //       Row(
+                  //         children: [
+                  //           Padding(
+                  //             padding: EdgeInsets.only(top: 48),
+                  //             child: Text(
+                  //               "النتائج: ${numOfResults}",
+                  //               textAlign: TextAlign.right,
+                  //               style:
+                  //               TextStyle(color: Color(0xde747474), fontSize: 12),
+                  //             ),
+                  //           )
+                  //         ],
+                  //       ),
+                  //     ]),
+                  //   ),
+
                 ],
               ),
             ),

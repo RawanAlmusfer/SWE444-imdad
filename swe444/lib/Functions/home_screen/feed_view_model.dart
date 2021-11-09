@@ -26,6 +26,12 @@ class FeedViewModel with ChangeNotifier {
     return searchResults;
   }
 
+  Future<int> getLength() async {
+    int length = searchResults.length;
+    notifyListeners();
+    return length;
+  }
+
   Future<void> lunchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -34,29 +40,29 @@ class FeedViewModel with ChangeNotifier {
     }
   }
 
-  Future fetchRequestsSearch(String query) async {
-    var firebase = FirebaseFirestore.instance
-        .collection('requests')
-        .where('mosque_name', isGreaterThanOrEqualTo: query)
-        .snapshots();
-
-    if (firebase.length == 0) {
-      firebase = FirebaseFirestore.instance
-          .collection('requests')
-          .where('title', isGreaterThanOrEqualTo: query)
-          .snapshots();
-    }
-    if (firebase.length == 0) {
-      firebase = FirebaseFirestore.instance
-          .collection('requests')
-          .where('description', isGreaterThanOrEqualTo: query)
-          .snapshots();
-    }
-
-    _requests2 = firebase;
-
-    notifyListeners();
-  }
+  // Future fetchRequestsSearch(String query) async {
+  //   var firebase = FirebaseFirestore.instance
+  //       .collection('requests')
+  //       .where('mosque_name', isGreaterThanOrEqualTo: query)
+  //       .snapshots();
+  //
+  //   if (firebase.length == 0) {
+  //     firebase = FirebaseFirestore.instance
+  //         .collection('requests')
+  //         .where('title', isGreaterThanOrEqualTo: query)
+  //         .snapshots();
+  //   }
+  //   if (firebase.length == 0) {
+  //     firebase = FirebaseFirestore.instance
+  //         .collection('requests')
+  //         .where('description', isGreaterThanOrEqualTo: query)
+  //         .snapshots();
+  //   }
+  //
+  //   _requests2 = firebase;
+  //
+  //   notifyListeners();
+  // }
 
   Future QueryRequests(String query) async {
     searchResults.clear();
