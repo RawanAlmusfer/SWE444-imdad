@@ -246,10 +246,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         amount: amount,
                         currency: 'USD',
                         description: description);
-                    print(response.message);
+                   // print(response.message);
 
                     showAlertDialog(context, response);
-                    feedbackResponseDonation(response);
+                   // feedbackResponseDonation(response);
                   } else {
 
                     String errorMessage= 'الرجاء التأكد من القيمة العددية المدخلة';

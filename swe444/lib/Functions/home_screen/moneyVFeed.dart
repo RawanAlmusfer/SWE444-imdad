@@ -332,6 +332,15 @@ await
                     ),
                     Spacer(),
                     IconButton(
+                      icon: Icon(Icons.notifications, color: Color(0xdeedd03c)),
+                      onPressed: ()  {
+
+                      //  var response = 'تم الاشتراك في المسجد';
+                       String? response = 'تم تفعيل التنبيهات لمسجد';
+                        showAlertDialog( context,  response);
+                      },
+                    ),
+                    IconButton(
                       icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
                       onPressed: () async {
                         await feedVM
@@ -339,12 +348,7 @@ await
                       },
                     ),
 
-                    IconButton(
-                      icon: Icon(Icons.doorbell_sharp, color: Color(0xdeedd03c)),
-                      onPressed: ()  {
 
-                      },
-                    ),
                   ]),
                 ),
               ],
@@ -357,20 +361,81 @@ await
     }
   }
 
+  showAlertDialog(BuildContext context, var response) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text(
+        "موافق",
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+      ),
+      style: ButtonStyle(
+          backgroundColor:
+          MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+      onPressed: () {
+        // VolunteerFeed();
+//PaymentScreen();
+        Navigator.of(context).pop(context);
 
-  // void updateOnFirebase(String? id) async {
-  //   RequestViewModel requestVM = RequestViewModel();
-  //
-  //   var documentID;
-  //
-  //   var collection = FirebaseFirestore.instance.collection('requests');
-  //   var querySnapshots = await collection.get();
-  //   for (var snapshot in querySnapshots.docs) {
-  //     documentID = snapshot.id; // <-- Document ID
-  //
-  //
-  //   }
-  // }
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
+      title: Text(
+        "تأكيد عملية الاشتراك ",
+        textAlign: TextAlign.right,
+        style: TextStyle(
+          fontFamily: "Tajawal",
+          color: const Color(0xdeedd03c),
+        ),
+      ),
+      content: Text(
+        feedbackResponse(response)!,
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal"),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+
+
+  String? feedbackResponse(String? response) {
+    //var response
+    if ((response) == 'تم تفعيل التنبيهات لمسجد') {
+      // isVDonatedPaymentScreen=1;
+
+      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+    } else if ((response) == 'Transaction canceled' ||
+        (response) == 'Something went wrong' ||
+        (response) == "لم يتم تفعيل التنبيهات لمسجد بنجاح") {
+     // PaymentScreen.vDonatedAmount = 0;
+      //  isVDonatedPaymentScreen=0;
+      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+    } else {
+      //  isVDonatedPaymentScreen=0;
+     // PaymentScreen.vDonatedAmount = 0;
+      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+    }
+  }
+
+
 }
 
 Widget _buildWaitingScreen() {
