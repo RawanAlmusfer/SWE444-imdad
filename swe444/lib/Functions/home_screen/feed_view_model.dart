@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:swe444/Models/request.dart';
@@ -26,6 +27,32 @@ class FeedViewModel with ChangeNotifier {
     } else {
       throw "Could not lunch the url";
     }
+  }
+  Future<bool> isSubscribed(String mID) async {
+  User? user = FirebaseAuth.instance.currentUser;
+  
+  await FirebaseFirestore.instance
+  .collection('users')
+  .doc(mID)
+  .collection("subscribedVolunteers")
+  .doc(user?.uid.toString())
+  .get()
+  .then((DocumentSnapshot documentSnapshot) async {
+      if (documentSnapshot.exists) {
+        print(user?.uid.toString());
+        print('Document exists on the database');
+        return true;
+      }
+      else {
+        print('Document dose not exists on the database');
+      return false;
+      }
+    }).catchError(
+              (e) {
+            print(e.toString());
+          },
+        );
+  return false;
   }
 
 }

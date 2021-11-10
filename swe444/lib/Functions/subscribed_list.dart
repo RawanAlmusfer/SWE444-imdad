@@ -78,11 +78,22 @@ class subscribedMList extends State<subscribed_list> {
     );
   }
 
-  Widget buildCards(BuildContext context, DocumentSnapshot document) {
+  Widget buildCards(BuildContext context, DocumentSnapshot document){
     FeedViewModel feedVM = FeedViewModel();
-    bool s =  isSubscribed(document['posted_by']);
-    print("s is "+s.toString());
-    if (  s && document['type'].toString() == "مبلغ" && document['donated'] != document['amount']) {
+
+    bool s = false;
+
+    print("s1 is " + s.toString());
+
+    Future<void> isVSubscribed() async {
+    s =  await feedVM.isSubscribed(document['posted_by']) as bool; 
+    print("s2 is " + s.toString());
+    }
+    
+    isVSubscribed();
+    print("s3 is " + s.toString());
+
+    if (  s  && document['type'].toString() == "مبلغ" && document['donated'] != document['amount']) {
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(
@@ -312,33 +323,6 @@ await
     }
   }
 }
-
-bool isSubscribed(String mID)  {
-  User? user = FirebaseAuth.instance.currentUser;
-  
-  FirebaseFirestore.instance
-  .collection('users')
-  .doc(mID)
-  .collection("subscribedVolunteers")
-  .doc(user?.uid.toString())
-  .get()
-  .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        print(user?.uid.toString());
-        print('Document exists on the database');
-        return true;
-      }
-      else {
-        print('Document dose not exists on the database');
-      return false;
-      }
-    }).catchError(
-              (e) {
-            print(e.toString());
-          },
-        );
-  return false;
-  }
 
 Widget _buildWaitingScreen() {
   return Scaffold(
