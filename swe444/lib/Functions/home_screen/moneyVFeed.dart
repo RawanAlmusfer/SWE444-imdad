@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:swe444/Functions/home_screen/v_subscribe/subscribe.dart';
 import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
 
@@ -333,11 +335,30 @@ await
                     Spacer(),
                     IconButton(
                       icon: Icon(Icons.notifications, color: Color(0xdeedd03c)),
-                      onPressed: ()  {
+                      onPressed: ()  async {
+//An obj from Subscription class
+                        Subscription subscription = new Subscription();
+                        //1st start if
+                   if (FirebaseAuth.instance.currentUser != null) {
+                     String vId = await FirebaseAuth.instance.currentUser!.uid;
+                     //Add the v to subscription list under this mm
+                     //check in firebase????
+                     String mmId=document['posted_by'];
+                     //check if there is a return value
 
-                      //  var response = 'تم الاشتراك في المسجد';
-                       String? response = 'تم تفعيل التنبيهات لمسجد';
-                        showAlertDialog( context,  response);
+                     subscription.addToMmDoc(vId,mmId) ;
+                     bool isAdded=subscription.checkIfVExists(vId) as bool;
+                    int? response =0;
+                     if (isAdded)
+                       {response = 1;}
+                    // else [no need since it's already 0]
+
+                       showAlertDialog( context,  response);
+
+
+
+
+                   } //end if
                       },
                     ),
                     IconButton(
@@ -361,7 +382,7 @@ await
     }
   }
 
-  showAlertDialog(BuildContext context, var response) {
+  showAlertDialog(BuildContext context, int response) {
     // set up the button
     Widget okButton = TextButton(
       child: Text(
@@ -416,21 +437,14 @@ await
 
 
 
-  String? feedbackResponse(String? response) {
-    //var response
-    if ((response) == 'تم تفعيل التنبيهات لمسجد') {
-      // isVDonatedPaymentScreen=1;
+  String? feedbackResponse(int response) {
 
+    if ((response) == 1) {
+
+//Extract the mosuqe name to add in the msg
       return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
-    } else if ((response) == 'Transaction canceled' ||
-        (response) == 'Something went wrong' ||
-        (response) == "لم يتم تفعيل التنبيهات لمسجد بنجاح") {
-     // PaymentScreen.vDonatedAmount = 0;
-      //  isVDonatedPaymentScreen=0;
-      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
     } else {
-      //  isVDonatedPaymentScreen=0;
-     // PaymentScreen.vDonatedAmount = 0;
+
       return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
     }
   }
