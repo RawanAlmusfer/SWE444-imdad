@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -79,7 +80,9 @@ class subscribedMList extends State<subscribed_list> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (isSubscribed(document['posted_by']) && document['type'].toString() == "مبلغ" && document['donated'] != document['amount']) {
+    bool s =  isSubscribed(document['posted_by']);
+    print("s is "+s.toString());
+    if (  s && document['type'].toString() == "مبلغ" && document['donated'] != document['amount']) {
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(
@@ -310,9 +313,31 @@ await
   }
 }
 
-bool isSubscribed(String mID) {
+bool isSubscribed(String mID)  {
+  User? user = FirebaseAuth.instance.currentUser;
   
-    return false;
+  FirebaseFirestore.instance
+  .collection('users')
+  .doc(mID)
+  .collection("subscribedVolunteers")
+  .doc(user?.uid.toString())
+  .get()
+  .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print(user?.uid.toString());
+        print('Document exists on the database');
+        return true;
+      }
+      else {
+        print('Document dose not exists on the database');
+      return false;
+      }
+    }).catchError(
+              (e) {
+            print(e.toString());
+          },
+        );
+  return false;
   }
 
 Widget _buildWaitingScreen() {
