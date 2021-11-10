@@ -22,12 +22,12 @@ class _ProfilePageState extends State<ProfilePage> {
   double _drawerIconSize = 24;
   double _drawerFontSize = 17;
   String _title = "الملف الشخصي";
-  bool _displayfirstname=true;
-  bool _displaylastname=true;
-  bool _displayemail=true;
-  bool _displayphonnumber=true;
+  bool _displayfirstname = true;
+  bool _displaylastname = true;
+  bool _displayemail = true;
+  bool _displayphonnumber = true;
   RegExp regex = RegExp(r'^.{2,}$');
-  RegExp regex2 = new RegExp(r'^.{6,}$');
+  RegExp regex2 =  RegExp(r'^.{6,}$');
   RegExp regex1 = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
   final auth = FirebaseAuth.instance;
   static const IconData edit = IconData(0xe21a, fontFamily: 'MaterialIcons');
@@ -38,8 +38,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String role = '';
   String? mosqueName;
   String? mosqueCode;
-
-
 
   User? user() {
     return auth.currentUser;
@@ -86,9 +84,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
     super.initState();
   }
-updateprofilefirstname(){
 
-}
+  updateprofilefirstname() {}
+
   @override
   Widget build(BuildContext context) {
     final bold = TextStyle(fontWeight: FontWeight.bold);
@@ -283,7 +281,7 @@ updateprofilefirstname(){
                           : "مسجد " + "${mosqueName} ",
                       style: TextStyle(
                         fontSize: 22,
-                      //  fontWeight: FontWeight.bold,
+                        //  fontWeight: FontWeight.bold,
                         fontFamily: 'Tajawal',
                       ),
                     ),
@@ -336,42 +334,49 @@ updateprofilefirstname(){
                                       ...ListTile.divideTiles(
                                         color: Colors.grey,
                                         tiles: [
-                                          ListTile(  enabled: isVolunteer(),
-                                         onTap:()async{
+                                          ListTile(
+                                            enabled: isVolunteer(),
+                                            onTap: () async {
+                                              //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                              final text =
+                                                  await showTextInputDialog(
+                                                context: context,
+                                                title: 'أدخل الاسم الأول',
+                                                textFields: [DialogTextField(
+                                                  hintText: 'ادخل الاسم الاول ',
+                                                  validator: (value){
+                                                    return !regex.hasMatch(value!)? 'يجب ان يكون حرفين أو أكثر ' : null;
+                                                  }
+                                                )],
+                                                okLabel: 'تأكيد',
+                                                cancelLabel: 'الغاء',
 
-                                            //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                            final text  = await showTextInputDialog(context: context,title: 'أدخل الاسم الأول', textFields: [DialogTextField()] , okLabel: 'تأكيد',
-                                              cancelLabel: 'الغاء',message:"يجب ان يكون ثلاث حروف أو أكثر " ,);
-                                            if(text != null )
-                                              setState(() {
-                                                 _userFirstName = text[0];
-                                               });
-                                            _userFirstName.trim().isEmpty|| _userFirstName!.isEmpty && RegExp(r"^[\p{L} ,.'-]*$",
-                                                caseSensitive: false, unicode: true, dotAll: true)
-                                                .hasMatch( _userFirstName)&&!regex.hasMatch(_userFirstName)?_displayfirstname=false:_displayfirstname=true;
+                                              );
+                                              if (text != null)
+                                                setState(() {
+                                                  _userFirstName = text[0];
+                                                });
+                                              //   _userFirstName.trim().isEmpty|| _userFirstName!.isEmpty && RegExp(r"^[\p{L} ,.'-]*$",
+                                              //    caseSensitive: false, unicode: true, dotAll: true)
+                                              //   .hasMatch( _userFirstName)&&!regex.hasMatch(_userFirstName)?_displayfirstname=false:_displayfirstname=true;
 
-
-                                             if(_displayfirstname){
-                                               FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
-                                               //  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
-                                                  {'first_name':text![0]}).then((value) {
-
-                                                });}
-
-
-                                          },
-
-
-
-
+                                              if (_displayfirstname) {
+                                                FirebaseFirestore.instance
+                                                    .collection('users')
+                                                    .doc(auth.currentUser!.uid)
+                                                    .update(
+                                                        //  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
+                                                        {
+                                                      'first_name': text![0]
+                                                    }).then((value) {});
+                                              }
+                                            },
                                             leading: Icon(isVolunteer()
                                                 ? Icons.person
                                                 : Icons.account_balance),
-                                            trailing:Icon( isVolunteer()?Icons.edit:null),
-
-
-
-
+                                            trailing: Icon(isVolunteer()
+                                                ? Icons.edit
+                                                : null),
                                             title: Text(
                                               isVolunteer()
                                                   ? "الاسم الاول "
@@ -389,43 +394,63 @@ updateprofilefirstname(){
                                           ),
 
                                           ListTile(
-                                            enabled: isVolunteer(),
-                                            onTap:() async{
-                                          // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                                final text  = await showTextInputDialog(context: context,title: 'أدخل الاسم الأخير',  textFields: [DialogTextField()] ,okLabel: 'تأكيد',
-                                                  cancelLabel: 'الغاء' );
+                                              enabled: isVolunteer(),
+                                              onTap: () async {
+                                                // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                                final text =
+                                                    await showTextInputDialog(
+                                                        context: context,
+                                                        title:
+                                                            'أدخل الاسم الأخير',
+                                                        textFields: [
+                                                          DialogTextField(
+                                                              hintText: 'ادخل الاسم الاخير ',
+                                                              validator: (value){
+                                                                return !regex.hasMatch(value!) ? 'يجب ان يكون ثلاث حروف أو أكثر ' : null;
+                                                              }
+                                                          )
+                                                        ],
+                                                        okLabel: 'تأكيد',
+                                                        cancelLabel: 'الغاء');
 
-                                                _userLastName.trim().isEmpty|| _userLastName!.isEmpty && RegExp(r"^[\p{L} ,.'-]*$",
-                                                      caseSensitive: false, unicode: true, dotAll: true)
-                                                      .hasMatch( _userLastName)&&!regex.hasMatch(_userLastName)?_displaylastname=false:_displaylastname=true;
-                                                if(text != null)
-
-                                                  FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
-                                                  //    {isVolunteer() ?'last_name': 'mosque_code':text[0]}).then((value) {
-                                                   {'last_name':text[0]}).then((value) {
-                                                   setState(() {
-                                                    _userLastName = text[0];
-                                                  });
-                                                        },);},
-
-                                           leading: Icon(isVolunteer()
+                                                //  _userLastName.trim().isEmpty|| _userLastName!.isEmpty && RegExp(r"^[\p{L} ,.'-]*$",
+                                                //    caseSensitive: false, unicode: true, dotAll: true)
+                                                //   .hasMatch( _userLastName)&&!regex.hasMatch(_userLastName)?_displaylastname=false:_displaylastname=true;
+                                                if (text != null)
+                                                  FirebaseFirestore.instance
+                                                      .collection('users')
+                                                      .doc(
+                                                          auth.currentUser!.uid)
+                                                      .update(
+                                                          //    {isVolunteer() ?'last_name': 'mosque_code':text[0]}).then((value) {
+                                                          {
+                                                        'last_name': text[0]
+                                                      }).then(
+                                                    (value) {
+                                                      setState(() {
+                                                        _userLastName = text[0];
+                                                      });
+                                                    },
+                                                  );
+                                              },
+                                              leading: Icon(isVolunteer()
                                                   ? Icons.person
                                                   : Icons.shield),
-                                              trailing: Icon(isVolunteer()?Icons.edit:null),
+                                              trailing: Icon(isVolunteer()
+                                                  ? Icons.edit
+                                                  : null),
                                               title: Text(
                                                 isVolunteer()
                                                     ? "الاسم الاخير "
                                                     : " كود المسجد",
-                                              //  style: bold,
+                                                //  style: bold,
                                               ),
-                                            subtitle: Text(
-
+                                              subtitle: Text(
                                                 "${isVolunteer() ? _userLastName : mosqueCode}",
-                                               style: TextStyle(
+                                                style: TextStyle(
                                                   fontFamily: 'Tajawal',
                                                 ),
-                                              )
-                                           ),
+                                              )),
                                           // ListTile(
                                           //  contentPadding: EdgeInsets.symmetric(
                                           //      horizontal: 12, vertical: 4),
@@ -434,24 +459,42 @@ updateprofilefirstname(){
                                           //   subtitle: Text("USA"),
                                           // ),
                                           ListTile(
-                                            onTap: () async{
-                                             // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                              final text  = await showTextInputDialog(context: context,title: 'أدخل البريد الالكتروني',textFields: [DialogTextField()] ,okLabel: 'تأكيد',
-                                                cancelLabel: 'الغاء');
-                                              _userEmail.trim().isEmpty|| _userEmail!.isEmpty&&!regex2.hasMatch(_userEmail)?_displayemail=false:_displayemail=false;
+                                            onTap: () async {
+                                              // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                              final text =
+                                                  await showTextInputDialog(
+                                                      context: context,
+                                                      title:
+                                                          'أدخل البريد الالكتروني',
+                                                      textFields: [
+                                                        DialogTextField(
+                                                            hintText: 'ادخل بريد الكتروني ',
+                                                            validator: (value){
+                                                              return !value!.contains('@') ? 'ادخل بريد الكتروني صحيح' : null;
+                                                            }
+                                                        )
+                                                      ],
+                                                      okLabel: 'تأكيد',
+                                                      cancelLabel: 'الغاء');
+                                              // _userEmail.trim().isEmpty|| _userEmail!.isEmpty&&!regex2.hasMatch(_userEmail)?_displayemail=false:_displayemail=false;
 
-                                              if(text != null)
-                                                FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
-                                                    {'email':text[0]}).then((value) {
+                                              if (text != null)
+                                                FirebaseFirestore.instance
+                                                    .collection('users')
+                                                    .doc(auth.currentUser!.uid)
+                                                    .update({
+                                                  'email': text[0]
+                                                }).then((value) {
                                                   setState(() {
-                                                    auth.currentUser?.updateEmail(text[0]);
+                                                    auth.currentUser
+                                                        ?.updateEmail(text[0]);
                                                     _userEmail = text[0];
                                                   });
                                                 });
                                             },
                                             title: Text(
                                               "البريد الالكتروني",
-                                            //  style: bold,
+                                              //  style: bold,
                                             ),
                                             subtitle: Text(
                                               "${_userEmail}",
@@ -459,17 +502,33 @@ updateprofilefirstname(){
                                                   fontFamily: 'Tajawal'),
                                             ),
                                             leading: Icon(Icons.mail),
-                                            trailing:  Icon(Icons.edit),
+                                            trailing: Icon(Icons.edit),
                                           ),
                                           ListTile(
-                                            onTap: () async{
-                                            //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                              final text  = await showTextInputDialog(context: context,title: 'أدخل رقم الجوال', textFields: [DialogTextField()] ,okLabel: 'تأكيد',
-                                                cancelLabel: 'الغاء',);
-                                              _userPhone.trim().isEmpty|| _userPhone!.isEmpty && _userPhone.length < 10 &&!regex1.hasMatch(_userPhone)?_displayphonnumber=false:_displayphonnumber=true;
-                                              if(text != null)
-                                                FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).update(
-                                                    {'phone_number':text[0]}).then((value) {
+                                            onTap: () async {
+                                              //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
+                                              final text =
+                                                  await showTextInputDialog(
+                                                context: context,
+                                                title: 'أدخل رقم الجوال',
+
+                                                textFields: [DialogTextField(
+                                                    hintText: 'ادخل رقم الجوال',
+                                                    validator: (value){
+                                                      return !regex1.hasMatch(value!) ? 'ادخل رقم جوال صحيح  ' : null;
+                                                    }
+                                                )],
+                                                okLabel: 'تأكيد',
+                                                cancelLabel: 'الغاء',
+                                              );
+                                              //    _userPhone.trim().isEmpty|| _userPhone!.isEmpty && _userPhone.length < 10 &&!regex1.hasMatch(_userPhone)?_displayphonnumber=false:_displayphonnumber=true;
+                                              if (text != null)
+                                                FirebaseFirestore.instance
+                                                    .collection('users')
+                                                    .doc(auth.currentUser!.uid)
+                                                    .update({
+                                                  'phone_number': text[0]
+                                                }).then((value) {
                                                   setState(() {
                                                     _userPhone = text[0];
                                                   });
@@ -478,8 +537,7 @@ updateprofilefirstname(){
                                             leading: Icon(
                                               Icons.phone,
                                             ),
-
-                                            trailing:  Icon(Icons.edit ) ,
+                                            trailing: Icon(Icons.edit),
                                             title: Text(
                                               "رقم الجوال",
                                               style: TextStyle(
