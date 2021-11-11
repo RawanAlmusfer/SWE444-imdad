@@ -157,8 +157,8 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
                               if (check == 0)
                                 return "الحالة مكتملة ، شكراً لتعاونك";
 
-                              if (donation > donated!)
-                                return " قيمة التبرع أكبر من الكمية المطلوبة ، الكمية المتبقية $check";
+                              // if (donation > donated!)
+                              //   return " قيمة التبرع أكبر من الكمية المطلوبة ، الكمية المتبقية $check";
                             }
                           }
                         }
@@ -177,7 +177,7 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
                   if (_formKey.currentState!.validate()) {
                     RequestViewModel requestVM = new RequestViewModel();
                     if (user != null)
-                      requestVM.donateItems(
+                      await requestVM.donateItems(
                           widget.document, _controller.text, user!);
                     if (requestVM.msgType == "success") {
                       showAlertDialog(context);

@@ -56,7 +56,7 @@ class ivFeed extends State<itemsv_feed> {
           child: Row(
             children: [
               Text(
-                "طلبات التبرع بغرض",
+                "طلبات التبرع بمورد",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff334856),
@@ -257,9 +257,9 @@ class ivFeed extends State<itemsv_feed> {
                       height: 30,
                       width: 65,
                       child: ElevatedButton(
-                        onPressed: () {
-                          ItemsDScreen(document: document);
-                        },
+                        onPressed: () async {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemsDScreen(document: document)));
+                          },
                         child: Text(
                           "تبرع",
                           textAlign: TextAlign.center,
