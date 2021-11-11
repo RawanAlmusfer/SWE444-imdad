@@ -132,7 +132,7 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
                               color: Color(0xdeedd03c),
                             )),
                       ),
-                      textAlign: TextAlign.left,
+                      textAlign: TextAlign.right,
                       inputFormatters: [
                         new WhitelistingTextInputFormatter(RegExp("[0-9]")),
                       ],
@@ -157,8 +157,8 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
                               if (check == 0)
                                 return "الحالة مكتملة ، شكراً لتعاونك";
 
-                              // if (donation > donated!)
-                              //   return " قيمة التبرع أكبر من الكمية المطلوبة ، الكمية المتبقية $check";
+                              if (donation > check)
+                                return " قيمة التبرع أكبر من الكمية المطلوبة ، الكمية المتبقية $check";
                             }
                           }
                         }
