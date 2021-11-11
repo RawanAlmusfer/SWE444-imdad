@@ -348,10 +348,16 @@ await
 
                      subscription.addToMmDoc(vId,mmId) ;
                      bool isAdded=subscription.checkIfVExists(vId) as bool;
+                     // -1 --> already there [Fail] ,0 --> wants to subscribe [Pass],1 --> wants to unsubscribe [Pass]
+                     //Try another logic [use each of subscribe mthds once; Add more logic to --> addToMmDoc] || use checkIfVExists twice & addToMmDoc once
                     int? response =0;
                      if (isAdded)
                        {response = 1;}
                     // else [no need since it's already 0]
+                     else {
+
+
+                     }
 
                        showAlertDialog( context,  response);
 
