@@ -159,7 +159,7 @@ class _SearchRequests extends State<SearchRequests> {
                     alignment: Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.all(30.0),
-                      child: Text("no results"),
+                      child: Text("لا يوجد نتائج تطابق البحث"),
                     ),
                   );
                 // return _buildWaitingScreen();
