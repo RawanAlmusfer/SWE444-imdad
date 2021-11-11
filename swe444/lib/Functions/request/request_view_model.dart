@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swe444/Models/request.dart';
 
 class RequestViewModel {
@@ -12,7 +13,6 @@ class RequestViewModel {
   String? _mosque_location;
   DateTime? _uplaod_time;
   String? _token;
-  String? _item;
   int? _requested;
   late String message;
   late String msgType;
@@ -166,7 +166,8 @@ class RequestViewModel {
           mosque_name: _mosque_name,
           mosque_location: _mosque_location,
           title: _title,
-          uplaod_time: _uplaod_time, token: _token);
+          uplaod_time: _uplaod_time,
+          token: _token);
 
       await FirebaseFirestore.instance
           .collection('requests')
@@ -187,7 +188,8 @@ class RequestViewModel {
           mosque_name: _mosque_name,
           mosque_location: _mosque_location,
           title: _title,
-          uplaod_time: _uplaod_time, token: _token);
+          uplaod_time: _uplaod_time,
+          token: _token);
 
       await FirebaseFirestore.instance
           .collection('requests')
@@ -203,36 +205,68 @@ class RequestViewModel {
     msgType = _msgtype;
   }
 
-  Future donateItem(DocumentSnapshot document, String amount) async {
+  // Future donateItem(DocumentSnapshot document, String amount) async {
+  //   String _message = "";
+  //   String _msgtype = "";
+  //   int? items=  int.parse(amount);
+  //
+  //     FundsRequest request = FundsRequest(
+  //         type: document['type'],
+  //         donated: items,
+  //         amount: int.parse(document['amount']),
+  //         posted_by: document['posted_by'],
+  //         description: document['description'],
+  //         mosque_name: document['mosque_name'],
+  //         mosque_location: document['mosque_location'],
+  //         title: document['title'],
+  //         uplaod_time: document['upload_time'], token: document['token']);
+  //
+  //     await FirebaseFirestore.instance
+  //         .collection('requests')
+  //         .doc(document.id)
+  //         .set(request.toJson())
+  //         .then((value) =>
+  //     {_message = 'تم تسجيل التبرع بنجاح', _msgtype = "success"})
+  //         .catchError((error) =>
+  //     {_message = " فشل في تسجيل التبرع" + error, _msgtype = "fail"});
+  //
+  //
+  //   message = _message;
+  //   msgType = _msgtype;
+  // }
+
+  Future donateItem(DocumentSnapshot document, String amount, User user) async {
     String _message = "";
     String _msgtype = "";
-    int? items=  int.parse(amount);
+    int? items = int.parse(amount);
+    if (user != null) {
+      var userDoc = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user.uid.toString())
+          .get();
+      String firstName = userDoc['name'].toString().trim();
+      String lastName = userDoc['name'].toString().trim();
 
-      FundsRequest request = FundsRequest(
-          type: document['type'].toString(),
-          donated: items,
-          amount: int.parse(document['amount'].toString()),
-          posted_by: document['posted_by'].toString(),
-          description: _description,
-          mosque_name: _mosque_name,
-          mosque_location: _mosque_location,
-          title: _title,
-          uplaod_time: _uplaod_time, token: _token);
+      Map<String, dynamic> donation = {
+        'num_of_items': items,
+        'status': "unconfirmed",
+        'donated_by': firstName + " " + lastName,
+      };
 
       await FirebaseFirestore.instance
           .collection('requests')
           .doc(document.id)
-          .set(request.toJson())
+          .collection('donations')
+          .add(donation)
           .then((value) =>
-      {_message = 'تم تسجيل التبرع بنجاح', _msgtype = "success"})
+              {_message = 'تم تسجيل التبرع بنجاح', _msgtype = "success"})
           .catchError((error) =>
-      {_message = " فشل في تسجيل التبرع" + error, _msgtype = "fail"});
+              {_message = " فشل في تسجيل التبرع" + error, _msgtype = "fail"});
 
-
-    message = _message;
-    msgType = _msgtype;
+      message = _message;
+      msgType = _msgtype;
+    }
   }
-
 
   Future cancelRequest(DocumentSnapshot document) async {
     String _message = "";
