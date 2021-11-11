@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -256,7 +257,9 @@ class ivFeed extends State<itemsv_feed> {
                       height: 30,
                       width: 65,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          ItemsDScreen(document: document);
+                        },
                         child: Text(
                           "تبرع",
                           textAlign: TextAlign.center,

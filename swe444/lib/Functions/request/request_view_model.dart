@@ -235,7 +235,7 @@ class RequestViewModel {
   //   msgType = _msgtype;
   // }
 
-  Future donateItem(DocumentSnapshot document, String amount, User user) async {
+  Future donateItems(DocumentSnapshot document, String amount, User user) async {
     String _message = "";
     String _msgtype = "";
     int? items = int.parse(amount);
@@ -244,8 +244,8 @@ class RequestViewModel {
           .collection("users")
           .doc(user.uid.toString())
           .get();
-      String firstName = userDoc['name'].toString().trim();
-      String lastName = userDoc['name'].toString().trim();
+      String firstName = userDoc['first_name'].toString().trim();
+      String lastName = userDoc['last_name'].toString().trim();
 
       Map<String, dynamic> donation = {
         'num_of_items': items,
