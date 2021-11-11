@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:swe444/Models/request.dart';
-import 'package:swe444/Widgets/show_snackbar.dart';
 
 class RequestViewModel {
   String? _posted_by;
@@ -18,6 +16,7 @@ class RequestViewModel {
   int? _requested;
   late String message;
   late String msgType;
+  int? itemsDonated;
 
   get userDocument {
     return FirebaseFirestore.instance.collection("users").doc(_posted_by).get();
@@ -203,6 +202,37 @@ class RequestViewModel {
     message = _message;
     msgType = _msgtype;
   }
+
+  Future donateItem(DocumentSnapshot document, String amount) async {
+    String _message = "";
+    String _msgtype = "";
+    int? items=  int.parse(amount);
+
+      FundsRequest request = FundsRequest(
+          type: document['type'].toString(),
+          donated: items,
+          amount: int.parse(document['amount'].toString()),
+          posted_by: document['posted_by'].toString(),
+          description: _description,
+          mosque_name: _mosque_name,
+          mosque_location: _mosque_location,
+          title: _title,
+          uplaod_time: _uplaod_time, token: _token);
+
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(document.id)
+          .set(request.toJson())
+          .then((value) =>
+      {_message = 'تم تسجيل التبرع بنجاح', _msgtype = "success"})
+          .catchError((error) =>
+      {_message = " فشل في تسجيل التبرع" + error, _msgtype = "fail"});
+
+
+    message = _message;
+    msgType = _msgtype;
+  }
+
 
   Future cancelRequest(DocumentSnapshot document) async {
     String _message = "";
