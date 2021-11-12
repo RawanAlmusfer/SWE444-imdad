@@ -5,10 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
-import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
-
-import 'package:url_launcher/url_launcher.dart';
 
 class SearchPage extends StatelessWidget {
   @override
@@ -186,7 +183,7 @@ class _SearchRequests extends State<SearchRequests> {
       //   change=false;
       // }
       if (document['type'].toString() == "مبلغ" &&
-          document['donated'] != document['amount']) {
+          document['donated'] < document['amount']) {
         return Container(
           padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
           child: Card(
@@ -428,7 +425,7 @@ class _SearchRequests extends State<SearchRequests> {
             ),
           ),
         );
-      } else if (document['type'].toString() == "موارد") {
+      } else if (document['type'].toString() == "موارد" && document['donated'] < document['amount_requested']) {
         // here is the type
         return Container(
           padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
