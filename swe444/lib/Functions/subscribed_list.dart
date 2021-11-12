@@ -81,19 +81,17 @@ class subscribedMList extends State<subscribed_list> {
   Widget buildCards(BuildContext context, DocumentSnapshot document){
     FeedViewModel feedVM = FeedViewModel();
 
-    bool s = false;
-
-    print("s1 is " + s.toString());
-
-    Future<void> isVSubscribed() async {
-    s =  await feedVM.isSubscribed(document['posted_by']) as bool; 
-    print("s2 is " + s.toString());
-    }
+    feedVM.isSubscribed(document['posted_by']);
     
-    isVSubscribed();
-    print("s3 is " + s.toString());
+    bool? isVSubscribed =
+        Provider
+            .of<FeedViewModel>(context, listen: false)
+            .isVSubscribed;
+    print("s1 is " + isVSubscribed.toString());
 
-    if (  s  && document['type'].toString() == "مبلغ" && document['donated'] != document['amount']) {
+
+    if ( isVSubscribed as bool  && document['type'].toString() == "مبلغ" && document['donated'] != document['amount']) {
+      //print("s2 is " + isVSubscribed.toString());
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(

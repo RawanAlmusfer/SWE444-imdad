@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class FeedViewModel with ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _requests;
-
+  bool? isVSubscribed = false;
   fetchRequests() async {
     var firebase=  FirebaseFirestore.instance
         .collection('requests');
@@ -41,18 +41,15 @@ class FeedViewModel with ChangeNotifier {
       if (documentSnapshot.exists) {
         print(user?.uid.toString());
         print('Document exists on the database');
-        return true;
+        isVSubscribed = true;
       }
       else {
         print('Document dose not exists on the database');
-      return false;
+      isVSubscribed = false;
       }
-    }).catchError(
-              (e) {
-            print(e.toString());
-          },
-        );
-  return false;
+    });
+ print("isVSubscribed is " + isVSubscribed.toString());
+  return isVSubscribed as bool;
   }
 
 }
