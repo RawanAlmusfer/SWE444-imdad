@@ -244,7 +244,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                     var response = await StripeServices.payNowHandler(
                         amount: amount,
-                        currency: 'USD',
+                        currency: 'SAR',
                         description: description);
                    // print(response.message);
 
