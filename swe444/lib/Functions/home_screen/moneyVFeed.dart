@@ -333,6 +333,8 @@ await
                       ),
                     ),
                     Spacer(),
+
+                    //If not subscribed let it be yellow else grey
                     IconButton(
                       icon: Icon(Icons.notifications, color: Color(0xdeedd03c)),
                       onPressed: ()  async {
@@ -346,16 +348,23 @@ await
                      String mmId=document['posted_by'];
                      //check if there is a return value
 
-                     subscription.addToMmDoc(vId,mmId) ;
-                     bool isAdded=subscription.checkIfVExists(vId) as bool;
-                     // -1 --> already there [Fail] ,0 --> wants to subscribe [Pass],1 --> wants to unsubscribe [Pass]
+
+                     bool isExisted=subscription.checkIfVExists(vId, mmId) as bool;
+                     // -1 --> already there [Fail]
                      //Try another logic [use each of subscribe mthds once; Add more logic to --> addToMmDoc] || use checkIfVExists twice & addToMmDoc once
+                     //0 --> Already subscribed, wants to unsubscribe[Pass],1 --> wants to subscribe, and he/she is added[Pass]
                     int? response =0;
-                     if (isAdded)
-                       {response = 1;}
+                     if (!isExisted)
+                       {
+                         //Wants to subscribe
+
+                       subscription.addToMmDoc(vId,mmId) ;
+                       //Return a var from addToMmDoc indicates if something went wrong, and restrict the response var
+                       response = 1;
+                       }
                     // else [no need since it's already 0]
                      else {
-
+                      //Wants to unsubscribe
 
                      }
 
