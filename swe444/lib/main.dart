@@ -6,6 +6,7 @@ import 'Functions/decisions_tree.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
+//import 'Functions/home_screen/home_widget.dart';
 import 'notificationHandler.dart';
 
 
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
       builder: () => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: DecisionsTree(),
+        //home: Home(),
         theme: ThemeData(fontFamily: 'Tajawal'),
       ),
       designSize: const Size(390, 844),
