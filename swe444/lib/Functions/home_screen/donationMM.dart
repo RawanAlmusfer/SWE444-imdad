@@ -55,7 +55,7 @@ class ivFeed extends State<itemsv_feed> {
           child: Row(
             children: [
               Text(
-                "طلب",
+                " طلب",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff334856),
@@ -104,6 +104,7 @@ class ivFeed extends State<itemsv_feed> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
+    //here i have to change to if there is some one donate
     if (document['type'].toString() == "موارد") {
       // here is the tpye
       return Container(
@@ -121,7 +122,10 @@ class ivFeed extends State<itemsv_feed> {
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 9.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
+
+                      const Spacer(),
                     Container(
+
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -136,7 +140,7 @@ class ivFeed extends State<itemsv_feed> {
                       child: ElevatedButton(
                         onPressed: () async {
                           //  Navigator.of(context).pop();
-                      //    Navigator.of(context).push(MaterialPageRoute(builder: (context) => itemsVFeed()));
+                          //    Navigator.of(context).push(MaterialPageRoute(builder: (context) => itemsVFeed()));
                         },
                         child: Text(
                           "لم يصل ",
@@ -187,12 +191,13 @@ class ivFeed extends State<itemsv_feed> {
                         ),
                       ),
                     ),
-                      const Spacer(),
+
 
                     Padding(
                       padding: const EdgeInsets.only(right: 10, top: 5),
-                      child: Text(
-                        document['title'],
+                      child: Text("اسم المتبرع",
+                      //  document['title'],
+
                         style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
                         // textAlign: TextAlign.left,
                       ),
@@ -216,15 +221,15 @@ class ivFeed extends State<itemsv_feed> {
                     const Spacer(),
                     Column(
                       children: [
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Text(
-                            document['description'],
-                            style: TextStyle(fontFamily: 'Tajawal'),
-                            textDirection: TextDirection
-                                .rtl, // make the text from right to left
-                          ),
-                        ),
+                       // Container(
+                       //   width: 250, // to wrap the text in multiline
+                       //   child: Text(
+                        //    document['description'],
+                        //    style: TextStyle(fontFamily: 'Tajawal'),
+                       //     textDirection: TextDirection
+                       //         .rtl, // make the text from right to left
+                       //   ),
+                     //   ),
 
 
 
@@ -233,18 +238,20 @@ class ivFeed extends State<itemsv_feed> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              'العدد: ' +
-                                  document['amount_requested'].toString(),
+                              'العدد: '
+                                 // document['amount_requested'].toString()
+                                  ,
                               style: TextStyle(fontFamily: 'Tajawal'),
                               textDirection: TextDirection
                                   .rtl, // make the text from right to left
                             ),
 
-                          ),
+
+                      ),),
 
 
 
-                        ),
+
 
 
 
