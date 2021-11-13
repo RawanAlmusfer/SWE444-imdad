@@ -56,8 +56,16 @@ class subscribedMList extends State<subscribed_list> {
     await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
   }
 
+getSubscribedListFunc() async {
+    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
+    Provider.of<FeedViewModel>(context, listen: false).getIsVSubscribed.clear();
+    await Provider.of<FeedViewModel>(context, listen: false)
+        .subscribedList();
+  }
+
   @override
   Widget build(BuildContext context) {
+getSubscribedListFunc();
     Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
         Provider
             .of<FeedViewModel>(context, listen: false)
@@ -65,10 +73,11 @@ class subscribedMList extends State<subscribed_list> {
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body: StreamBuilder(
-          stream: requests,
+          stream: Provider.of<FeedViewModel>(context, listen: false).requests,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
+               shrinkWrap: true,
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
               itemBuilder: (BuildContext context, int index) =>
                   buildCards(
@@ -80,17 +89,21 @@ class subscribedMList extends State<subscribed_list> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document){
     FeedViewModel feedVM = FeedViewModel();
-
-    feedVM.isSubscribed(document['posted_by']);
+    // feedVM.isSubscribed(document['posted_by']);
     
-    bool? isVSubscribed =
-        Provider
+    // bool? isVSubscribed =
+    //     Provider
+    //         .of<FeedViewModel>(context, listen: false)
+    //         .isVSubscribed;
+    // print("s1 is " + isVSubscribed.toString());
+
+    if(Provider
             .of<FeedViewModel>(context, listen: false)
-            .isVSubscribed;
-    print("s1 is " + isVSubscribed.toString());
+            .getIsVSubscribed
+            .contains(document.id)){
 
-
-    if ( isVSubscribed as bool  && document['type'].toString() == "مبلغ" && document['donated'] != document['amount']) {
+    
+    if (document['type'].toString() == "مبلغ" && document['donated'] != document['amount']) {
       //print("s2 is " + isVSubscribed.toString());
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
@@ -317,6 +330,10 @@ await
         ),
       );
     } else {
+      return Container();
+    }
+    }
+    else {
       return Container();
     }
   }
