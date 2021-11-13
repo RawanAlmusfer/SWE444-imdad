@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
-//import 'mm_feed.dart';
+import '../subscribed_list.dart';
 import 'home.dart';
 import 'moneyVFeed.dart';
 import '../logout.dart';
 
 class vHome extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
     return _HomeState();
@@ -15,15 +15,18 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 2;
+  int _currentIndex = 3;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
     ProfilePage(),
-    SearchPage(),
+   subscribedList(),
     vhome(),
+    vhome(),
+    //subscribed_list(),
     //VolunteerFeed(),
+    //searchPage(),
     //ProfilePage(),
   ];
 
@@ -86,10 +89,17 @@ class _HomeState extends State<vHome> {
                     icon: new Icon(Icons.person),
                     label: "الملف الشخصي",
                   ),
+
+                  BottomNavigationBarItem(
+                    icon: new Icon(Icons.redeem_rounded),
+                    label: "المتابَعين",
+                  ),
+
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.search),
                     label: "البحث",
                   ),
+
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.home),
                     label: "الصفحة الرئيسية",
@@ -107,17 +117,22 @@ class _HomeState extends State<vHome> {
           {
             _title = "الملف الشخصي";
           }
-          break;
+        break;
         case 1:
+          {
+            _title = 'المتابَعين';
+          }
+        break;
+        case 2:
           {
             _title = 'البحث';
           }
-          break;
-        case 2:
+        break;
+        case 3:
           {
             _title = 'الصفحة الرئيسية';
           }
-          break;
+        break;
       }
     });
   }

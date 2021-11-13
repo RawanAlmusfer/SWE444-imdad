@@ -23,3 +23,31 @@ export const notifyMosqueManager = functions.firestore.document("requests/{reque
   }
   console.log("Not completed yet");
 });
+
+export const notifysubscribedVolunteers = functions.firestore.document("requests/{requestID}").onCreate(async (snapshot, context) => {
+  const data = snapshot.data();
+  const managerID = data.posted_by;
+  admin.firestore().collection("users").doc(managerID).collection("subscribedVolunteers").get().then(async (snapshots) => {
+    const tokens = [];
+    if (snapshots.empty) {
+      console.log("No Devices");
+    } else {
+      for (const token of snapshots.docs) {
+        tokens.push(token.data().token);
+      }
+      const payloadData = {
+        title: "طلب جديد",
+        message: "اصدر مسجد" + " " + data.mosque_name + " " + "طلب جديد",
+      };
+      const payload = {
+        data: payloadData,
+      };
+      return await admin.messaging().sendToDevice(tokens, payload).then((response) => {
+        console.log("Pushed All Notifications");
+      });
+    }
+  })
+      .catch((err) => {
+        console.log(err);
+      });
+});
