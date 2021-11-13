@@ -9,11 +9,8 @@ class FeedViewModel with ChangeNotifier {
   // late bool? isVSubscribed;
   late List<String> isVSubscribed = [];
   fetchRequests() async {
-    var firebase=  FirebaseFirestore.instance
-        .collection('requests');
-    _requests =
-        firebase.orderBy('uplaod_time', descending: true)
-        .snapshots();
+    var firebase = FirebaseFirestore.instance.collection('requests');
+    _requests = firebase.orderBy('uplaod_time', descending: true).snapshots();
     notifyListeners();
   }
 
@@ -21,7 +18,8 @@ class FeedViewModel with ChangeNotifier {
     return _requests;
   }
 
-List<String> get getIsVSubscribed {
+  List<String> get getIsVSubscribed {
+    print("in getIsVSubscribed FVM");
     return isVSubscribed;
   }
 
@@ -34,61 +32,69 @@ List<String> get getIsVSubscribed {
   }
 
   Future<void> subscribedList() async {
-  User? user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
 
-  var userList = await FirebaseFirestore.instance.collection('users').get();
-
-   FirebaseFirestore.instance
+    var userList = await FirebaseFirestore.instance.collection('users').get();
+    String userID = user!.uid;
+    print("user ID in subscribedList " + userID);
+    await FirebaseFirestore.instance
         .collection('users')
         .where('role', isEqualTo: "mosqueManager")
         .get()
         .then((snapshot) {
-          snapshot.docs.forEach((mosqueManager) {
-          var isHere =
-           FirebaseFirestore
-           .instance
-           .collection("users")
-           .doc(mosqueManager.id)
-           .collection("subscribedVolunteers")
-           .doc(user?.uid.toString());
-          if(isHere != null){
-              if (!isVSubscribed.contains(mosqueManager.id)) isVSubscribed.add(mosqueManager.id);
-          } else{
-            print("not a fan hehehe:" + mosqueManager.id.toString());
+      snapshot.docs.forEach((mosqueManager) {
+        var isHere = FirebaseFirestore.instance
+            .collection("users")
+            .doc(mosqueManager.id)
+            .collection("subscribedVolunteers")
+            .doc(userID)
+            .get()
+            .then((value) {
+          if (!isVSubscribed.contains(mosqueManager.id)) {
+            isVSubscribed.add(mosqueManager.id);
+            print("This mosque added :" + mosqueManager.id.toString());
+          } else {
+            print("Already exists" + mosqueManager.id.toString());
           }
-          });
-      
+        });
+        // if () {
+        //   if (!isVSubscribed.contains(mosqueManager.id))
+        //     isVSubscribed.add(mosqueManager.id);
+        //   print(isVSubscribed[0].toString());
+        // } else {
+        //   print("not a fan hehehe:" + mosqueManager.id.toString());
+        // }
+      });
     });
-
-  notifyListeners();
+    print("in subscribedList FVM");
+    print(isVSubscribed.length.toString());
+    notifyListeners();
+    print("all clear here in subscribedList FVM");
   }
 
-
   Future<void> isSubscribed(String mID) async {
-  User? user = FirebaseAuth.instance.currentUser;
-  
-  await FirebaseFirestore.instance
-  .collection('users')
-  .doc(mID)
-  .collection("subscribedVolunteers")
-  .doc(user?.uid.toString())
-  .get()
-  .then((DocumentSnapshot documentSnapshot) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(mID)
+        .collection("subscribedVolunteers")
+        .doc(user?.uid.toString())
+        .get()
+        .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
         print(user?.uid.toString());
         print('Document exists on the database');
         //isVSubscribed = true;
-      }
-      else {
+      } else {
         print('Document dose not exists on the database');
-      //isVSubscribed = false;
+        //isVSubscribed = false;
       }
     });
- //print("isVSubscribed is " + isVSubscribed.toString());
- //notifyListeners();
-  // return isVSubscribed as bool;
+    //print("isVSubscribed is " + isVSubscribed.toString());
+    //notifyListeners();
+    // return isVSubscribed as bool;
   }
-
 }
 //
 // class RequestViewModel {
