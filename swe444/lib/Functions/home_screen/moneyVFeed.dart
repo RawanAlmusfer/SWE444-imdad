@@ -353,19 +353,22 @@ await
                      // -1 --> already there [Fail]
                      //Try another logic [use each of subscribe mthds once; Add more logic to --> addToMmDoc] || use checkIfVExists twice & addToMmDoc once
                      //0 --> Already subscribed, wants to unsubscribe[Pass],1 --> wants to subscribe, and he/she is added[Pass]
-                    int? response =0;
+                    String? response ='';
                      if (!isExisted)
                        {
                          //Wants to subscribe
 
                        subscription.addToMmDoc(vId,mmId) ;
                        //Return a var from addToMmDoc indicates if something went wrong, and restrict the response var
-                       response = 1;
+
                        }
                     // else [no need since it's already 0]
                      else {
-                      //Wants to unsubscribe
-
+                       bool isDeleted=subscription.deleteFromMmDoc(vId, mmId) as bool;
+                       if(isDeleted)
+                         response='تمت إزالة تفعيل التنبيهات لهذا المسجد';
+                         else
+                         response='لم تتم إزالة تفعيل التنبيهات لهذا المسجد بنجاح';
                      }
 
                        showAlertDialog( context,  response);
@@ -397,7 +400,7 @@ await
     }
   }
 
-  showAlertDialog(BuildContext context, int response) {
+  showAlertDialog(BuildContext context, String? response) {
     // set up the button
     Widget okButton = TextButton(
       child: Text(
@@ -432,7 +435,9 @@ await
         ),
       ),
       content: Text(
-        feedbackResponse(response)!,
+        response!
+       // feedbackResponse(response)!
+        ,
         textAlign: TextAlign.right,
         style: TextStyle(fontFamily: "Tajawal"),
       ),

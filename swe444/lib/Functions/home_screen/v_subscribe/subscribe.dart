@@ -17,17 +17,23 @@ class Subscription{
 }
 
 
-   deleteFromMmDoc(String vId, String mmId) async {
+   Future<bool> deleteFromMmDoc(String vId, String mmId) async {
      //Map<String, dynamic>? data = vId as Map<String, dynamic>?;
 
 
-
+     int? deleted=0;
      await FirebaseFirestore.instance
          .collection('users')
          .doc(mmId)
          .collection("subscribedVolunteers").doc(vId)
-         .delete().then((_) => print('تمت إزالة المتطوع من قائمة المشتركين'))
+         .delete().then((_) {
+   deleted=1;
+           print('تمت إزالة المتطوع من قائمة المشتركين');})
          .catchError((error) => print('لم إزالة المتطوع من قائمة المشتركين:$error'));
+
+     if(deleted==1)
+     return true;
+     else return false;
 
    }
 
