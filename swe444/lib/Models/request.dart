@@ -82,3 +82,36 @@ class ItemsRequest extends Request {
         "token": token,
       };
 }
+
+// class VolnRequest extends Request {
+//   int? number;
+//   int participants = 0;
+//
+//   VolnRequest(
+//       {this.amount,
+//         required this.donated,
+//         String? posted_by,
+//         String? type,
+//         String? description,
+//         String? title,
+//         String? mosque_name,
+//         String? mosque_location,
+//         DateTime? uplaod_time,
+//         String? token})
+//       : super(title, type, posted_by, description, mosque_name, mosque_location,
+//       uplaod_time, token);
+//
+//   Map<String, dynamic> toJson() => {
+//     'posted_by': posted_by,
+//     'title': title,
+//     'type': type,
+//     'description': description,
+//     'amount': amount,
+//     'donated': donated,
+//     'mosque_name': mosque_name,
+//     'mosque_location': mosque_location,
+//     'uplaod_time': uplaod_time,
+//     "token": token,
+//   };
+// }
+

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:swe444/Models/donation.dart';
 import 'package:swe444/Models/request.dart';
 
 class RequestViewModel {
@@ -235,7 +236,8 @@ class RequestViewModel {
   //   msgType = _msgtype;
   // }
 
-  Future donateItems(DocumentSnapshot document, String amount, User user) async {
+  Future donateItems(
+      DocumentSnapshot document, String amount, User user) async {
     String _message = "";
     String _msgtype = "";
     int? items = int.parse(amount);
@@ -247,21 +249,44 @@ class RequestViewModel {
       String firstName = userDoc['first_name'].toString().trim();
       String lastName = userDoc['last_name'].toString().trim();
 
-      Map<String, dynamic> donation = {
-        'num_of_items': items,
-        'status': "unconfirmed",
-        'donated_by': firstName + " " + lastName,
-      };
+      Donation donation = new Donation(
+          items, "unconfirmed", firstName + " " + lastName, DateTime.now());
+
+      FundsRequest request = FundsRequest(
+          type: document['type'],
+          donated: int.parse(document['donated'].toString()) + items,
+          amount: int.parse(document['amount_requested'].toString()),
+          posted_by: document['posted_by'],
+          description: document['description'],
+          mosque_name: document['mosque_name'],
+          mosque_location: document['mosque_location'],
+          title: document['title'],
+          uplaod_time: document['uplaod_time'],
+          token: document['token']);
 
       await FirebaseFirestore.instance
           .collection('requests')
           .doc(document.id)
           .collection('donations')
-          .add(donation)
-          .then((value) =>
-              {_message = 'تم تسجيل التبرع بنجاح', _msgtype = "success"})
-          .catchError((error) =>
-              {_message = " فشل في تسجيل التبرع" + error, _msgtype = "fail"});
+          .add(donation.toJson())
+          .then((value) async => {
+                await FirebaseFirestore.instance
+                    .collection('requests')
+                    .doc(document.id)
+                    .set(request.toJson())
+                    .then((value) => {
+                          _message = 'تم تسجيل التبرع بنجاح',
+                          _msgtype = "success"
+                        })
+                    .catchError((error) => {
+                          _message = " فشل في تسجيل التبرع" + error,
+                          _msgtype = "fail"
+                        }),
+              })
+          .catchError((error) => {
+                _message = " فشل في تسجيل التبرع" + error,
+                _msgtype = "fail",
+              });
 
       message = _message;
       msgType = _msgtype;
