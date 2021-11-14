@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Request {
   String? posted_by;
   String? type;
@@ -83,35 +85,50 @@ class ItemsRequest extends Request {
       };
 }
 
-// class VolnRequest extends Request {
-//   int? number;
-//   int participants = 0;
-//
-//   VolnRequest(
-//       {this.amount,
-//         required this.donated,
-//         String? posted_by,
-//         String? type,
-//         String? description,
-//         String? title,
-//         String? mosque_name,
-//         String? mosque_location,
-//         DateTime? uplaod_time,
-//         String? token})
-//       : super(title, type, posted_by, description, mosque_name, mosque_location,
-//       uplaod_time, token);
-//
-//   Map<String, dynamic> toJson() => {
-//     'posted_by': posted_by,
-//     'title': title,
-//     'type': type,
-//     'description': description,
-//     'amount': amount,
-//     'donated': donated,
-//     'mosque_name': mosque_name,
-//     'mosque_location': mosque_location,
-//     'uplaod_time': uplaod_time,
-//     "token": token,
-//   };
-// }
+class VolnRequest extends Request {
+  int? number;
+  int participants = 0;
+  DateTime startDate;
+  DateTime endDate;
+  int days;
+  TimeOfDay startTime;
+  TimeOfDay endTime;
+
+
+  VolnRequest(
+      {this.number,
+        required this.participants,
+        required this.days,
+        required this.startDate,
+        required this.endDate,
+        required this.startTime,
+        required this.endTime,
+        String? posted_by,
+        String? type,
+        String? description,
+        String? title,
+        String? mosque_name,
+        String? mosque_location,
+        DateTime? uplaod_time,
+        String? token})
+      : super(title, type, posted_by, description, mosque_name, mosque_location,
+      uplaod_time, token);
+
+  Map<String, dynamic> toJson() => {
+    'posted_by': posted_by,
+    'title': title,
+    'type': type,
+    'description': description,
+    'number': number,
+    'participants': participants,
+    'start_date': startDate,
+    'end_date': endDate,
+    'start_time': startTime,
+    'end_time': endTime,
+    'mosque_name': mosque_name,
+    'mosque_location': mosque_location,
+    'uplaod_time': uplaod_time,
+    "token": token,
+  };
+}
 
