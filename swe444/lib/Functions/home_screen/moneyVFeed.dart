@@ -341,30 +341,89 @@ await
 //An obj from Subscription class
                         Subscription subscription = new Subscription();
                         //1st start if
+
                    if (FirebaseAuth.instance.currentUser != null) {
+
                      String vId = await FirebaseAuth.instance.currentUser!.uid;
                      //Add the v to subscription list under this mm
                      //check in firebase????
                      String mmId=document['posted_by'];
                      //check if there is a return value
 
+                      // int vNumInmmCollection = await FirebaseFirestore.instance.collection('users').doc(mmId)
+                      //    .collection("subscribedVolunteers")..length;
 
-                     bool isExisted=subscription.checkIfVExists(vId, mmId) as bool;
+                     QuerySnapshot productCollection = await
+                     FirebaseFirestore.instance.collection('products').doc(mmId)
+                         .collection("subscribedVolunteers").get();
+                     int productCount = productCollection.size;
+
+
+
+                    bool isExisted=false;
+                    //subscription.checkIfVExists(vId, mmId); *
+
+                   //  print('heeree');
+                     for(var i=0; i<productCount; i++){
+
+                       if (productCount==0)
+                         return;
+                     await FirebaseFirestore.instance
+                         .collection('users')
+                         .doc(mmId)
+                         .collection("subscribedVolunteers")
+                         //.doc(vId)
+                         .get()
+                         .then((docs) async {
+                      // if (docs.docs[i].exists) {
+                         Map<String, dynamic>? data = docs.docs[i].data();
+                         if (data ['uid'] == vId ){
+                           isExisted= true;
+                         return;}
+                        // else  isExisted= false;
+                    //   }
+
+                     });}
+print(isExisted);
+
                      // -1 --> already there [Fail]
                      //Try another logic [use each of subscribe mthds once; Add more logic to --> addToMmDoc] || use checkIfVExists twice & addToMmDoc once
                      //0 --> Already subscribed, wants to unsubscribe[Pass],1 --> wants to subscribe, and he/she is added[Pass]
                     String? response ='';
                      if (!isExisted)
                        {
-                         //Wants to subscribe
+                        // Wants to subscribe
+                         var document = await FirebaseFirestore.instance
+                             .collection('users')
+                             .doc(vId)
+                             .get();
+                         Map<String, dynamic>? data = document.data();
+                      // subscription.addToMmDoc(vId,mmId) ; *
+                         await FirebaseFirestore.instance
+                             .collection('users')
+                             .doc(mmId)
+                             .collection("subscribedVolunteers")
+                             .add(data!).then((_) => print('تمت إضافة المتطوع لقائمة المشتركين'))
+                             .catchError((error) => print('لم تتم إضافة المتطوع لقائمة المشتركين:$error'));
 
-                       subscription.addToMmDoc(vId,mmId) ;
+                         response='تم تفعيل التنبيهات لهذا المسجد بنجاح';
                        //Return a var from addToMmDoc indicates if something went wrong, and restrict the response var
 
                        }
                     // else [no need since it's already 0]
                      else {
-                       bool isDeleted=subscription.deleteFromMmDoc(vId, mmId) as bool;
+                      // bool isDeleted=subscription.deleteFromMmDoc(vId, mmId) ;
+ bool isDeleted=false;
+                       await FirebaseFirestore.instance
+                           .collection('users')
+                           .doc(mmId)
+                           .collection("subscribedVolunteers").doc(vId)
+                           .delete().then((_) {
+                        // deleted=1;
+                         isDeleted=true;
+                         print('تمت إزالة المتطوع من قائمة المشتركين');})
+                           .catchError((error) => print('لم إزالة المتطوع من قائمة المشتركين:$error'));
+
                        if(isDeleted)
                          response='تمت إزالة تفعيل التنبيهات لهذا المسجد';
                          else
@@ -457,6 +516,11 @@ await
 
 
 
+
+
+
+
+
   String? feedbackResponse(int response) {
 
     if ((response) == 1) {
@@ -470,7 +534,14 @@ await
   }
 
 
+
+
+
+
 }
+
+
+
 
 Widget _buildWaitingScreen() {
   return Scaffold(

@@ -1,8 +1,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
-class Subscription{
+class Subscription  with ChangeNotifier{
 
 
    addToMmDoc(String vId, String mmId) async {
@@ -12,12 +13,12 @@ class Subscription{
          .doc(mmId)
          .collection("subscribedVolunteers")
          .add({'uid':vId}).then((_) => print('تمت إضافة المتطوع لقائمة المشتركين'))
-         .catchError((error) => print('لم تتم إضافة المتطوع لقائمة المشتركين:$error'));;
+         .catchError((error) => print('لم تتم إضافة المتطوع لقائمة المشتركين:$error'));
 //let doc uid same this v
 }
 
 
-   Future<bool> deleteFromMmDoc(String vId, String mmId) async {
+  deleteFromMmDoc(String vId, String mmId) async {
      //Map<String, dynamic>? data = vId as Map<String, dynamic>?;
 
 
@@ -37,7 +38,7 @@ class Subscription{
 
    }
 
-Future<bool> checkIfVExists(String vId, String mmId) async {
+ checkIfVExists(String vId, String mmId) async {
   // var document = await FirebaseFirestore.instance
   //     .collection('users')
   //     .doc(vId)
