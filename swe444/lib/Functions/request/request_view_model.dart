@@ -100,11 +100,6 @@ class RequestViewModel {
   Future<void> add() async {
     String _message = "";
     String _msgtype = "";
-    // await FirebaseMessaging.getToken().then((token){
-    //   FirebaseFirestore.instance.collection('tokens').add({
-    //     'token':token
-    //   });
-    // });
 
     if (_type == "مبلغ") {
       FundsRequest request = FundsRequest(
