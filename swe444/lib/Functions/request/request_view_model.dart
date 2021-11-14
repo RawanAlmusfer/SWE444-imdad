@@ -252,7 +252,7 @@ class RequestViewModel {
       Donation donation = new Donation(
           items, "unconfirmed", firstName + " " + lastName, DateTime.now());
 
-      FundsRequest request = FundsRequest(
+      ItemsRequest request = ItemsRequest(
           type: document['type'],
           donated: int.parse(document['donated'].toString()) + items,
           amount: int.parse(document['amount_requested'].toString()),
@@ -261,7 +261,7 @@ class RequestViewModel {
           mosque_name: document['mosque_name'],
           mosque_location: document['mosque_location'],
           title: document['title'],
-          uplaod_time: document['uplaod_time'],
+          uplaod_time: (document['uplaod_time'] as Timestamp).toDate(),
           token: document['token']);
 
       await FirebaseFirestore.instance
