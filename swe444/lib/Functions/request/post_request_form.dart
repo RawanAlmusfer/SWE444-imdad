@@ -21,19 +21,26 @@ class PostRequestForm extends StatefulWidget {
 class _AddRequestFormState extends State<PostRequestForm> {
   final _formKey = GlobalKey<FormState>();
   User? user = FirebaseAuth.instance.currentUser;
-  String? type, mosque_name, mosque_location;
-  String _enteredText= "";
-  String? postedBy;
-  int? amount;
-  int? items_amount;
-  int charLength= 0;
-  TextEditingController _amount = TextEditingController();
+  String? type, mosque_name, mosque_location, postedBy;
   TextEditingController title = TextEditingController();
-  // TextEditingController itemsD = TextEditingController();
-  TextEditingController itemsAmount = TextEditingController();
-  DateTime time = DateTime.now();
-  final List<String> items = <String>['مبلغ', 'موارد'];
   TextEditingController description = TextEditingController();
+  DateTime time = DateTime.now();
+  int charLength= 0;
+  final List<String> items = <String>['مبلغ', 'موارد', 'تنظيم'];
+
+  // funds
+  int? amount;
+  TextEditingController _amount = TextEditingController();
+
+  //items
+  int? items_amount;
+  TextEditingController itemsAmount = TextEditingController();
+
+  // org
+  int? number;
+  TextEditingController _number = TextEditingController();
+
+
 
   Widget _buildType() {
     return DropdownButtonHideUnderline(
@@ -180,6 +187,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
+  // funds
   Widget _buildDetailsFunds() {
     double _value;
     return TextFormField(
@@ -241,66 +249,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
-  // Widget _buildDetailsItems() {
-  //   return TextFormField(
-  //     maxLines: 1,
-  //     maxLength: 30,
-  //
-  //     validator: (value) {
-  //       if (value == null || value.isEmpty || value.trim().isEmpty)
-  //         return "مطلوب";
-  //       if (!RegExp(r"^[\p{L} ,.'-]*$",
-  //           caseSensitive: false, unicode: true, dotAll: true)
-  //           .hasMatch(value)) return "يجب أن يحتوي على أحرف فقط";
-  //       if (value.length > 30) return "لا يمكن ان يزيد عن 30 حرف ";
-  //     },
-  //     controller: itemsD,
-  //     onFieldSubmitted: (_val) {
-  //       if (_val != null) itemsD.text = _val;
-  //     },
-  //     onChanged: (value) {
-  //       setState( () {
-  //         charLength = value.length;
-  //       },
-  //       );
-  //     },
-  //
-  //     showCursor: true,
-  //     cursorColor: const Color(0xdeedd03c),
-  //     style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-  //     textAlign: TextAlign.right,
-  //     decoration: InputDecoration(
-  //       // counterText: '${_enteredText.length.toString()}character(s)',
-  //       contentPadding: EdgeInsets.only(right: 20, top: 15 ),
-  //       border: OutlineInputBorder(
-  //         borderRadius: BorderRadius.circular(30),
-  //       ),
-  //       focusedBorder: OutlineInputBorder(
-  //         // width: 0.0 produces a thin "hairline" border
-  //         borderRadius: BorderRadius.circular(30),
-  //         borderSide: BorderSide(
-  //           color: const Color(0xdeedd03c),
-  //         ),
-  //       ),
-  //       prefixStyle: TextStyle(fontSize: 15, color: const Color(0xff334856)),
-  //       hoverColor: const Color(0xff334856),
-  //       hintText: 'أدخل اسم المورد المطلوب',
-  //       labelText: 'المورد *',
-  //       hintStyle: TextStyle(
-  //           fontSize: 13,
-  //           color: const Color(0xffcbcbcc),
-  //           fontFamily: 'Tajawal'),
-  //       labelStyle: TextStyle(
-  //           fontSize: 15,
-  //           color: const Color(0xff334856),
-  //           fontFamily: 'Tajawal'),
-  //       alignLabelWithHint: true,
-  //       //border: OutlineInputBorder(),
-  //       // hoverColor: const Color(0xff334856),
-  //     ),
-  //   );
-  // }
-
+  // items
   Widget _buildDetailsItemsAmount() {
     double _value;
     return TextFormField(
@@ -312,8 +261,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
           return "مطلوب";
         else {
           _value = double.parse(value);
-          if (_value > 200) return "الآقصى= 200";
-          if (_value < 5) return "الآدنى= 5";
+          if (_value > 200) return "الحد الآقصى= 200";
+          if (_value < 1) return "الحد الآدنى= 5";
         }
       },
       textAlign: TextAlign.right,
@@ -361,6 +310,69 @@ class _AddRequestFormState extends State<PostRequestForm> {
       }, // onsaved
     );
   }
+
+  // organz
+  Widget _buildNumberOfParticipants() {
+    double _value;
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null ||
+            value.isEmpty ||
+            value.trim().isEmpty)
+          return "مطلوب";
+        else {
+          _value = double.parse(value);
+          if (_value > 50) return "الحد الآقصى= 50";
+          if (_value < 1) return "الحد الآدنى= 1";
+        }
+      },
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.only(right: 20, top: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: '0',
+        labelText: 'عدد المتطوعين المطلوب *',
+        hintStyle: TextStyle(
+            fontSize: 16,
+            color: const Color(0xffcbcbcc),
+            fontFamily: 'Tajawal'),
+        labelStyle: const TextStyle(
+            fontSize: 15,
+            color: Color(0xff334856),
+            fontFamily: 'Tajawal'),
+      ),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(30),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+      ],
+      controller: _number,
+      keyboardType: TextInputType.number,
+      onSaved: (_val) {
+        if (_val != null) {
+          _number.text = _val;
+        }
+      }, // onsaved
+    );
+  }
+
 
   Widget _buildDescription() {
     return TextFormField(
@@ -482,7 +494,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
     if (deviceOrientation == Orientation.landscape) portrait = false;
     return SingleChildScrollView(
       child: Form(
-        // autovalidateMode: AutovalidateMode.always,
         key: _formKey,
         child: Column(
           children: [
@@ -561,17 +572,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   )
                 ],
               ) ),
-            // if (type == "موارد")
-            //   Container(
-            //       width: portrait == true ? 250.w : 300.w,
-            //       child: Directionality(
-            //         textDirection: TextDirection.rtl,
-            //         child: _buildDetailsItems(),
-            //       ) ),
-            // if (type == "موارد")
-            //   SizedBox(
-            //     height: MediaQuery.of(context).size.height * 0.015,
-            //   ),
             if (type == "موارد")
               Container(
                   width: portrait == true ? 250.w : 300.w,
@@ -579,6 +579,16 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     textDirection: TextDirection.rtl,
                     child: _buildDetailsItemsAmount(),
                   ) ),
+
+            // تنظيم
+            if (type == "تنظيم")
+              Container(
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: _buildNumberOfParticipants(),
+                  ) ),
+
             if (type != null) // funds container
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.025,
