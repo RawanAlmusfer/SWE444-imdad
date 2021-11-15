@@ -392,7 +392,9 @@ class _AddRequestFormState extends State<PostRequestForm> {
             // lastDate: DateTime(DateTime.now().year + 1)))!;
             await datePicker.pickDate(context);
 
-         if (datePicker.date != null)_date.text = datePicker.getText();
+         if (datePicker.date != null)
+           {_date.text = datePicker.getText();
+           startDate= datePicker.date; }
         },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
