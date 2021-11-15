@@ -347,7 +347,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: '0',
-        labelText: 'عدد المتطوعين المطلوب *',
+        labelText: 'العدد المطلوب من المتطوعين *',
         hintStyle: TextStyle(
             fontSize: 16,
             color: const Color(0xffcbcbcc),
@@ -820,7 +820,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
             if (type != null) // funds container
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
+                height: MediaQuery.of(context).size.height * 0.035,
               ),
 
             Container(
