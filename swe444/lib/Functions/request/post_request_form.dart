@@ -508,13 +508,13 @@ class _AddRequestFormState extends State<PostRequestForm> {
   Widget _buildEndTime() {
     return TextFormField(
       onTap: () async {
-        TimePicker timePicker = new TimePicker();
+        TimePicker timePicker2 = new TimePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
-        await timePicker.pickTime(context);
+        await timePicker2.pickTime(context);
 
-        if (timePicker.time != null) {
-          _endTime.text = timePicker.getText();
-          endTime = timePicker.time;
+        if (timePicker2.time != null) {
+          _endTime.text = timePicker2.getText();
+          endTime = timePicker2.time;
         }
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -559,7 +559,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: '0',
-        labelText: 'وقت البدء *',
+        labelText: 'وقت الإنتهاء *',
         hintStyle: TextStyle(
             fontSize: 16,
             color: const Color(0xffcbcbcc),
@@ -567,11 +567,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
         labelStyle: const TextStyle(
             fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
       ),
-      controller: _startTime,
+      controller: _endTime,
       keyboardType: TextInputType.datetime,
       onSaved: (_val) {
         if (_val != null) {
-          _startTime.text = _val;
+          _endTime.text = _val;
         }
       }, // onsaved
     );
