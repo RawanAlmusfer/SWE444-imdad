@@ -504,6 +504,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       }, // onsaved
     );
   }
+
   Widget _buildEndTime() {
     return TextFormField(
       onTap: () async {
@@ -512,8 +513,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
         await timePicker.pickTime(context);
 
         if (timePicker.time != null) {
-          _startTime.text = timePicker.getText();
-          startTime = timePicker.time;
+          _endTime.text = timePicker.getText();
+          endTime = timePicker.time;
         }
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -521,15 +522,23 @@ class _AddRequestFormState extends State<PostRequestForm> {
         if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
         else {
-          // _value = double.parse(value);
-          // if (_value > 50) return "الحد الآقصى= 50";
-          // if (_value < 1) return "الحد الآدنى= 1";
+          if (startTime != null && endTime != null) {
+            double _doubleStartTime = startTime!.hour.toDouble() +
+                (startTime!.minute.toDouble() / 60);
+            double _doubleEndTime =
+                endTime!.hour.toDouble() + (endTime!.minute.toDouble() / 60);
+
+            double _timeDiff = _doubleStartTime - _doubleEndTime;
+            if (_timeDiff < 0) {
+              return "يجب أن يكون اكبر";
+            }
+          }
         }
       },
       textAlign: TextAlign.right,
       decoration: InputDecoration(
         prefixIcon:
-        Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
+            Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
         contentPadding: const EdgeInsets.only(top: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
@@ -567,7 +576,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
       }, // onsaved
     );
   }
-
 
   Widget _buildDescription() {
     return TextFormField(
@@ -803,7 +811,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     textDirection: TextDirection.rtl,
                     child: Stack(children: [
                       Container(width: 123, child: _buildStartTime()),
-                      Container(margin: EdgeInsets.only(right: 138), width: 123, child: _buildStartTime())
+                      Container(
+                          margin: EdgeInsets.only(right: 138),
+                          width: 123,
+                          child: _buildEndTime())
                     ]),
                   )),
 
