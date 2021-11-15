@@ -19,7 +19,7 @@ class TimePicker{
     final newTime = await showTimePicker(
       initialEntryMode: TimePickerEntryMode.input,
       context: context,
-      initialTime: (time != null)? time! : initialTime,
+      initialTime: (time == null)? initialTime: time!,
         errorInvalidText: "الرجاء ادخال توقيت صحيح"
     );
 

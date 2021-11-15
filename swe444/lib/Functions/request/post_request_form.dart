@@ -467,7 +467,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
       decoration: InputDecoration(
         prefixIcon:
             Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
-        contentPadding: const EdgeInsets.only(top: 15),
+        prefixIconConstraints:BoxConstraints(minWidth: 23, maxWidth: 23, maxHeight: 20),
+        contentPadding: const EdgeInsets.only(top: 15, right: 5),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
         ),
@@ -529,7 +530,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                 endTime!.hour.toDouble() + (endTime!.minute.toDouble() / 60);
 
             double _timeDiff = _doubleStartTime - _doubleEndTime;
-            if (_timeDiff < 0) {
+            if (_timeDiff > 0) {
               return "يجب أن يكون اكبر";
             }
           }
@@ -539,13 +540,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
       decoration: InputDecoration(
         prefixIcon:
             Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
-        contentPadding: const EdgeInsets.only(top: 15),
+        prefixIconConstraints:BoxConstraints(minWidth: 23, maxWidth: 23, maxHeight: 20),
+        contentPadding: const EdgeInsets.only(top: 15, right: 5),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
         ),
         focusedBorder: OutlineInputBorder(
-          // width: 0.0 produces a thin "hairline" border
-
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(
             color: const Color(0xdeedd03c),
@@ -791,7 +791,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   )),
             if (type == "تنظيم")
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
+                height: MediaQuery.of(context).size.height * 0.027,
               ),
             if (type == "تنظيم")
               Container(
@@ -802,7 +802,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   )),
             if (type == "تنظيم")
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.025,
+                height: MediaQuery.of(context).size.height * 0.027,
               ),
             if (type == "تنظيم")
               Container(
@@ -810,17 +810,17 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: Stack(children: [
-                      Container(width: 123, child: _buildStartTime()),
+                      Container(width: 120, child: _buildStartTime()),
                       Container(
-                          margin: EdgeInsets.only(right: 138),
-                          width: 123,
+                          margin: EdgeInsets.only(right: 135),
+                          width: 125,
                           child: _buildEndTime())
                     ]),
                   )),
 
             if (type != null) // funds container
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.025,
+                height: MediaQuery.of(context).size.height * 0.03,
               ),
 
             Container(
