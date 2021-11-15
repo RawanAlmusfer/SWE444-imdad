@@ -15,11 +15,14 @@ class TimePicker{
   }
 
   Future pickTime(BuildContext context) async {
-    final initialTime = TimeOfDay(hour: 9, minute: 0);
+    final initialTime = TimeOfDay.now();
     final newTime = await showTimePicker(
+      initialEntryMode: TimePickerEntryMode.input,
       context: context,
-      initialTime: time ?? initialTime,
+      initialTime: (time != null)? time! : initialTime,
+        errorInvalidText: "الرجاء ادخال توقيت صحيح"
     );
+
 
     if (newTime == null) return;
 

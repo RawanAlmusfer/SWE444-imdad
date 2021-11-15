@@ -9,6 +9,7 @@ import 'package:swe444/Functions/home_screen/mm_home_view.dart';
 import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 import 'package:swe444/Widgets/datepicker.dart';
+import 'package:swe444/Widgets/timepicker.dart';
 
 class PostRequestForm extends StatefulWidget {
   PostRequestForm({
@@ -26,7 +27,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
   DateTime time = DateTime.now();
-  int charLength= 0;
+  int charLength = 0;
   final List<String> items = <String>['مبلغ', 'موارد', 'تنظيم'];
 
   // funds
@@ -41,18 +42,17 @@ class _AddRequestFormState extends State<PostRequestForm> {
   int? number;
   TextEditingController _number = TextEditingController();
   TextEditingController _date = TextEditingController();
+  TextEditingController _startTime = TextEditingController();
+  TextEditingController _endTime = TextEditingController();
 
   DateTime? startDate, endDate;
-  TimeOfDay? startTime,endTime;
-
-
-
+  TimeOfDay? startTime, endTime;
 
   Widget _buildType() {
     return DropdownButtonHideUnderline(
         child: DropdownButtonFormField<String>(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: InputDecoration(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -63,7 +63,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xdeedd03c),
           ),
         ),
-        contentPadding: EdgeInsets.only(right: 20, top: 15, left: 23 ),
+        contentPadding: EdgeInsets.only(right: 20, top: 15, left: 23),
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         hintText: 'إختر نوعًا',
@@ -136,7 +136,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: 1,
       maxLength: 30,
-
       validator: (value) {
         if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
@@ -149,21 +148,20 @@ class _AddRequestFormState extends State<PostRequestForm> {
       onFieldSubmitted: (_val) {
         if (_val != null) title.text = _val;
       },
-
       onChanged: (value) {
-        setState( () {
+        setState(
+          () {
             charLength = value.length;
-        },
+          },
         );
       },
-
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
       style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       decoration: InputDecoration(
         // counterText: '${_enteredText.length.toString()}character(s)',
-        contentPadding: EdgeInsets.only(right: 20, top: 15 ),
+        contentPadding: EdgeInsets.only(right: 20, top: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -176,8 +174,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
         ),
         prefixStyle: TextStyle(fontSize: 15, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
-        hintText: (type=="مبلغ" || type==null || type=="تنظيم") ?'أدخل عنوان الطلب' : 'أدخل نوع المورد المطلوب',
-        labelText: (type=="مبلغ" || type==null || type=="تنظيم" ) ? 'عنوان الطلب *' : 'نوع المورد *',
+        hintText: (type == "مبلغ" || type == null || type == "تنظيم")
+            ? 'أدخل عنوان الطلب'
+            : 'أدخل نوع المورد المطلوب',
+        labelText: (type == "مبلغ" || type == null || type == "تنظيم")
+            ? 'عنوان الطلب *'
+            : 'نوع المورد *',
         hintStyle: TextStyle(
             fontSize: 13,
             color: const Color(0xffcbcbcc),
@@ -199,9 +201,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null ||
-            value.isEmpty ||
-            value.trim().isEmpty)
+        if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
         else {
           _value = double.parse(value);
@@ -237,9 +237,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
-            fontSize: 15,
-            color: Color(0xff334856),
-            fontFamily: 'Tajawal'),
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
       ),
       inputFormatters: [
         LengthLimitingTextInputFormatter(30),
@@ -261,9 +259,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null ||
-            value.isEmpty ||
-            value.trim().isEmpty)
+        if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
         else {
           _value = double.parse(value);
@@ -299,9 +295,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
-            fontSize: 15,
-            color: Color(0xff334856),
-            fontFamily: 'Tajawal'),
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
       ),
       inputFormatters: [
         LengthLimitingTextInputFormatter(30),
@@ -323,9 +317,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null ||
-            value.isEmpty ||
-            value.trim().isEmpty)
+        if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
         else {
           _value = double.parse(value);
@@ -361,9 +353,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
-            fontSize: 15,
-            color: Color(0xff334856),
-            fontFamily: 'Tajawal'),
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
       ),
       inputFormatters: [
         LengthLimitingTextInputFormatter(30),
@@ -378,29 +368,27 @@ class _AddRequestFormState extends State<PostRequestForm> {
       }, // onsaved
     );
   }
-  Widget _buildOneDay() {
-    double _value;
-    return TextFormField(
-      onTap: () async{
-        DateTime date = DateTime(2021);
-        DatePicker datePicker= new DatePicker();
-        FocusScope.of(context).requestFocus(new FocusNode());
-            // await showDatePicker(
-            // context: context,
-            // initialDate:DateTime.now(),
-            // firstDate:DateTime(DateTime.now().year),
-            // lastDate: DateTime(DateTime.now().year + 1)))!;
-            await datePicker.pickDate(context);
 
-         if (datePicker.date != null)
-           {_date.text = datePicker.getText();
-           startDate= datePicker.date; }
-        },
+  Widget _buildOneDay() {
+    return TextFormField(
+      onTap: () async {
+        DatePicker datePicker = new DatePicker();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        // await showDatePicker(
+        // context: context,
+        // initialDate:DateTime.now(),
+        // firstDate:DateTime(DateTime.now().year),
+        // lastDate: DateTime(DateTime.now().year + 1)))!;
+        await datePicker.pickDate(context);
+
+        if (datePicker.date != null) {
+          _date.text = datePicker.getText();
+          startDate = datePicker.date;
+        }
+      },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null ||
-            value.isEmpty ||
-            value.trim().isEmpty)
+        if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
         else {
           // _value = double.parse(value);
@@ -410,7 +398,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       },
       textAlign: TextAlign.right,
       decoration: InputDecoration(
-          prefixIcon: Icon(Icons.calendar_today, color: const Color(0xdeedd03c)),
+        prefixIcon: Icon(Icons.calendar_today, color: const Color(0xdeedd03c)),
         contentPadding: const EdgeInsets.only(top: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
@@ -437,9 +425,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
-            fontSize: 15,
-            color: Color(0xff334856),
-            fontFamily: 'Tajawal'),
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
       ),
       inputFormatters: [
         LengthLimitingTextInputFormatter(30),
@@ -455,6 +441,133 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
+  Widget _buildStartTime() {
+    return TextFormField(
+      onTap: () async {
+        TimePicker timePicker = new TimePicker();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        await timePicker.pickTime(context);
+
+        if (timePicker.time != null) {
+          _startTime.text = timePicker.getText();
+          startTime = timePicker.time;
+        }
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty || value.trim().isEmpty)
+          return "مطلوب";
+        else {
+          // _value = double.parse(value);
+          // if (_value > 50) return "الحد الآقصى= 50";
+          // if (_value < 1) return "الحد الآدنى= 1";
+        }
+      },
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        prefixIcon:
+            Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
+        contentPadding: const EdgeInsets.only(top: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: '0',
+        labelText: 'وقت البدء *',
+        hintStyle: TextStyle(
+            fontSize: 16,
+            color: const Color(0xffcbcbcc),
+            fontFamily: 'Tajawal'),
+        labelStyle: const TextStyle(
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
+      ),
+      controller: _startTime,
+      keyboardType: TextInputType.datetime,
+      onSaved: (_val) {
+        if (_val != null) {
+          _startTime.text = _val;
+        }
+      }, // onsaved
+    );
+  }
+  Widget _buildEndTime() {
+    return TextFormField(
+      onTap: () async {
+        TimePicker timePicker = new TimePicker();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        await timePicker.pickTime(context);
+
+        if (timePicker.time != null) {
+          _startTime.text = timePicker.getText();
+          startTime = timePicker.time;
+        }
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty || value.trim().isEmpty)
+          return "مطلوب";
+        else {
+          // _value = double.parse(value);
+          // if (_value > 50) return "الحد الآقصى= 50";
+          // if (_value < 1) return "الحد الآدنى= 1";
+        }
+      },
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        prefixIcon:
+        Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
+        contentPadding: const EdgeInsets.only(top: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: '0',
+        labelText: 'وقت البدء *',
+        hintStyle: TextStyle(
+            fontSize: 16,
+            color: const Color(0xffcbcbcc),
+            fontFamily: 'Tajawal'),
+        labelStyle: const TextStyle(
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
+      ),
+      controller: _startTime,
+      keyboardType: TextInputType.datetime,
+      onSaved: (_val) {
+        if (_val != null) {
+          _startTime.text = _val;
+        }
+      }, // onsaved
+    );
+  }
+
 
   Widget _buildDescription() {
     return TextFormField(
@@ -462,8 +575,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       maxLength: 150,
       textAlign: TextAlign.right,
       decoration: InputDecoration(
-        contentPadding:
-        EdgeInsets.fromLTRB(16, 16, 16, 16),
+        contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -490,16 +602,15 @@ class _AddRequestFormState extends State<PostRequestForm> {
         //     color: const Color(0xff334856),
         //     fontFamily: 'Tajawal'),
       ),
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(150)
-      ],
+      inputFormatters: [LengthLimitingTextInputFormatter(150)],
       controller: description,
       keyboardType: TextInputType.multiline,
       maxLines: 5,
       onSaved: (_val) {
         if (!(_val == null || _val.isEmpty || _val.trim().isEmpty))
           description.text = _val;
-        else description.text= "";
+        else
+          description.text = "";
       }, // onsaved
     );
   }
@@ -517,7 +628,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       },
       style: ButtonStyle(
           backgroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
           elevation: MaterialStateProperty.all<double>(0)),
     );
     Widget confirmButton = Padding(
@@ -608,59 +719,59 @@ class _AddRequestFormState extends State<PostRequestForm> {
             ),
 
             if (type != null)
-            Container(
-              width: portrait == true ? 250.w : 300.w,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Text(
-                  "تفاصيل الطلب",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: const Color(0xff334856),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Tajawal',
-                    fontSize: 16,
+              Container(
+                width: portrait == true ? 250.w : 300.w,
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Text(
+                    "تفاصيل الطلب",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: const Color(0xff334856),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Tajawal',
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-
               ),
-            ),
             if (type != null)
               SizedBox(
-              height: MediaQuery.of(context).size.height * 0.015,
-            ),
+                height: MediaQuery.of(context).size.height * 0.015,
+              ),
             if (type == "مبلغ")
               Container(
-              width: portrait == true ? 250.w : 300.w,
-              child: Stack(
-                children: [
-                  Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: _buildDetailsFunds(),
-            ),Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(11, 15, 0, 0),
-                      child: Text(
-                        'ريال',
-                        style: TextStyle(
-                          fontFamily: 'Tajawal',
-                          fontSize: 15,
-                          color: const Color(0xffd2d2d2),
-                        ),
-                        textAlign: TextAlign.left,
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Stack(
+                    children: [
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: _buildDetailsFunds(),
                       ),
-                    ),
-                  )
-                ],
-              ) ),
+                      Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(11, 15, 0, 0),
+                          child: Text(
+                            'ريال',
+                            style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              fontSize: 15,
+                              color: const Color(0xffd2d2d2),
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
             if (type == "موارد")
               Container(
                   width: portrait == true ? 250.w : 300.w,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: _buildDetailsItemsAmount(),
-                  ) ),
+                  )),
 
             // تنظيم
             if (type == "تنظيم")
@@ -669,7 +780,18 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: _buildNumberOfParticipants(),
-                  ) ),
+                  )),
+            if (type == "تنظيم")
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
+            if (type == "تنظيم")
+              Container(
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: _buildOneDay(),
+                  )),
             if (type == "تنظيم")
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.025,
@@ -679,31 +801,16 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   width: portrait == true ? 250.w : 300.w,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
-                    child: _buildOneDay(),
-                  ) ),
-              // Container(
-              //     width: portrait == true ? 250.w : 300.w,
-              //     child: Directionality(
-              //       textDirection: TextDirection.rtl,
-              //       child: Stack(children: [
-              //         Container(
-              //           width: 120,
-              //           alignment: Alignment.centerLeft,
-              //             child: _buildStartDate()),
-              //         SizedBox(
-              //           width: MediaQuery.of(context).size.height * 0.005,
-              //         ),
-              //         Container(
-              //           margin: EdgeInsets.only(right:150),
-              //             width: 120,
-              //             alignment: Alignment.centerRight,
-              //             child: _buildStartDate())]),
-              //     ) ),
-              if (type != null) // funds container
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.025,
-            ),
+                    child: Stack(children: [
+                      Container(width: 123, child: _buildStartTime()),
+                      Container(margin: EdgeInsets.only(right: 138), width: 123, child: _buildStartTime())
+                    ]),
+                  )),
 
+            if (type != null) // funds container
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.025,
+              ),
 
             Container(
               width: portrait == true ? 250.w : 300.w,
@@ -719,7 +826,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     fontSize: 16,
                   ),
                 ),
-
               ),
             ),
             SizedBox(
@@ -729,9 +835,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
               width: portrait == true ? 265.w : 310.w,
               height: portrait == true ? 140.w : 150.w,
               child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: _buildDescription(),
-            ),),  // mosque name
+                textDirection: TextDirection.rtl,
+                child: _buildDescription(),
+              ),
+            ), // mosque name
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
             ),
@@ -768,7 +875,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
-            ),],
+            ),
+          ],
         ),
       ),
     );
@@ -778,7 +886,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     RequestViewModel requestVM = RequestViewModel();
     String? dToken;
     FirebaseMessaging.instance.getToken().then((token) {
-      dToken= token.toString();
+      dToken = token.toString();
     });
 
     requestVM.postedBy = id;
@@ -794,7 +902,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
       requestVM.setType = type;
       requestVM.setUploadTime = time;
       requestVM.setToken = dToken;
-
 
       if (type == "مبلغ") {
         amount = int.parse(_amount.text);
