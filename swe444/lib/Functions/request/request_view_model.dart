@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:swe444/Models/donation.dart';
 import 'package:swe444/Models/request.dart';
 
@@ -18,6 +19,12 @@ class RequestViewModel {
   late String message;
   late String msgType;
   int? itemsDonated;
+
+  // تنظيم
+  DateTime? _startDate, _endDate;
+  TimeOfDay? _startTime, _endTime;
+  int? _partNum;
+  int _participants=0;
 
   get userDocument {
     return FirebaseFirestore.instance.collection("users").doc(_posted_by).get();
@@ -83,6 +90,46 @@ class RequestViewModel {
     }
   }
 
+  // organz requests
+  set setPartNum(int? value) {
+    if (value != null) {
+      _partNum = value;
+    }
+  }
+
+  set setPart(int? value) {
+    if (value != null) {
+      _participants = value;
+    }
+  }
+
+  set setStartDate(DateTime? value) {
+    if (value != null) {
+      _startDate = value;
+    }
+  }
+
+  set setEndDate(DateTime? value) {
+    if (value != null) {
+      _endDate = value;
+    }
+  }
+
+  set setStartTime(TimeOfDay? value) {
+    if (value != null) {
+      _startTime = value;
+    }
+  }
+
+  set setEndTime(TimeOfDay? value) {
+    if (value != null) {
+      _endTime = value;
+    }
+  }
+
+
+
+
   /// items requests
 
   // set setItem(String? value) {
@@ -121,7 +168,8 @@ class RequestViewModel {
               {_message = 'تمت إضافة الطلب بنجاح', _msgtype = "success"})
           .catchError((error) =>
               {_message = " فشل في إضافة الطلب:" + error, _msgtype = "fail"});
-    } else if (_type == "موارد") {
+    }
+    else if (_type == "موارد") {
       ItemsRequest request = ItemsRequest(
           // item: _item,
           type: _type,
@@ -143,6 +191,33 @@ class RequestViewModel {
           .catchError((error) =>
               {_message = " فشل في إضافة الطلب:" + error, _msgtype = "fail"});
     }
+    else if (_type == "تنظيم") {
+      VolnRequest request = VolnRequest(
+          type: _type,
+          number: _partNum,
+          participants: _participants,
+          days: 1,
+          startDate: _startDate,
+          endDate: _endDate,
+          startTime: _startTime,
+          endTime: _endTime,
+          posted_by: _posted_by,
+          description: _description,
+          mosque_name: _mosque_name,
+          mosque_location: _mosque_location,
+          title: _title,
+          uplaod_time: _uplaod_time,
+          token: _token);
+
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .add(request.toJson())
+          .then((value) =>
+      {_message = 'تمت إضافة الطلب بنجاح', _msgtype = "success"})
+          .catchError((error) =>
+      {_message = " فشل في إضافة الطلب:" + error, _msgtype = "fail"});
+    }
+
 
     message = _message;
     msgType = _msgtype;
@@ -308,4 +383,5 @@ class RequestViewModel {
       message = _message;
     });
   }
+
 }

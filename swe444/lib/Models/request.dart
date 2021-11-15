@@ -88,11 +88,11 @@ class ItemsRequest extends Request {
 class VolnRequest extends Request {
   int? number;
   int participants = 0;
-  DateTime startDate;
-  DateTime endDate;
+  DateTime? startDate;
+  DateTime? endDate;
   int days;
-  TimeOfDay startTime;
-  TimeOfDay endTime;
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
 
 
   VolnRequest(

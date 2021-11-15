@@ -39,7 +39,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   TextEditingController itemsAmount = TextEditingController();
 
   // org
-  int? number;
+  int? partNum;
   TextEditingController _number = TextEditingController();
   TextEditingController _date = TextEditingController();
   TextEditingController _startTime = TextEditingController();
@@ -923,6 +923,15 @@ class _AddRequestFormState extends State<PostRequestForm> {
         items_amount = int.parse(itemsAmount.text);
         requestVM.setRequested = items_amount;
         // requestVM.setItem= itemsD.text;
+      }
+
+      if (type == "تنظيم") {
+        partNum = int.parse(_number.text);
+        requestVM.setPartNum = partNum;
+        requestVM.setStartDate= startDate;
+        requestVM.setEndDate= startDate;
+        requestVM.setStartTime= startTime;
+        requestVM.setEndTime= endTime;
       }
 
       await requestVM.add();
