@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/mm_home_view.dart';
 import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
+import 'package:swe444/Widgets/datepicker.dart';
 
 class PostRequestForm extends StatefulWidget {
   PostRequestForm({
@@ -39,6 +40,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
   // org
   int? number;
   TextEditingController _number = TextEditingController();
+  TextEditingController _date = TextEditingController();
+
   DateTime? startDate, endDate;
   TimeOfDay? startTime,endTime;
 
@@ -375,20 +378,21 @@ class _AddRequestFormState extends State<PostRequestForm> {
       }, // onsaved
     );
   }
-  Widget _buildStartDate() {
+  Widget _buildOneDay() {
     double _value;
     return TextFormField(
       onTap: () async{
-        DateTime date = DateTime(1900);
+        DateTime date = DateTime(2021);
+        DatePicker datePicker= new DatePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
+            // await showDatePicker(
+            // context: context,
+            // initialDate:DateTime.now(),
+            // firstDate:DateTime(DateTime.now().year),
+            // lastDate: DateTime(DateTime.now().year + 1)))!;
+            await datePicker.pickDate(context);
 
-        date = (await showDatePicker(
-            context: context,
-            initialDate:DateTime.now(),
-            firstDate:DateTime(1900),
-            lastDate: DateTime(2100)))!;
-
-        // dateCtl.text = date.toIso8601String();
+         if (datePicker.date != null)_date.text = datePicker.getText();
         },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
@@ -397,15 +401,15 @@ class _AddRequestFormState extends State<PostRequestForm> {
             value.trim().isEmpty)
           return "مطلوب";
         else {
-          _value = double.parse(value);
-          if (_value > 50) return "الحد الآقصى= 50";
-          if (_value < 1) return "الحد الآدنى= 1";
+          // _value = double.parse(value);
+          // if (_value > 50) return "الحد الآقصى= 50";
+          // if (_value < 1) return "الحد الآدنى= 1";
         }
       },
       textAlign: TextAlign.right,
       decoration: InputDecoration(
           prefixIcon: Icon(Icons.calendar_today, color: const Color(0xdeedd03c)),
-        contentPadding: const EdgeInsets.only(right: 20, top: 15),
+        contentPadding: const EdgeInsets.only(top: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
         ),
@@ -425,7 +429,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         alignLabelWithHint: true,
         //border: OutlineInputBorder(),
         hintText: '0',
-        labelText: 'عدد المتطوعين المطلوب *',
+        labelText: 'التاريخ *',
         hintStyle: TextStyle(
             fontSize: 16,
             color: const Color(0xffcbcbcc),
@@ -439,11 +443,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
         LengthLimitingTextInputFormatter(30),
         FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
       ],
-      controller: _number,
-      keyboardType: TextInputType.number,
+      controller: _date,
+      keyboardType: TextInputType.datetime,
       onSaved: (_val) {
         if (_val != null) {
-          _number.text = _val;
+          _date.text = _val;
         }
       }, // onsaved
     );
@@ -673,9 +677,26 @@ class _AddRequestFormState extends State<PostRequestForm> {
                   width: portrait == true ? 250.w : 300.w,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
-                    child: _buildStartDate(),
+                    child: _buildOneDay(),
                   ) ),
-
+              // Container(
+              //     width: portrait == true ? 250.w : 300.w,
+              //     child: Directionality(
+              //       textDirection: TextDirection.rtl,
+              //       child: Stack(children: [
+              //         Container(
+              //           width: 120,
+              //           alignment: Alignment.centerLeft,
+              //             child: _buildStartDate()),
+              //         SizedBox(
+              //           width: MediaQuery.of(context).size.height * 0.005,
+              //         ),
+              //         Container(
+              //           margin: EdgeInsets.only(right:150),
+              //             width: 120,
+              //             alignment: Alignment.centerRight,
+              //             child: _buildStartDate())]),
+              //     ) ),
               if (type != null) // funds container
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.025,
