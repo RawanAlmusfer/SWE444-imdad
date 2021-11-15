@@ -216,7 +216,20 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
-              if (document['donated'].toString() == '0')
+                if (document['type'].toString() == "تنظيم")
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0.1, bottom: 20.0, right: 63),
+                    child: Row(children: <Widget>[
+                      const Spacer(),
+                      Text(document['parts_number'].toString()),
+                      const Text(
+                        " :العدد",
+                        style: TextStyle(fontFamily: 'Tajawal'),
+                      ),
+                    ]),
+                  ),
+                if (document['donated'].toString() == '0')
               Padding(
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 5.0, left: 2, right: 10),
