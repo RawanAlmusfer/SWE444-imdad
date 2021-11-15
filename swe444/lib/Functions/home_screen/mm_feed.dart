@@ -67,15 +67,15 @@ class mmFeed extends State<mm_feed> {
   Widget buildCards(
       BuildContext context, DocumentSnapshot document, String? id) {
     if (document['posted_by'].toString() == id) {
-      if(document['type'].toString() == "مبلغ"){
-       if (document['donated'] == document['amount']){
-         return Container();
-       }
+      if (document['type'].toString() == "مبلغ") {
+        if (document['donated'] == document['amount']) {
+          return Container();
+        }
       }
-      if(document['type'].toString() == "موارد"){
-       if (document['donated'] == document['amount_requested']){
-         return Container();
-       }
+      if (document['type'].toString() == "موارد") {
+        if (document['donated'] == document['amount_requested']) {
+          return Container();
+        }
       }
       // && document['donated'] != document['amount']
       //print('posted user Id ' + document['posted_by'].toString());
@@ -120,34 +120,34 @@ class mmFeed extends State<mm_feed> {
                             allowDrawingOutsideViewBox: true,
                             fit: BoxFit.fill,
                           ),
-                        )),                
-                      // Container(
-                      //     width: 25,
-                      //     height: 52,
-                      //     padding: const EdgeInsets.only(
-                      //         top: 0, bottom: 25, left: 0, right: 0),
-                      //     child: ElevatedButton(
-                      //       style: ButtonStyle(
-                      //           padding:
-                      //           MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      //               const EdgeInsets.only(
-                      //                   top: 0,
-                      //                   bottom: 0,
-                      //                   left: 0,
-                      //                   right: 0)),
-                      //           elevation: MaterialStateProperty.all<double>(0),
-                      //           backgroundColor: MaterialStateProperty.all<Color>(
-                      //               Colors.white)),
-                      //       onPressed: () async {
-                      //         await showAlertDialogEdit(document);
-                      //       },
-                      //       child: const Icon(
-                      //         Icons.edit,
-                      //         color: Color(0xdeedd03c),
-                      //         size: 25.0,
-                      //       ),
+                        )),
+                    // Container(
+                    //     width: 25,
+                    //     height: 52,
+                    //     padding: const EdgeInsets.only(
+                    //         top: 0, bottom: 25, left: 0, right: 0),
+                    //     child: ElevatedButton(
+                    //       style: ButtonStyle(
+                    //           padding:
+                    //           MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    //               const EdgeInsets.only(
+                    //                   top: 0,
+                    //                   bottom: 0,
+                    //                   left: 0,
+                    //                   right: 0)),
+                    //           elevation: MaterialStateProperty.all<double>(0),
+                    //           backgroundColor: MaterialStateProperty.all<Color>(
+                    //               Colors.white)),
+                    //       onPressed: () async {
+                    //         await showAlertDialogEdit(document);
+                    //       },
+                    //       child: const Icon(
+                    //         Icons.edit,
+                    //         color: Color(0xdeedd03c),
+                    //         size: 25.0,
+                    //       ),
 
-                      //     )),
+                    //     )),
                     // if (document['donated'].toString() != '0')
                     //   Container(
                     //       width: 25,
@@ -229,82 +229,87 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
-                if (document['donated'].toString() == '0')
-              Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 5.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    //This button for sprint 2
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xffededed),
-                              spreadRadius: 1,
-                              blurRadius: 10),
-                        ],
-                      ),
-                      height: 30,
-                      width: 75,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditRequest(document: document)));
-                        },
-                        child: Text(
-                          "تعديل",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              color: const Color(0xff334856)),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(65.w, 30.h),
-                          primary: const Color(0xdeedd03c),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                      ),
-                    )
-                  ]),
-                ),
-                if (document['donated'].toString() != '0')
+                if ((document['type'].toString() == "موارد" ||
+                        document['type'].toString() == "مبلغ") &&
+                    document['donated'].toString() == '0')
                   Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 5.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    //This button for sprint 2
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xffededed),
-                              spreadRadius: 1,
-                              blurRadius: 10),
-                        ],
-                      ),
-                      height: 30,
-                      width: 75,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "تعديل",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              color: Colors.grey),
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Row(children: <Widget>[
+                      //This button for sprint 2
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xffededed),
+                                spreadRadius: 1,
+                                blurRadius: 10),
+                          ],
                         ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(65.w, 30.h),
-                          primary: const Color(0xffededed),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
+                        height: 30,
+                        width: 75,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    EditRequest(document: document)));
+                          },
+                          child: Text(
+                            "تعديل",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'Tajawal',
+                                color: const Color(0xff334856)),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(65.w, 30.h),
+                            primary: const Color(0xdeedd03c),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ]),
-                ),
+                      )
+                    ]),
+                  ),
+                if (((document['type'].toString() == "موارد" ||
+                        document['type'].toString() == "مبلغ") &&
+                    document['donated'].toString() == '0'))
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Row(children: <Widget>[
+                      //This button for sprint 2
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xffededed),
+                                spreadRadius: 1,
+                                blurRadius: 10),
+                          ],
+                        ),
+                        height: 30,
+                        width: 75,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text(
+                            "تعديل",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'Tajawal', color: Colors.grey),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(65.w, 30.h),
+                            primary: const Color(0xffededed),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                  ),
               ],
             ),
           ),
@@ -334,7 +339,7 @@ class mmFeed extends State<mm_feed> {
       },
       style: ButtonStyle(
           backgroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
           elevation: MaterialStateProperty.all<double>(0)),
     );
 
@@ -347,11 +352,12 @@ class mmFeed extends State<mm_feed> {
         ),
         style: ButtonStyle(
             backgroundColor:
-            MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
         onPressed: () async {
           Navigator.of(context).pop(context);
           await requestVM.cancelRequest(document);
-          Snackbar bar = Snackbar(context, requestVM.message, requestVM.msgType);
+          Snackbar bar =
+              Snackbar(context, requestVM.message, requestVM.msgType);
           bar.showToast();
         },
       ),
@@ -401,7 +407,7 @@ class mmFeed extends State<mm_feed> {
       },
       style: ButtonStyle(
           backgroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
           elevation: MaterialStateProperty.all<double>(0)),
     );
     Widget confirmButton = Padding(
@@ -413,10 +419,11 @@ class mmFeed extends State<mm_feed> {
         ),
         style: ButtonStyle(
             backgroundColor:
-            MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
         onPressed: () async {
           Navigator.of(context).pop();
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditRequest(document: document)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => EditRequest(document: document)));
         },
       ),
     );
@@ -451,7 +458,6 @@ class mmFeed extends State<mm_feed> {
       },
     );
   }
-
 
   Widget _buildWaitingScreen() {
     return Scaffold(
