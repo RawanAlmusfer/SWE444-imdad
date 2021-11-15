@@ -91,8 +91,8 @@ class VolnRequest extends Request {
   DateTime? startDate;
   DateTime? endDate;
   int days;
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
+  String? startTime;
+  String? endTime;
 
 
   VolnRequest(

@@ -192,6 +192,18 @@ class RequestViewModel {
               {_message = " فشل في إضافة الطلب:" + error, _msgtype = "fail"});
     }
     else if (_type == "تنظيم") {
+      // final now = new DateTime.now();
+      // DateTime _startTime2= new DateTime(now.year, now.month, now.day, _startTime!.hour, _startTime!.minute);
+      final shours = _startTime!.hour.toString().padLeft(2, '0');
+      final sminutes = _startTime!.minute.toString().padLeft(2, '0');
+
+      String _startTimes= '$shours:$sminutes';
+
+      final ehours = _startTime!.hour.toString().padLeft(2, '0');
+      final eminutes = _startTime!.minute.toString().padLeft(2, '0');
+
+      String _endTimes= '$ehours:$eminutes';
+
       VolnRequest request = VolnRequest(
           type: _type,
           number: _partNum,
@@ -199,8 +211,8 @@ class RequestViewModel {
           days: 1,
           startDate: _startDate,
           endDate: _endDate,
-          startTime: _startTime,
-          endTime: _endTime,
+          startTime: _startTimes,
+          endTime: _endTimes,
           posted_by: _posted_by,
           description: _description,
           mosque_name: _mosque_name,
@@ -215,7 +227,7 @@ class RequestViewModel {
           .then((value) =>
       {_message = 'تمت إضافة الطلب بنجاح', _msgtype = "success"})
           .catchError((error) =>
-      {_message = " فشل في إضافة الطلب:" + error, _msgtype = "fail"});
+      {_message = " فشل في إضافة الطلب:" + error.toString(), _msgtype = "fail"});
     }
 
 
