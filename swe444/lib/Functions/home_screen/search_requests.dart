@@ -47,6 +47,10 @@ class _SearchRequests extends State<SearchRequests> {
     super.initState();
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   searchFunc(String s) async {
     await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
     Provider.of<FeedViewModel>(context, listen: false).getSearchResults.clear();
@@ -196,7 +200,8 @@ class _SearchRequests extends State<SearchRequests> {
                 .first ==
             document.id) {
           SchedulerBinding.instance!.addPostFrameCallback((_) {
-            setState(() {
+            if (mounted)
+              setState(() {
               numOfResults = Provider.of<FeedViewModel>(context, listen: false)
                   .getSearchResults
                   .length;
@@ -450,6 +455,7 @@ class _SearchRequests extends State<SearchRequests> {
                 .first ==
             document.id) {
           SchedulerBinding.instance!.addPostFrameCallback((_) {
+            if (mounted)
             setState(() {
               numOfResults = Provider.of<FeedViewModel>(context, listen: false)
                   .getSearchResults
