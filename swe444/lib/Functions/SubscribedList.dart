@@ -128,7 +128,6 @@ class Subscribed_List extends State<subscribedList> {
               ),
             ]),
           ),
-          // here
         ),
       ),
     );

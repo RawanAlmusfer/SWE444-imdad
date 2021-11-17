@@ -18,23 +18,24 @@ class vhome extends StatefulWidget {
 class _vhome extends State<vhome> {
   var type = [
     Type("التبرع بالمال", "images/money.png", 1),
-    Type(" التبرع بالموارد", "images/items.png", 2)
+    Type(" التبرع بالموارد", "images/items.png", 2),
+    Type("تنظيم المسجد", "images/events.png", 3)
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffededed),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 130.0),
+      body: Center(
         child: ListView.builder(
-          itemCount: 2,
+          shrinkWrap: true,
+          itemCount: type.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
                 if (type[index].num == 1) {
                   Navigator.of(context)
                       .push(CustomPageRoute(child: moneyVFeed()));
-                } else {
+                } else if (type[index].num == 2) {
                   Navigator.of(context)
                       .push(CustomPageRoute(child: itemsVFeed()));
                 }
