@@ -85,7 +85,7 @@ class _HomeState extends State<vHome> {
                     label: "الملف الشخصي",
                   ),
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.redeem_rounded),
+                    icon: new Icon(Icons.article_outlined),
                     label: "المتابَعين",
                   ),
                   BottomNavigationBarItem(
@@ -112,7 +112,7 @@ class _HomeState extends State<vHome> {
           break;
         case 1:
           {
-            _title = 'المتابَعين';
+            _title = 'قائمة المتابَعين';
           }
           break;
         case 2:
