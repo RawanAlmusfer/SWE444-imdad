@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:swe444/Models/request.dart';
 
 class FeedViewModel with ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _requests;
@@ -40,29 +39,6 @@ class FeedViewModel with ChangeNotifier {
     }
   }
 
-  // Future fetchRequestsSearch(String query) async {
-  //   var firebase = FirebaseFirestore.instance
-  //       .collection('requests')
-  //       .where('mosque_name', isGreaterThanOrEqualTo: query)
-  //       .snapshots();
-  //
-  //   if (firebase.length == 0) {
-  //     firebase = FirebaseFirestore.instance
-  //         .collection('requests')
-  //         .where('title', isGreaterThanOrEqualTo: query)
-  //         .snapshots();
-  //   }
-  //   if (firebase.length == 0) {
-  //     firebase = FirebaseFirestore.instance
-  //         .collection('requests')
-  //         .where('description', isGreaterThanOrEqualTo: query)
-  //         .snapshots();
-  //   }
-  //
-  //   _requests2 = firebase;
-  //
-  //   notifyListeners();
-  // }
 
   Future QueryRequests(String query) async {
     searchResults.clear();
@@ -115,9 +91,4 @@ class FeedViewModel with ChangeNotifier {
     notifyListeners();
   }
 }
-//
-// class RequestViewModel {
-//   Request _request;
-//
-//   RequestViewModel({required Request request}) : _request = request;
-// }
+

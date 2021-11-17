@@ -33,7 +33,7 @@ class SearchRequests extends StatefulWidget {
 }
 
 class _SearchRequests extends State<SearchRequests> {
-  //int? donated= PaymentScreen.vDonatedAmount;
+  int? donated= PaymentScreen.vDonatedAmount;
   bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
   String search = "";
@@ -79,7 +79,16 @@ class _SearchRequests extends State<SearchRequests> {
                     maxLines: 1,
                     controller: searchTerm,
                     onChanged: (_val) {
-                      if (_val != null) searchTerm.text = _val;
+                      if (_val != null) {searchTerm.text = _val;
+                      search = searchTerm.text;
+                      setState(() {
+                        Future.delayed(
+                            Duration.zero,
+                                () => setState(() {
+                              searchFunc(search);
+                            }));
+                      });
+                      }
                     },
                     showCursor: true,
                     cursorColor: const Color(0xdeedd03c),
