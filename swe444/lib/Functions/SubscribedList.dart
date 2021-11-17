@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:swe444/Functions/home_screen/feed_view_model.dart';
-import 'package:swe444/Functions/request/edit_request_view.dart';
 import 'list_view_model.dart';
-import 'request/request_view_model.dart';
-import 'package:swe444/Widgets/show_snackbar.dart';
+
 
 class SubscribedList extends StatelessWidget {
   @override
@@ -28,7 +24,6 @@ class subscribedList extends StatefulWidget {
 
 class Subscribed_List extends State<subscribedList> {
   User? user = FirebaseAuth.instance.currentUser;
-  var test = ["مسجد عبدالعزيز","مسجد احمد","مسجد ابراهيم"];
   @override
   void initState() {
     super.initState();
