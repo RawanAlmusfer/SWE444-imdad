@@ -596,19 +596,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
         ),
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
-        // alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        // hintText: 'أدخل اسم عائلتك',
-        // labelText: 'اسم العائلة',
-        // hintStyle: TextStyle(
-        //     fontSize: 14,
-        //     color: const Color(0xff334856),
-        //     fontFamily: 'Tajawal'),
-        //
-        // labelStyle: TextStyle(
-        //     fontSize: 18,
-        //     color: const Color(0xff334856),
-        //     fontFamily: 'Tajawal'),
       ),
       inputFormatters: [LengthLimitingTextInputFormatter(150)],
       controller: description,
