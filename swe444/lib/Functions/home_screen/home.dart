@@ -6,6 +6,7 @@ import 'package:swe444/Functions/home_screen/moneyVFeed.dart';
 
 import '../CustomPageRoute.dart';
 import '../decisions_tree.dart';
+import 'eventsVFeed.dart';
 import 'itemsVFeed.dart';
 
 class vhome extends StatefulWidget {
@@ -38,6 +39,9 @@ class _vhome extends State<vhome> {
                 } else if (type[index].num == 2) {
                   Navigator.of(context)
                       .push(CustomPageRoute(child: itemsVFeed()));
+                } else {
+                  Navigator.of(context)
+                      .push(CustomPageRoute(child: eventsVFeed()));
                 }
               },
               child: Container(
