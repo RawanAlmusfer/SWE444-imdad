@@ -28,7 +28,6 @@ class subscribedList extends StatefulWidget {
 
 class Subscribed_List extends State<subscribedList> {
   User? user = FirebaseAuth.instance.currentUser;
-  var test = ["مسجد عبدالعزيز", "مسجد احمد", "مسجد ابراهيم"];
   @override
   void initState() {
     super.initState();
@@ -76,30 +75,60 @@ class Subscribed_List extends State<subscribedList> {
         shadowColor: Color(0xdef3f1e9),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: <Widget>[
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 12.0, bottom: 12.0, left: 2, right: 10),
+            child: Row(children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 12.0, bottom: 12.0, left: 2, right: 10),
-                child: Row(children: <Widget>[
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20, top: 5),
+                    top: 5.0, bottom: 5.0, left: 2, right: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0xffededed),
+                          spreadRadius: 1,
+                          blurRadius: 10),
+                    ],
+                  ),
+                  height: 30,
+                  width: 60,
+                  child: ElevatedButton(
+                    onPressed: () {},
                     child: Text(
-                      document['name'].toString(),
-                      style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                      "إلغاء",
                       textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Tajawal',
+                          color: const Color(0xff334856)),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(65.w, 30.h),
+                      primary: const Color(0xdeedd03c),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
                     ),
                   ),
-                  SvgPicture.string(
-                    mosqueImage,
-                    allowDrawingOutsideViewBox: true,
-                    fit: BoxFit.fill,
-                  ),
-                ]),
+                ),
               ),
-            ],
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(right: 20, top: 5),
+                child: Text(
+                  "مسجد " + document['name'].toString(),
+                  style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SvgPicture.string(
+                mosqueImage,
+                allowDrawingOutsideViewBox: true,
+                fit: BoxFit.fill,
+              ),
+            ]),
           ),
+          // here
         ),
       ),
     );
