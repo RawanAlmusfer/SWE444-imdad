@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
 
@@ -33,13 +35,12 @@ class SearchRequests extends StatefulWidget {
 }
 
 class _SearchRequests extends State<SearchRequests> {
-  int? donated= PaymentScreen.vDonatedAmount;
+  int? donated = PaymentScreen.vDonatedAmount;
   bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
   String search = "";
   int i = 0;
-  // int? numOfResults=0;
-  // bool change= false;
+  int numOfResults = 0;
 
   @override
   void initState() {
@@ -56,8 +57,6 @@ class _SearchRequests extends State<SearchRequests> {
     Provider.of<FeedViewModel>(context, listen: false).getSearchResults.clear();
     await Provider.of<FeedViewModel>(context, listen: false)
         .QueryRequests(s.trim());
-    // numOfResults= await Provider.of<FeedViewModel>(context, listen: false).getLength();
-    // change= true;
   }
 
   @override
@@ -79,21 +78,22 @@ class _SearchRequests extends State<SearchRequests> {
                     maxLines: 1,
                     controller: searchTerm,
                     onChanged: (_val) {
-                      if (_val != null) {searchTerm.text = _val;
-                      search = searchTerm.text;
-                      setState(() {
-                        Future.delayed(
-                            Duration.zero,
-                                () => setState(() {
-                              searchFunc(search);
-                            }));
-                      });
+                      if (_val != null) {
+                        searchTerm.text = _val;
+                        search = searchTerm.text;
+                        setState(() {
+                          Future.delayed(
+                              Duration.zero,
+                              () => setState(() {
+                                    searchFunc(search);
+                                  }));
+                        });
                       }
                     },
                     showCursor: true,
                     cursorColor: const Color(0xdeedd03c),
-                    style: TextStyle(
-                        fontSize: 17, color: const Color(0xff334856)),
+                    style:
+                        TextStyle(fontSize: 17, color: const Color(0xff334856)),
                     textAlign: TextAlign.right,
                     decoration: InputDecoration(
                       // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
@@ -143,8 +143,8 @@ class _SearchRequests extends State<SearchRequests> {
                                   }));
                         });
                       },
-                      icon:
-                          Icon(Icons.search, color: const Color(0xdeedd03c))),
+                      icon: Icon(Icons.search, color: const Color(0xdeedd03c))),
+                  Text("$numOfResults")
                 ],
               ),
             ),
@@ -186,13 +186,20 @@ class _SearchRequests extends State<SearchRequests> {
     if (Provider.of<FeedViewModel>(context, listen: false)
         .getSearchResults
         .contains(document.id)) {
-      // if(Provider.of<FeedViewModel>(context, listen: false)
-      //     .getSearchResults
-      //     .first == document.id){
-      //   change=false;
-      // }
       if (document['type'].toString() == "مبلغ" &&
           document['donated'] < document['amount']) {
+        if (Provider.of<FeedViewModel>(context, listen: false)
+                .getSearchResults
+                .first ==
+            document.id) {
+          SchedulerBinding.instance!.addPostFrameCallback((_) {
+            setState(() {
+              numOfResults = Provider.of<FeedViewModel>(context, listen: false)
+                  .getSearchResults
+                  .length;
+            });
+          });
+        }
         return Container(
           padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
           child: Card(
@@ -428,14 +435,25 @@ class _SearchRequests extends State<SearchRequests> {
                   //       ),
                   //     ]),
                   //   ),
-
                 ],
               ),
             ),
           ),
         );
-      } else if (document['type'].toString() == "موارد" && document['donated'] < document['amount_requested']) {
-        // here is the type
+      } else if (document['type'].toString() == "موارد" &&
+          document['donated'] < document['amount_requested']) {
+        if (Provider.of<FeedViewModel>(context, listen: false)
+                .getSearchResults
+                .first ==
+            document.id) {
+          SchedulerBinding.instance!.addPostFrameCallback((_) {
+            setState(() {
+              numOfResults = Provider.of<FeedViewModel>(context, listen: false)
+                  .getSearchResults
+                  .length;
+            });
+          });
+        }
         return Container(
           padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
           child: Card(
@@ -588,7 +606,9 @@ class _SearchRequests extends State<SearchRequests> {
                         height: 30,
                         width: 65,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemsDScreen(document: document)));
+                          },
                           child: Text(
                             "تبرع",
                             textAlign: TextAlign.center,

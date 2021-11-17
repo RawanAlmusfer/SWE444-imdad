@@ -243,7 +243,7 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
         ),
       ),
       content: Text(
-        "تمت تسجيل التبرع بنجاح",
+        "تم تسجيل التبرع بنجاح",
         textAlign: TextAlign.right,
         style: TextStyle(fontFamily: "Tajawal"),
       ),

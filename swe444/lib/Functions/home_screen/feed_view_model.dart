@@ -6,6 +6,7 @@ class FeedViewModel with ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _requests;
   Stream<QuerySnapshot<Map<String, dynamic>>>? _requests2;
   late List<String> searchResults = [];
+  late int length;
 
   fetchRequests() async {
     var firebase = FirebaseFirestore.instance.collection('requests');
@@ -25,9 +26,7 @@ class FeedViewModel with ChangeNotifier {
     return searchResults;
   }
 
-  Future<int> getLength() async {
-    int length = searchResults.length;
-    notifyListeners();
+  int getLength() {
     return length;
   }
 
@@ -38,7 +37,6 @@ class FeedViewModel with ChangeNotifier {
       throw "Could not lunch the url";
     }
   }
-
 
   Future QueryRequests(String query) async {
     searchResults.clear();
@@ -51,9 +49,15 @@ class FeedViewModel with ChangeNotifier {
       var i = snapshot.docs.iterator;
       while (i.moveNext()) {
         if (i.current["title"].toString().contains(query)) {
+          if ((i.current['type'].toString() == "مبلغ" &&
+              i.current['donated'] < i.current['amount']) || (i.current['type'].toString() == "موارد" &&
+              i.current['donated'] < i.current['amount_requested'])) {
           String id = i.current.id;
-          print(id);
-          if (!searchResults.contains(id)) searchResults.add(id);
+          // print(id);
+          if (!searchResults.contains(id)) {
+            searchResults.add(id);
+          }
+          ;}
         }
       }
     }).onError((error, stackTrace) => print("error"));
@@ -66,9 +70,14 @@ class FeedViewModel with ChangeNotifier {
       var i = snapshot.docs.iterator;
       while (i.moveNext()) {
         if (i.current["mosque_name"].toString().contains(query)) {
-          String id = i.current.id;
-          print(id);
-          if (!searchResults.contains(id)) searchResults.add(id);
+          if ((i.current['type'].toString() == "مبلغ" &&
+              i.current['donated'] < i.current['amount']) || (i.current['type'].toString() == "موارد" &&
+              i.current['donated'] < i.current['amount_requested'])) {
+            String id = i.current.id;
+          // print(id);
+          if (!searchResults.contains(id)) {
+            searchResults.add(id);}
+          ;}
         }
       }
     }).onError((error, stackTrace) => print("error"));
@@ -81,14 +90,18 @@ class FeedViewModel with ChangeNotifier {
       var i = snapshot.docs.iterator;
       while (i.moveNext()) {
         if (i.current["description"].toString().contains(query)) {
-          String id = i.current.id;
-          print(id);
-          if (!searchResults.contains(id)) searchResults.add(id);
-        }
+          if ((i.current['type'].toString() == "مبلغ" &&
+              i.current['donated'] < i.current['amount']) || (i.current['type'].toString() == "موارد" &&
+              i.current['donated'] < i.current['amount_requested'])) {
+            String id = i.current.id;
+            // print(id);
+            if (!searchResults.contains(id)) {
+              searchResults.add(id);
+            }
+          }}
       }
     }).onError((error, stackTrace) => print("error"));
 
     notifyListeners();
   }
 }
-
