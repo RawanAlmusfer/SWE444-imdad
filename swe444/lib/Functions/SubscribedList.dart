@@ -6,14 +6,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/request/edit_request_view.dart';
+import 'list_view_model.dart';
 import 'request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
 class SubscribedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<FeedViewModel>(
-        create: (_) => FeedViewModel(),
+    return ChangeNotifierProvider<ListViewModel>(
+        create: (_) => ListViewModel(),
         child: Container(height: 1200, width: 450, child: subscribedList()));
   }
 }
@@ -39,32 +40,35 @@ class Subscribed_List extends State<subscribedList> {
   }
 
   setup() async {
-    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
+    await Provider.of<ListViewModel>(context, listen: false).fetchMosques();
   }
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-        Provider.of<FeedViewModel>(context, listen: false).requests;
+    Stream<QuerySnapshot<Map<String, dynamic>>>? mosques =
+        Provider.of<ListViewModel>(context, listen: false).mosques;
+
 
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       body:
       Center(
-        child: ListView.builder(
-          shrinkWrap: true,
-                itemCount: test.length,
-                itemBuilder: (BuildContext test, int index) => buildCards(
+        child: StreamBuilder(
+            stream: mosques,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return _buildWaitingScreen();
+              return ListView.builder(
+                itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+                itemBuilder: (BuildContext context, int index) => buildCards(
                     context,
-                  index,
-              ),
-    ),
+                    (snapshot.data! as QuerySnapshot).docs[index]),
+              );
+            }),
       ),
     );
   }
 
-  Widget buildCards(
-      BuildContext context, int index) {
+  Widget buildCards(BuildContext context, DocumentSnapshot document) {
       return Container(
         padding: const EdgeInsets.only(top: 5.0, bottom:0,left: 20, right: 20),
         child: Card(
@@ -84,7 +88,7 @@ class Subscribed_List extends State<subscribedList> {
                     Padding(
                       padding: const EdgeInsets.only(right: 20, top: 5),
                       child: Text(
-                        test[index].toString(),
+                        document['name'].toString(),
                         style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
                         textAlign: TextAlign.center,
                       ),
