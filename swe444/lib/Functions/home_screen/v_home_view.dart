@@ -122,6 +122,7 @@ class _HomeState extends State<vHome> {
           }
           break;
         case 3:
+          {
             _title = 'الصفحة الرئيسية';
           }
           break;
