@@ -467,8 +467,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
       decoration: InputDecoration(
         prefixIcon:
             Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
-        prefixIconConstraints:BoxConstraints(minWidth: 23, maxWidth: 23, maxHeight: 20),
-        contentPadding: const EdgeInsets.only(top: 15, right: 5),
+        prefixIconConstraints:BoxConstraints(minWidth: 30, maxWidth: 30, maxHeight: 25),
+        contentPadding: const EdgeInsets.only(top: 25, right: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
         ),
@@ -494,7 +494,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
-            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
+            fontSize: 13, color: Color(0xff334856), fontFamily: 'Tajawal'),
       ),
       controller: _startTime,
       keyboardType: TextInputType.datetime,
@@ -531,7 +531,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
             double _timeDiff = _doubleStartTime - _doubleEndTime;
             if (_timeDiff > 0) {
-              return "يجب أن يكون اكبر";
+              return "يجب ألا يسبق وقت البدء";
             }
           }
         }
@@ -540,8 +540,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
       decoration: InputDecoration(
         prefixIcon:
             Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
-        prefixIconConstraints:BoxConstraints(minWidth: 23, maxWidth: 23, maxHeight: 20),
-        contentPadding: const EdgeInsets.only(top: 15, right: 5),
+        prefixIconConstraints:BoxConstraints(minWidth: 30, maxWidth: 30, maxHeight: 25),
+        contentPadding: const EdgeInsets.only(top: 25, right: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
         ),
@@ -561,11 +561,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
         hintText: '0',
         labelText: 'وقت الإنتهاء *',
         hintStyle: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
-            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
+            fontSize: 13, color: Color(0xff334856), fontFamily: 'Tajawal'),
       ),
       controller: _endTime,
       keyboardType: TextInputType.datetime,
