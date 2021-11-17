@@ -206,7 +206,7 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
-              if (document['donated'].toString() == '0')
+            //  if (document['donated'].toString() == '0')
               Padding(
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 5.0, left: 2, right: 10),
@@ -245,7 +245,8 @@ class mmFeed extends State<mm_feed> {
                     )
                   ]),
                 ),
-                Padding(
+              //  if(document['type'].toString() == "موارد")
+                  Padding(
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 5.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
@@ -262,6 +263,7 @@ class mmFeed extends State<mm_feed> {
                       height: 30,
                      // width: 75,
                       width: 90,
+
                       child: ElevatedButton(
                         onPressed: () async {
                         //  Navigator.of(context).pop();

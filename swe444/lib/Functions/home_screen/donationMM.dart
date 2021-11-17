@@ -5,7 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:swe444/Models/users.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class itemsVFeed extends StatelessWidget {
   @override
@@ -28,15 +30,29 @@ class itemsv_feed extends StatefulWidget {
 }
 
 class ivFeed extends State<itemsv_feed> {
+  final _formKey = GlobalKey<FormState>();
+
+
+
+
+  TextEditingController _controller = TextEditingController();
+
+  int? donated;
+  int? amount;
   @override
   void initState() {
+  getUsers(){
+
+  }
     super.initState();
+
     Future.delayed(
         Duration.zero,
             () => setState(() {
           setup();
         }));
   }
+
 
   setup() async {
     await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
@@ -124,79 +140,12 @@ class ivFeed extends State<itemsv_feed> {
                   child: Row(children: <Widget>[
 
                       const Spacer(),
-                    Container(
 
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xffededed),
-                              spreadRadius: 1,
-                              blurRadius: 10),
-                        ],
-                      ),
-                      height: 30,
-                      // width: 75,
-                      width: 90,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          //  Navigator.of(context).pop();
-                          //    Navigator.of(context).push(MaterialPageRoute(builder: (context) => itemsVFeed()));
-                        },
-                        child: Text(
-                          "لم يصل ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              color: const Color(0xff334856)),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(200.w, 30.h),
-                          primary: const Color(0xdeedd03c),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xffededed),
-                              spreadRadius: 1,
-                              blurRadius: 10),
-                        ],
-                      ),
-                      height: 30,
-                      // width: 75,
-                      width: 90,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          //  Navigator.of(context).pop();
-                          //    Navigator.of(context).push(MaterialPageRoute(builder: (context) => itemsVFeed()));
-                        },
-                        child: Text(
-                          "وصل  ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              color: const Color(0xff334856)),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(200.w, 30.h),
-                          primary: const Color(0xdeedd03c),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                      ),
-                    ),
 
 
                     Padding(
                       padding: const EdgeInsets.only(right: 10, top: 5),
                       child: Text("اسم المتبرع",
-                      //  document['title'],
 
                         style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
                         // textAlign: TextAlign.left,
@@ -247,7 +196,75 @@ class ivFeed extends State<itemsv_feed> {
                             ),
 
 
-                      ),),
+                            ),
+
+                        ),Container(),Container(),
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0xffededed),
+                                  spreadRadius: 1,
+                                  blurRadius: 10),
+                            ],
+                          ),
+                          height: 30,
+                          // width: 75,
+                          width: 90,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              //  Navigator.of(context).pop();
+                              //    Navigator.of(context).push(MaterialPageRoute(builder: (context) => itemsVFeed()));
+                            },
+                            child: Text(
+                              "وصل  ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  color: const Color(0xff334856)),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size(200.w, 30.h),
+                              primary: const Color(0xdeedd03c),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0xffededed),
+                                  spreadRadius: 1,
+                                  blurRadius: 10),
+                            ],
+                          ),
+                          height: 30,
+                          // width: 75,
+                          width: 90,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              //  Navigator.of(context).pop();
+                              //    Navigator.of(context).push(MaterialPageRoute(builder: (context) => itemsVFeed()));
+                            },
+                            child: Text(
+                              "لم يصل  ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  color: const Color(0xff334856)),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size(200.w, 30.h),
+                              primary: const Color(0xdeedd03c),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                          ),
+                        ),
 
 
 

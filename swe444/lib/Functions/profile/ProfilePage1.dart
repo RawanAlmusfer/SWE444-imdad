@@ -101,13 +101,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     stops: [
-                  0.0,
-                  1.0
-                ],
+                      0.0,
+                      1.0
+                    ],
                     colors: [
-                  Theme.of(context).primaryColor.withOpacity(0.2),
-                  Theme.of(context).accentColor.withOpacity(0.5),
-                ])),
+                      Theme.of(context).primaryColor.withOpacity(0.2),
+                      Theme.of(context).accentColor.withOpacity(0.5),
+                    ])),
             child: ListView(
               children: [
                 DrawerHeader(
@@ -305,7 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: <Widget>[
                           Container(
                             padding:
-                                const EdgeInsets.only(left: 8.0, bottom: 4.0),
+                            const EdgeInsets.only(left: 8.0, bottom: 4.0),
                             //
                             alignment: Alignment.topRight,
                             child: Text(
@@ -339,11 +339,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                             onTap: () async {
                                               //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
                                               final text =
-                                                  await showTextInputDialog(
+                                              await showTextInputDialog(
                                                 context: context,
                                                 title: ' الاسم الأول',
                                                 textFields: [DialogTextField(
-                                                   hintText: 'ادخل الاسم الاول ',
+                                                  hintText: 'ادخل الاسم الاول ',
                                                   validator: (value){
                                                     RegExp regex = RegExp(r'^.{2,}$');
                                                     if (value!.isEmpty || value.trim().isEmpty) {
@@ -363,8 +363,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 )],
                                                 okLabel: 'تأكيد',
                                                 cancelLabel: 'الغاء',
-
                                               );
+
                                               if (text != null)
                                                 setState(() {
                                                   _userFirstName = text[0];
@@ -378,8 +378,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     .collection('users')
                                                     .doc(auth.currentUser!.uid)
                                                     .update(
-                                                        //  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
-                                                        {
+                                                  //  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
+                                                    {
                                                       'first_name': text![0]
                                                     }).then((value) {});
                                               }
@@ -411,33 +411,33 @@ class _ProfilePageState extends State<ProfilePage> {
                                               onTap: () async {
                                                 // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
                                                 final text =
-                                                    await showTextInputDialog(
-                                                        context: context,
-                                                        title:
-                                                            ' الاسم الأخير',
-                                                        textFields: [
-                                                          DialogTextField(
-                                                              hintText: 'ادخل الاسم الاخير ',
-                                                              validator: (value){
-                                                               // return !regex.hasMatch(value!) ? 'يجب ان يكون ثلاث حروف أو أكثر ' : null;
-                                                                RegExp regex = RegExp(r'^.{2,}$');
-                                                                if (value!.isEmpty || value.trim().isEmpty) {
-                                                                  return ("الرجاء قم بإدخال اسم عائلتك");
-                                                                }
-                                                                if (!regex.hasMatch(value)) {
-                                                                  return ("يجب ان يحتوي على حرفين على الأقل");
-                                                                }
-                                                                if (!RegExp(r"^[\p{L} ,.'-]*$",
-                                                                    caseSensitive: false, unicode: true, dotAll: true)
-                                                                    .hasMatch(value)) {
-                                                                  return ("يجب ان يحتوي الأسم الأخير على أحرف فقط");
-                                                                }
-                                                                return null;
-                                                              }
-                                                          )
-                                                        ],
-                                                        okLabel: 'تأكيد',
-                                                        cancelLabel: 'الغاء');
+                                                await showTextInputDialog(
+                                                    context: context,
+                                                    title:
+                                                    ' الاسم الأخير',
+                                                    textFields: [
+                                                      DialogTextField(
+                                                          hintText: 'ادخل الاسم الاخير ',
+                                                          validator: (value){
+                                                            // return !regex.hasMatch(value!) ? 'يجب ان يكون ثلاث حروف أو أكثر ' : null;
+                                                            RegExp regex = RegExp(r'^.{2,}$');
+                                                            if (value!.isEmpty || value.trim().isEmpty) {
+                                                              return ("الرجاء قم بإدخال اسم عائلتك");
+                                                            }
+                                                            if (!regex.hasMatch(value)) {
+                                                              return ("يجب ان يحتوي على حرفين على الأقل");
+                                                            }
+                                                            if (!RegExp(r"^[\p{L} ,.'-]*$",
+                                                                caseSensitive: false, unicode: true, dotAll: true)
+                                                                .hasMatch(value)) {
+                                                              return ("يجب ان يحتوي الأسم الأخير على أحرف فقط");
+                                                            }
+                                                            return null;
+                                                          }
+                                                      )
+                                                    ],
+                                                    okLabel: 'تأكيد',
+                                                    cancelLabel: 'الغاء');
 
                                                 //  _userLastName.trim().isEmpty|| _userLastName!.isEmpty && RegExp(r"^[\p{L} ,.'-]*$",
                                                 //    caseSensitive: false, unicode: true, dotAll: true)
@@ -446,13 +446,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   FirebaseFirestore.instance
                                                       .collection('users')
                                                       .doc(
-                                                          auth.currentUser!.uid)
+                                                      auth.currentUser!.uid)
                                                       .update(
-                                                          //    {isVolunteer() ?'last_name': 'mosque_code':text[0]}).then((value) {
-                                                          {
+                                                    //    {isVolunteer() ?'last_name': 'mosque_code':text[0]}).then((value) {
+                                                      {
                                                         'last_name': text[0]
                                                       }).then(
-                                                    (value) {
+                                                        (value) {
                                                       setState(() {
                                                         _userLastName = text[0];
                                                       });
@@ -488,31 +488,31 @@ class _ProfilePageState extends State<ProfilePage> {
                                             onTap: () async {
                                               // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
                                               final text =
-                                                  await showTextInputDialog(
-                                                      context: context,
-                                                      title:
-                                                          ' البريد الالكتروني',
-                                                      textFields: [
-                                                        DialogTextField(
-                                                            hintText: 'ادخل بريد الكتروني ',
-                                                            validator: (value){
-                                                        //   return !value!.contains('@') ? 'ادخل بريد الكتروني صحيح' : null;
-                                                              if (value!.isEmpty || value.trim().isEmpty) {
-                                                                return ("الرجاء قم بإدخال بريد إلكتروني");
-                                                              }
-                                                              // reg expression for email validation
-                                                              if (!RegExp(
-                                                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                                                  .hasMatch(value)) {
-                                                                return ("البريد الإلكتروني غير صحيح");//ASDFGHJKL123!
-                                                              }
-                                                              return null;
+                                              await showTextInputDialog(
+                                                  context: context,
+                                                  title:
+                                                  ' البريد الالكتروني',
+                                                  textFields: [
+                                                    DialogTextField(
+                                                        hintText: 'ادخل بريد الكتروني ',
+                                                        validator: (value){
+                                                          //   return !value!.contains('@') ? 'ادخل بريد الكتروني صحيح' : null;
+                                                          if (value!.isEmpty || value.trim().isEmpty) {
+                                                            return ("الرجاء قم بإدخال بريد إلكتروني");
+                                                          }
+                                                          // reg expression for email validation
+                                                          if (!RegExp(
+                                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                              .hasMatch(value)) {
+                                                            return ("البريد الإلكتروني غير صحيح");//ASDFGHJKL123!
+                                                          }
+                                                          return null;
 
-                                                            }
-                                                        )
-                                                      ],
-                                                      okLabel: 'تأكيد',
-                                                      cancelLabel: 'الغاء');
+                                                        }
+                                                    )
+                                                  ],
+                                                  okLabel: 'تأكيد',
+                                                  cancelLabel: 'الغاء');
                                               // _userEmail.trim().isEmpty|| _userEmail!.isEmpty&&!regex2.hasMatch(_userEmail)?_displayemail=false:_displayemail=false;
 
                                               if (text != null)
@@ -545,14 +545,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                             onTap: () async {
                                               //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
                                               final text =
-                                                  await showTextInputDialog(
+                                              await showTextInputDialog(
                                                 context: context,
                                                 title: ' رقم الجوال',
 
                                                 textFields: [DialogTextField(
                                                     hintText: ' أدخل رقم الجوال',
                                                     validator: (value){
-                                                     // return !regex1.hasMatch(value!) ? 'ادخل رقم جوال صحيح  ' : null;
+                                                      // return !regex1.hasMatch(value!) ? 'ادخل رقم جوال صحيح  ' : null;
                                                       RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
                                                       if (value!.isEmpty || value.trim().isEmpty) {
                                                         return ("الرجاء إدخال رقم الجوال ");

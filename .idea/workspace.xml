@@ -7,6 +7,8 @@
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/donationMM.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/donationMM.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/mm_feed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/mm_feed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/profile/ProfilePage1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/profile/ProfilePage1.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,11 +58,11 @@
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\screens" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\Functions" />
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\assets" />
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\asset" />
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib" />
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\Views" />
-      <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\screens" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
