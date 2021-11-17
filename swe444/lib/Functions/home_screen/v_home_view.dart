@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
 import '../SubscribedList.dart';
 import 'home.dart';
@@ -21,7 +22,7 @@ class _HomeState extends State<vHome> {
   final List<Widget> _children = [
     ProfilePage(),
     SubscribedList(),
-    vhome(),
+    SearchPage(),
     vhome(),
   ];
 
@@ -121,7 +122,6 @@ class _HomeState extends State<vHome> {
           }
           break;
         case 3:
-          {
             _title = 'الصفحة الرئيسية';
           }
           break;
