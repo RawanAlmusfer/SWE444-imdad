@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/mm_home_view.dart';
 import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
+import 'package:swe444/Widgets/datepicker.dart';
+import 'package:swe444/Widgets/timepicker.dart';
 
 class PostRequestForm extends StatefulWidget {
   PostRequestForm({
@@ -21,25 +23,36 @@ class PostRequestForm extends StatefulWidget {
 class _AddRequestFormState extends State<PostRequestForm> {
   final _formKey = GlobalKey<FormState>();
   User? user = FirebaseAuth.instance.currentUser;
-  String? type, mosque_name, mosque_location;
-  String _enteredText= "";
-  String? postedBy;
-  int? amount;
-  int? items_amount;
-  int charLength= 0;
-  TextEditingController _amount = TextEditingController();
+  String? type, mosque_name, mosque_location, postedBy;
   TextEditingController title = TextEditingController();
-  // TextEditingController itemsD = TextEditingController();
-  TextEditingController itemsAmount = TextEditingController();
-  DateTime time = DateTime.now();
-  final List<String> items = <String>['مبلغ', 'موارد'];
   TextEditingController description = TextEditingController();
+  DateTime time = DateTime.now();
+  int charLength = 0;
+  final List<String> items = <String>['مبلغ', 'موارد', 'تنظيم'];
+
+  // funds
+  int? amount;
+  TextEditingController _amount = TextEditingController();
+
+  //items
+  int? items_amount;
+  TextEditingController itemsAmount = TextEditingController();
+
+  // org
+  int? partNum;
+  TextEditingController _number = TextEditingController();
+  TextEditingController _date = TextEditingController();
+  TextEditingController _startTime = TextEditingController();
+  TextEditingController _endTime = TextEditingController();
+
+  DateTime? startDate, endDate;
+  TimeOfDay? startTime, endTime;
 
   Widget _buildType() {
     return DropdownButtonHideUnderline(
         child: DropdownButtonFormField<String>(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: InputDecoration(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -50,7 +63,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xdeedd03c),
           ),
         ),
-        contentPadding: EdgeInsets.only(right: 20, top: 15, left: 23 ),
+        contentPadding: EdgeInsets.only(right: 20, top: 15, left: 23),
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
         hintText: 'إختر نوعًا',
@@ -123,7 +136,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: 1,
       maxLength: 30,
-
       validator: (value) {
         if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
@@ -136,21 +148,20 @@ class _AddRequestFormState extends State<PostRequestForm> {
       onFieldSubmitted: (_val) {
         if (_val != null) title.text = _val;
       },
-
       onChanged: (value) {
-        setState( () {
+        setState(
+          () {
             charLength = value.length;
-        },
+          },
         );
       },
-
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
       style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       decoration: InputDecoration(
         // counterText: '${_enteredText.length.toString()}character(s)',
-        contentPadding: EdgeInsets.only(right: 20, top: 15 ),
+        contentPadding: EdgeInsets.only(right: 20, top: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -163,8 +174,12 @@ class _AddRequestFormState extends State<PostRequestForm> {
         ),
         prefixStyle: TextStyle(fontSize: 15, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
-        hintText: (type=="مبلغ" || type==null) ?'أدخل عنوان الطلب' : 'أدخل نوع المورد المطلوب',
-        labelText: (type=="مبلغ" || type==null) ? 'عنوان الطلب *' : 'نوع المورد *',
+        hintText: (type == "مبلغ" || type == null || type == "تنظيم")
+            ? 'أدخل عنوان الطلب'
+            : 'أدخل نوع المورد المطلوب',
+        labelText: (type == "مبلغ" || type == null || type == "تنظيم")
+            ? 'عنوان الطلب *'
+            : 'نوع المورد *',
         hintStyle: TextStyle(
             fontSize: 13,
             color: const Color(0xffcbcbcc),
@@ -180,14 +195,13 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
+  // funds
   Widget _buildDetailsFunds() {
     double _value;
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null ||
-            value.isEmpty ||
-            value.trim().isEmpty)
+        if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
         else {
           _value = double.parse(value);
@@ -223,9 +237,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
-            fontSize: 15,
-            color: Color(0xff334856),
-            fontFamily: 'Tajawal'),
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
       ),
       inputFormatters: [
         LengthLimitingTextInputFormatter(30),
@@ -241,79 +253,18 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
-  // Widget _buildDetailsItems() {
-  //   return TextFormField(
-  //     maxLines: 1,
-  //     maxLength: 30,
-  //
-  //     validator: (value) {
-  //       if (value == null || value.isEmpty || value.trim().isEmpty)
-  //         return "مطلوب";
-  //       if (!RegExp(r"^[\p{L} ,.'-]*$",
-  //           caseSensitive: false, unicode: true, dotAll: true)
-  //           .hasMatch(value)) return "يجب أن يحتوي على أحرف فقط";
-  //       if (value.length > 30) return "لا يمكن ان يزيد عن 30 حرف ";
-  //     },
-  //     controller: itemsD,
-  //     onFieldSubmitted: (_val) {
-  //       if (_val != null) itemsD.text = _val;
-  //     },
-  //     onChanged: (value) {
-  //       setState( () {
-  //         charLength = value.length;
-  //       },
-  //       );
-  //     },
-  //
-  //     showCursor: true,
-  //     cursorColor: const Color(0xdeedd03c),
-  //     style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-  //     textAlign: TextAlign.right,
-  //     decoration: InputDecoration(
-  //       // counterText: '${_enteredText.length.toString()}character(s)',
-  //       contentPadding: EdgeInsets.only(right: 20, top: 15 ),
-  //       border: OutlineInputBorder(
-  //         borderRadius: BorderRadius.circular(30),
-  //       ),
-  //       focusedBorder: OutlineInputBorder(
-  //         // width: 0.0 produces a thin "hairline" border
-  //         borderRadius: BorderRadius.circular(30),
-  //         borderSide: BorderSide(
-  //           color: const Color(0xdeedd03c),
-  //         ),
-  //       ),
-  //       prefixStyle: TextStyle(fontSize: 15, color: const Color(0xff334856)),
-  //       hoverColor: const Color(0xff334856),
-  //       hintText: 'أدخل اسم المورد المطلوب',
-  //       labelText: 'المورد *',
-  //       hintStyle: TextStyle(
-  //           fontSize: 13,
-  //           color: const Color(0xffcbcbcc),
-  //           fontFamily: 'Tajawal'),
-  //       labelStyle: TextStyle(
-  //           fontSize: 15,
-  //           color: const Color(0xff334856),
-  //           fontFamily: 'Tajawal'),
-  //       alignLabelWithHint: true,
-  //       //border: OutlineInputBorder(),
-  //       // hoverColor: const Color(0xff334856),
-  //     ),
-  //   );
-  // }
-
+  // items
   Widget _buildDetailsItemsAmount() {
     double _value;
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null ||
-            value.isEmpty ||
-            value.trim().isEmpty)
+        if (value == null || value.isEmpty || value.trim().isEmpty)
           return "مطلوب";
         else {
           _value = double.parse(value);
-          if (_value > 200) return "الآقصى= 200";
-          if (_value < 5) return "الآدنى= 5";
+          if (_value > 200) return "الحد الآقصى= 200";
+          if (_value < 1) return "الحد الآدنى= 5";
         }
       },
       textAlign: TextAlign.right,
@@ -344,9 +295,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
             color: const Color(0xffcbcbcc),
             fontFamily: 'Tajawal'),
         labelStyle: const TextStyle(
-            fontSize: 15,
-            color: Color(0xff334856),
-            fontFamily: 'Tajawal'),
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
       ),
       inputFormatters: [
         LengthLimitingTextInputFormatter(30),
@@ -362,14 +311,279 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
+  // organz
+  Widget _buildNumberOfParticipants() {
+    double _value;
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty || value.trim().isEmpty)
+          return "مطلوب";
+        else {
+          _value = double.parse(value);
+          if (_value > 50) return "الحد الآقصى= 50";
+          if (_value < 1) return "الحد الآدنى= 1";
+        }
+      },
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.only(right: 20, top: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: '0',
+        labelText: 'العدد المطلوب من المتطوعين *',
+        hintStyle: TextStyle(
+            fontSize: 16,
+            color: const Color(0xffcbcbcc),
+            fontFamily: 'Tajawal'),
+        labelStyle: const TextStyle(
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
+      ),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(30),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+      ],
+      controller: _number,
+      keyboardType: TextInputType.number,
+      onSaved: (_val) {
+        if (_val != null) {
+          _number.text = _val;
+        }
+      }, // onsaved
+    );
+  }
+
+  Widget _buildOneDay() {
+    return TextFormField(
+      onTap: () async {
+        DatePicker datePicker = new DatePicker();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        // await showDatePicker(
+        // context: context,
+        // initialDate:DateTime.now(),
+        // firstDate:DateTime(DateTime.now().year),
+        // lastDate: DateTime(DateTime.now().year + 1)))!;
+        await datePicker.pickDate(context);
+
+        if (datePicker.date != null) {
+          _date.text = datePicker.getText();
+          startDate = datePicker.date;
+        }
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty || value.trim().isEmpty)
+          return "مطلوب";
+        else {
+          // _value = double.parse(value);
+          // if (_value > 50) return "الحد الآقصى= 50";
+          // if (_value < 1) return "الحد الآدنى= 1";
+        }
+      },
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.calendar_today, color: const Color(0xdeedd03c)),
+        contentPadding: const EdgeInsets.only(top: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: '0',
+        labelText: 'التاريخ *',
+        hintStyle: TextStyle(
+            fontSize: 16,
+            color: const Color(0xffcbcbcc),
+            fontFamily: 'Tajawal'),
+        labelStyle: const TextStyle(
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
+      ),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(30),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+      ],
+      controller: _date,
+      keyboardType: TextInputType.datetime,
+      onSaved: (_val) {
+        if (_val != null) {
+          _date.text = _val;
+        }
+      }, // onsaved
+    );
+  }
+
+  Widget _buildStartTime() {
+    return TextFormField(
+      onTap: () async {
+        TimePicker timePicker = new TimePicker();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        await timePicker.pickTime(context);
+
+        if (timePicker.time != null) {
+          _startTime.text = timePicker.getText();
+          startTime = timePicker.time;
+        }
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty || value.trim().isEmpty)
+          return "مطلوب";
+        else {
+          // _value = double.parse(value);
+          // if (_value > 50) return "الحد الآقصى= 50";
+          // if (_value < 1) return "الحد الآدنى= 1";
+        }
+      },
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        prefixIcon:
+            Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
+        prefixIconConstraints:BoxConstraints(minWidth: 30, maxWidth: 30, maxHeight: 25),
+        contentPadding: const EdgeInsets.only(top: 25, right: 10),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: '0',
+        labelText: 'وقت البدء *',
+        hintStyle: TextStyle(
+            fontSize: 16,
+            color: const Color(0xffcbcbcc),
+            fontFamily: 'Tajawal'),
+        labelStyle: const TextStyle(
+            fontSize: 13, color: Color(0xff334856), fontFamily: 'Tajawal'),
+      ),
+      controller: _startTime,
+      keyboardType: TextInputType.datetime,
+      onSaved: (_val) {
+        if (_val != null) {
+          _startTime.text = _val;
+        }
+      }, // onsaved
+    );
+  }
+
+  Widget _buildEndTime() {
+    return TextFormField(
+      onTap: () async {
+        TimePicker timePicker2 = new TimePicker();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        await timePicker2.pickTime(context);
+
+        if (timePicker2.time != null) {
+          _endTime.text = timePicker2.getText();
+          endTime = timePicker2.time;
+        }
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty || value.trim().isEmpty)
+          return "مطلوب";
+        else {
+          if (startTime != null && endTime != null) {
+            double _doubleStartTime = startTime!.hour.toDouble() +
+                (startTime!.minute.toDouble() / 60);
+            double _doubleEndTime =
+                endTime!.hour.toDouble() + (endTime!.minute.toDouble() / 60);
+
+            double _timeDiff = _doubleStartTime - _doubleEndTime;
+            if (_timeDiff > 0) {
+              return "يجب ألا يسبق وقت البدء";
+            }
+          }
+        }
+      },
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        prefixIcon:
+            Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
+        prefixIconConstraints:BoxConstraints(minWidth: 30, maxWidth: 30, maxHeight: 25),
+        contentPadding: const EdgeInsets.only(top: 25, right: 10),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: '0',
+        labelText: 'وقت الإنتهاء *',
+        hintStyle: TextStyle(
+            fontSize: 14,
+            color: const Color(0xffcbcbcc),
+            fontFamily: 'Tajawal'),
+        labelStyle: const TextStyle(
+            fontSize: 13, color: Color(0xff334856), fontFamily: 'Tajawal'),
+      ),
+      controller: _endTime,
+      keyboardType: TextInputType.datetime,
+      onSaved: (_val) {
+        if (_val != null) {
+          _endTime.text = _val;
+        }
+      }, // onsaved
+    );
+  }
+
   Widget _buildDescription() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLength: 150,
       textAlign: TextAlign.right,
       decoration: InputDecoration(
-        contentPadding:
-        EdgeInsets.fromLTRB(16, 16, 16, 16),
+        contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -382,30 +596,16 @@ class _AddRequestFormState extends State<PostRequestForm> {
         ),
         prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
         hoverColor: const Color(0xff334856),
-        // alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        // hintText: 'أدخل اسم عائلتك',
-        // labelText: 'اسم العائلة',
-        // hintStyle: TextStyle(
-        //     fontSize: 14,
-        //     color: const Color(0xff334856),
-        //     fontFamily: 'Tajawal'),
-        //
-        // labelStyle: TextStyle(
-        //     fontSize: 18,
-        //     color: const Color(0xff334856),
-        //     fontFamily: 'Tajawal'),
       ),
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(150)
-      ],
+      inputFormatters: [LengthLimitingTextInputFormatter(150)],
       controller: description,
       keyboardType: TextInputType.multiline,
       maxLines: 5,
       onSaved: (_val) {
         if (!(_val == null || _val.isEmpty || _val.trim().isEmpty))
           description.text = _val;
-        else description.text= "";
+        else
+          description.text = "";
       }, // onsaved
     );
   }
@@ -423,7 +623,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       },
       style: ButtonStyle(
           backgroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
           elevation: MaterialStateProperty.all<double>(0)),
     );
     Widget confirmButton = Padding(
@@ -482,7 +682,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
     if (deviceOrientation == Orientation.landscape) portrait = false;
     return SingleChildScrollView(
       child: Form(
-        // autovalidateMode: AutovalidateMode.always,
         key: _formKey,
         child: Column(
           children: [
@@ -515,75 +714,101 @@ class _AddRequestFormState extends State<PostRequestForm> {
             ),
 
             if (type != null)
-            Container(
-              width: portrait == true ? 250.w : 300.w,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Text(
-                  "تفاصيل الطلب",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: const Color(0xff334856),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Tajawal',
-                    fontSize: 16,
+              Container(
+                width: portrait == true ? 250.w : 300.w,
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Text(
+                    "تفاصيل الطلب",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: const Color(0xff334856),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Tajawal',
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-
               ),
-            ),
             if (type != null)
               SizedBox(
-              height: MediaQuery.of(context).size.height * 0.015,
-            ),
+                height: MediaQuery.of(context).size.height * 0.015,
+              ),
             if (type == "مبلغ")
               Container(
-              width: portrait == true ? 250.w : 300.w,
-              child: Stack(
-                children: [
-                  Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: _buildDetailsFunds(),
-            ),Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(11, 15, 0, 0),
-                      child: Text(
-                        'ريال',
-                        style: TextStyle(
-                          fontFamily: 'Tajawal',
-                          fontSize: 15,
-                          color: const Color(0xffd2d2d2),
-                        ),
-                        textAlign: TextAlign.left,
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Stack(
+                    children: [
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: _buildDetailsFunds(),
                       ),
-                    ),
-                  )
-                ],
-              ) ),
-            // if (type == "موارد")
-            //   Container(
-            //       width: portrait == true ? 250.w : 300.w,
-            //       child: Directionality(
-            //         textDirection: TextDirection.rtl,
-            //         child: _buildDetailsItems(),
-            //       ) ),
-            // if (type == "موارد")
-            //   SizedBox(
-            //     height: MediaQuery.of(context).size.height * 0.015,
-            //   ),
+                      Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(11, 15, 0, 0),
+                          child: Text(
+                            'ريال',
+                            style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              fontSize: 15,
+                              color: const Color(0xffd2d2d2),
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
             if (type == "موارد")
               Container(
                   width: portrait == true ? 250.w : 300.w,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: _buildDetailsItemsAmount(),
-                  ) ),
-            if (type != null) // funds container
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.025,
-            ),
+                  )),
 
+            // تنظيم
+            if (type == "تنظيم")
+              Container(
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: _buildNumberOfParticipants(),
+                  )),
+            if (type == "تنظيم")
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.027,
+              ),
+            if (type == "تنظيم")
+              Container(
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: _buildOneDay(),
+                  )),
+            if (type == "تنظيم")
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.027,
+              ),
+            if (type == "تنظيم")
+              Container(
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Stack(children: [
+                      Container(width: 120, child: _buildStartTime()),
+                      Container(
+                          margin: EdgeInsets.only(right: 135),
+                          width: 125,
+                          child: _buildEndTime())
+                    ]),
+                  )),
+
+            if (type != null) // funds container
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.035,
+              ),
 
             Container(
               width: portrait == true ? 250.w : 300.w,
@@ -599,7 +824,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     fontSize: 16,
                   ),
                 ),
-
               ),
             ),
             SizedBox(
@@ -609,9 +833,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
               width: portrait == true ? 265.w : 310.w,
               height: portrait == true ? 140.w : 150.w,
               child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: _buildDescription(),
-            ),),  // mosque name
+                textDirection: TextDirection.rtl,
+                child: _buildDescription(),
+              ),
+            ), // mosque name
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
             ),
@@ -648,7 +873,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
-            ),],
+            ),
+          ],
         ),
       ),
     );
@@ -658,14 +884,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
     RequestViewModel requestVM = RequestViewModel();
     String? dToken;
     FirebaseMessaging.instance.getToken().then((token) {
-      dToken= token.toString();
-      // FirebaseFirestore.instance.collection('tokens').add({
-      //   'token':token
-      // });
+      dToken = token.toString();
     });
-    // save to db
-    // postedBy = id;
-    // FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
 
     requestVM.postedBy = id;
 
@@ -681,7 +901,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
       requestVM.setUploadTime = time;
       requestVM.setToken = dToken;
 
-
       if (type == "مبلغ") {
         amount = int.parse(_amount.text);
         requestVM.setAmount = amount;
@@ -691,6 +910,15 @@ class _AddRequestFormState extends State<PostRequestForm> {
         items_amount = int.parse(itemsAmount.text);
         requestVM.setRequested = items_amount;
         // requestVM.setItem= itemsD.text;
+      }
+
+      if (type == "تنظيم") {
+        partNum = int.parse(_number.text);
+        requestVM.setPartNum = partNum;
+        requestVM.setStartDate= startDate;
+        requestVM.setEndDate= startDate;
+        requestVM.setStartTime= startTime;
+        requestVM.setEndTime= endTime;
       }
 
       await requestVM.add();

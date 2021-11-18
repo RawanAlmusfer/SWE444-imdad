@@ -4,30 +4,30 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
-import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class itemsVFeed extends StatelessWidget {
+class eventsVFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedViewModel>(
         create: (_) => FeedViewModel(),
-        child: Container(height: 1200, width: 450, child: itemsv_feed()));
+        child: Container(height: 1200, width: 450, child: eventsv_feed()));
   }
 }
 
-class itemsv_feed extends StatefulWidget {
-  const itemsv_feed({
+class eventsv_feed extends StatefulWidget {
+  const eventsv_feed({
     Key? key,
   }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return ivFeed();
+    return evFeed();
   }
 }
 
-class ivFeed extends State<itemsv_feed> {
+class evFeed extends State<eventsv_feed> {
   @override
   void initState() {
     super.initState();
@@ -51,11 +51,11 @@ class ivFeed extends State<itemsv_feed> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: const EdgeInsets.only(left: 60.0),
+          padding: const EdgeInsets.only(left: 110.0),
           child: Row(
             children: [
               Text(
-                "طلبات التبرع بالموارد",
+                "طلبات التنظيم",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff334856),
@@ -65,7 +65,7 @@ class ivFeed extends State<itemsv_feed> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0),
+                padding: const EdgeInsets.only(left: 45.0),
                 child: IconButton(
                   icon: Icon(
                     Icons.keyboard_backspace_rounded,
@@ -89,16 +89,17 @@ class ivFeed extends State<itemsv_feed> {
           ),
         ),
       ),
-      body: StreamBuilder(
-          stream: requests,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return _buildWaitingScreen();
-            return ListView.builder(
-              itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-              itemBuilder: (BuildContext context, int index) => buildCards(
-                  context, (snapshot.data! as QuerySnapshot).docs[index]),
-            );
-          }),
+      body: Container(),
+      // StreamBuilder(
+      //     stream: requests,
+      //     builder: (context, snapshot) {
+      //       if (!snapshot.hasData) return _buildWaitingScreen();
+      //       return ListView.builder(
+      //         itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+      //         itemBuilder: (BuildContext context, int index) => buildCards(
+      //             context, (snapshot.data! as QuerySnapshot).docs[index]),
+      //       );
+      //     }),
     );
   }
 
@@ -256,11 +257,7 @@ class ivFeed extends State<itemsv_feed> {
                       height: 30,
                       width: 65,
                       child: ElevatedButton(
-                        onPressed: () async {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  ItemsDScreen(document: document)));
-                        },
+                        onPressed: () {},
                         child: Text(
                           "تبرع",
                           textAlign: TextAlign.center,

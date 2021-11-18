@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
-import '../subscribed_list.dart';
+import '../SubscribedList.dart';
 import 'home.dart';
 import 'moneyVFeed.dart';
 import '../logout.dart';
 
 class vHome extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return _HomeState();
@@ -21,13 +21,9 @@ class _HomeState extends State<vHome> {
   // nav bar redirection:
   final List<Widget> _children = [
     ProfilePage(),
-   subscribedList(),
+    SubscribedList(),
+    SearchPage(),
     vhome(),
-    vhome(),
-    //subscribed_list(),
-    //VolunteerFeed(),
-    //searchPage(),
-    //ProfilePage(),
   ];
 
   @override
@@ -89,17 +85,14 @@ class _HomeState extends State<vHome> {
                     icon: new Icon(Icons.person),
                     label: "الملف الشخصي",
                   ),
-
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.redeem_rounded),
+                    icon: new Icon(Icons.article_outlined),
                     label: "المتابَعين",
                   ),
-
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.search),
                     label: "البحث",
                   ),
-
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.home),
                     label: "الصفحة الرئيسية",
@@ -117,22 +110,22 @@ class _HomeState extends State<vHome> {
           {
             _title = "الملف الشخصي";
           }
-        break;
+          break;
         case 1:
           {
-            _title = 'المتابَعين';
+            _title = 'قائمة المتابَعين';
           }
-        break;
+          break;
         case 2:
           {
             _title = 'البحث';
           }
-        break;
+          break;
         case 3:
           {
             _title = 'الصفحة الرئيسية';
           }
-        break;
+          break;
       }
     });
   }

@@ -29,9 +29,9 @@ class Subscribed_List extends State<subscribedList> {
     super.initState();
     Future.delayed(
         Duration.zero,
-            () => setState(() {
-          setup();
-        }));
+        () => setState(() {
+              setup();
+            }));
   }
 
   setup() async {
@@ -43,20 +43,18 @@ class Subscribed_List extends State<subscribedList> {
     Stream<QuerySnapshot<Map<String, dynamic>>>? mosques =
         Provider.of<ListViewModel>(context, listen: false).mosques;
 
-
     return Scaffold(
       backgroundColor: const Color(0xffededed),
-      body:
-      Center(
+      body: Center(
         child: StreamBuilder(
             stream: mosques,
             builder: (context, snapshot) {
               if (!snapshot.hasData) return _buildWaitingScreen();
               return ListView.builder(
+                //shrinkWrap: true,
                 itemCount: (snapshot.data! as QuerySnapshot).docs.length,
                 itemBuilder: (BuildContext context, int index) => buildCards(
-                    context,
-                    (snapshot.data! as QuerySnapshot).docs[index]),
+                    context, (snapshot.data! as QuerySnapshot).docs[index]),
               );
             }),
       ),
@@ -64,42 +62,71 @@ class Subscribed_List extends State<subscribedList> {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
-      return Container(
-        padding: const EdgeInsets.only(top: 5.0, bottom:0,left: 20, right: 20),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(19.0),
-          ),
-          shadowColor: Color(0xdef3f1e9),
+    return Container(
+      padding: const EdgeInsets.only(top: 5.0, bottom: 0, left: 20, right: 20),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(19.0),
+        ),
+        shadowColor: Color(0xdef3f1e9),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 12.0, bottom: 12.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20, top: 5),
-                      child: Text(
-                        document['name'].toString(),
-                        style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
-                        textAlign: TextAlign.center,
+            padding: const EdgeInsets.only(
+                top: 12.0, bottom: 12.0, left: 2, right: 10),
+            child: Row(children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 5.0, left: 2, right: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0xffededed),
+                          spreadRadius: 1,
+                          blurRadius: 10),
+                    ],
+                  ),
+                  height: 30,
+                  width: 60,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "إلغاء",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Tajawal',
+                          color: const Color(0xff334856)),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(65.w, 30.h),
+                      primary: const Color(0xdeedd03c),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                    SvgPicture.string(
-                      mosqueImage,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
-                    ),
-                  ]),
+                  ),
                 ),
-              ],
-            ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(right: 20, top: 5),
+                child: Text(
+                  "مسجد " + document['name'].toString(),
+                  style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SvgPicture.string(
+                mosqueImage,
+                allowDrawingOutsideViewBox: true,
+                fit: BoxFit.fill,
+              ),
+            ]),
           ),
         ),
-      );
+      ),
+    );
     // } else {
     //   //print('not included');
     //   return Container();
