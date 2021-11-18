@@ -229,9 +229,11 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
-                if ((document['type'].toString() == "موارد" ||
+                if (((document['type'].toString() == "موارد" ||
                         document['type'].toString() == "مبلغ") &&
-                    document['donated'].toString() == '0')
+                    document['donated'].toString() == '0') ||
+                    (document['type'].toString() == "تنظيم" &&
+                        document['participants'].toString() == '0'))
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
@@ -273,8 +275,10 @@ class mmFeed extends State<mm_feed> {
                     ]),
                   ),
                 if (((document['type'].toString() == "موارد" ||
-                        document['type'].toString() == "مبلغ") &&
-                    document['donated'].toString() != '0'))
+                            document['type'].toString() == "مبلغ") &&
+                        document['donated'].toString() != '0') ||
+                    (document['type'].toString() == "تنظيم" &&
+                        document['participants'].toString() != '0'))
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),

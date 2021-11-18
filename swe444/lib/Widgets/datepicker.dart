@@ -14,6 +14,12 @@ class DatePicker{
     }
   }
 
+  String getText2(DateTime day) {
+      return DateFormat('MM/dd/yyyy').format(date!);
+      // return '${date.month}/${date.day}/${date.year}';
+    }
+
+
 
   Future pickDate(BuildContext context, DateTime? day) async {
     final initialDate = (day == null ? DateTime.now() : day);

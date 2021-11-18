@@ -22,7 +22,7 @@ class RequestViewModel {
 
   // تنظيم
   DateTime? _startDate, _endDate;
-  TimeOfDay? _startTime, _endTime;
+  String? _startTime, _endTime;
   int? _partNum;
   int _participants = 0;
 
@@ -115,13 +115,13 @@ class RequestViewModel {
     }
   }
 
-  set setStartTime(TimeOfDay? value) {
+  set setStartTime(String? value) {
     if (value != null) {
       _startTime = value;
     }
   }
 
-  set setEndTime(TimeOfDay? value) {
+  set setEndTime(String? value) {
     if (value != null) {
       _endTime = value;
     }
@@ -189,15 +189,15 @@ class RequestViewModel {
     } else if (_type == "تنظيم") {
       // final now = new DateTime.now();
       // DateTime _startTime2= new DateTime(now.year, now.month, now.day, _startTime!.hour, _startTime!.minute);
-      final shours = _startTime!.hour.toString().padLeft(2, '0');
-      final sminutes = _startTime!.minute.toString().padLeft(2, '0');
-
-      String _startTimes = '$shours:$sminutes';
-
-      final ehours = _startTime!.hour.toString().padLeft(2, '0');
-      final eminutes = _startTime!.minute.toString().padLeft(2, '0');
-
-      String _endTimes = '$ehours:$eminutes';
+      // final shours = _startTime!.hour.toString().padLeft(2, '0');
+      // final sminutes = _startTime!.minute.toString().padLeft(2, '0');
+      //
+      // String _startTimes = '$shours:$sminutes';
+      //
+      // final ehours = _startTime!.hour.toString().padLeft(2, '0');
+      // final eminutes = _startTime!.minute.toString().padLeft(2, '0');
+      //
+      // String _endTimes = '$ehours:$eminutes';
 
       VolnRequest request = VolnRequest(
           type: _type,
@@ -206,8 +206,8 @@ class RequestViewModel {
           days: daysBetween(_startDate, _endDate),
           startDate: _startDate,
           endDate: _endDate,
-          startTime: _startTimes,
-          endTime: _endTimes,
+          startTime: _startTime,
+          endTime: _endTime,
           posted_by: _posted_by,
           description: _description,
           mosque_name: _mosque_name,

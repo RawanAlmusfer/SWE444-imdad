@@ -240,7 +240,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
-  // funds
+  /// funds
   Widget _buildDetailsFunds() {
     double _value;
     return TextFormField(
@@ -298,7 +298,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
-  // items
+
+  /// items
   Widget _buildDetailsItemsAmount() {
     double _value;
     return TextFormField(
@@ -356,7 +357,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
-  // organz
+
+  /// events
   Widget _buildNumberOfParticipants() {
     double _value;
     return TextFormField(
@@ -732,6 +734,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
+
+
+
+
   Widget _buildDescription() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -1092,8 +1098,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
         requestVM.setPartNum = partNum;
         requestVM.setStartDate = startDate;
         requestVM.setEndDate = endDate;
-        requestVM.setStartTime = startTime;
-        requestVM.setEndTime = endTime;
+        requestVM.setStartTime = _startTime.text;
+        requestVM.setEndTime = _endTime.text;
       }
 
       await requestVM.add();
