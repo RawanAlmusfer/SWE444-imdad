@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/mm_home_view.dart';
 import 'package:swe444/Functions/request/request_view_model.dart';
+import 'package:swe444/Widgets/daterangepicker.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 import 'package:swe444/Widgets/datepicker.dart';
 import 'package:swe444/Widgets/timepicker.dart';
@@ -40,6 +41,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
   // org
   int? partNum;
+  int selectedValue = 1;
   TextEditingController _number = TextEditingController();
   TextEditingController _date = TextEditingController();
   TextEditingController _startTime = TextEditingController();
@@ -49,25 +51,25 @@ class _AddRequestFormState extends State<PostRequestForm> {
   TimeOfDay? startTime, endTime;
 
   FocusNode? focusNode;
-  FocusNode? timeNode1, timeNode2;
-
-  bool changed=false;
+  bool changed = false;
 
   void initState() {
     focusNode = new FocusNode();
 
     // listen to focus changes
     focusNode!.addListener(() async {
-      if(!changed){
-      DatePicker datePicker = new DatePicker();
-      changed= true;
-      await datePicker.pickDate(context, startDate);
+      if (!changed) {
+        DatePicker datePicker = new DatePicker();
+        changed = true;
+        await datePicker.pickDate(context, startDate);
 
-      if (datePicker.date != null) {
-        _date.text = datePicker.getText();
-        startDate = datePicker.date;
+        if (datePicker.date != null) {
+          _date.text = datePicker.getText();
+          startDate = datePicker.date;
+          endDate= datePicker.date;
+        }
       }
-    }});
+    });
   }
 
   void setFocus() {
@@ -401,6 +403,48 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
+  Widget _buildEventType() {
+    return Stack(
+      children: [
+        RadioListTile<int>(
+            value: 1,
+            title: Text(
+              "يوم",
+              style: const TextStyle(
+                  fontSize: 15,
+                  color: Color(0xff334856),
+                  fontFamily: 'Tajawal'),
+            ),
+            activeColor: Color(0xffe7cc2e),
+            groupValue: selectedValue,
+            onChanged: (val) {
+              setState(() {
+                selectedValue = val!;
+              });
+            }),
+        Container(
+          margin: EdgeInsets.only(right: 100),
+          child: RadioListTile<int>(
+              value: 2,
+              groupValue: selectedValue,
+              title: Text(
+                "عدة أيام",
+                style: const TextStyle(
+                    fontSize: 15,
+                    color: Color(0xff334856),
+                    fontFamily: 'Tajawal'),
+              ),
+              activeColor: Color(0xffe7cc2e),
+              onChanged: (val) {
+                setState(() {
+                  selectedValue = val!;
+                });
+              }),
+        )
+      ],
+    );
+  }
+
   Widget _buildOneDay() {
     return TextFormField(
       focusNode: focusNode,
@@ -459,6 +503,76 @@ class _AddRequestFormState extends State<PostRequestForm> {
         if (datePicker.date != null) {
           _date.text = datePicker.getText();
           startDate = datePicker.date;
+          endDate = datePicker.date;
+        }
+      },
+      onSaved: (_val) {
+        if (_val != null) {
+          _date.text = _val;
+        }
+      }, // onsaved
+    );
+  }
+
+  Widget _buildDateRange() {
+    return TextFormField(
+      focusNode: focusNode,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty || value.trim().isEmpty)
+          return "مطلوب";
+        else {
+          // _value = double.parse(value);
+          // if (_value > 50) return "الحد الآقصى= 50";
+          // if (_value < 1) return "الحد الآدنى= 1";
+        }
+      },
+      textAlign: TextAlign.right,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.calendar_today, color: const Color(0xdeedd03c)),
+        contentPadding: const EdgeInsets.only(top: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixStyle: TextStyle(
+            fontSize: 15,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: '0',
+        labelText: 'التاريخ *',
+        hintStyle: TextStyle(
+            fontSize: 16,
+            color: const Color(0xffcbcbcc),
+            fontFamily: 'Tajawal'),
+        labelStyle: const TextStyle(
+            fontSize: 15, color: Color(0xff334856), fontFamily: 'Tajawal'),
+      ),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(30),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+      ],
+      controller: _date,
+      keyboardType: TextInputType.datetime,
+      onTap: () async {
+        DateRangePicker dateRange = new DateRangePicker();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        await dateRange.pickDateRange(context);
+
+        if (dateRange.dateRange != null) {
+          _date.text = dateRange.getFrom() +"-" +dateRange.getUntil();
+          startDate = dateRange.dateRange!.start;
+          endDate = dateRange.dateRange!.start;
         }
       },
       onSaved: (_val) {
@@ -495,7 +609,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
       decoration: InputDecoration(
         prefixIcon:
             Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
-        prefixIconConstraints:BoxConstraints(minWidth: 30, maxWidth: 30, maxHeight: 25),
+        prefixIconConstraints:
+            BoxConstraints(minWidth: 30, maxWidth: 30, maxHeight: 25),
         contentPadding: const EdgeInsets.only(top: 25, right: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
@@ -568,7 +683,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
       decoration: InputDecoration(
         prefixIcon:
             Icon(Icons.watch_later, color: const Color(0xdeedd03c), size: 20),
-        prefixIconConstraints:BoxConstraints(minWidth: 30, maxWidth: 30, maxHeight: 25),
+        prefixIconConstraints:
+            BoxConstraints(minWidth: 30, maxWidth: 30, maxHeight: 25),
         contentPadding: const EdgeInsets.only(top: 25, right: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
@@ -762,6 +878,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.015,
               ),
+
             if (type == "مبلغ")
               Container(
                   width: portrait == true ? 250.w : 300.w,
@@ -788,6 +905,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                       )
                     ],
                   )),
+
             if (type == "موارد")
               Container(
                   width: portrait == true ? 250.w : 300.w,
@@ -796,7 +914,19 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     child: _buildDetailsItemsAmount(),
                   )),
 
-            // تنظيم
+
+            ///---- Event ----///
+            if (type == "تنظيم")
+              Container(
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: _buildEventType(),
+                  )),
+            if (type == "تنظيم")
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.027,
+              ),
             if (type == "تنظيم")
               Container(
                   width: portrait == true ? 250.w : 300.w,
@@ -808,12 +938,19 @@ class _AddRequestFormState extends State<PostRequestForm> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.027,
               ),
-            if (type == "تنظيم")
+            if (type == "تنظيم" && selectedValue==1)
               Container(
                   width: portrait == true ? 250.w : 300.w,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: _buildOneDay(),
+                  )),
+            if (type == "تنظيم" && selectedValue==2)
+              Container(
+                  width: portrait == true ? 250.w : 300.w,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: _buildDateRange(),
                   )),
             if (type == "تنظيم")
               SizedBox(
@@ -832,6 +969,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
                           child: _buildEndTime())
                     ]),
                   )),
+
 
             if (type != null) // funds container
               SizedBox(
@@ -943,10 +1081,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
       if (type == "تنظيم") {
         partNum = int.parse(_number.text);
         requestVM.setPartNum = partNum;
-        requestVM.setStartDate= startDate;
-        requestVM.setEndDate= startDate;
-        requestVM.setStartTime= startTime;
-        requestVM.setEndTime= endTime;
+        requestVM.setStartDate = startDate;
+        requestVM.setEndDate = endDate;
+        requestVM.setStartTime = startTime;
+        requestVM.setEndTime = endTime;
       }
 
       await requestVM.add();
