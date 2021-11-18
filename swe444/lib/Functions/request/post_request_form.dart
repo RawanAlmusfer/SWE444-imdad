@@ -77,7 +77,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
           if (dateRange.dateRange != null) {
             _date.text = dateRange.getFrom() + "-" + dateRange.getUntil();
             startDate = dateRange.dateRange!.start;
-            endDate = dateRange.dateRange!.start;
+            endDate = dateRange.dateRange!.end;
           }
         }
       }
@@ -91,7 +91,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   @override
   void dispose() {
     focusNode!.dispose();
-    // super.dispose();
+    super.dispose();
   }
 
   Widget _buildType() {
@@ -584,7 +584,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         if (dateRange.dateRange != null) {
           _date.text = dateRange.getFrom() + "-" + dateRange.getUntil();
           startDate = dateRange.dateRange!.start;
-          endDate = dateRange.dateRange!.start;
+          endDate = dateRange.dateRange!.end;
         }
       },
       onSaved: (_val) {

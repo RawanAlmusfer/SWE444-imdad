@@ -29,6 +29,7 @@ class DateRangePicker{
     );
     final newDateRange = await showDateRangePicker(
       context: context,
+        initialEntryMode: DatePickerEntryMode.calendar,
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 2),
       initialDateRange: dateRange ?? initialDateRange,
