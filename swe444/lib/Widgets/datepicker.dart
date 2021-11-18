@@ -15,11 +15,11 @@ class DatePicker{
   }
 
 
-  Future pickDate(BuildContext context) async {
-    final initialDate = DateTime.now();
+  Future pickDate(BuildContext context, DateTime? day) async {
+    final initialDate = (day == null ? DateTime.now() : day);
     final newDate = await showDatePicker(
       context: context,
-      initialDate: (date != null)? date! : initialDate,
+      initialDate: initialDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 2),
     );

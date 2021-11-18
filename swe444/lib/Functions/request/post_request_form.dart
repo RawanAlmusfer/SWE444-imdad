@@ -59,7 +59,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       if(!changed){
       DatePicker datePicker = new DatePicker();
       changed= true;
-      await datePicker.pickDate(context);
+      await datePicker.pickDate(context, startDate);
 
       if (datePicker.date != null) {
         _date.text = datePicker.getText();
@@ -408,7 +408,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       onTap: () async {
         DatePicker datePicker = new DatePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
-        await datePicker.pickDate(context);
+        await datePicker.pickDate(context, startDate);
 
         if (datePicker.date != null) {
           _date.text = datePicker.getText();
