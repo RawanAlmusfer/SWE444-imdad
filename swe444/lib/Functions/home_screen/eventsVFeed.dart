@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui' as ui;
 
 class eventsVFeed extends StatelessWidget {
   @override
@@ -69,7 +71,7 @@ class evFeed extends State<eventsv_feed> {
                 child: IconButton(
                   icon: Icon(
                     Icons.keyboard_backspace_rounded,
-                    textDirection: TextDirection.rtl,
+                    textDirection: ui.TextDirection.rtl,
                     size: 30,
                     color: Color(0xff334856),
                   ),
@@ -89,24 +91,23 @@ class evFeed extends State<eventsv_feed> {
           ),
         ),
       ),
-      body: Container(),
-      // StreamBuilder(
-      //     stream: requests,
-      //     builder: (context, snapshot) {
-      //       if (!snapshot.hasData) return _buildWaitingScreen();
-      //       return ListView.builder(
-      //         itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-      //         itemBuilder: (BuildContext context, int index) => buildCards(
-      //             context, (snapshot.data! as QuerySnapshot).docs[index]),
-      //       );
-      //     }),
+      body: StreamBuilder(
+          stream: requests,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return _buildWaitingScreen();
+            return ListView.builder(
+              itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+              itemBuilder: (BuildContext context, int index) => buildCards(
+                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+            );
+          }),
     );
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "موارد") {
-      // here is the tpye
+
+    if (document['type'].toString() == "تنظيم") {
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(
@@ -164,19 +165,20 @@ class evFeed extends State<eventsv_feed> {
                           child: Text(
                             document['description'],
                             style: TextStyle(fontFamily: 'Tajawal'),
-                            textDirection: TextDirection
+                            textDirection: ui.TextDirection
                                 .rtl, // make the text from right to left
                           ),
                         ),
+                        //start_date
                         Container(
                           width: 250, // to wrap the text in multiline
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              'العدد: ' +
-                                  document['amount_requested'].toString(),
+                              'تاريخ البداية: ' +
+                                  getTime(document['start_date']),
                               style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: TextDirection
+                              textDirection: ui.TextDirection
                                   .rtl, // make the text from right to left
                             ),
                           ),
@@ -186,9 +188,51 @@ class evFeed extends State<eventsv_feed> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              "نسبة الإكتمال: ",
+                              'المدة: ' + document['days'].toString() + " يوم",
                               style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: TextDirection.rtl,
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              'يبدأ في تمام الساعة ' +
+                                  document['start_time'].toString() +
+                                  " وينتهي " +
+                                  document['end_time'].toString(),
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Directionality(
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left,
+                              child: Text(
+                                'عدد المنظمين المطلوب: ' +
+                                    document['parts_number'].toString(),
+                                style: TextStyle(fontFamily: 'Tajawal'),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "عدد المشاركين: ",
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection.rtl,
                             ),
                           ),
                         ),
@@ -196,7 +240,7 @@ class evFeed extends State<eventsv_feed> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['donated'].toString(),
+                              child: Text(document['participants'].toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                       fontFamily: 'Tajawal', fontSize: 10)),
@@ -213,8 +257,8 @@ class evFeed extends State<eventsv_feed> {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
                                       child: LinearProgressIndicator(
-                                        value: (document['donated'] /
-                                            document['amount_requested']),
+                                        value: (document['participants'] /
+                                            document['parts_number']),
                                         valueColor: AlwaysStoppedAnimation(
                                             Color(0xdeedd03c)),
                                         backgroundColor: Color(0xffededed),
@@ -222,16 +266,15 @@ class evFeed extends State<eventsv_feed> {
                                     ),
                                     Center(
                                         child: buildLinearProgress(
-                                            (document['donated'] /
-                                                document['amount_requested']))),
+                                            (document['participants'] /
+                                                document['parts_number']))),
                                   ],
                                 ),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(
-                                  document['amount_requested'].toString(),
+                              child: Text(document['parts_number'].toString(),
                                   style: TextStyle(
                                       fontFamily: 'Tajawal', fontSize: 10)),
                             ),
@@ -255,11 +298,11 @@ class evFeed extends State<eventsv_feed> {
                         ],
                       ),
                       height: 30,
-                      width: 65,
+                      width: 70,
                       child: ElevatedButton(
                         onPressed: () {},
                         child: Text(
-                          "تبرع",
+                          "شارك",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: 'Tajawal',
@@ -294,6 +337,18 @@ class evFeed extends State<eventsv_feed> {
     }
   }
 }
+
+String getTime(var timeStamp) {
+  final DateFormat formatter = DateFormat('dd/MM/yyyy'); //your date format here
+  var date = timeStamp.toDate();
+  return formatter.format(date);
+}
+
+// String formattedDate(timeStamp) {
+//   var dateFromTimeStamp =
+//       DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
+//   return DateFormat('dd-MM-yyyy hh:mm a').format(dateFromTimeStamp);
+// }
 
 Widget _buildWaitingScreen() {
   return Scaffold(
