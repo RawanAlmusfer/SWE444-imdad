@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,6 +40,7 @@ class mv_feed extends StatefulWidget {
 }
 
 class mvFeed extends State<mv_feed> {
+  User? user = FirebaseAuth.instance.currentUser;
   //int? donated= PaymentScreen.vDonatedAmount;
   @override
   void initState() {
@@ -120,17 +122,34 @@ class mvFeed extends State<mv_feed> {
         document['donated'] < document['amount']) {
       return GestureDetector(
         onTap: () async {
-          //await
-          //Navigator.of(context).push(CustomPageRoute(child: itemsVFeed()));
+          bool flag = await isSubscribed(document['posted_by']);
+          print("Flag is" + flag.toString());
+          // if (flag) {
           showModalBottomSheet(
-              //isScrollControlled: true,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(19.0),
                 ),
               ),
               context: context,
-              builder: (context) => BuildSheet());
+              builder: (context) => BuildSubscribedProfile(
+                  document['mosque_name'].toString(),
+                  document['posted_by'].toString()));
+
+          // }
+          //  else {
+          //   showModalBottomSheet(
+          //       //isScrollControlled: true,
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.vertical(
+          //           top: Radius.circular(19.0),
+          //         ),
+          //       ),
+          //       context: context,
+          //       builder: (context) => BuildUnsubscribedProfile());
+          // }
+          //await
+          //Navigator.of(context).push(CustomPageRoute(child: itemsVFeed()));
         },
         child: Container(
           padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
@@ -371,7 +390,97 @@ class mvFeed extends State<mv_feed> {
   // }
 }
 
-Widget BuildSheet() {
+Future<bool> isSubscribed(String mID) async {
+  print("in method isSubscribed _________________________");
+  User? user = FirebaseAuth.instance.currentUser;
+  var subscribedMosques = [];
+
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user?.uid.toString())
+      .collection("subscribedMosques")
+      .snapshots()
+      .forEach((snapshot) {
+    var i = snapshot.docs.iterator;
+    while (i.moveNext()) {
+      print("in loop _________________________");
+      String id = i.current.id;
+      print("id is _________________________" + id.toString());
+      if (!subscribedMosques.contains(id)) {
+        subscribedMosques.add(id);
+        print("in if statment subscribedMosques is _________________________" +
+            subscribedMosques[0].toString());
+      }
+      print("outside if  _________________________" + i.moveNext().toString());
+    }
+  }).onError((error, stackTrace) => print("error"));
+
+  print("after loop _________________________");
+
+  if (subscribedMosques.contains(mID)) {
+    return true;
+  }
+  return false;
+}
+
+Widget BuildSubscribedProfile(String name, String id) {
+  return Container(
+    padding: EdgeInsets.all(30),
+    child: Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(left: 10, bottom: 20),
+          height: 80,
+          width: 80,
+          child: SvgPicture.string(
+            mosqueImage,
+            allowDrawingOutsideViewBox: true,
+            fit: BoxFit.fill,
+          ),
+        ),
+        Text(
+          "مسجد " + name,
+          style: TextStyle(
+            fontSize: 18.0,
+            fontFamily: 'Tajawal',
+          ),
+          textAlign: TextAlign.center,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Color(0xffededed), spreadRadius: 1, blurRadius: 10),
+              ],
+            ),
+            height: 30,
+            width: 70,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                "تابع",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: 'Tajawal', color: const Color(0xff334856)),
+              ),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(65.w, 30.h),
+                primary: const Color(0xdeedd03c),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget BuildUnsubscribedProfile() {
   return Container(
     padding: EdgeInsets.all(30),
     child: Column(
@@ -409,7 +518,7 @@ Widget BuildSheet() {
             child: ElevatedButton(
               onPressed: () {},
               child: Text(
-                "تابع",
+                "إلغاء",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'Tajawal', color: const Color(0xff334856)),
