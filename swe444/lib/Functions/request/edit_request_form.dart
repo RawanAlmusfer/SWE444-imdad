@@ -65,7 +65,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
 
 
     if (type == "موارد")
-      _number.text = widget.document['amount_requested'].toString();
+      itemsAmount.text = widget.document['amount_requested'].toString();
 
     if (type == "تنظيم") {
 
@@ -95,6 +95,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
     }
 
   }
+
   String getText(DateTime day) {
      return '${day.month}/${day.day}/${day.year}';
   }
