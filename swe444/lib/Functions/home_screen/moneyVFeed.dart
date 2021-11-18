@@ -123,31 +123,31 @@ class mvFeed extends State<mv_feed> {
       return GestureDetector(
         onTap: () async {
           bool flag = await isSubscribed(document['posted_by']);
-          print("Flag is" + flag.toString());
-          // if (flag) {
-          showModalBottomSheet(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(19.0),
+          print("Flag is " + flag.toString());
+          if (!flag) {
+            showModalBottomSheet(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(19.0),
+                  ),
                 ),
-              ),
-              context: context,
-              builder: (context) => BuildSubscribedProfile(
-                  document['mosque_name'].toString(),
-                  document['posted_by'].toString()));
-
-          // }
-          //  else {
-          //   showModalBottomSheet(
-          //       //isScrollControlled: true,
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.vertical(
-          //           top: Radius.circular(19.0),
-          //         ),
-          //       ),
-          //       context: context,
-          //       builder: (context) => BuildUnsubscribedProfile());
-          // }
+                context: context,
+                builder: (context) => BuildSubscribedProfile(
+                    document['mosque_name'].toString(),
+                    document['posted_by'].toString()));
+          } else {
+            showModalBottomSheet(
+                //isScrollControlled: true,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(19.0),
+                  ),
+                ),
+                context: context,
+                builder: (context) => BuildUnsubscribedProfile(
+                    document['mosque_name'].toString(),
+                    document['posted_by'].toString()));
+          }
           //await
           //Navigator.of(context).push(CustomPageRoute(child: itemsVFeed()));
         },
@@ -395,27 +395,33 @@ Future<bool> isSubscribed(String mID) async {
   User? user = FirebaseAuth.instance.currentUser;
   var subscribedMosques = [];
 
-  await FirebaseFirestore.instance
+  var uesrDoc = await FirebaseFirestore.instance
       .collection('users')
       .doc(user?.uid.toString())
       .collection("subscribedMosques")
-      .snapshots()
-      .forEach((snapshot) {
-    var i = snapshot.docs.iterator;
-    while (i.moveNext()) {
-      print("in loop _________________________");
-      String id = i.current.id;
-      print("id is _________________________" + id.toString());
-      if (!subscribedMosques.contains(id)) {
-        subscribedMosques.add(id);
-        print("in if statment subscribedMosques is _________________________" +
-            subscribedMosques[0].toString());
-      }
-      print("outside if  _________________________" + i.moveNext().toString());
+      .get();
+
+  // await uesrDoc.collection("subscribedMosques").snapshots().forEach((doc) {
+  //String id = doc.;
+  var docs = uesrDoc.docs;
+  var length = uesrDoc.docs.length;
+  print("in if statment subscribedMosques is _________________________" +
+      length.toString());
+
+  for (var Doc in docs) {
+    if (!subscribedMosques.contains(Doc.id)) {
+      subscribedMosques.add(Doc.id);
+      print("in if statment subscribedMosques is _________________________" +
+          subscribedMosques[0].toString());
     }
-  }).onError((error, stackTrace) => print("error"));
+  }
+
+  // print("outside if  _________________________" + i.moveNext().toString());
+  // }).onError((error, stackTrace) => print("error"));
 
   print("after loop _________________________");
+  print("array length _________________________ " +
+      subscribedMosques.length.toString());
 
   if (subscribedMosques.contains(mID)) {
     return true;
@@ -458,7 +464,9 @@ Widget BuildSubscribedProfile(String name, String id) {
             height: 30,
             width: 70,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Subscribe Raneem
+              },
               child: Text(
                 "تابع",
                 textAlign: TextAlign.center,
@@ -480,7 +488,7 @@ Widget BuildSubscribedProfile(String name, String id) {
   );
 }
 
-Widget BuildUnsubscribedProfile() {
+Widget BuildUnsubscribedProfile(String name, String id) {
   return Container(
     padding: EdgeInsets.all(30),
     child: Column(
@@ -496,8 +504,7 @@ Widget BuildUnsubscribedProfile() {
           ),
         ),
         Text(
-          //"مسجد " + document['name'].toString(),
-          "مسجد عبدالعزيز الخلف",
+          "مسجد " + name,
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Tajawal',
@@ -514,11 +521,13 @@ Widget BuildUnsubscribedProfile() {
               ],
             ),
             height: 30,
-            width: 70,
+            width: 90,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Unsubscribe Raneem
+              },
               child: Text(
-                "إلغاء",
+                "إلغاء المتابعة",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'Tajawal', color: const Color(0xff334856)),
