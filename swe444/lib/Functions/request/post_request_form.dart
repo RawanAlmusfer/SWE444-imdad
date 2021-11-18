@@ -59,14 +59,26 @@ class _AddRequestFormState extends State<PostRequestForm> {
     // listen to focus changes
     focusNode!.addListener(() async {
       if (!changed) {
-        DatePicker datePicker = new DatePicker();
-        changed = true;
-        await datePicker.pickDate(context, startDate);
+        if (selectedValue == 1) {
+          changed = true;
+          DatePicker datePicker = new DatePicker();
+          await datePicker.pickDate(context, startDate);
 
-        if (datePicker.date != null) {
-          _date.text = datePicker.getText();
-          startDate = datePicker.date;
-          endDate= datePicker.date;
+          if (datePicker.date != null) {
+            _date.text = datePicker.getText();
+            startDate = datePicker.date;
+            endDate = datePicker.date;
+          }
+        } else {
+          DateRangePicker dateRange = new DateRangePicker();
+          FocusScope.of(context).requestFocus(new FocusNode());
+          await dateRange.pickDateRange(context, startDate, endDate);
+
+          if (dateRange.dateRange != null) {
+            _date.text = dateRange.getFrom() + "-" + dateRange.getUntil();
+            startDate = dateRange.dateRange!.start;
+            endDate = dateRange.dateRange!.start;
+          }
         }
       }
     });
@@ -567,10 +579,10 @@ class _AddRequestFormState extends State<PostRequestForm> {
       onTap: () async {
         DateRangePicker dateRange = new DateRangePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
-        await dateRange.pickDateRange(context);
+        await dateRange.pickDateRange(context, startDate, endDate);
 
         if (dateRange.dateRange != null) {
-          _date.text = dateRange.getFrom() +"-" +dateRange.getUntil();
+          _date.text = dateRange.getFrom() + "-" + dateRange.getUntil();
           startDate = dateRange.dateRange!.start;
           endDate = dateRange.dateRange!.start;
         }
@@ -914,7 +926,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
                     child: _buildDetailsItemsAmount(),
                   )),
 
-
             ///---- Event ----///
             if (type == "تنظيم")
               Container(
@@ -938,14 +949,14 @@ class _AddRequestFormState extends State<PostRequestForm> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.027,
               ),
-            if (type == "تنظيم" && selectedValue==1)
+            if (type == "تنظيم" && selectedValue == 1)
               Container(
                   width: portrait == true ? 250.w : 300.w,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: _buildOneDay(),
                   )),
-            if (type == "تنظيم" && selectedValue==2)
+            if (type == "تنظيم" && selectedValue == 2)
               Container(
                   width: portrait == true ? 250.w : 300.w,
                   child: Directionality(
@@ -969,7 +980,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
                           child: _buildEndTime())
                     ]),
                   )),
-
 
             if (type != null) // funds container
               SizedBox(

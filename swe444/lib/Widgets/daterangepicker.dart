@@ -22,10 +22,10 @@ class DateRangePicker{
   }
 
 
-  Future pickDateRange(BuildContext context) async {
+  Future pickDateRange(BuildContext context, DateTime? start, DateTime? end ) async {
     final initialDateRange = DateTimeRange(
-      start: DateTime.now(),
-      end: DateTime.now().add(Duration(hours: 24 * 3)),
+      start: (start == null ? DateTime.now():start),
+      end: (end == null ? DateTime.now().add(Duration(hours: 24 * 3)): end),
     );
     final newDateRange = await showDateRangePicker(
       context: context,
