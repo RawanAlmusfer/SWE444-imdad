@@ -49,6 +49,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
   TimeOfDay? startTime, endTime;
 
   FocusNode? focusNode;
+  FocusNode? timeNode1, timeNode2;
+
   bool changed=false;
 
   void initState() {
@@ -75,7 +77,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
   @override
   void dispose() {
     focusNode!.dispose();
-    super.dispose();
+    // super.dispose();
   }
 
   Widget _buildType() {
@@ -175,7 +177,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         if (value.length > 30) return "لا يمكن ان يزيد عن 30 حرف ";
       },
       controller: title,
-      onFieldSubmitted: (_val) {
+      onSaved: (_val) {
         if (_val != null) title.text = _val;
       },
       onChanged: (value) {
@@ -275,7 +277,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       ],
       controller: _amount,
       keyboardType: TextInputType.number,
-      onFieldSubmitted: (_val) {
+      onSaved: (_val) {
         if (_val != null) {
           _amount.text = _val;
         }
@@ -402,19 +404,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
   Widget _buildOneDay() {
     return TextFormField(
       focusNode: focusNode,
-      onChanged: (_val){
-        changed= true;
-      },
-      onTap: () async {
-        DatePicker datePicker = new DatePicker();
-        FocusScope.of(context).requestFocus(new FocusNode());
-        await datePicker.pickDate(context, startDate);
-
-        if (datePicker.date != null) {
-          _date.text = datePicker.getText();
-          startDate = datePicker.date;
-        }
-      },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null || value.isEmpty || value.trim().isEmpty)
@@ -462,6 +451,16 @@ class _AddRequestFormState extends State<PostRequestForm> {
       ],
       controller: _date,
       keyboardType: TextInputType.datetime,
+      onTap: () async {
+        DatePicker datePicker = new DatePicker();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        await datePicker.pickDate(context, startDate);
+
+        if (datePicker.date != null) {
+          _date.text = datePicker.getText();
+          startDate = datePicker.date;
+        }
+      },
       onSaved: (_val) {
         if (_val != null) {
           _date.text = _val;
@@ -475,7 +474,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       onTap: () async {
         TimePicker timePicker = new TimePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
-        await timePicker.pickTime(context);
+        await timePicker.pickTime(context, startTime);
 
         if (timePicker.time != null) {
           _startTime.text = timePicker.getText();
@@ -540,7 +539,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       onTap: () async {
         TimePicker timePicker2 = new TimePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
-        await timePicker2.pickTime(context);
+        await timePicker2.pickTime(context, endTime);
 
         if (timePicker2.time != null) {
           _endTime.text = timePicker2.getText();

@@ -178,6 +178,7 @@ class _SearchRequests extends State<SearchRequests> {
                 // return _buildWaitingScreen();
                 return ListView.builder(
                   shrinkWrap: true,
+                    physics: ScrollPhysics(),
                   itemCount: (snapshot.data! as QuerySnapshot).docs.length,
                   itemBuilder: (BuildContext context, int index) => buildCards(
                       context, (snapshot.data! as QuerySnapshot).docs[index]),
