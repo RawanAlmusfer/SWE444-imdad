@@ -14,12 +14,18 @@ class DatePicker{
     }
   }
 
+  String getText2(DateTime day) {
+      return DateFormat('MM/dd/yyyy').format(date!);
+      // return '${date.month}/${date.day}/${date.year}';
+    }
 
-  Future pickDate(BuildContext context) async {
-    final initialDate = DateTime.now();
+
+
+  Future pickDate(BuildContext context, DateTime? day) async {
+    final initialDate = (day == null ? DateTime.now() : day);
     final newDate = await showDatePicker(
       context: context,
-      initialDate: (date != null)? date! : initialDate,
+      initialDate: initialDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 2),
     );

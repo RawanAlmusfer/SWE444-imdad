@@ -119,6 +119,7 @@ class VolnRequest extends Request {
     'title': title,
     'type': type,
     'description': description,
+    'days': days,
     'parts_number': number,
     'participants': participants,
     'start_date': startDate,

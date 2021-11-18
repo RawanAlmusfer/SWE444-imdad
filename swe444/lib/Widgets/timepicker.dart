@@ -14,8 +14,8 @@ class TimePicker{
     }
   }
 
-  Future pickTime(BuildContext context) async {
-    final initialTime = TimeOfDay.now();
+  Future pickTime(BuildContext context, TimeOfDay? t) async {
+    final initialTime = (t == null ? TimeOfDay.now() : t);
     final newTime = await showTimePicker(
       initialEntryMode: TimePickerEntryMode.input,
       context: context,

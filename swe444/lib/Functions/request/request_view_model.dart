@@ -22,9 +22,9 @@ class RequestViewModel {
 
   // تنظيم
   DateTime? _startDate, _endDate;
-  TimeOfDay? _startTime, _endTime;
+  String? _startTime, _endTime;
   int? _partNum;
-  int _participants=0;
+  int _participants = 0;
 
   get userDocument {
     return FirebaseFirestore.instance.collection("users").doc(_posted_by).get();
@@ -115,20 +115,17 @@ class RequestViewModel {
     }
   }
 
-  set setStartTime(TimeOfDay? value) {
+  set setStartTime(String? value) {
     if (value != null) {
       _startTime = value;
     }
   }
 
-  set setEndTime(TimeOfDay? value) {
+  set setEndTime(String? value) {
     if (value != null) {
       _endTime = value;
     }
   }
-
-
-
 
   /// items requests
 
@@ -168,8 +165,7 @@ class RequestViewModel {
               {_message = 'تمت إضافة الطلب بنجاح', _msgtype = "success"})
           .catchError((error) =>
               {_message = " فشل في إضافة الطلب:" + error, _msgtype = "fail"});
-    }
-    else if (_type == "موارد") {
+    } else if (_type == "موارد") {
       ItemsRequest request = ItemsRequest(
           // item: _item,
           type: _type,
@@ -190,29 +186,28 @@ class RequestViewModel {
               {_message = 'تمت إضافة الطلب بنجاح', _msgtype = "success"})
           .catchError((error) =>
               {_message = " فشل في إضافة الطلب:" + error, _msgtype = "fail"});
-    }
-    else if (_type == "تنظيم") {
+    } else if (_type == "تنظيم") {
       // final now = new DateTime.now();
       // DateTime _startTime2= new DateTime(now.year, now.month, now.day, _startTime!.hour, _startTime!.minute);
-      final shours = _startTime!.hour.toString().padLeft(2, '0');
-      final sminutes = _startTime!.minute.toString().padLeft(2, '0');
-
-      String _startTimes= '$shours:$sminutes';
-
-      final ehours = _startTime!.hour.toString().padLeft(2, '0');
-      final eminutes = _startTime!.minute.toString().padLeft(2, '0');
-
-      String _endTimes= '$ehours:$eminutes';
+      // final shours = _startTime!.hour.toString().padLeft(2, '0');
+      // final sminutes = _startTime!.minute.toString().padLeft(2, '0');
+      //
+      // String _startTimes = '$shours:$sminutes';
+      //
+      // final ehours = _startTime!.hour.toString().padLeft(2, '0');
+      // final eminutes = _startTime!.minute.toString().padLeft(2, '0');
+      //
+      // String _endTimes = '$ehours:$eminutes';
 
       VolnRequest request = VolnRequest(
           type: _type,
           number: _partNum,
           participants: _participants,
-          days: 1,
+          days: daysBetween(_startDate, _endDate),
           startDate: _startDate,
           endDate: _endDate,
-          startTime: _startTimes,
-          endTime: _endTimes,
+          startTime: _startTime,
+          endTime: _endTime,
           posted_by: _posted_by,
           description: _description,
           mosque_name: _mosque_name,
@@ -225,11 +220,12 @@ class RequestViewModel {
           .collection('requests')
           .add(request.toJson())
           .then((value) =>
-      {_message = 'تمت إضافة الطلب بنجاح', _msgtype = "success"})
-          .catchError((error) =>
-      {_message = " فشل في إضافة الطلب:" + error.toString(), _msgtype = "fail"});
+              {_message = 'تمت إضافة الطلب بنجاح', _msgtype = "success"})
+          .catchError((error) => {
+                _message = " فشل في إضافة الطلب:" + error.toString(),
+                _msgtype = "fail"
+              });
     }
-
 
     message = _message;
     msgType = _msgtype;
@@ -282,10 +278,50 @@ class RequestViewModel {
               {_message = 'تم تعديل الطلب بنجاح', _msgtype = "success"})
           .catchError((error) =>
               {_message = " فشل في تعديل الطلب:" + error, _msgtype = "fail"});
+
+    } else if (_type == "تنظيم") {
+      VolnRequest request = VolnRequest(
+          type: _type,
+          number: _partNum,
+          participants: _participants,
+          days: daysBetween(_startDate, _endDate),
+          startDate: _startDate,
+          endDate: _endDate,
+          startTime: _startTime,
+          endTime: _endTime,
+          posted_by: _posted_by,
+          description: _description,
+          mosque_name: _mosque_name,
+          mosque_location: _mosque_location,
+          title: _title,
+          uplaod_time: _uplaod_time,
+          token: _token);
+
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(docId)
+          .set(request.toJson())
+          .then((value) =>
+      {_message = 'تم تعديل الطلب بنجاح', _msgtype = "success"})
+          .catchError((error) =>
+      {_message = " فشل في تعديل الطلب:" + error, _msgtype = "fail"});
     }
 
     message = _message;
     msgType = _msgtype;
+  }
+
+  int daysBetween(DateTime? from, DateTime? to) {
+    if (from != null && to != null) {
+      from = DateTime(from.year, from.month, from.day);
+      to = DateTime(to.year, to.month, to.day);
+      int diff = to.difference(from).inDays;
+      if (diff == 0)
+        return 1;
+      else
+        return diff + 1;
+    } else
+      return 0;
   }
 
   // Future donateItem(DocumentSnapshot document, String amount) async {
@@ -395,5 +431,4 @@ class RequestViewModel {
       message = _message;
     });
   }
-
 }
