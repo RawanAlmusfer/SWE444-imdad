@@ -164,7 +164,7 @@ class _SearchRequests extends State<SearchRequests> {
                         return Container(
                           alignment: Alignment.center,
                           child: Padding(
-                            padding: const EdgeInsets.all(30.0),
+                            padding: const EdgeInsets.only(top:150.0),
                             child: Text("لا يوجد نتائج مطابقة للبحث"),
                           ),
                         );
