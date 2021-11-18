@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'list_view_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 
 class SubscribedList extends StatelessWidget {
