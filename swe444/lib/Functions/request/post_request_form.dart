@@ -48,6 +48,25 @@ class _AddRequestFormState extends State<PostRequestForm> {
   DateTime? startDate, endDate;
   TimeOfDay? startTime, endTime;
 
+  FocusNode? focusNode;
+
+  void initState() {
+    focusNode = new FocusNode();
+
+    // listen to focus changes
+    focusNode!.addListener(() => print('focusNode updated: hasFocus: ${focusNode!.hasFocus}'));
+  }
+
+  void setFocus() {
+    FocusScope.of(context).requestFocus(focusNode);
+  }
+
+  @override
+  void dispose() {
+    focusNode!.dispose();
+    super.dispose();
+  }
+
   Widget _buildType() {
     return DropdownButtonHideUnderline(
         child: DropdownButtonFormField<String>(
@@ -443,6 +462,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
   Widget _buildStartTime() {
     return TextFormField(
+      focusNode: focusNode,
       onTap: () async {
         TimePicker timePicker = new TimePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
