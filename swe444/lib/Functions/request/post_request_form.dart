@@ -49,12 +49,23 @@ class _AddRequestFormState extends State<PostRequestForm> {
   TimeOfDay? startTime, endTime;
 
   FocusNode? focusNode;
+  bool changed=false;
 
   void initState() {
     focusNode = new FocusNode();
 
     // listen to focus changes
-    focusNode!.addListener(() => print('focusNode updated: hasFocus: ${focusNode!.hasFocus}'));
+    focusNode!.addListener(() async {
+      if(!changed){
+      DatePicker datePicker = new DatePicker();
+      changed= true;
+      await datePicker.pickDate(context);
+
+      if (datePicker.date != null) {
+        _date.text = datePicker.getText();
+        startDate = datePicker.date;
+      }
+    }});
   }
 
   void setFocus() {
@@ -390,14 +401,13 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
   Widget _buildOneDay() {
     return TextFormField(
+      focusNode: focusNode,
+      onChanged: (_val){
+        changed= true;
+      },
       onTap: () async {
         DatePicker datePicker = new DatePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
-        // await showDatePicker(
-        // context: context,
-        // initialDate:DateTime.now(),
-        // firstDate:DateTime(DateTime.now().year),
-        // lastDate: DateTime(DateTime.now().year + 1)))!;
         await datePicker.pickDate(context);
 
         if (datePicker.date != null) {
@@ -462,7 +472,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
 
   Widget _buildStartTime() {
     return TextFormField(
-      focusNode: focusNode,
       onTap: () async {
         TimePicker timePicker = new TimePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
