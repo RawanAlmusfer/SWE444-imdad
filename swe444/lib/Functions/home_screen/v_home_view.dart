@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
-import '../SubscribedList.dart';
+import '../subscribe/SubscribedList.dart';
 import 'home.dart';
 import 'moneyVFeed.dart';
 import '../logout.dart';
