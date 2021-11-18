@@ -278,6 +278,33 @@ class RequestViewModel {
               {_message = 'تم تعديل الطلب بنجاح', _msgtype = "success"})
           .catchError((error) =>
               {_message = " فشل في تعديل الطلب:" + error, _msgtype = "fail"});
+
+    } else if (_type == "تنظيم") {
+      VolnRequest request = VolnRequest(
+          type: _type,
+          number: _partNum,
+          participants: _participants,
+          days: daysBetween(_startDate, _endDate),
+          startDate: _startDate,
+          endDate: _endDate,
+          startTime: _startTime,
+          endTime: _endTime,
+          posted_by: _posted_by,
+          description: _description,
+          mosque_name: _mosque_name,
+          mosque_location: _mosque_location,
+          title: _title,
+          uplaod_time: _uplaod_time,
+          token: _token);
+
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(docId)
+          .set(request.toJson())
+          .then((value) =>
+      {_message = 'تم تعديل الطلب بنجاح', _msgtype = "success"})
+          .catchError((error) =>
+      {_message = " فشل في تعديل الطلب:" + error, _msgtype = "fail"});
     }
 
     message = _message;

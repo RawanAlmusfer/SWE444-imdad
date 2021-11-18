@@ -471,7 +471,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
                   color: Color(0xff334856),
                   fontFamily: 'Tajawal'),
             ),
-            activeColor: Color(0xffe7cc2e),
+            activeColor: Color(0xff868686),
             groupValue: selectedValue,
             onChanged: (val) {
             }),
@@ -487,7 +487,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
                     color: Color(0xff334856),
                     fontFamily: 'Tajawal'),
               ),
-              activeColor: Color(0xffe7cc2e),
+              activeColor: Color(0xff868686),
               onChanged: (val) {
                 // setState(() {
                 //   selectedValue = val!;
@@ -1080,7 +1080,6 @@ class _EditRequestFormState extends State<EditRequestForm> {
       Map<String, dynamic>? data = document.data();
       requestVM.setMName = data?['mosque_name'];
       requestVM.setMLocation = data?['location'];
-      requestVM.setDonations = int.parse(widget.document['donated'].toString());
       requestVM.setToken = widget.document['token'].toString();
       requestVM.setDescription = description.text;
       requestVM.setTitle = title.text;
@@ -1088,13 +1087,25 @@ class _EditRequestFormState extends State<EditRequestForm> {
       requestVM.setUploadTime = time;
 
       if (type == "مبلغ") {
+        requestVM.setDonations = int.parse(widget.document['donated'].toString());
         amount = int.parse(_amount.text);
         requestVM.setAmount = amount;
       }
 
       if (type == "موارد") {
+        requestVM.setDonations = int.parse(widget.document['donated'].toString());
         items_amount = int.parse(itemsAmount.text);
         requestVM.setRequested = items_amount;
+      }
+
+      if (type == "تنظيم") {
+        partNum = int.parse(_number.text);
+        requestVM.setPartNum = partNum;
+        requestVM.setPart = int.parse(widget.document['participants'].toString());;
+        requestVM.setStartDate = startDate;
+        requestVM.setEndDate = endDate;
+        requestVM.setStartTime = _startTime.text;
+        requestVM.setEndTime = _endTime.text;
       }
 
       await requestVM.update(widget.document.id);
