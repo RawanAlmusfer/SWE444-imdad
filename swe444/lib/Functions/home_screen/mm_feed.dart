@@ -35,9 +35,9 @@ class mmFeed extends State<mm_feed> {
     super.initState();
     Future.delayed(
         Duration.zero,
-        () => setState(() {
-              setup();
-            }));
+            () => setState(() {
+          setup();
+        }));
   }
 
   setup() async {
@@ -69,15 +69,15 @@ class mmFeed extends State<mm_feed> {
   Widget buildCards(
       BuildContext context, DocumentSnapshot document, String? id) {
     if (document['posted_by'].toString() == id) {
-      if(document['type'].toString() == "مبلغ"){
-       if (document['donated'] == document['amount']){
-         return Container();
-       }
+      if (document['type'].toString() == "مبلغ") {
+        if (document['donated'] == document['amount']) {
+          return Container();
+        }
       }
-      if(document['type'].toString() == "موارد"){
-       if (document['donated'] == document['amount_requested']){
-         return Container();
-       }
+      if (document['type'].toString() == "موارد") {
+        if (document['donated'] == document['amount_requested']) {
+          return Container();
+        }
       }
       // && document['donated'] != document['amount']
       //print('posted user Id ' + document['posted_by'].toString());
@@ -105,12 +105,12 @@ class mmFeed extends State<mm_feed> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                               padding:
-                                  MaterialStateProperty.all<EdgeInsetsGeometry>(
-                                      const EdgeInsets.only(
-                                          top: 0,
-                                          bottom: 0,
-                                          left: 0,
-                                          right: 0)),
+                              MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                  const EdgeInsets.only(
+                                      top: 0,
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0)),
                               elevation: MaterialStateProperty.all<double>(0),
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   Colors.white)),
@@ -122,34 +122,34 @@ class mmFeed extends State<mm_feed> {
                             allowDrawingOutsideViewBox: true,
                             fit: BoxFit.fill,
                           ),
-                        )),                
-                      // Container(
-                      //     width: 25,
-                      //     height: 52,
-                      //     padding: const EdgeInsets.only(
-                      //         top: 0, bottom: 25, left: 0, right: 0),
-                      //     child: ElevatedButton(
-                      //       style: ButtonStyle(
-                      //           padding:
-                      //           MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      //               const EdgeInsets.only(
-                      //                   top: 0,
-                      //                   bottom: 0,
-                      //                   left: 0,
-                      //                   right: 0)),
-                      //           elevation: MaterialStateProperty.all<double>(0),
-                      //           backgroundColor: MaterialStateProperty.all<Color>(
-                      //               Colors.white)),
-                      //       onPressed: () async {
-                      //         await showAlertDialogEdit(document);
-                      //       },
-                      //       child: const Icon(
-                      //         Icons.edit,
-                      //         color: Color(0xdeedd03c),
-                      //         size: 25.0,
-                      //       ),
+                        )),
+                    // Container(
+                    //     width: 25,
+                    //     height: 52,
+                    //     padding: const EdgeInsets.only(
+                    //         top: 0, bottom: 25, left: 0, right: 0),
+                    //     child: ElevatedButton(
+                    //       style: ButtonStyle(
+                    //           padding:
+                    //           MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    //               const EdgeInsets.only(
+                    //                   top: 0,
+                    //                   bottom: 0,
+                    //                   left: 0,
+                    //                   right: 0)),
+                    //           elevation: MaterialStateProperty.all<double>(0),
+                    //           backgroundColor: MaterialStateProperty.all<Color>(
+                    //               Colors.white)),
+                    //       onPressed: () async {
+                    //         await showAlertDialogEdit(document);
+                    //       },
+                    //       child: const Icon(
+                    //         Icons.edit,
+                    //         color: Color(0xdeedd03c),
+                    //         size: 25.0,
+                    //       ),
 
-                      //     )),
+                    //     )),
                     // if (document['donated'].toString() != '0')
                     //   Container(
                     //       width: 25,
@@ -179,7 +179,7 @@ class mmFeed extends State<mm_feed> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 70),
+                  const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 70),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Container(
@@ -192,7 +192,19 @@ class mmFeed extends State<mm_feed> {
                         )),
                   ]),
                 ),
-
+                if (document['type'].toString() == "مبلغ")
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0.1, bottom: 20.0, right: 63),
+                    child: Row(children: <Widget>[
+                      const Spacer(),
+                      Text(document['amount'].toString()),
+                      const Text(
+                        " :المبلغ",
+                        style: TextStyle(fontFamily: 'Tajawal'),
+                      ),
+                    ]),
+                  ),
                 if (document['type'].toString() == "موارد")
                   Padding(
                     padding: const EdgeInsets.only(
@@ -206,47 +218,66 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
-            //  if (document['donated'].toString() == '0')
-              Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 5.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    //This button for sprint 2
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xffededed),
-                              spreadRadius: 1,
-                              blurRadius: 10),
-                        ],
+                if (document['type'].toString() == "تنظيم")
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0.1, bottom: 20.0, right: 63),
+                    child: Row(children: <Widget>[
+                      const Spacer(),
+                      Text(document['parts_number'].toString()),
+                      const Text(
+                        " :العدد",
+                        style: TextStyle(fontFamily: 'Tajawal'),
                       ),
-                      height: 30,
-                      width: 90,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                           //   await showAlertDialogEdit(document);
-                            },
-                        child: Text(
-                          "تعديل",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              color: const Color(0xff334856)),
+                    ]),
+                  ),
+                if (((document['type'].toString() == "موارد" ||
+                    document['type'].toString() == "مبلغ") &&
+                    document['donated'].toString() == '0') ||
+                    (document['type'].toString() == "تنظيم" &&
+                        document['participants'].toString() == '0'))
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Row(children: <Widget>[
+                      //This button for sprint 2
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xffededed),
+                                spreadRadius: 1,
+                                blurRadius: 10),
+                          ],
                         ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(65.w, 30.h),
-                          primary: const Color(0xdeedd03c),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
+                        height: 30,
+                        width: 90,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    EditRequest(document: document)));
+                          },
+                          child: Text(
+                            "تعديل",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'Tajawal',
+                                color: const Color(0xff334856)),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(65.w, 30.h),
+                            primary: const Color(0xdeedd03c),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ]),
-                ),
-              //  if(document['type'].toString() == "موارد")
-                  Padding(
+                      )
+                    ]),
+                  ),
+
+                Padding(
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 5.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
@@ -261,12 +292,9 @@ class mmFeed extends State<mm_feed> {
                         ],
                       ),
                       height: 30,
-                     // width: 75,
                       width: 90,
-
                       child: ElevatedButton(
                         onPressed: () async {
-                        //  Navigator.of(context).pop();
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => itemsVFeed()));
                         },
                         child: Text(
@@ -277,7 +305,7 @@ class mmFeed extends State<mm_feed> {
                               color: const Color(0xff334856)),
                         ),
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(200.w, 30.h),
+                          minimumSize: Size(65.w, 30.h),
                           primary: const Color(0xdeedd03c),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
@@ -287,43 +315,46 @@ class mmFeed extends State<mm_feed> {
                     )
                   ]),
                 ),
-                if (document['donated'].toString() != '0')
+                if (((document['type'].toString() == "موارد" ||
+                    document['type'].toString() == "مبلغ") &&
+                    document['donated'].toString() != '0') ||
+                    (document['type'].toString() == "تنظيم" &&
+                        document['participants'].toString() != '0'))
                   Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 5.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    //This button for sprint 2
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xffededed),
-                              spreadRadius: 1,
-                              blurRadius: 10),
-                        ],
-                      ),
-                      height: 30,
-                      width: 75,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "تعديل",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              color: Colors.grey),
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Row(children: <Widget>[
+                      //This button for sprint 2
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xffededed),
+                                spreadRadius: 1,
+                                blurRadius: 10),
+                          ],
                         ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(65.w, 30.h),
-                          primary: const Color(0xffededed),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
+                        height: 30,
+                        width: 75,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text(
+                            "تعديل",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'Tajawal', color: Colors.grey),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(65.w, 30.h),
+                            primary: const Color(0xffededed),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ]),
-                ),
+                      )
+                    ]),
+                  ),
               ],
             ),
           ),
@@ -370,7 +401,8 @@ class mmFeed extends State<mm_feed> {
         onPressed: () async {
           Navigator.of(context).pop(context);
           await requestVM.cancelRequest(document);
-          Snackbar bar = Snackbar(context, requestVM.message, requestVM.msgType);
+          Snackbar bar =
+          Snackbar(context, requestVM.message, requestVM.msgType);
           bar.showToast();
         },
       ),
@@ -407,17 +439,70 @@ class mmFeed extends State<mm_feed> {
     );
   }
 
-
+  showAlertDialogEdit(DocumentSnapshot document) {
+    RequestViewModel requestVM = RequestViewModel();
+    // set up the buttons
+    Widget cancelButton = ElevatedButton(
+      child: const Text(
+        "إلغاء",
+        style: TextStyle(fontFamily: "Tajawal", color: const Color(0xdeedd03c)),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop(context);
+      },
+      style: ButtonStyle(
+          backgroundColor:
+          MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+          elevation: MaterialStateProperty.all<double>(0)),
+    );
+    Widget confirmButton = Padding(
+      padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
+      child: ElevatedButton(
+        child: Text(
+          "تأكيد",
+          style: TextStyle(fontFamily: "Tajawal"),
+        ),
+        style: ButtonStyle(
+            backgroundColor:
+            MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+        onPressed: () async {
+          Navigator.of(context).pop();
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => EditRequest(document: document)));
+        },
+      ),
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
+      title: Text(
+        "تعديل",
+        textAlign: TextAlign.right,
+        style: TextStyle(
+          fontFamily: "Tajawal",
+          color: const Color(0xdeedd03c),
+        ),
+      ),
+      content: Text(
+        "هل أنت متأكد من رغبتك في\n تعديل الطلب؟",
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal"),
+      ),
+      actions: [
+        cancelButton,
+        confirmButton,
+      ],
+    );
     // show the dialog
-
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
-  //
-
-
-
-
-  //
-
 
   Widget _buildWaitingScreen() {
     return Scaffold(
@@ -428,7 +513,7 @@ class mmFeed extends State<mm_feed> {
       ),
     );
   }
-
+}
 
 const String mosqueImage =
     '<svg viewBox="339.0 114.0 45.0 36.0" ><path transform="translate(339.01, 114.0)" d="M 0 33.75 C 0 34.9924201965332 1.007578134536743 36 2.25 36 L 6.75 36 C 7.992422103881836 36 9 34.9924201965332 9 33.75 L 9 11.25 L 0 11.25 L 0 33.75 Z M 40.72218704223633 20.25 C 41.97797012329102 19.02726554870605 42.75 17.62453079223633 42.75 16.10789108276367 C 42.75 12.39117240905762 39.81164169311523 9.51328182220459 36.56812286376953 7.466485023498535 C 33.61921691894531 5.605313301086426 30.89882659912109 3.404531955718994 28.6959342956543 0.7010164260864258 L 28.125 0 L 27.55406188964844 0.7010156512260437 C 25.35117149353027 3.404531240463257 22.63148307800293 5.606015682220459 19.6818733215332 7.466484069824219 C 16.4383602142334 9.513280868530273 13.5 12.3911714553833 13.5 16.10789108276367 C 13.5 17.62453079223633 14.2720308303833 19.02726554870605 15.52781295776367 20.25 L 40.72218704223633 20.25 Z M 42.75 22.5 L 13.5 22.5 C 12.25757789611816 22.5 11.25 23.50757789611816 11.25 24.75 L 11.25 33.75 C 11.25 34.9924201965332 12.25757789611816 36 13.5 36 L 15.75 36 L 15.75 31.5 C 15.75 30.25757789611816 16.75757789611816 29.25 18 29.25 C 19.24242210388184 29.25 20.25 30.25757789611816 20.25 31.5 L 20.25 36 L 24.75 36 L 24.75 30.9375 C 24.75 27.5625 28.125 25.875 28.125 25.875 C 28.125 25.875 31.5 27.5625 31.5 30.9375 L 31.5 36 L 36 36 L 36 31.5 C 36 30.25757789611816 37.0075798034668 29.25 38.25 29.25 C 39.4924201965332 29.25 40.5 30.25757789611816 40.5 31.5 L 40.5 36 L 42.75 36 C 43.9924201965332 36 45 34.9924201965332 45 33.75 L 45 24.75 C 45 23.50757789611816 43.9924201965332 22.5 42.75 22.5 Z M 4.5 0 C 4.5 0 0 2.25 0 6.75 L 0 9 L 9 9 L 9 6.75 C 9 2.25 4.5 0 4.5 0 Z" fill="#edd03c" stroke="none" stroke-width="1" stroke-miterlimit="4" stroke-linecap="butt" /></svg>';

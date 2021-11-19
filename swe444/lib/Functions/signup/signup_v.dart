@@ -305,7 +305,7 @@ class _SignUpPageState extends State<VSignUpPage> {
           return ("يجب ان يحتوي على حرفين على الأقل");
         }
         if (!RegExp(r"^[\p{L} ,.'-]*$",
-                caseSensitive: false, unicode: true, dotAll: true)
+            caseSensitive: false, unicode: true, dotAll: true)
             .hasMatch(value)) {
           return ("يجب ان يحتوي الأسم الأخير على أحرف فقط");
         }

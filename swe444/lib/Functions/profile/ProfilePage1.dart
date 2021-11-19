@@ -338,21 +338,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                             enabled: isVolunteer(),
                                             onTap: () async {
                                               //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                              final text =
+                                             final text =
                                               await showTextInputDialog(
                                                 context: context,
                                                 title: ' الاسم الأول',
                                                 textFields: [DialogTextField(
-                                                  hintText: 'ادخل الاسم الاول ',
-                                                  validator: (value){
-                                                    RegExp regex = RegExp(r'^.{2,}$');
+                                                 hintText: 'ادخل الاسم الاول ',
+                                                 validator: (value){
+                                                   RegExp regex = RegExp(r'^.{2,}$');
                                                     if (value!.isEmpty || value.trim().isEmpty) {
                                                       return ("الرجاء قم بإدخال اسمك الاول");
-                                                    }
-                                                    if (!regex.hasMatch(value)) {
+                                                   }
+                                                   if (!regex.hasMatch(value)) {
                                                       return ("يجب ان يحتوي على حرفين على الأقل");
                                                     }
-                                                    if (!RegExp(r"^[\p{L} ,.'-]*$",
+                                                  if (!RegExp(r"^[\p{L} ,.'-]*$",
                                                         caseSensitive: false, unicode: true, dotAll: true)
                                                         .hasMatch(value)) {
                                                       return ("يجب ان يحتوي الأسم الأول على أحرف فقط");
@@ -369,9 +369,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 setState(() {
                                                   _userFirstName = text[0];
                                                 });
-                                              //   _userFirstName.trim().isEmpty|| _userFirstName!.isEmpty && RegExp(r"^[\p{L} ,.'-]*$",
-                                              //    caseSensitive: false, unicode: true, dotAll: true)
-                                              //   .hasMatch( _userFirstName)&&!regex.hasMatch(_userFirstName)?_displayfirstname=false:_displayfirstname=true;
+                                                _userFirstName.trim().isEmpty|| _userFirstName!.isEmpty && RegExp(r"^[\p{L} ,.'-]*$",
+                                                  caseSensitive: false, unicode: true, dotAll: true)
+                                                 .hasMatch( _userFirstName)&&!regex.hasMatch(_userFirstName)?_displayfirstname=false:_displayfirstname=true;
 
                                               if (_displayfirstname) {
                                                 FirebaseFirestore.instance
@@ -628,4 +628,6 @@ class _ProfilePageState extends State<ProfilePage> {
   } //QWEqwerty123@
 
   bool isVolunteer() => role == 'volunteer';
+
+
 }

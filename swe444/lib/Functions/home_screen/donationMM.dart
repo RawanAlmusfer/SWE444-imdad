@@ -41,9 +41,9 @@ class ivFeed extends State<itemsv_feed> {
   int? amount;
   @override
   void initState() {
-  getUsers(){
+    getUsers(){
 
-  }
+    }
     super.initState();
 
     Future.delayed(
@@ -139,7 +139,7 @@ class ivFeed extends State<itemsv_feed> {
                       top: 5.0, bottom: 9.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
 
-                      const Spacer(),
+                    const Spacer(),
 
 
 
@@ -155,11 +155,7 @@ class ivFeed extends State<itemsv_feed> {
 
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
-                      child: SvgPicture.string(
-                        mosqueImage,
-                        allowDrawingOutsideViewBox: true,
-                        fit: BoxFit.fill,
-                      ),
+                      child: Icon(Icons.person),
                     ),
                   ]),
                 ),
@@ -170,15 +166,15 @@ class ivFeed extends State<itemsv_feed> {
                     const Spacer(),
                     Column(
                       children: [
-                       // Container(
-                       //   width: 250, // to wrap the text in multiline
-                       //   child: Text(
+                        // Container(
+                        //   width: 250, // to wrap the text in multiline
+                        //   child: Text(
                         //    document['description'],
                         //    style: TextStyle(fontFamily: 'Tajawal'),
-                       //     textDirection: TextDirection
-                       //         .rtl, // make the text from right to left
-                       //   ),
-                     //   ),
+                        //     textDirection: TextDirection
+                        //         .rtl, // make the text from right to left
+                        //   ),
+                        //   ),
 
 
 
@@ -188,17 +184,17 @@ class ivFeed extends State<itemsv_feed> {
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
                               'العدد: '
-                                 // document['amount_requested'].toString()
-                                  ,
+                              // document['amount_requested'].toString()
+                              ,
                               style: TextStyle(fontFamily: 'Tajawal'),
                               textDirection: TextDirection
                                   .rtl, // make the text from right to left
                             ),
 
 
-                            ),
+                          ),
 
-                        ),Container(),Container(),
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             boxShadow: [
@@ -232,6 +228,7 @@ class ivFeed extends State<itemsv_feed> {
                             ),
                           ),
                         ),
+
                         Container(
                           decoration: BoxDecoration(
                             boxShadow: [
