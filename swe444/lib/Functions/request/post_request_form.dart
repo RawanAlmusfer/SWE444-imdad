@@ -298,7 +298,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
     );
   }
 
-
   /// items
   Widget _buildDetailsItemsAmount() {
     double _value;
@@ -356,7 +355,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
       }, // onsaved
     );
   }
-
 
   /// events
   Widget _buildNumberOfParticipants() {
@@ -532,7 +530,11 @@ class _AddRequestFormState extends State<PostRequestForm> {
       focusNode: focusNode,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null || value.isEmpty || value.trim().isEmpty)
+        if (value == null ||
+            value.isEmpty ||
+            value.trim().isEmpty ||
+            startDate == null ||
+            endDate == null)
           return "مطلوب";
         else {
           // _value = double.parse(value);
@@ -583,7 +585,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
         await dateRange.pickDateRange(context, startDate, endDate);
 
         if (dateRange.dateRange != null) {
-          _date.text = dateRange.getFrom() + "-" + dateRange.getUntil();
+          _date.text = dateRange.getFrom() + " - " + dateRange.getUntil();
           startDate = dateRange.dateRange!.start;
           endDate = dateRange.dateRange!.end;
         }
@@ -733,10 +735,6 @@ class _AddRequestFormState extends State<PostRequestForm> {
       }, // onsaved
     );
   }
-
-
-
-
 
   Widget _buildDescription() {
     return TextFormField(

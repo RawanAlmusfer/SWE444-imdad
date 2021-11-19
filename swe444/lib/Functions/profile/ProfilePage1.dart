@@ -6,6 +6,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 
 import '../logout.dart';
+import 'edit_profile_view.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String role = '';
   String? mosqueName;
   String? mosqueCode;
+  late DocumentSnapshot document;
 
   User? user() {
     return auth.currentUser;
@@ -43,6 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
         if (value.exists) {
           role = value.get('role');
           if (isVolunteer()) {
+            document = value;
             if (value.data()!.containsKey('first_name') &&
                 value.data()!.containsKey('last_name') &&
                 value.data()!.containsKey('phone_number')) {
@@ -51,6 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
               _userPhone = value.get('phone_number').toString();
             }
           } else {
+            document = value;
             if (value.data()!.containsKey('mosque_name') &&
                 value.data()!.containsKey('mosque_code') &&
                 value.data()!.containsKey('phone_number')) {
@@ -405,7 +409,33 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(
                             height: 20,
                           ),
-                          logout()
+                          logout(),
+
+                          ///
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          ElevatedButton(
+                            child: Text("تعديل الملف الشخصي",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'Tajawal', color: const Color(0xff334856))),
+
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size(150, 50),
+                              primary: const Color(0xdeedd03c),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                            onPressed:() async {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditProfile(document: document)));
+                            },
+                          ),
+                          ///
+                          
                         ],
                       ),
                     )
