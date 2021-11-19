@@ -22,6 +22,16 @@ class itemsv_feed extends StatefulWidget {
   const itemsv_feed({
     Key? key,
   }) : super(key: key);
+  @override
+  void initState() {
+
+    //you are not allowed to add async modifier to initState
+    Future.delayed(Duration.zero,() async {
+      //your async 'await' codes goes here
+      super.initState();
+    });
+
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -229,39 +239,7 @@ class ivFeed extends State<itemsv_feed> {
                           ),
                         ),
 
-                        Container(
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color(0xffededed),
-                                  spreadRadius: 1,
-                                  blurRadius: 10),
-                            ],
-                          ),
-                          height: 30,
-                          // width: 75,
-                          width: 90,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              //  Navigator.of(context).pop();
-                              //    Navigator.of(context).push(MaterialPageRoute(builder: (context) => itemsVFeed()));
-                            },
-                            child: Text(
-                              "لم يصل  ",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'Tajawal',
-                                  color: const Color(0xff334856)),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(200.w, 30.h),
-                              primary: const Color(0xdeedd03c),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                          ),
-                        ),
+
 
 
 

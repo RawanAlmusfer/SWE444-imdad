@@ -7,9 +7,6 @@
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/donationMM.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/donationMM.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/mm_feed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/mm_feed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/profile/ProfilePage1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/profile/ProfilePage1.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
