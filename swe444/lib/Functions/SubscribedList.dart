@@ -112,7 +112,7 @@ class Subscribed_List extends State<subscribedList> {
               Padding(
                 padding: const EdgeInsets.only(right: 20, top: 5),
                 child: Text(
-                  "مسجد " + document['name'].toString(),
+                  "مسجد " + document['mosque_name'].toString(),
                   style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
                   textAlign: TextAlign.center,
                 ),

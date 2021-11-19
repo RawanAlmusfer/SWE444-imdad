@@ -515,7 +515,7 @@ class mvFeed extends State<mv_feed> {
               width: 70,
               child: ElevatedButton(
                 onPressed: () async {
-                  await subscription(name, id);
+                  await subscription(id, name);
 
                   ///Here Deema
                 },
@@ -748,7 +748,7 @@ Future<bool> isSubscribed(String mID) async {
   var uesrDoc = await FirebaseFirestore.instance
       .collection('users')
       .doc(user?.uid.toString())
-      .collection("subscribedMosques")
+      .collection("subscribedMosqueManager")
       .get();
 
   var docs = uesrDoc.docs;
