@@ -77,7 +77,7 @@ export const notifysubscribedVolunteers = functions.firestore.document("requests
       }
       const payloadData = {
         title: "طلب جديد",
-        message: "اصدر مسجد" + " " + data.mosque_name + " " + "طلب جديد",
+        message: "اصدر مسجد" + " " + data.mosque_name + " " + "طلب" + " " + data.title,
       };
       const payload = {
         data: payloadData,

@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -121,14 +123,49 @@ class ivFeed extends State<itemsv_feed> {
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 9.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
-                    Container(
-                      width: 100,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20, top: 5),
-                        child: Text(
-                          "مسجد " + document['mosque_name'],
-                          style: TextStyle(fontFamily: 'Tajawal', fontSize: 12),
-                          textAlign: TextAlign.center,
+                    GestureDetector(
+                      onTap: () async {
+                        bool flag = await isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
+                        if (!flag) {
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildSubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        } else {
+                          showModalBottomSheet(
+                              //isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildUnsubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                      },
+                      child: Container(
+                        width: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 20, top: 5),
+                          child: Text(
+                            "مسجد " + document['mosque_name'],
+                            style: TextStyle(
+                                fontFamily: 'Tajawal',
+                                fontSize: 12,
+                                decoration: TextDecoration.underline),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
@@ -141,12 +178,44 @@ class ivFeed extends State<itemsv_feed> {
                         // textAlign: TextAlign.left,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: SvgPicture.string(
-                        mosqueImage,
-                        allowDrawingOutsideViewBox: true,
-                        fit: BoxFit.fill,
+                    GestureDetector(
+                      onTap: () async {
+                        bool flag = await isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
+                        if (!flag) {
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildSubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        } else {
+                          showModalBottomSheet(
+                              //isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildUnsubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: SvgPicture.string(
+                          mosqueImage,
+                          allowDrawingOutsideViewBox: true,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                   ]),
@@ -296,6 +365,292 @@ class ivFeed extends State<itemsv_feed> {
       return Container();
     }
   }
+
+  Widget BuildSubscribedProfile(String name, String id) {
+    return Container(
+      padding: EdgeInsets.all(30),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 10, bottom: 20),
+            height: 80,
+            width: 80,
+            child: SvgPicture.string(
+              mosqueImage,
+              allowDrawingOutsideViewBox: true,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Text(
+            "مسجد " + name,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontFamily: 'Tajawal',
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffededed),
+                      spreadRadius: 1,
+                      blurRadius: 10),
+                ],
+              ),
+              height: 30,
+              width: 70,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await subscription(id, name);
+                },
+                child: Text(
+                  "تابع",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
+                ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(65.w, 30.h),
+                  primary: const Color(0xdeedd03c),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget BuildUnsubscribedProfile(String name, String id) {
+    return Container(
+      padding: EdgeInsets.all(30),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 10, bottom: 20),
+            height: 80,
+            width: 80,
+            child: SvgPicture.string(
+              mosqueImage,
+              allowDrawingOutsideViewBox: true,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Text(
+            "مسجد " + name,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontFamily: 'Tajawal',
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffededed),
+                      spreadRadius: 1,
+                      blurRadius: 10),
+                ],
+              ),
+              height: 30,
+              width: 120,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await subscription(id, name);
+                },
+                child: Text(
+                  "إلغاء المتابعة",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
+                ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(65.w, 30.h),
+                  primary: const Color(0xdeedd03c),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> subscription(String mmId, String mmName) async {
+    String vId = await FirebaseAuth.instance.currentUser!.uid;
+    String? dToken;
+    String? response = '';
+    bool isExsited = false;
+
+    try {
+      //subscribe
+
+      var document = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(mmId)
+          .collection("subscribedVolunteers")
+          .doc(vId)
+          .get();
+
+      if (document.exists) {
+        if (document != null) {
+          isExsited = true;
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
+        }
+      } else {
+        print('المتطوع ليس مسجل بقائمة المتطوعين');
+      }
+
+      if (!isExsited) {
+        await FirebaseMessaging.instance.getToken().then((token) {
+          dToken = token.toString();
+        });
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(mmId)
+            .collection("subscribedVolunteers")
+            .doc(vId)
+            .set({'uid': vId, 'token': dToken})
+            .then((value) =>
+                {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+            .catchError((error) =>
+                //////
+                {response = "لم يتم تفعيل التنبيهات بنجاح"});
+        //add to mm
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(vId)
+            .collection("subscribedMosqueManager")
+            .doc(mmId)
+            .set({'mosque_name': mmName, 'mmId': mmId});
+      }
+
+      //Unsubscribe
+
+      else {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(mmId)
+            .collection("subscribedVolunteers")
+            .doc(vId)
+            .delete()
+            .then((value) =>
+                {response = ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '})
+            .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(vId)
+            .collection("subscribedMosqueManager")
+            .doc(mmId)
+            .delete();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('error to subscribe $e')));
+    }
+
+    showAlertDialog(context, response);
+  }
+
+  showAlertDialog(BuildContext context, String? response) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text(
+        "موافق",
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+      ),
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+      onPressed: () {
+        int count = 0;
+        Navigator.of(context).popUntil((_) => count++ >= 2);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
+      title: Text(
+        "تأكيد عملية الاشتراك ",
+        textAlign: TextAlign.right,
+        style: TextStyle(
+          fontFamily: "Tajawal",
+          color: const Color(0xdeedd03c),
+        ),
+      ),
+      content: Text(
+        response!
+        // feedbackResponse(response)!
+        ,
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal"),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  String? feedbackResponse(int response) {
+    if ((response) == 1) {
+//Extract the mosuqe name to add in the msg
+      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+    } else {
+      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+    }
+  }
+}
+
+Future<bool> isSubscribed(String mID) async {
+  User? user = FirebaseAuth.instance.currentUser;
+  var subscribedMosques = [];
+
+  var uesrDoc = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user?.uid.toString())
+      .collection("subscribedMosqueManager")
+      .get();
+
+  var docs = uesrDoc.docs;
+  //var length = uesrDoc.docs.length;
+
+  for (var Doc in docs) {
+    if (!subscribedMosques.contains(Doc.id)) {
+      subscribedMosques.add(Doc.id);
+    }
+  }
+
+  if (subscribedMosques.contains(mID)) {
+    return true;
+  }
+  return false;
 }
 
 Widget _buildWaitingScreen() {
