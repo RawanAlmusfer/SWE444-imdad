@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
-import 'package:swe444/Functions/home_screen/v_subscribe/subscribe.dart';
 import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -389,106 +388,6 @@ class mvFeed extends State<mv_feed> {
                     ),
 
                     Spacer(),
-                    IconButton(
-                        icon:
-                            Icon(Icons.notifications, color: Color(0xdeedd03c)),
-                        onPressed: () async {
-                          String vId =
-                              await FirebaseAuth.instance.currentUser!.uid;
-                          String mmId = document['posted_by'];
-                          String mmName = document['mosque_name'];
-                          String? dToken;
-                          String? response = '';
-                          bool isExsited = false;
-
-                          try {
-                            //subscribe
-
-                            var document = await FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(mmId)
-                                .collection("subscribedVolunteers")
-                                .doc(vId)
-                                .get();
-
-                            if (document.exists) {
-                              if (document != null) {
-                                isExsited = true;
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content:
-                                            Text('محتويات هذا المتطوع فارغة')));
-                              }
-                            } else {
-                              print('المتطوع ليس مسجل بقائمة المتطوعين');
-                            }
-
-                            if (!isExsited) {
-                              FirebaseMessaging.instance
-                                  .getToken()
-                                  .then((token) {
-                                dToken = token.toString();
-                              });
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(mmId)
-                                  .collection("subscribedVolunteers")
-                                  .doc(vId)
-                                  .set({'uid': vId, 'token': dToken})
-                                  .then((value) => {
-                                        response =
-                                            ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '
-                                      })
-                                  .catchError((error) =>
-                                      //////
-                                      {
-                                        response =
-                                            "لم يتم تفعيل التنبيهات بنجاح"
-                                      });
-                              //add to mm
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(vId)
-                                  .collection("subscribedMosqueManager")
-                                  .doc(mmId)
-                                  .set({'mosque_name': mmName, 'mmId': mmId});
-                            }
-
-                            //Unsubscribe
-
-                            else {
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(mmId)
-                                  .collection("subscribedVolunteers")
-                                  .doc(vId)
-                                  .delete()
-                                  .then((value) => {
-                                        response =
-                                            ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '
-                                      })
-                                  .catchError((error) => {
-                                        response =
-                                            "لم يتم إلغاء التنبيهات بنجاح"
-                                      });
-
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(vId)
-                                  .collection("subscribedMosqueManager")
-                                  .doc(mmId)
-                                  .delete();
-                            }
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('error to subscribe $e')));
-                          }
-
-                          showAlertDialog(context, response);
-                        }),
-                    //If not subscribed let it be yellow else grey
-
                     IconButton(
                       icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
                       onPressed: () async {
