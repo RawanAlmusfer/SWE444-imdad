@@ -14,17 +14,11 @@ class ListViewModel with ChangeNotifier {
         .doc(user?.uid.toString())
         .collection("subscribedMosqueManager")
         .snapshots();
-    // _mosques = firebase.orderBy('uplaod_time', descending: true).snapshots();
+
     notifyListeners();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? get mosques {
     return _mosques;
   }
-
-  // List<String> get getIsVSubscribed {
-  //   print("in getIsVSubscribed FVM");
-  //   return isVSubscribed;
-  // }
-
 }
