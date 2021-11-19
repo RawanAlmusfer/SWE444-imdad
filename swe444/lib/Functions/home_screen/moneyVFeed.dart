@@ -10,9 +10,7 @@ import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/home_screen/v_subscribe/subscribe.dart';
 import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-
 import '../CustomPageRoute.dart';
 import 'itemsVFeed.dart';
 
@@ -422,8 +420,6 @@ class mvFeed extends State<mv_feed> {
                                     .collection("subscribedMosqueManager")
                                     .doc(mmId)
                                     .set({'mosque_name': mmName, 'mmId': mmId});
-
-
                               }
 
                               //Unsubscribe
@@ -448,9 +444,8 @@ class mvFeed extends State<mv_feed> {
                                     .collection('users')
                                     .doc(vId)
                                     .collection("subscribedMosqueManager")
-                                    .doc(mmId).delete();
-
-
+                                    .doc(mmId)
+                                    .delete();
                               }
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -482,9 +477,131 @@ class mvFeed extends State<mv_feed> {
     }
   }
 
+  Widget BuildSubscribedProfile(String name, String id) {
+    return Container(
+      padding: EdgeInsets.all(30),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 10, bottom: 20),
+            height: 80,
+            width: 80,
+            child: SvgPicture.string(
+              mosqueImage,
+              allowDrawingOutsideViewBox: true,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Text(
+            "مسجد " + name,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontFamily: 'Tajawal',
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffededed),
+                      spreadRadius: 1,
+                      blurRadius: 10),
+                ],
+              ),
+              height: 30,
+              width: 70,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await subscription(name, id);
 
+                  ///Here Deema
+                },
+                child: Text(
+                  "تابع",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
+                ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(65.w, 30.h),
+                  primary: const Color(0xdeedd03c),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  Future<void> subscription(String mmId,String mmName) async {
+  Widget BuildUnsubscribedProfile(String name, String id) {
+    return Container(
+      padding: EdgeInsets.all(30),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 10, bottom: 20),
+            height: 80,
+            width: 80,
+            child: SvgPicture.string(
+              mosqueImage,
+              allowDrawingOutsideViewBox: true,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Text(
+            "مسجد " + name,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontFamily: 'Tajawal',
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffededed),
+                      spreadRadius: 1,
+                      blurRadius: 10),
+                ],
+              ),
+              height: 30,
+              width: 120,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Unsubscribe Raneem
+                },
+                child: Text(
+                  "إلغاء المتابعة",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
+                ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(65.w, 30.h),
+                  primary: const Color(0xdeedd03c),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> subscription(String mmId, String mmName) async {
     String vId = await FirebaseAuth.instance.currentUser!.uid;
     String? dToken;
     String? response = '';
@@ -505,18 +622,14 @@ class mvFeed extends State<mv_feed> {
           isExsited = true;
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text(
-                      'محتويات هذا المتطوع فارغة')));
+              SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
         }
       } else {
         print('المتطوع ليس مسجل بقائمة المتطوعين');
       }
 
       if (!isExsited) {
-        FirebaseMessaging.instance
-            .getToken()
-            .then((token) {
+        FirebaseMessaging.instance.getToken().then((token) {
           dToken = token.toString();
         });
         await FirebaseFirestore.instance
@@ -525,16 +638,11 @@ class mvFeed extends State<mv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
-            .then((value) => {
-          response =
-          ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '
-        })
+            .then((value) =>
+                {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
             .catchError((error) =>
-        //////
-        {
-          response =
-          "لم يتم تفعيل التنبيهات بنجاح"
-        });
+                //////
+                {response = "لم يتم تفعيل التنبيهات بنجاح"});
         //add to mm
         await FirebaseFirestore.instance
             .collection('users')
@@ -542,8 +650,6 @@ class mvFeed extends State<mv_feed> {
             .collection("subscribedMosqueManager")
             .doc(mmId)
             .set({'mosque_name': mmName, 'mmId': mmId});
-
-
       }
 
       //Unsubscribe
@@ -555,27 +661,20 @@ class mvFeed extends State<mv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) => {
-          response =
-          ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '
-        })
-            .catchError((error) => {
-          response =
-          "لم يتم إلغاء التنبيهات بنجاح"
-        });
+            .then((value) =>
+                {response = ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '})
+            .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
             .collection('users')
             .doc(vId)
             .collection("subscribedMosqueManager")
-            .doc(mmId).delete();
-
-
+            .doc(mmId)
+            .delete();
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('error to subscribe $e')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('error to subscribe $e')));
     }
 
     showAlertDialog(context, response);
@@ -591,12 +690,9 @@ class mvFeed extends State<mv_feed> {
       ),
       style: ButtonStyle(
           backgroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
       onPressed: () {
-
         Navigator.of(context).pop(context);
-
-
       },
     );
 
@@ -642,7 +738,6 @@ class mvFeed extends State<mv_feed> {
       return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
     }
   }
-
 }
 
 Future<bool> isSubscribed(String mID) async {
@@ -668,126 +763,6 @@ Future<bool> isSubscribed(String mID) async {
     return true;
   }
   return false;
-}
-
-Widget BuildSubscribedProfile(String name, String id) {
-  return Container(
-    padding: EdgeInsets.all(30),
-    child: Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(left: 10, bottom: 20),
-          height: 80,
-          width: 80,
-          child: SvgPicture.string(
-            mosqueImage,
-            allowDrawingOutsideViewBox: true,
-            fit: BoxFit.fill,
-          ),
-        ),
-        Text(
-          "مسجد " + name,
-          style: TextStyle(
-            fontSize: 18.0,
-            fontFamily: 'Tajawal',
-          ),
-          textAlign: TextAlign.center,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: Color(0xffededed), spreadRadius: 1, blurRadius: 10),
-              ],
-            ),
-            height: 30,
-            width: 70,
-            child: ElevatedButton(
-              onPressed: () async {
-                await
-                ///Here Deema
-              subscription(name,id);
-              },
-              child: Text(
-                "تابع",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'Tajawal', color: const Color(0xff334856)),
-              ),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(65.w, 30.h),
-                primary: const Color(0xdeedd03c),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget BuildUnsubscribedProfile(String name, String id) {
-  return Container(
-    padding: EdgeInsets.all(30),
-    child: Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(left: 10, bottom: 20),
-          height: 80,
-          width: 80,
-          child: SvgPicture.string(
-            mosqueImage,
-            allowDrawingOutsideViewBox: true,
-            fit: BoxFit.fill,
-          ),
-        ),
-        Text(
-          "مسجد " + name,
-          style: TextStyle(
-            fontSize: 18.0,
-            fontFamily: 'Tajawal',
-          ),
-          textAlign: TextAlign.center,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: Color(0xffededed), spreadRadius: 1, blurRadius: 10),
-              ],
-            ),
-            height: 30,
-            width: 120,
-            child: ElevatedButton(
-              onPressed: () {
-                // Unsubscribe Raneem
-              },
-              child: Text(
-                "إلغاء المتابعة",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'Tajawal', color: const Color(0xff334856)),
-              ),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(65.w, 30.h),
-                primary: const Color(0xdeedd03c),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
 }
 
 Widget _buildWaitingScreen() {
