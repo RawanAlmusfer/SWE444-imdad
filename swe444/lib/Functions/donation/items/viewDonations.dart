@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,19 +13,21 @@ import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 
 import 'donation_view_model.dart';
 
-class ViewItemDonations extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DonationsViewModel>(
-        create: (_) => DonationsViewModel(),
-        child: Container(height: 1200, width: 450, child: ViewDonations()));
-  }
-}
+// class ViewItemDonations extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return ChangeNotifierProvider<DonationsViewModel>(
+//         create: (_) => DonationsViewModel(),
+//         child: Container(height: 1200, width: 450, child: ViewDonations()));
+//   }
 
-class ViewDonations extends StatefulWidget {
-  const ViewDonations({
-    Key? key,
-  }) : super(key: key);
+// }
+
+class ViewItemDonations extends StatefulWidget {
+  ViewItemDonations.ensureInitialized(this.document);
+  final DocumentSnapshot document;
+
+  const ViewItemDonations({Key? key, required this.document}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -31,10 +35,8 @@ class ViewDonations extends StatefulWidget {
   }
 }
 
-class requestDonations extends State<ViewDonations> {
-  var names = {"ديمه", "الاء"};
-  var num = {2, 3};
-
+class requestDonations extends State<ViewItemDonations> {
+//String
   @override
   void initState() {
     super.initState();
@@ -42,9 +44,9 @@ class requestDonations extends State<ViewDonations> {
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>>? donations =
-        Provider.of<DonationsViewModel>(context, listen: false).items;
-
+    // Stream<QuerySnapshot<Map<String, dynamic>>>? donations =
+    //     Provider.of<DonationsViewModel>(context, listen: false).items;
+    print(widget.document.id.toString());
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(
@@ -95,7 +97,11 @@ class requestDonations extends State<ViewDonations> {
           //     itemBuilder: (BuildContext context, int index) =>
           //         buildCards(context, index)));
           StreamBuilder(
-              stream: donations,
+              stream: FirebaseFirestore.instance
+                  .collection('requests')
+                  .doc(widget.document.id)
+                  .collection("donations")
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return _buildWaitingScreen();
                 return ListView.builder(
@@ -108,91 +114,105 @@ class requestDonations extends State<ViewDonations> {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    return Container(
-      padding: const EdgeInsets.only(top: 5.0, bottom: 0, left: 20, right: 20),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(19.0),
-        ),
-        shadowColor: Color(0xdef3f1e9),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
+    if (document['status'] == "unconfirmed") {
+      return Container(
+        padding:
+            const EdgeInsets.only(top: 5.0, bottom: 0, left: 20, right: 20),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(19.0),
+          ),
+          shadowColor: Color(0xdef3f1e9),
           child: Padding(
-            padding: const EdgeInsets.only(
-                top: 12.0, bottom: 12.0, left: 2, right: 10),
-            child: Row(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 5.0, bottom: 5.0, left: 2, right: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0xffededed),
-                          spreadRadius: 1,
-                          blurRadius: 10),
-                    ],
-                  ),
-                  height: 30,
-                  width: 65,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      "وصل",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: 'Tajawal',
-                          color: const Color(0xff334856)),
+            padding: const EdgeInsets.all(15.0),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 12.0, bottom: 12.0, left: 2, right: 10),
+              child: Row(children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0xffededed),
+                            spreadRadius: 1,
+                            blurRadius: 10),
+                      ],
                     ),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(65.w, 30.h),
-                      primary: const Color(0xdeedd03c),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
+                    height: 30,
+                    width: 65,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await FirebaseFirestore.instance
+                            .collection('requests')
+                            .doc(widget.document.id)
+                            .collection("donations")
+                            .doc(document.id)
+                            .set({
+                          'date': document['date'],
+                          'donated_by': document['donated_by'],
+                          'num_of_items': document['num_of_items'],
+                          'status': "confirmed"
+                        });
+                      },
+                      child: Text(
+                        "وصل",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'Tajawal',
+                            color: const Color(0xff334856)),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(65.w, 30.h),
+                        primary: const Color(0xdeedd03c),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const Spacer(),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10, top: 5),
-                    child: Text(
-                      document['donated_by'].toString(),
-                      style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 0, top: 5),
-                    child: Row(children: <Widget>[
-                      //Text(document['amount_requested'].toString()),
-                      Text("       5"),
-                      const Text(
-                        " :العدد",
-                        style: TextStyle(fontFamily: 'Tajawal'),
+                const Spacer(),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10, top: 5),
+                      child: Text(
+                        document['donated_by'].toString(),
+                        style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                        textAlign: TextAlign.center,
                       ),
-                    ]),
-                  ),
-                ],
-              ),
-              Container(
-                child: Icon(
-                  Icons.person,
-                  size: 35,
-                  color: const Color(0xdeedd03c),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 0, top: 5),
+                      child: Row(children: <Widget>[
+                        //Text(document['amount_requested'].toString()),
+                        Text("       " + document['num_of_items'].toString()),
+                        const Text(
+                          " :العدد",
+                          style: TextStyle(fontFamily: 'Tajawal'),
+                        ),
+                      ]),
+                    ),
+                  ],
                 ),
-              ),
-            ]),
+                Container(
+                  child: Icon(
+                    Icons.person,
+                    size: 35,
+                    color: const Color(0xdeedd03c),
+                  ),
+                ),
+              ]),
+            ),
           ),
         ),
-      ),
-    );
-    // } else {
-    //   return Container();
-    // }
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget BuildSubscribedProfile(String name, String id) {
