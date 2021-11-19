@@ -85,8 +85,12 @@ class FeedViewModel with ChangeNotifier {
       while (i.moveNext()) {
         if (i.current["title"].toString().contains(query)) {
           if ((i.current['type'].toString() == "مبلغ" &&
-              i.current['donated'] < i.current['amount']) || (i.current['type'].toString() == "موارد" &&
-              i.current['donated'] < i.current['amount_requested'])) {
+              i.current['donated'] < i.current['amount']) ||
+              (i.current['type'].toString() == "موارد" &&
+              i.current['donated'] < i.current['amount_requested']) ||
+              (i.current['type'].toString() == "تنظيم" &&
+                  i.current['participants'] < i.current['parts_number'])
+          ) {
           String id = i.current.id;
           // print(id);
           if (!searchResults.contains(id)) {
@@ -106,8 +110,12 @@ class FeedViewModel with ChangeNotifier {
       while (i.moveNext()) {
         if (i.current["mosque_name"].toString().contains(query)) {
           if ((i.current['type'].toString() == "مبلغ" &&
-              i.current['donated'] < i.current['amount']) || (i.current['type'].toString() == "موارد" &&
-              i.current['donated'] < i.current['amount_requested'])) {
+              i.current['donated'] < i.current['amount']) ||
+              (i.current['type'].toString() == "موارد" &&
+                  i.current['donated'] < i.current['amount_requested']) ||
+              (i.current['type'].toString() == "تنظيم" &&
+                  i.current['participants'] < i.current['parts_number'])
+          ) {
             String id = i.current.id;
           // print(id);
           if (!searchResults.contains(id)) {
@@ -126,8 +134,12 @@ class FeedViewModel with ChangeNotifier {
       while (i.moveNext()) {
         if (i.current["description"].toString().contains(query)) {
           if ((i.current['type'].toString() == "مبلغ" &&
-              i.current['donated'] < i.current['amount']) || (i.current['type'].toString() == "موارد" &&
-              i.current['donated'] < i.current['amount_requested'])) {
+              i.current['donated'] < i.current['amount']) ||
+              (i.current['type'].toString() == "موارد" &&
+                  i.current['donated'] < i.current['amount_requested']) ||
+              (i.current['type'].toString() == "تنظيم" &&
+                  i.current['participants'] < i.current['parts_number'])
+          ) {
             String id = i.current.id;
             // print(id);
             if (!searchResults.contains(id)) {

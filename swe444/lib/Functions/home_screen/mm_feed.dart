@@ -71,20 +71,28 @@ class mmFeed extends State<mm_feed> {
 
   Widget buildCards(
       BuildContext context, DocumentSnapshot document, String? id) {
+
+    if (document['type'].toString() == "تنظيم")
+      return buildEventsCards(context, document, id);
+    else if (document['type'].toString() == "موارد")
+      return buildItemsCards(context, document, id);
+    else
+      return buildFundsCards(context, document, id);
+
+  }
+
+  Widget buildItemsCards(
+      BuildContext context, DocumentSnapshot document, String? id) {
+    double bottom = 5;
+    if (!document['description'].toString().isEmpty) {
+      bottom = 30;
+    }
+
     if (document['posted_by'].toString() == id) {
-      if (document['type'].toString() == "مبلغ") {
-        if (document['donated'] == document['amount']) {
-          return Container();
-        }
+      if (document['donated'] == document['amount_requested']) {
+        return Container();
       }
-      if (document['type'].toString() == "موارد") {
-        if (document['donated'] == document['amount_requested']) {
-          return Container();
-        }
-      }
-      // && document['donated'] != document['amount']
-      //print('posted user Id ' + document['posted_by'].toString());
-      //print('current user Id ' + id.toString());
+
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
         child: Card(
@@ -144,8 +152,7 @@ class mmFeed extends State<mm_feed> {
                 ),
                 // if(document['description'] != "")
                 Padding(
-                  padding:
-                      const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 70),
+                  padding: EdgeInsets.only(top: 4.0, bottom: bottom, right: 70),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Container(
@@ -158,58 +165,210 @@ class mmFeed extends State<mm_feed> {
                         )),
                   ]),
                 ),
-                if (document['type'].toString() == "مبلغ")
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 0.1, bottom: 20.0, right: 70),
-                    child: Row(children: <Widget>[
-                      const Spacer(),
-                      Text(document['amount'].toString()),
-                      const Text(
-                        " :المبلغ",
-                        style: TextStyle(fontFamily: 'Tajawal'),
-                      ),
-                    ]),
-                  ),
-                if (document['type'].toString() == "موارد")
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 0.1, bottom: 20.0, right: 70),
-                    child: Row(children: <Widget>[
-                      const Spacer(),
-                      Text(document['amount_requested'].toString()),
-                      const Text(
-                        " :العدد",
-                        style: TextStyle(fontFamily: 'Tajawal'),
-                      ),
-                    ]),
-                  ),
-                if (document['type'].toString() == "موارد")
-                  GestureDetector(
-                    onTap: () async {
-                      DonationsViewModel dnm = DonationsViewModel();
-                      dnm.setdocID = document.id.toString();
-                      String docID = document.id.toString();
-                      print("Doc ID hehe ____________" + dnm.docID.toString());
-                      Navigator.of(context).push(CustomPageRoute(
-                          child: ViewItemDonations(document: document)));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 0.1, bottom: 20.0, right: 70),
-                      child: Row(children: <Widget>[
-                        const Spacer(),
-                        const Text(
-                          " عرض التبرعات",
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              decoration: TextDecoration.underline,
-                              color: Color(0xdeedd03c)),
-                        ),
-                      ]),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 70),
+                  child: Row(children: <Widget>[
+                    const Spacer(),
+                    Text(document['amount_requested'].toString()),
+                    const Text(
+                      " :العدد",
+                      style: TextStyle(fontFamily: 'Tajawal'),
                     ),
+                  ]),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    DonationsViewModel dnm = DonationsViewModel();
+                    dnm.setdocID = document.id.toString();
+                    String docID = document.id.toString();
+                    print("Doc ID hehe ____________" + dnm.docID.toString());
+                    Navigator.of(context).push(CustomPageRoute(
+                        child: ViewItemDonations(document: document)));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0.1, bottom: 10.0, right: 70),
+                    child: Row(children: <Widget>[
+                      const Spacer(),
+                      const Text(
+                        " عرض التبرعات",
+                        style: TextStyle(
+                            fontFamily: 'Tajawal',
+                            decoration: TextDecoration.underline,
+                            color: Color(0xdeedd03c)),
+                      ),
+                    ]),
                   ),
+                ),
+                if (document['donated'].toString() == '0')
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Row(children: <Widget>[
+                      //This button for sprint 2
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xffededed),
+                                spreadRadius: 1,
+                                blurRadius: 10),
+                          ],
+                        ),
+                        height: 30,
+                        width: 75,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    EditRequest(document: document)));
+                          },
+                          child: Text(
+                            "تعديل",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'Tajawal',
+                                color: const Color(0xff334856)),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(65.w, 30.h),
+                            primary: const Color(0xdeedd03c),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                  ),
+                if (document['donated'].toString() != '0')
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Row(children: <Widget>[
+                      //This button for sprint 2
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xffededed),
+                                spreadRadius: 1,
+                                blurRadius: 10),
+                          ],
+                        ),
+                        height: 30,
+                        width: 75,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text(
+                            "تعديل",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'Tajawal', color: Colors.grey),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(65.w, 30.h),
+                            primary: const Color(0xffededed),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      //print('not included');
+      return Container();
+    }
+  }
 
+  Widget buildEventsCards(
+      BuildContext context, DocumentSnapshot document, String? id) {
+    double bottom = 5;
+    if (!document['description'].toString().isEmpty) {
+      bottom = 40;
+    }
+
+    if (document['posted_by'].toString() == id) {
+      return Container(
+        padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(19.0),
+          ),
+          shadowColor: Colors.blueGrey,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  child: Row(children: <Widget>[
+                    Container(
+                        width: 25,
+                        height: 52,
+                        padding: const EdgeInsets.only(
+                            top: 0, bottom: 25, left: 0, right: 0),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              padding:
+                                  MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                      const EdgeInsets.only(
+                                          top: 0,
+                                          bottom: 0,
+                                          left: 0,
+                                          right: 0)),
+                              elevation: MaterialStateProperty.all<double>(0),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white)),
+                          onPressed: () async {
+                            await showAlertDialog(document);
+                          },
+                          child: SvgPicture.string(
+                            cancelImage,
+                            allowDrawingOutsideViewBox: true,
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20, top: 5),
+                      child: Text(
+                        document['title'],
+                        style: TextStyle(fontSize: 22.0, fontFamily: 'Tajawal'),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SvgPicture.string(
+                      mosqueImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
+                    ),
+                  ]),
+                ),
+                // if(document['description'] != "")
+                Padding(
+                  padding: EdgeInsets.only(top: 4.0, bottom: bottom, right: 70),
+                  child: Row(children: <Widget>[
+                    const Spacer(),
+                    Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Text(
+                          document['description'],
+                          style: TextStyle(fontFamily: 'Tajawal'),
+                          textDirection: ui.TextDirection
+                              .rtl, // make the text from right to left
+                        )),
+                  ]),
+                ),
                 if (document['type'].toString() == "تنظيم")
                   Padding(
                     padding: const EdgeInsets.only(
@@ -258,11 +417,7 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
-                if (((document['type'].toString() == "موارد" ||
-                            document['type'].toString() == "مبلغ") &&
-                        document['donated'].toString() == '0') ||
-                    (document['type'].toString() == "تنظيم" &&
-                        document['participants'].toString() == '0'))
+                if (document['participants'].toString() == '0')
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
@@ -303,11 +458,7 @@ class mmFeed extends State<mm_feed> {
                       )
                     ]),
                   ),
-                if (((document['type'].toString() == "موارد" ||
-                            document['type'].toString() == "مبلغ") &&
-                        document['donated'].toString() != '0') ||
-                    (document['type'].toString() == "تنظيم" &&
-                        document['participants'].toString() != '0'))
+                if (document['participants'].toString() != '0')
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
@@ -354,10 +505,189 @@ class mmFeed extends State<mm_feed> {
     }
   }
 
-  // Future _fetch() async {
-  //   User? user = await FirebaseAuth.instance.currentUser;
-  //   return user?.uid.toString();
-  // }
+  Widget buildFundsCards(
+      BuildContext context, DocumentSnapshot document, String? id) {
+    double bottom = 5;
+    if (!document['description'].toString().isEmpty) {
+      bottom = 40;
+    }
+
+    if (document['posted_by'].toString() == id) {
+      if (document['donated'] == document['amount']) {
+        return Container();
+      }
+
+      return Container(
+        padding: const EdgeInsets.only(top: 10.0, left: 13, right: 13),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(19.0),
+          ),
+          shadowColor: Colors.blueGrey,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  child: Row(children: <Widget>[
+                    Container(
+                        width: 25,
+                        height: 52,
+                        padding: const EdgeInsets.only(
+                            top: 0, bottom: 25, left: 0, right: 0),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              padding:
+                                  MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                      const EdgeInsets.only(
+                                          top: 0,
+                                          bottom: 0,
+                                          left: 0,
+                                          right: 0)),
+                              elevation: MaterialStateProperty.all<double>(0),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white)),
+                          onPressed: () async {
+                            await showAlertDialog(document);
+                          },
+                          child: SvgPicture.string(
+                            cancelImage,
+                            allowDrawingOutsideViewBox: true,
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20, top: 5),
+                      child: Text(
+                        document['title'],
+                        style: TextStyle(fontSize: 22.0, fontFamily: 'Tajawal'),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SvgPicture.string(
+                      mosqueImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
+                    ),
+                  ]),
+                ),
+                // if(document['description'] != "")
+                Padding(
+                  padding: EdgeInsets.only(top: 4.0, bottom: bottom, right: 70),
+                  child: Row(children: <Widget>[
+                    const Spacer(),
+                    Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Text(
+                          document['description'],
+                          style: TextStyle(fontFamily: 'Tajawal'),
+                          textDirection: ui.TextDirection
+                              .rtl, // make the text from right to left
+                        )),
+                  ]),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 0.1, bottom: 20.0, right: 70),
+                  child: Row(children: <Widget>[
+                    const Spacer(),
+                    Text(document['amount'].toString()),
+                    const Text(
+                      " :المبلغ",
+                      style: TextStyle(fontFamily: 'Tajawal'),
+                    ),
+                  ]),
+                ),
+                if (document['donated'].toString() == '0')
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Row(children: <Widget>[
+                      //This button for sprint 2
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xffededed),
+                                spreadRadius: 1,
+                                blurRadius: 10),
+                          ],
+                        ),
+                        height: 30,
+                        width: 75,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    EditRequest(document: document)));
+                          },
+                          child: Text(
+                            "تعديل",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'Tajawal',
+                                color: const Color(0xff334856)),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(65.w, 30.h),
+                            primary: const Color(0xdeedd03c),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                  ),
+                if (document['donated'].toString() != '0')
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Row(children: <Widget>[
+                      //This button for sprint 2
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xffededed),
+                                spreadRadius: 1,
+                                blurRadius: 10),
+                          ],
+                        ),
+                        height: 30,
+                        width: 75,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text(
+                            "تعديل",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'Tajawal', color: Colors.grey),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(65.w, 30.h),
+                            primary: const Color(0xffededed),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      //print('not included');
+      return Container();
+    }
+  }
 
   String getTime(var timeStamp) {
     final DateFormat formatter =
