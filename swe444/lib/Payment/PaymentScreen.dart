@@ -98,7 +98,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       color: Color(0xff334856),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop(); 
+                      Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => moneyVFeed()));
+
                       //   Navigator.pop(context);
                     }),
               ),
@@ -134,7 +138,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       showCursor: true,
                       cursorColor: const Color(0xdeedd03c),
                       controller: _controller,
@@ -176,25 +179,30 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       validator: (value) {
                        // String text = _controller.text;
                         value =_controller.text;
+                        int donated = int.parse(value);
+                        int check = mv_feed.wholeAmount - mv_feed.wholeDonated;
 
                         if (value == null || value.isEmpty || value.trim().isEmpty)
                           return "الرجاء إدخال قيمة التبرع المرغوبة";
                         else
+
                         {
-                          if (value != null) {
-                            int donated = int.parse(value);
-                            int check = mv_feed.wholeAmount -
-                                mv_feed.wholeDonated;
-                            if (donated > 50000)
-                              return "أقصى قيمة للتبرع= 50000";
-                            if (donated < 10) return "أدنى قيمة للتبرع = 10";
+                          if (donated > 50000) return "أقصى قيمة للتبرع= 50000";
+                          if (donated < 10) return "أدنى قيمة للتبرع = 10";
 
-                            if (check == 0)
-                              return "الحالة مكتملة ، شكراً لتعاونك";
+                          if (check == 0)
+                            return "الحالة مكتملة ، شكراً لتعاونك";
 
-                            if (donated > mv_feed.wholeAmount)
-                              return " قيمة التبرع أكبر من المبلغ المطلوب ، المبلغ المتبقي $check";
-                          }}
+                            if (donated > mv_feed.wholeAmount )
+                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
+
+                            if(donated==mv_feed.wholeAmount && check != 0)
+                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
+
+
+
+                          }
+
 
                       //  return "الرجاء إدخال قيمة عددية";
                         // return null if the text is valid
@@ -216,13 +224,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     PaymentScreen.vDonatedAmount =
                         int.parse(_controller.text);
                    // int? inGate = (PaymentScreen.vDonatedAmount!* 0.27 ).toInt();
-                     double? inGate = PaymentScreen.vDonatedAmount!* 0.27;
+                    // double? inGate = PaymentScreen.vDonatedAmount!* 0.27;
+                  int? inGate = PaymentScreen.vDonatedAmount;
 
                     String? mmEmailToGate = mv_feed.mmEmailDonated;
                     String? mmNameToGate = mv_feed.mmNameDonated;
                     //   String description = '$mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني  $mmNameToGate ريال سعودي لصالح المسجد $inGate التبرع بالمبلغ ';
                     List<String> list = [
-                      "التبرع بالمبلغ $inGate  \$ ",
+                      "التبرع بالمبلغ $inGate  SR ",
                       " لصالح مسجد $mmNameToGate ",
                       " $mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني "
                     ];
@@ -235,12 +244,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                     var response = await StripeServices.payNowHandler(
                         amount: amount,
-                        currency: 'USD',
+                        currency: 'SAR',
                         description: description);
-                    print(response.message);
+                   // print(response.message);
 
                     showAlertDialog(context, response);
-                    feedbackResponseDonation(response);
+                   // feedbackResponseDonation(response);
                   } else {
 
                     String errorMessage= 'الرجاء التأكد من القيمة العددية المدخلة';
@@ -289,9 +298,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 //PaymentScreen();
         Navigator.of(context).pop(context);
 
-        if ((response.message) == 'تمت عملية الدفع بنجاح') {
-          Navigator.of(context).pop(context);
-        }
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
       },
     );
 

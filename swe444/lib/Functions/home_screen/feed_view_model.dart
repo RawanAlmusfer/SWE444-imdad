@@ -6,6 +6,8 @@ import 'package:url_launcher/url_launcher.dart';
 class FeedViewModel with ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _requests;
 
+  // late bool? isVSubscribed;
+  late List<String> isVSubscribed = [];
   Stream<QuerySnapshot<Map<String, dynamic>>>? _requests2;
   late List<String> searchResults = [];
   late int length;
@@ -20,7 +22,6 @@ class FeedViewModel with ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>>? get requests {
     return _requests;
   }
-  
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? get requests2 {
     return _requests2;
@@ -34,6 +35,7 @@ class FeedViewModel with ChangeNotifier {
     return length;
   }
 
+
   Future<void> lunchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -42,6 +44,34 @@ class FeedViewModel with ChangeNotifier {
     }
   }
 
+
+  // Future<void> subscribedList() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //
+  //   var userList = await FirebaseFirestore.instance.collection('users').get();
+  //
+  //   FirebaseFirestore.instance
+  //       .collection('users')
+  //       .where('role', isEqualTo: "mosqueManager")
+  //       .get()
+  //       .then((snapshot) {
+  //     snapshot.docs.forEach((mosqueManager) {
+  //       var isHere =
+  //       FirebaseFirestore
+  //           .instance
+  //           .collection("users")
+  //           .doc(mosqueManager.id)
+  //           .collection("subscribedVolunteers")
+  //           .doc(user?.uid.toString());
+  //       if (isHere != null) {
+  //         if (!isVSubscribed.contains(mosqueManager.id)) isVSubscribed.add(
+  //             mosqueManager.id);
+  //       } else {
+  //         print("not a fan hehehe:" + mosqueManager.id.toString());
+  //       }
+  //     });
+  //   });
+  // }
 
   Future QueryRequests(String query) async {
     searchResults.clear();
@@ -110,4 +140,5 @@ class FeedViewModel with ChangeNotifier {
     notifyListeners();
 
   }
+
 }
