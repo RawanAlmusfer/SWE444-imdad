@@ -4,8 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/donation/items/donation_view_model.dart';
+import 'package:swe444/Functions/donation/items/viewDonations.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/request/edit_request_view.dart';
+import '../CustomPageRoute.dart';
 import '../request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 import 'package:intl/intl.dart';
@@ -123,44 +126,6 @@ class mmFeed extends State<mm_feed> {
                             fit: BoxFit.fill,
                           ),
                         )),
-                    // Container(
-                    //     width: 25,
-                    //     height: 52,
-                    //     padding: const EdgeInsets.only(
-                    //         top: 0, bottom: 25, left: 0, right: 0),
-                    //     child: ElevatedButton(
-                    //       style: ButtonStyle(
-                    //           padding:
-                    //           MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    //               const EdgeInsets.only(
-                    //                   top: 0,
-                    //                   bottom: 0,
-                    //                   left: 0,
-                    //                   right: 0)),
-                    //           elevation: MaterialStateProperty.all<double>(0),
-                    //           backgroundColor: MaterialStateProperty.all<Color>(
-                    //               Colors.white)),
-                    //       onPressed: () async {
-                    //         await showAlertDialogEdit(document);
-                    //       },
-                    //       child: const Icon(
-                    //         Icons.edit,
-                    //         color: Color(0xdeedd03c),
-                    //         size: 25.0,
-                    //       ),
-
-                    //     )),
-                    // if (document['donated'].toString() != '0')
-                    //   Container(
-                    //       width: 25,
-                    //       height: 52,
-                    //       padding: const EdgeInsets.only(
-                    //           top: 0, bottom: 25, left: 0, right: 0),
-                    //       child: const Icon(
-                    //         Icons.edit,
-                    //         color: Color(0xff808080),
-                    //         size: 25.0,
-                    //       )),
                     const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(right: 20, top: 5),
@@ -219,6 +184,32 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
+                if (document['type'].toString() == "موارد")
+                  GestureDetector(
+                    onTap: () async {
+                      DonationsViewModel dnm = DonationsViewModel();
+                      dnm.setdocID = document.id.toString();
+                      String docID = document.id.toString();
+                      print("Doc ID hehe ____________" + dnm.docID.toString());
+                      Navigator.of(context).push(CustomPageRoute(
+                          child: ViewItemDonations(document: document)));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 0.1, bottom: 20.0, right: 70),
+                      child: Row(children: <Widget>[
+                        const Spacer(),
+                        const Text(
+                          " عرض التبرعات",
+                          style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              decoration: TextDecoration.underline,
+                              color: Color(0xdeedd03c)),
+                        ),
+                      ]),
+                    ),
+                  ),
+
                 if (document['type'].toString() == "تنظيم")
                   Padding(
                     padding: const EdgeInsets.only(
