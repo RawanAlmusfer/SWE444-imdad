@@ -69,7 +69,7 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff6a6a6a)),
+      style: TextStyle(fontSize: 17, color: const Color(0xff6a6a6a)),
       textAlign: TextAlign.right,
       controller: _email,
       decoration: InputDecoration(
@@ -131,7 +131,7 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 17, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _fname,
       decoration: InputDecoration(
@@ -194,7 +194,7 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 17, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _lname,
       decoration: InputDecoration(
@@ -260,7 +260,7 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
       keyboardType: TextInputType.phone,
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 17, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       controller: _phone,
       decoration: InputDecoration(
