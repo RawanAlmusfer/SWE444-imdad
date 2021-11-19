@@ -48,7 +48,8 @@ class mvFeed extends State<mv_feed> {
     super.initState();
     Future.delayed(
         Duration.zero,
-        () => setState(() {
+            () =>
+            setState(() {
               setup();
             }));
   }
@@ -60,7 +61,9 @@ class mvFeed extends State<mv_feed> {
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-        Provider.of<FeedViewModel>(context, listen: false).requests;
+        Provider
+            .of<FeedViewModel>(context, listen: false)
+            .requests;
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(
@@ -110,8 +113,9 @@ class mvFeed extends State<mv_feed> {
             if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-              itemBuilder: (BuildContext context, int index) => buildCards(
-                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+              itemBuilder: (BuildContext context, int index) =>
+                  buildCards(
+                      context, (snapshot.data! as QuerySnapshot).docs[index]),
             );
           }),
     );
@@ -133,21 +137,23 @@ class mvFeed extends State<mv_feed> {
                   ),
                 ),
                 context: context,
-                builder: (context) => BuildSubscribedProfile(
-                    document['mosque_name'].toString(),
-                    document['posted_by'].toString()));
+                builder: (context) =>
+                    BuildSubscribedProfile(
+                        document['mosque_name'].toString(),
+                        document['posted_by'].toString()));
           } else {
             showModalBottomSheet(
-                //isScrollControlled: true,
+              //isScrollControlled: true,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(19.0),
                   ),
                 ),
                 context: context,
-                builder: (context) => BuildUnsubscribedProfile(
-                    document['mosque_name'].toString(),
-                    document['posted_by'].toString()));
+                builder: (context) =>
+                    BuildUnsubscribedProfile(
+                        document['mosque_name'].toString(),
+                        document['posted_by'].toString()));
           }
           //await
           //Navigator.of(context).push(CustomPageRoute(child: itemsVFeed()));
@@ -174,7 +180,7 @@ class mvFeed extends State<mv_feed> {
                           child: Text(
                             "مسجد " + document['mosque_name'],
                             style:
-                                TextStyle(fontFamily: 'Tajawal', fontSize: 12),
+                            TextStyle(fontFamily: 'Tajawal', fontSize: 12),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -185,7 +191,7 @@ class mvFeed extends State<mv_feed> {
                         child: Text(
                           document['title'],
                           style:
-                              TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                          TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
                           // textAlign: TextAlign.left,
                         ),
                       ),
@@ -361,7 +367,7 @@ class mvFeed extends State<mv_feed> {
                               color: Color(0xdeedd03c)),
                           onPressed: () async {
                             String vId =
-                                await FirebaseAuth.instance.currentUser!.uid;
+                            await FirebaseAuth.instance.currentUser!.uid;
                             String mmId = document['posted_by'];
                             String mmName = document['mosque_name'];
                             String? dToken;
@@ -403,16 +409,17 @@ class mvFeed extends State<mv_feed> {
                                     .collection("subscribedVolunteers")
                                     .doc(vId)
                                     .set({'uid': vId, 'token': dToken})
-                                    .then((value) => {
-                                          response =
-                                              ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '
-                                        })
+                                    .then((value) =>
+                                {
+                                  response =
+                                  ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '
+                                })
                                     .catchError((error) =>
-                                        //////
-                                        {
-                                          response =
-                                              "لم يتم تفعيل التنبيهات بنجاح"
-                                        });
+                                //////
+                                {
+                                  response =
+                                  "لم يتم تفعيل التنبيهات بنجاح"
+                                });
                                 //add to mm
                                 await FirebaseFirestore.instance
                                     .collection('users')
@@ -431,14 +438,16 @@ class mvFeed extends State<mv_feed> {
                                     .collection("subscribedVolunteers")
                                     .doc(vId)
                                     .delete()
-                                    .then((value) => {
-                                          response =
-                                              ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '
-                                        })
-                                    .catchError((error) => {
-                                          response =
-                                              "لم يتم إلغاء التنبيهات بنجاح"
-                                        });
+                                    .then((value) =>
+                                {
+                                  response =
+                                  ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '
+                                })
+                                    .catchError((error) =>
+                                {
+                                  response =
+                                  "لم يتم إلغاء التنبيهات بنجاح"
+                                });
 
                                 await FirebaseFirestore.instance
                                     .collection('users')
@@ -577,8 +586,8 @@ class mvFeed extends State<mv_feed> {
               height: 30,
               width: 120,
               child: ElevatedButton(
-                onPressed: () {
-                  // Unsubscribe Raneem
+                onPressed: () async {
+                  await subscription(name, id);
                 },
                 child: Text(
                   "إلغاء المتابعة",
@@ -639,10 +648,10 @@ class mvFeed extends State<mv_feed> {
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
             .then((value) =>
-                {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+        {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
             .catchError((error) =>
-                //////
-                {response = "لم يتم تفعيل التنبيهات بنجاح"});
+        //////
+        {response = "لم يتم تفعيل التنبيهات بنجاح"});
         //add to mm
         await FirebaseFirestore.instance
             .collection('users')
@@ -662,7 +671,7 @@ class mvFeed extends State<mv_feed> {
             .doc(vId)
             .delete()
             .then((value) =>
-                {response = ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '})
+        {response = ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -690,7 +699,7 @@ class mvFeed extends State<mv_feed> {
       ),
       style: ButtonStyle(
           backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+          MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
       onPressed: () {
         Navigator.of(context).pop(context);
       },
