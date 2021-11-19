@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
-import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
-
-import 'package:url_launcher/url_launcher.dart';
 
 class SearchPage extends StatelessWidget {
   @override
@@ -36,172 +35,180 @@ class SearchRequests extends StatefulWidget {
 }
 
 class _SearchRequests extends State<SearchRequests> {
-  //int? donated= PaymentScreen.vDonatedAmount;
-  bool isExecuted = true;
+  int? donated = PaymentScreen.vDonatedAmount;
+  bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
-  int i=0;
-
+  String search = "";
+  int i = 0;
+  int numOfResults = 0;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-        Duration.zero,
-        () => setState(() {
-              setup();
-            }));
   }
 
-  setup() async {
-    if (isExecuted == true) {
-      await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
-    }
+  void dispose() {
+    super.dispose();
+  }
+
+  searchFunc(String s) async {
+    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
+    Provider.of<FeedViewModel>(context, listen: false).getSearchResults.clear();
+    await Provider.of<FeedViewModel>(context, listen: false)
+        .QueryRequests(s.trim());
   }
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-        Provider.of<FeedViewModel>(context, listen: false).requests;
-    if (isExecuted == true) {
+    {
       return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color(0xffededed),
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          actions: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 30.0, right: 30, top: 15, bottom: 0),
-                child: TextField(
-                  maxLines: 1,
-                  controller: searchTerm,
-                  onChanged: (_val) {
-                    if (_val != null) searchTerm.text = _val;
-                  },
-                  showCursor: true,
-                  cursorColor: const Color(0xdeedd03c),
-                  style:
-                      TextStyle(fontSize: 18, color: const Color(0xff334856)),
-                  textAlign: TextAlign.right,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xbfffffff),
-                    // counterText: '${_enteredText.length.toString()}character(s)',
-                    contentPadding: EdgeInsets.only(right: 20, top: 15),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 0.20,
-                        color: const Color(0xffc1c1c1),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: AppBar(
+            backgroundColor: const Color(0xffededed),
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            flexibleSpace: Padding(
+              padding: const EdgeInsets.only(
+                  left: 30.0, right: 30, top: 20, bottom: 10),
+              child: Stack(
+                children: [
+                  TextField(
+                    maxLines: 1,
+                    controller: searchTerm,
+                    onChanged: (_val) {
+                      if (_val != null) {
+                        searchTerm.text = _val;
+                        search = searchTerm.text;
+                        setState(() {
+                          Future.delayed(
+                              Duration.zero,
+                              () => setState(() {
+                                    searchFunc(search);
+                                  }));
+                        });
+                      }
+                    },
+                    showCursor: true,
+                    cursorColor: const Color(0xdeedd03c),
+                    style:
+                        TextStyle(fontSize: 17, color: const Color(0xff334856)),
+                    textAlign: TextAlign.right,
+                    decoration: InputDecoration(
+                      // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
+                      filled: true,
+                      fillColor: Color(0xbfffffff),
+                      contentPadding: EdgeInsets.only(right: 20, top: 3),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 0.20,
+                          color: const Color(0xffc1c1c1),
+                        ),
+                        borderRadius: BorderRadius.circular(30),
                       ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(
-                        color: const Color(0xdeedd03c),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide(
+                          color: const Color(0xdeedd03c),
+                        ),
                       ),
+                      prefixStyle: TextStyle(
+                          fontSize: 17, color: const Color(0xff334856)),
+                      hoverColor: const Color(0xff334856),
+                      hintText: "إبحث عن",
+                      hintStyle: TextStyle(
+                          fontSize: 16,
+                          color: const Color(0xffcbcbcc),
+                          fontFamily: 'Tajawal'),
+                      labelStyle: TextStyle(
+                          fontSize: 15,
+                          color: const Color(0xff334856),
+                          fontFamily: 'Tajawal'),
+                      alignLabelWithHint: true,
+                      //border: OutlineInputBorder(),
+                      // hoverColor: const Color(0xff334856),
                     ),
-                    prefixStyle:
-                        TextStyle(fontSize: 15, color: const Color(0xff334856)),
-                    hoverColor: const Color(0xff334856),
-                    hintStyle: TextStyle(
-                        fontSize: 13,
-                        color: const Color(0xffcbcbcc),
-                        fontFamily: 'Tajawal'),
-                    labelStyle: TextStyle(
-                        fontSize: 15,
-                        color: const Color(0xff334856),
-                        fontFamily: 'Tajawal'),
-                    alignLabelWithHint: true,
-                    //border: OutlineInputBorder(),
-                    // hoverColor: const Color(0xff334856),
                   ),
-                ),
+                  IconButton(
+                      onPressed: () {
+                        search = searchTerm.text;
+                        setState(() {
+                          Future.delayed(
+                              Duration.zero,
+                              () => setState(() {
+                                    searchFunc(search);
+                                  }));
+                        });
+                      },
+                      icon: Icon(Icons.search, color: const Color(0xdeedd03c))),
+                ],
               ),
             ),
-          ],
+          ),
         ),
         backgroundColor: const Color(0xffededed),
-        body: StreamBuilder(
-            stream: requests,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return _buildWaitingScreen();
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                itemBuilder: (BuildContext context, int index) => buildCards(
-                    context, (snapshot.data! as QuerySnapshot).docs[index]),
-              );
-            }),
-      );
-    } else
-      return Scaffold(
-        backgroundColor: const Color(0xffededed),
-        body: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              child: TextField(
-                maxLines: 1,
-                maxLength: 30,
-                controller: searchTerm,
-                onSubmitted: (_val) {
-                  if (_val != null) searchTerm.text = _val;
-                },
-                showCursor: true,
-                cursorColor: const Color(0xdeedd03c),
-                style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-                textAlign: TextAlign.right,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Color(0xffffffff),
-                  // counterText: '${_enteredText.length.toString()}character(s)',
-                  contentPadding: EdgeInsets.only(right: 20, top: 15),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 0.50),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    // width: 0.0 produces a thin "hairline" border
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(
-                      color: const Color(0xdeedd03c),
-                    ),
-                  ),
-                  prefixStyle:
-                      TextStyle(fontSize: 15, color: const Color(0xff334856)),
-                  hoverColor: const Color(0xff334856),
-                  hintStyle: TextStyle(
-                      fontSize: 13,
-                      color: const Color(0xffcbcbcc),
-                      fontFamily: 'Tajawal'),
-                  labelStyle: TextStyle(
-                      fontSize: 15,
-                      color: const Color(0xff334856),
-                      fontFamily: 'Tajawal'),
-                  alignLabelWithHint: true,
-                  //border: OutlineInputBorder(),
-                  // hoverColor: const Color(0xff334856),
-                ),
-              ),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 0.0),
+          child: ListView(
+            shrinkWrap: false,
+            physics: ScrollPhysics(),
+              children: [
+                StreamBuilder(
+                    stream:
+                        Provider.of<FeedViewModel>(context, listen: false).requests,
+                    builder: (context, snapshot) {
+                      if (Provider.of<FeedViewModel>(context, listen: false)
+                              .getSearchResults
+                              .length ==
+                          0)
+                        return Container(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top:150.0),
+                            child: Text("لا يوجد نتائج مطابقة للبحث"),
+                          ),
+                        );
+                      // return _buildWaitingScreen();
+                      return ListView.builder(
+                        shrinkWrap: true,
+                          physics: ScrollPhysics(),
+                        itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (BuildContext context, int index) => buildCards(
+                            context, (snapshot.data! as QuerySnapshot).docs[index]),
+                      );
+                    }),
+                if (numOfResults > 0)
+                Container(
+                    margin: const EdgeInsets.only(top: 30.0, bottom: 20),
+                    alignment: Alignment.bottomCenter,
+                    child: Text("نتائج البحث: $numOfResults", style: TextStyle(color: Color(
+                        0xff8b8b8b)), ))
+              ],
             ),
-            Container(
-              alignment: Alignment.center,
-              child: Text("no results"),
-            ),
-          ],
-        ),
-      );
+          ));
+    }
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    i++;
-    if (document["mosque_name"].toString().contains(searchTerm.text)) {
+    if (Provider.of<FeedViewModel>(context, listen: false)
+        .getSearchResults
+        .contains(document.id)) {
       if (document['type'].toString() == "مبلغ" &&
-          document['donated'] != document['amount']) {
+          document['donated'] < document['amount']) {
+        if (Provider.of<FeedViewModel>(context, listen: false)
+                .getSearchResults
+                .first ==
+            document.id) {
+          SchedulerBinding.instance!.addPostFrameCallback((_) {
+            if (mounted)
+              setState(() {
+              numOfResults = Provider.of<FeedViewModel>(context, listen: false)
+                  .getSearchResults
+                  .length;
+            });
+          });
+        }
         return Container(
           padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
           child: Card(
@@ -415,13 +422,48 @@ class _SearchRequests extends State<SearchRequests> {
                       ),
                     ]),
                   ),
+                  // if(Provider.of<FeedViewModel>(context, listen: false)
+                  //     .getSearchResults
+                  //     .last == document.id)
+                  //   Padding(
+                  //     padding: const EdgeInsets.only(
+                  //         top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  //     child: Row(children: <Widget>[
+                  //       Row(
+                  //         children: [
+                  //           Padding(
+                  //             padding: EdgeInsets.only(top: 48),
+                  //             child: Text(
+                  //               "النتائج: ${numOfResults}",
+                  //               textAlign: TextAlign.right,
+                  //               style:
+                  //               TextStyle(color: Color(0xde747474), fontSize: 12),
+                  //             ),
+                  //           )
+                  //         ],
+                  //       ),
+                  //     ]),
+                  //   ),
                 ],
               ),
             ),
           ),
         );
-      } else if (document['type'].toString() == "موارد") {
-        // here is the type
+      } else if (document['type'].toString() == "موارد" &&
+          document['donated'] < document['amount_requested']) {
+        if (Provider.of<FeedViewModel>(context, listen: false)
+                .getSearchResults
+                .first ==
+            document.id) {
+          SchedulerBinding.instance!.addPostFrameCallback((_) {
+            if (mounted)
+            setState(() {
+              numOfResults = Provider.of<FeedViewModel>(context, listen: false)
+                  .getSearchResults
+                  .length;
+            });
+          });
+        }
         return Container(
           padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
           child: Card(
@@ -574,7 +616,11 @@ class _SearchRequests extends State<SearchRequests> {
                         height: 30,
                         width: 65,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    ItemsDScreen(document: document)));
+                          },
                           child: Text(
                             "تبرع",
                             textAlign: TextAlign.center,
@@ -610,29 +656,9 @@ class _SearchRequests extends State<SearchRequests> {
         return Container();
       }
     } else {
-      return Container(
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Text((i==1)? "no results" : ""),
-        ),
-      );
+      return Container();
     }
   }
-
-// void updateOnFirebase(String? id) async {
-//   RequestViewModel requestVM = RequestViewModel();
-//
-//   var documentID;
-//
-//   var collection = FirebaseFirestore.instance.collection('requests');
-//   var querySnapshots = await collection.get();
-//   for (var snapshot in querySnapshots.docs) {
-//     documentID = snapshot.id; // <-- Document ID
-//
-//
-//   }
-// }
 }
 
 Widget _buildWaitingScreen() {

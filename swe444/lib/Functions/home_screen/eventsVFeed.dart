@@ -1,53 +1,41 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
-import 'package:swe444/Functions/request/request_view_model.dart';
-import 'package:swe444/Payment/PaymentScreen.dart';
-
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui' as ui;
 
-class subscribedList extends StatelessWidget {
-
+class eventsVFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedViewModel>(
         create: (_) => FeedViewModel(),
-        child: Container(height: 1200, width: 450, child: subscribed_list()));
+        child: Container(height: 1200, width: 450, child: eventsv_feed()));
   }
 }
 
-class subscribed_list extends StatefulWidget {
-  static String? mmEmailDonated = '';
-  static String? mmNameDonated='';
-  static int wholeAmount=0;
-  static int wholeDonated=0;
-
-  const subscribed_list({
+class eventsv_feed extends StatefulWidget {
+  const eventsv_feed({
     Key? key,
   }) : super(key: key);
 
-
   @override
   State<StatefulWidget> createState() {
-    return subscribedMList();
+    return evFeed();
   }
 }
 
-class subscribedMList extends State<subscribed_list> {
-
-  //int? donated= PaymentScreen.vDonatedAmount;
+class evFeed extends State<eventsv_feed> {
   @override
   void initState() {
     super.initState();
     Future.delayed(
         Duration.zero,
-            () =>
-            setState(() {
+        () => setState(() {
               setup();
             }));
   }
@@ -56,55 +44,70 @@ class subscribedMList extends State<subscribed_list> {
     await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
   }
 
-getSubscribedListFunc() async {
-    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
-    Provider.of<FeedViewModel>(context, listen: false).getIsVSubscribed.clear();
-    await Provider.of<FeedViewModel>(context, listen: false)
-        .subscribedList();
-  }
-
   @override
   Widget build(BuildContext context) {
-getSubscribedListFunc();
     Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-        Provider
-            .of<FeedViewModel>(context, listen: false)
-            .requests;
+        Provider.of<FeedViewModel>(context, listen: false).requests;
     return Scaffold(
       backgroundColor: const Color(0xffededed),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 110.0),
+          child: Row(
+            children: [
+              Text(
+                "طلبات التنظيم",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xff334856),
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Tajawal',
+                  fontSize: 24,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 45.0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.keyboard_backspace_rounded,
+                    textDirection: ui.TextDirection.rtl,
+                    size: 30,
+                    color: Color(0xff334856),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        //automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xdeedd03c),
+        bottomOpacity: 30,
+        // elevation: 1,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(50),
+          ),
+        ),
+      ),
       body: StreamBuilder(
-          stream: Provider.of<FeedViewModel>(context, listen: false).requests,
+          stream: requests,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
-               shrinkWrap: true,
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  buildCards(
-                      context, (snapshot.data! as QuerySnapshot).docs[index]),
+              itemBuilder: (BuildContext context, int index) => buildCards(
+                  context, (snapshot.data! as QuerySnapshot).docs[index]),
             );
           }),
     );
   }
 
-  Widget buildCards(BuildContext context, DocumentSnapshot document){
+  Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    // feedVM.isSubscribed(document['posted_by']);
-    
-    // bool? isVSubscribed =
-    //     Provider
-    //         .of<FeedViewModel>(context, listen: false)
-    //         .isVSubscribed;
-    // print("s1 is " + isVSubscribed.toString());
 
-    if(Provider
-            .of<FeedViewModel>(context, listen: false)
-            .getIsVSubscribed
-            .contains(document.id)){
-
-    
-    if (document['type'].toString() == "مبلغ" && document['donated'] != document['amount']) {
-      //print("s2 is " + isVSubscribed.toString());
+    if (document['type'].toString() == "تنظيم") {
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(
@@ -152,7 +155,7 @@ getSubscribedListFunc();
                 ),
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Column(
@@ -162,18 +165,20 @@ getSubscribedListFunc();
                           child: Text(
                             document['description'],
                             style: TextStyle(fontFamily: 'Tajawal'),
-                            textDirection: TextDirection
+                            textDirection: ui.TextDirection
                                 .rtl, // make the text from right to left
                           ),
                         ),
+                        //start_date
                         Container(
                           width: 250, // to wrap the text in multiline
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              'المبلغ: ' + document['amount'].toString(),
+                              'تاريخ البداية: ' +
+                                  getTime(document['start_date']),
                               style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: TextDirection
+                              textDirection: ui.TextDirection
                                   .rtl, // make the text from right to left
                             ),
                           ),
@@ -183,9 +188,51 @@ getSubscribedListFunc();
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              "نسبة الإكتمال: ",
+                              'المدة: ' + document['days'].toString() + " يوم",
                               style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: TextDirection.rtl,
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              'يبدأ في تمام الساعة ' +
+                                  document['start_time'].toString() +
+                                  " وينتهي " +
+                                  document['end_time'].toString(),
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Directionality(
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left,
+                              child: Text(
+                                'عدد المنظمين المطلوب: ' +
+                                    document['parts_number'].toString(),
+                                style: TextStyle(fontFamily: 'Tajawal'),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "عدد المشاركين: ",
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection.rtl,
                             ),
                           ),
                         ),
@@ -193,7 +240,7 @@ getSubscribedListFunc();
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['donated'].toString(),
+                              child: Text(document['participants'].toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                       fontFamily: 'Tajawal', fontSize: 10)),
@@ -210,8 +257,8 @@ getSubscribedListFunc();
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
                                       child: LinearProgressIndicator(
-                                        value: (document['donated'] /
-                                            document['amount']),
+                                        value: (document['participants'] /
+                                            document['parts_number']),
                                         valueColor: AlwaysStoppedAnimation(
                                             Color(0xdeedd03c)),
                                         backgroundColor: Color(0xffededed),
@@ -219,15 +266,15 @@ getSubscribedListFunc();
                                     ),
                                     Center(
                                         child: buildLinearProgress(
-                                            (document['donated'] /
-                                                document['amount']))),
+                                            (document['participants'] /
+                                                document['parts_number']))),
                                   ],
                                 ),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['amount'].toString(),
+                              child: Text(document['parts_number'].toString(),
                                   style: TextStyle(
                                       fontFamily: 'Tajawal', fontSize: 10)),
                             ),
@@ -241,7 +288,6 @@ getSubscribedListFunc();
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 5.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
-                    //This button for sprint 2
                     Container(
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -252,54 +298,11 @@ getSubscribedListFunc();
                         ],
                       ),
                       height: 30,
-                      width: 65,
+                      width: 70,
                       child: ElevatedButton(
-                        onPressed: () async {
-
-                          String? mmId =document['posted_by'];
-                          subscribed_list.wholeDonated=document['donated'];
-                          int cumDonated=document['donated'];
-                          subscribed_list.wholeAmount=document['amount'];
-                          String? mName=document['mosque_name'];
-
-                          subscribed_list.mmNameDonated=mName;
-
-                          var documentFormmId = await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(mmId)
-                              .get();
-
-                          String? mmEmail=documentFormmId['email'];
-                          subscribed_list.mmEmailDonated=mmEmail;
-
-await
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => PaymentScreen()));
-
-
-
-
-
-
-                          cumDonated+=PaymentScreen.vDonatedAmount!;
-                          print('$cumDonated iiiiiiii');
-
-                          String docId=document.id;
-                          await FirebaseFirestore.instance
-                              .collection('requests')
-                              .doc(docId)
-                              .update({'donated': cumDonated});
-
-                          //update the denoation for next user
-                          PaymentScreen
-                          .
-                          vDonatedAmount
-                          =
-                          0;
-                          //  db.collection("requests").doc(docId).update({donated: 10});
-                        },
+                        onPressed: () {},
                         child: Text(
-                          "تبرع",
+                          "شارك",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: 'Tajawal',
@@ -332,12 +335,20 @@ await
     } else {
       return Container();
     }
-    }
-    else {
-      return Container();
-    }
   }
 }
+
+String getTime(var timeStamp) {
+  final DateFormat formatter = DateFormat('dd/MM/yyyy'); //your date format here
+  var date = timeStamp.toDate();
+  return formatter.format(date);
+}
+
+// String formattedDate(timeStamp) {
+//   var dateFromTimeStamp =
+//       DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
+//   return DateFormat('dd-MM-yyyy hh:mm a').format(dateFromTimeStamp);
+// }
 
 Widget _buildWaitingScreen() {
   return Scaffold(
@@ -349,8 +360,7 @@ Widget _buildWaitingScreen() {
   );
 }
 
-Widget buildLinearProgress(double val) =>
-    Text(
+Widget buildLinearProgress(double val) => Text(
       '${(val * 100).toStringAsFixed(1)} %',
       style: TextStyle(
           fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
