@@ -410,6 +410,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 20,
                           ),
                           logout(),
+
+                          ///
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
                           ElevatedButton(
                             child: Text("تعديل الملف الشخصي",
                                 textAlign: TextAlign.center,
@@ -429,6 +434,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       EditProfile(document: document)));
                             },
                           ),
+                          ///
+                          
                         ],
                       ),
                     )
