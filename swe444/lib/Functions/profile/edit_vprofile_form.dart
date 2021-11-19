@@ -4,110 +4,42 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:swe444/Functions/home_screen/mm_home_view.dart';
-import 'package:swe444/Models/MUserModel.dart';
+import 'package:swe444/Functions/home_screen/v_home_view.dart';
+import 'package:swe444/Models/VUserModel.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
 
 
-class EditProfileForm extends StatefulWidget {
+class EditVProfileForm extends StatefulWidget {
   final DocumentSnapshot document;
-  EditProfileForm({
+  EditVProfileForm({
     Key? key,
     required this.document
   }) : super(key: key);
 
   @override
-  _EditProfileFormState createState() => _EditProfileFormState();
+  _EditVProfileFormState createState() => _EditVProfileFormState();
 }
 
-class _EditProfileFormState extends State<EditProfileForm> {
+class _EditVProfileFormState extends State<EditVProfileForm> {
   final _formKey = GlobalKey<FormState>();
   User? user = FirebaseAuth.instance.currentUser;
   String? email;
   int? phone;
 
   final TextEditingController _email = TextEditingController();
-  final TextEditingController _name = TextEditingController();
+  final TextEditingController _fname = TextEditingController();
+  final TextEditingController _lname = TextEditingController();
   final TextEditingController _phone = TextEditingController();
-  final TextEditingController _code = TextEditingController();
 
 
   @override
   void initState() {
     super.initState();
-    _name.text = widget.document['mosque_name'].toString();
+    _fname.text = widget.document['first_name'].toString();
     _email.text = user!.email.toString();
     _phone.text = '0' + widget.document['phone_number'].toString();
-    _code.text = widget.document['mosque_code'].toString();
-  }
-
-  Widget _buildMosqueNameField() {
-    return TextFormField(
-      enabled: false,
-      readOnly: true,
-      maxLines: 1,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      onSaved: (value) {
-        _name.text = value!;
-      },
-      validator: (value) {
-        RegExp regex = RegExp(r'^.{5,}$');
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
-          return ("الرجاء قم بإدخال اسم المسجد");
-        }
-        if (!regex.hasMatch(value)) {
-          return ("يجب ان يحتوي على 5 حروف على الأقل");
-        }
-        if (!RegExp(r"^[\p{L} ,.'-]*$",
-            caseSensitive: false, unicode: true, dotAll: true)
-            .hasMatch(value)) {
-          return ("يجب ان يحتوي اسم المسجد على أحرف فقط");
-        }
-        return null;
-      },
-      showCursor: true,
-      cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff6a6a6a)),
-      textAlign: TextAlign.right,
-      controller: _name,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(right: 5, top: 15),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // width: 0.0 produces a thin "hairline" border
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: const Color(0xdeedd03c),
-          ),
-        ),
-        prefixIcon: Icon(
-          Icons.account_balance,
-          color: const Color(0xff334856),
-        ),
-        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-        hoverColor: const Color(0xff334856),
-        alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        hintText: 'أدخل اسم المسجد',
-        labelText: 'اسم المسجد*',
-        hintStyle: TextStyle(
-            fontSize: 14,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-
-        labelStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-      ),
-      autocorrect: false,
-      obscureText: false,
-    );
+    _lname.text = widget.document['last_name'].toString();
   }
 
   Widget _buildEmailField() {
@@ -141,7 +73,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
       textAlign: TextAlign.right,
       controller: _email,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(right: 5, top: 15, left: 5),
+        contentPadding: EdgeInsets.only(right: 5, top: 15,  left: 5),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -173,6 +105,132 @@ class _EditProfileFormState extends State<EditProfileForm> {
         // hoverColor: const Color(0xff334856),
       ),
       autocorrect: false,
+    );
+  }
+
+  Widget _buildfirstNameField() {
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      onSaved: (value) {
+        _fname.text = value!;
+      },
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{2,}$');
+        if (value!.isEmpty || value.trim().isEmpty) {
+          return ("الرجاء قم بإدخال اسمك الاول");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("يجب ان يحتوي على حرفين على الأقل");
+        }
+        if (!RegExp(r"^[\p{L} ,.'-]*$",
+            caseSensitive: false, unicode: true, dotAll: true)
+            .hasMatch(value)) {
+          return ("يجب ان يحتوي الأسم الأول على أحرف فقط");
+        }
+        return null;
+      },
+      showCursor: true,
+      cursorColor: const Color(0xdeedd03c),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
+      textAlign: TextAlign.right,
+      controller: _fname,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.only(right: 5, top: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixIcon: Icon(
+          Icons.perm_identity,
+          color: const Color(0xff334856),
+        ),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: 'أدخل اسمك الاول',
+        labelText: 'الاسم الاول*',
+        hintStyle: TextStyle(
+            fontSize: 14,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+
+        labelStyle: TextStyle(
+            fontSize: 18,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+      ),
+      autocorrect: false,
+      obscureText: false,
+    );
+  }
+
+  Widget _buildlastNameField() {
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      onSaved: (value) {
+        _lname.text = value!;
+      },
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{2,}$');
+        if (value!.isEmpty || value.trim().isEmpty) {
+          return ("الرجاء قم بإدخال اسم عائلتك");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("يجب ان يحتوي على حرفين على الأقل");
+        }
+        if (!RegExp(r"^[\p{L} ,.'-]*$",
+            caseSensitive: false, unicode: true, dotAll: true)
+            .hasMatch(value)) {
+          return ("يجب ان يحتوي الأسم الأخير على أحرف فقط");
+        }
+        return null;
+      },
+      showCursor: true,
+      cursorColor: const Color(0xdeedd03c),
+      style: TextStyle(fontSize: 15, color: const Color(0xff334856)),
+      textAlign: TextAlign.right,
+      controller: _lname,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.only(right: 5, top: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xdeedd03c),
+          ),
+        ),
+        prefixIcon: Icon(
+          Icons.perm_identity,
+          color: const Color(0xff334856),
+        ),
+        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+        hoverColor: const Color(0xff334856),
+        alignLabelWithHint: true,
+        //border: OutlineInputBorder(),
+        hintText: 'أدخل اسم عائلتك',
+        labelText: 'اسم العائلة*',
+        hintStyle: TextStyle(
+            fontSize: 14,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+
+        labelStyle: TextStyle(
+            fontSize: 18,
+            color: const Color(0xff334856),
+            fontFamily: 'Tajawal'),
+      ),
+      autocorrect: false,
+      obscureText: false,
     );
   }
 
@@ -241,64 +299,6 @@ class _EditProfileFormState extends State<EditProfileForm> {
     );
   }
 
-  Widget _buildCodeField() {
-    return TextFormField(
-      enabled: false,
-      readOnly: true,
-      onSaved: (value) {
-        _code.text = value!;
-      },
-      showCursor: true,
-      cursorColor: const Color(0xdeedd03c),
-      textAlign: TextAlign.right,
-      style: TextStyle(fontSize: 18, color: const Color(0xff6a6a6a)),
-      controller: _code,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(right: 5, top: 15),
-        counterText: "",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // width: 0.0 produces a thin "hairline" border
-
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: const Color(0xdeedd03c),
-          ),
-        ),
-        prefixIcon: Icon(
-          Icons.shield,
-          color: const Color(0xff334856),
-        ),
-        prefixStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        hoverColor: const Color(0xff334856),
-        alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        hintText: 'أدخل كود المسجد',
-        labelText: 'كود المسجد*',
-
-        hintStyle: TextStyle(
-            fontSize: 14,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-        labelStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-      ),
-      autocorrect: false,
-      obscureText: false,
-    );
-  }
-
-
-  String getText(DateTime day) {
-     return '${day.month}/${day.day}/${day.year}';
-  }
 
 
 // https://medium.com/multiverse-software/alert-dialog-and-confirmation-dialog-in-flutter-8d8c160f4095
@@ -387,7 +387,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
               width: portrait == true ? 265.w : 300.w,
               child: Directionality(
                 textDirection: TextDirection.rtl,
-                child: _buildMosqueNameField(),
+                child: _buildfirstNameField(),
               ),
             ), // password container
             SizedBox(
@@ -397,7 +397,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
               width: portrait == true ? 265.w : 310.w,
               child: Directionality(
                 textDirection: TextDirection.rtl,
-                child: _buildCodeField(),
+                child: _buildlastNameField(),
               ),
             ),
             SizedBox(
@@ -466,14 +466,13 @@ class _EditProfileFormState extends State<EditProfileForm> {
   void update(String? id) async {
 
     if (widget.document.exists) {
-      SignupMViewModel userVM= new SignupMViewModel();
-      userVM.uID = widget.document['uid'].toString();
-      userVM.mosque_location = widget.document['location'].toString();
-      userVM.mosque_code = widget.document['mosque_code'].toString();
+      VUserModel userVM= new VUserModel();
+      userVM.uid = widget.document['uid'].toString();
+      userVM.first_name = _fname.text;
+      userVM.last_name = _lname.text;
       userVM.role= widget.document['role'].toString();
-      userVM.mosque_phone= int.parse(_phone.text);
+      userVM.volunteer_phone= int.parse(_phone.text);
       userVM.email= widget.document['email'].toString();
-      userVM.mosque_name= widget.document['mosque_name'].toString();
 
 
       await userVM.update(widget.document.id, user);
@@ -485,10 +484,8 @@ class _EditProfileFormState extends State<EditProfileForm> {
       snackbar = Snackbar(context, msg, msgType);
       snackbar.showToast();
 
-
       Navigator.pushAndRemoveUntil((context),
-          MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
-
+          MaterialPageRoute(builder: (context) => vHome()), (route) => false);
     } else {
       Snackbar snackbar2 = Snackbar(context, "لا يمكن تحديث الملف الشخصي", "fail");
       snackbar2.showToast();

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'edit_profile_form.dart';
+import 'edit_vprofile_form.dart';
 
 class EditProfile extends StatelessWidget {
   EditProfile.ensureInitialized(this.document);
@@ -103,7 +104,7 @@ class EditProfile extends StatelessWidget {
                       border: Border.all(
                           width: 0.5, color: const Color(0xffdfdfdf)),
                     ),
-                    child: EditProfileForm(document: document,),
+                    child: document['role'].toString() == "volunteer"? EditVProfileForm(document: document,): EditProfileForm(document: document,),
                   ),
                   SizedBox(height: portrait == true ? 120.h : 230.h),
                 ],

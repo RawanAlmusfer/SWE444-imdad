@@ -134,6 +134,7 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
                       ),
                       textAlign: TextAlign.right,
                       inputFormatters: [
+                        // ignore: deprecated_member_use
                         new WhitelistingTextInputFormatter(RegExp("[0-9]")),
                       ],
                       onSaved: (value) {

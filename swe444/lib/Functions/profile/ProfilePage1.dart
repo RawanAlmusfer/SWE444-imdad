@@ -409,7 +409,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(
                             height: 20,
                           ),
-                          // logout()
+                          logout(),
                           ElevatedButton(
                             child: Text("تعديل الملف الشخصي",
                                 textAlign: TextAlign.center,

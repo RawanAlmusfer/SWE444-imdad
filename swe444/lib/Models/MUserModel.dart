@@ -11,6 +11,7 @@ class SignupMViewModel {
   String? role;
   late String message;
   bool? valid;
+  late String msgType;
 
   SignupMViewModel(
       {this.uid,
@@ -238,5 +239,56 @@ class SignupMViewModel {
         //Snackbar(context, e.toString()).showToast();
       }
     }
+  }
+
+  Future update(String docId, User? user) async {
+    String _message = "";
+    String _msgtype = "";
+
+    SignupMViewModel manger = SignupMViewModel(
+      uid: this.uid,
+      email: this.email,
+      mosque_name: this.mosque_name,
+      mosque_phone: this.mosque_phone,
+      mosque_location: this.mosque_location,
+      mosque_code: this.mosque_code,
+      role: this.role,
+    );
+
+    // await user!
+    //     .updateEmail(this.email!)
+    //     .then((value) async => {
+    //           _message = 'تم تحديث الملف الشخصي بنجاح',
+    //           _msgtype = "success",
+    //           await FirebaseFirestore.instance
+    //               .collection('users')
+    //               .doc(docId)
+    //               .set(manger.toMap())
+    //               .then((value) => {
+    //                     _message = 'تم تحديث الملف الشخصي بنجاح',
+    //                     _msgtype = "success"
+    //                   })
+    //               .catchError((error) => {
+    //                     _message = " فشل في تحديث الملف الشخصي:" + error,
+    //                     _msgtype = "fail"
+    //                   })
+    //         })
+    //     .catchError((error) => {
+    //           _message = " فشل في تحديث الملف الشخصي:" + error.toString(),
+    //           _msgtype = "fail"
+    //         });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(docId)
+        .set(manger.toMap())
+        .then((value) =>
+            {_message = 'تم تحديث الملف الشخصي بنجاح', _msgtype = "success"})
+        .catchError((error) => {
+              _message = " فشل في تحديث الملف الشخصي:" + error,
+              _msgtype = "fail"
+            });
+    message = _message;
+    msgType = _msgtype;
   }
 }
