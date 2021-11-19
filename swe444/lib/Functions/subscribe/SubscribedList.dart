@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 import 'list_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-
 class SubscribedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -90,7 +88,7 @@ class Subscribed_List extends State<subscribedList> {
                     ],
                   ),
                   height: 30,
-                  width: 60,
+                  width: 65,
                   child: ElevatedButton(
                     onPressed: () {},
                     child: Text(

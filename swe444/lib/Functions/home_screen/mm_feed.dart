@@ -8,6 +8,8 @@ import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/request/edit_request_view.dart';
 import '../request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
+import 'package:intl/intl.dart';
+import 'dart:ui' as ui;
 
 class MosqueMangerFeed extends StatelessWidget {
   @override
@@ -175,6 +177,7 @@ class mmFeed extends State<mm_feed> {
                     ),
                   ]),
                 ),
+                // if(document['description'] != "")
                 Padding(
                   padding:
                       const EdgeInsets.only(top: 4.0, bottom: 40.0, right: 70),
@@ -185,7 +188,7 @@ class mmFeed extends State<mm_feed> {
                         child: Text(
                           document['description'],
                           style: TextStyle(fontFamily: 'Tajawal'),
-                          textDirection: TextDirection
+                          textDirection: ui.TextDirection
                               .rtl, // make the text from right to left
                         )),
                   ]),
@@ -193,7 +196,7 @@ class mmFeed extends State<mm_feed> {
                 if (document['type'].toString() == "مبلغ")
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 0.1, bottom: 20.0, right: 63),
+                        top: 0.1, bottom: 20.0, right: 70),
                     child: Row(children: <Widget>[
                       const Spacer(),
                       Text(document['amount'].toString()),
@@ -206,7 +209,7 @@ class mmFeed extends State<mm_feed> {
                 if (document['type'].toString() == "موارد")
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 0.1, bottom: 20.0, right: 63),
+                        top: 0.1, bottom: 20.0, right: 70),
                     child: Row(children: <Widget>[
                       const Spacer(),
                       Text(document['amount_requested'].toString()),
@@ -219,19 +222,54 @@ class mmFeed extends State<mm_feed> {
                 if (document['type'].toString() == "تنظيم")
                   Padding(
                     padding: const EdgeInsets.only(
+                        top: 0.1, bottom: 20.0, right: 55),
+                    child: Row(children: <Widget>[
+                      const Spacer(),
+                      Text(
+                        ' ' + getTime(document['start_date']),
+                        style: TextStyle(fontFamily: 'Tajawal'),
+                        textDirection: ui.TextDirection
+                            .rtl, // make the text from right to left
+                      ),
+                      const Text(
+                        ":تاريخ البداية",
+                        style: TextStyle(fontFamily: 'Tajawal'),
+                      ),
+                    ]),
+                  ),
+                if (document['type'].toString() == "تنظيم")
+                  Padding(
+                    padding: const EdgeInsets.only(
                         top: 0.1, bottom: 20.0, right: 63),
+                    child: Row(children: <Widget>[
+                      const Spacer(),
+                      Text(
+                        'يبدأ في تمام الساعة ' +
+                            document['start_time'].toString() +
+                            " وينتهي " +
+                            document['end_time'].toString(),
+                        style: TextStyle(fontFamily: 'Tajawal'),
+                        textDirection: ui.TextDirection
+                            .rtl, // make the text from right to left
+                      ),
+                    ]),
+                  ),
+                if (document['type'].toString() == "تنظيم")
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0.1, bottom: 20.0, right: 73),
                     child: Row(children: <Widget>[
                       const Spacer(),
                       Text(document['parts_number'].toString()),
                       const Text(
-                        " :العدد",
+                        " :عدد المنظمين المطلوب",
                         style: TextStyle(fontFamily: 'Tajawal'),
                       ),
                     ]),
                   ),
                 if (((document['type'].toString() == "موارد" ||
-                        document['type'].toString() == "مبلغ") &&
-                    document['donated'].toString() == '0') ||
+                            document['type'].toString() == "مبلغ") &&
+                        document['donated'].toString() == '0') ||
                     (document['type'].toString() == "تنظيم" &&
                         document['participants'].toString() == '0'))
                   Padding(
@@ -329,6 +367,13 @@ class mmFeed extends State<mm_feed> {
   //   User? user = await FirebaseAuth.instance.currentUser;
   //   return user?.uid.toString();
   // }
+
+  String getTime(var timeStamp) {
+    final DateFormat formatter =
+        DateFormat('dd/MM/yyyy'); //your date format here
+    var date = timeStamp.toDate();
+    return formatter.format(date);
+  }
 
   showAlertDialog(DocumentSnapshot document) {
     RequestViewModel requestVM = RequestViewModel();

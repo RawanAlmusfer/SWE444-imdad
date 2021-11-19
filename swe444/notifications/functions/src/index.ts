@@ -4,13 +4,13 @@ admin.initializeApp();
 
 export const notifyMosqueManager = functions.firestore.document("requests/{requestID}").onUpdate(async (snapshot, context) => {
   const data = snapshot.after.data();
-  if (data.amount == data.donated || data.amount_requested == data.donated) {
+  if (data.amount == data.donated || data.amount_requested == data.donated || data.parts_number == data.participants) {
     const token = data.token;
     if (token.empty) {
       console.log("No Device");
     } else {
       const payloadData = {
-        title: "تم اكتمال المبلغ",
+        title: "تم اكتمال الطلب",
         message: "لقد تم اكتمال طلبك:" + " " + data.title,
       };
       const payload = {
