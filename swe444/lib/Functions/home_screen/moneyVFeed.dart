@@ -516,8 +516,6 @@ class mvFeed extends State<mv_feed> {
               child: ElevatedButton(
                 onPressed: () async {
                   await subscription(id, name);
-
-                  ///Here Deema
                 },
                 child: Text(
                   "تابع",
@@ -629,9 +627,11 @@ class mvFeed extends State<mv_feed> {
       }
 
       if (!isExsited) {
-        FirebaseMessaging.instance.getToken().then((token) {
+        await FirebaseMessaging.instance.getToken().then((token) {
           dToken = token.toString();
+          print("token is" + dToken.toString());
         });
+        print("token2 is" + dToken.toString());
         await FirebaseFirestore.instance
             .collection('users')
             .doc(mmId)
