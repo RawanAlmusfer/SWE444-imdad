@@ -79,6 +79,9 @@ class EditProfile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.04,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 15),
@@ -104,7 +107,13 @@ class EditProfile extends StatelessWidget {
                       border: Border.all(
                           width: 0.5, color: const Color(0xffdfdfdf)),
                     ),
-                    child: document['role'].toString() == "volunteer"? EditVProfileForm(document: document,): EditProfileForm(document: document,),
+                    child: document['role'].toString() == "volunteer"
+                        ? EditVProfileForm(
+                            document: document,
+                          )
+                        : EditProfileForm(
+                            document: document,
+                          ),
                   ),
                   SizedBox(height: portrait == true ? 120.h : 230.h),
                 ],
