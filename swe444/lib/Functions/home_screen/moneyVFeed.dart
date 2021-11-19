@@ -633,7 +633,7 @@ Widget BuildUnsubscribedProfile(String name, String id) {
               ],
             ),
             height: 30,
-            width: 90,
+            width: 120,
             child: ElevatedButton(
               onPressed: () {
                 // Unsubscribe Raneem
