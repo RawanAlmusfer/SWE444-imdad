@@ -79,12 +79,12 @@ class _SearchRequests extends State<SearchRequests> {
                 child: Stack(
                   children: [
                     TextField(
+                      textDirection: ui.TextDirection.rtl,
                       maxLines: 1,
                       controller: searchTerm,
                       onChanged: (_val) {
                         if (_val != null) {
                           numOfResults = 0;
-                          searchTerm.text = _val;
                           search = searchTerm.text;
                           setState(() {
                             numOfResults = 0;
