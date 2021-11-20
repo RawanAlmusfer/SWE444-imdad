@@ -202,7 +202,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+      style: TextStyle(fontSize: 16, color: const Color(0xff334856)),
       textAlign: TextAlign.right,
       decoration: InputDecoration(
         // counterText: '${_enteredText.length.toString()}character(s)',

@@ -526,10 +526,10 @@ class ivFeed extends State<itemsv_feed> {
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
             .then((value) =>
-                {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+        {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
             .catchError((error) =>
-                //////
-                {response = "لم يتم تفعيل التنبيهات بنجاح"});
+        //////
+        {response = "لم يتم تفعيل التنبيهات بنجاح"});
         //add to mm
         await FirebaseFirestore.instance
             .collection('users')
@@ -549,7 +549,7 @@ class ivFeed extends State<itemsv_feed> {
             .doc(vId)
             .delete()
             .then((value) =>
-                {response = ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '})
+        {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -569,26 +569,28 @@ class ivFeed extends State<itemsv_feed> {
 
   showAlertDialog(BuildContext context, String? response) {
     // set up the button
-    Widget okButton = TextButton(
-      child: Text(
-        "موافق",
-        textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
-      ),
-      style: ButtonStyle(
-          backgroundColor:
+    Widget okButton = Padding(
+        padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
+        child:
+        TextButton(
+          child: Text(
+            "موافق",
+            textAlign: TextAlign.right,
+            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
               MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-      onPressed: () {
-        int count = 0;
-        Navigator.of(context).popUntil((_) => count++ >= 2);
-      },
-    );
-
+          onPressed: () {
+            int count = 0;
+            Navigator.of(context).popUntil((_) => count++ >= 2);
+          },
+        ));
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
         "تأكيد عملية الاشتراك ",
         textAlign: TextAlign.right,
@@ -602,7 +604,7 @@ class ivFeed extends State<itemsv_feed> {
         // feedbackResponse(response)!
         ,
         textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal"),
+        style: TextStyle(fontFamily: "Tajawal", height: 1.5),
       ),
       actions: [
         okButton,
