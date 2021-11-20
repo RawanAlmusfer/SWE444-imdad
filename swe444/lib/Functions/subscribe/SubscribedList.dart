@@ -198,7 +198,7 @@ class Subscribed_List extends State<subscribedList> {
             .doc(vId)
             .delete()
             .then((value) =>
-                {response = ' تم إلغاء تفعيل التنبيهات لمسجد $mmName بنجاح  '})
+                {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -254,7 +254,7 @@ class Subscribed_List extends State<subscribedList> {
         // feedbackResponse(response)!
         ,
         textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal"),
+        style: TextStyle(fontFamily: "Tajawal", height: 1.5),
       ),
       actions: [
         okButton,
