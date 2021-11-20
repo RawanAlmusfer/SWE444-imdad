@@ -728,7 +728,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
 
             double _timeDiff = _doubleStartTime - _doubleEndTime;
             if (_timeDiff > 0) {
-              return "يجب ألا يسبق وقت البدء";
+              return "يجب ألا يسبق البدء";
             }
           }
         }
@@ -984,7 +984,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
                     child: Stack(children: [
                       Container(width: 120, child: _buildStartTime()),
                       Container(
-                          margin: EdgeInsets.only(right: 135),
+                          margin: EdgeInsets.only(right: 137),
                           width: 125,
                           child: _buildEndTime())
                     ]),

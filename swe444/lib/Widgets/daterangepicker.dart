@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:ui' as ui;
+
 
 class DateRangePicker{
 
@@ -30,9 +32,42 @@ class DateRangePicker{
     final newDateRange = await showDateRangePicker(
       context: context,
         initialEntryMode: DatePickerEntryMode.calendar,
+      errorInvalidText: "الرجاء إدخال قيمة صالحة",
+      errorFormatText: "الرجاء إدخال قيمة صالحة",
+      confirmText: "إدخال",
+      cancelText: "إلغاء",
+      helpText: "أختر تاريخًا",
+      fieldEndLabelText: "الإنتهاء:",
+      fieldStartLabelText: "البدء:",
+      errorInvalidRangeText: "الرجاء إدخال فترة صالحة",
+      saveText: "حفظ",
+      textDirection: ui.TextDirection
+          .rtl,
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 2),
       initialDateRange: dateRange ?? initialDateRange,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            textTheme: TextTheme(
+              subtitle1: TextStyle(color: Color(0xff334856)),
+              bodyText1: TextStyle(color: Color(0xff334856)),
+              bodyText2: TextStyle(color: Color(0xff334856)),
+            ),
+            colorScheme: ColorScheme.light(
+              primary: Color(0xdeedd03c), // header background color
+              onPrimary: Color(0xff334856), // header text color
+              onSurface: Color(0xff334856), // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Color(0xff334856), // button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (newDateRange == null) return;
