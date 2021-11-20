@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 
-import '../logout.dart';
 import 'edit_profile_view.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -273,7 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           : "مسجد " + "${mosqueName} ",
                       style: TextStyle(
                         fontSize: 22,
-                      //  fontWeight: FontWeight.bold,
+                        //  fontWeight: FontWeight.bold,
                         fontFamily: 'Tajawal',
                       ),
                     ),
@@ -354,7 +353,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 isVolunteer()
                                                     ? "الاسم الاخير "
                                                     : " كود المسجد",
-                                               // style: bold,
+                                                // style: bold,
                                               ),
                                               subtitle: Text(
                                                 "${isVolunteer() ? _userLastName : mosqueCode}",
@@ -372,7 +371,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ListTile(
                                             title: Text(
                                               "البريد الالكتروني",
-                                            //  style: bold,
+                                              //  style: bold,
                                             ),
                                             subtitle: Text(
                                               "${_userEmail}",
@@ -407,16 +406,17 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 12,
                           ),
+
                           ///
 
                           ElevatedButton(
                             child: Text("تعديل الملف الشخصي",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: 'Tajawal', color: const Color(0xff334856))),
-
+                                    fontFamily: 'Tajawal',
+                                    color: const Color(0xff334856))),
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(150, 50),
                               primary: const Color(0xdeedd03c),
@@ -424,7 +424,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
-                            onPressed:() async {
+                            onPressed: () async {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       EditProfile(document: document)));
@@ -433,10 +433,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
+
                           ///
-
-                          logout(),
-
                         ],
                       ),
                     )
