@@ -53,7 +53,7 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30.0),
+                padding: const EdgeInsets.only(left: 0.0),
                 child: IconButton(
                     icon: Icon(
                       Icons.keyboard_backspace_rounded,
