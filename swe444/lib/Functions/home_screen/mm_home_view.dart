@@ -215,7 +215,7 @@ class _HomeState extends State<mmHome> {
       switch (index) {
         case 0:
           {
-            _title = 'الملف الشخصي';
+            _title = 'ملف المسجد';
           }
           break;
         case 1:
