@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'edit_profile_view.dart';
+import 'edit_vprofile_view.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -35,8 +36,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return auth.currentUser;
   }
 
-  getUserInformation() {
-    FirebaseFirestore.instance
+  getUserInformation() async {
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(auth.currentUser?.uid)
         .get()
@@ -408,7 +409,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(
                             height: 20,
                           ),
-
+                          ///
+                          if (role == "volunteer")
                           ElevatedButton(
                             child: Text("تعديل الملف الشخصي",
                                 textAlign: TextAlign.center,
@@ -425,9 +427,31 @@ class _ProfilePageState extends State<ProfilePage> {
                             onPressed: () async {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      EditProfile(document: document)));
+                                      EditVProfile(document: document)));
                             },
                           ),
+
+                          if (role == "mosqueManager")
+                            ElevatedButton(
+                              child: Text("تعديل ملف المسجد",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'Tajawal', color: const Color(0xff334856))),
+
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size(150, 50),
+                                primary: const Color(0xdeedd03c),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                              ),
+                              onPressed:() async {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditProfile(document: document)));
+                              },
+                            ),
+
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),

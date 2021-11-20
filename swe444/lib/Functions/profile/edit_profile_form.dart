@@ -351,7 +351,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
         ),
       ),
       content: Text(
-        "هل أنت متأكد من رغبتك في\n تعديل الملف الشخصي؟",
+        "هل أنت متأكد من رغبتك في\n تعديل ملف المسجد؟",
         textAlign: TextAlign.right,
         style: TextStyle(fontFamily: "Tajawal"),
       ),
@@ -490,7 +490,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
           MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
 
     } else {
-      Snackbar snackbar2 = Snackbar(context, "لا يمكن تحديث الملف الشخصي", "fail");
+      Snackbar snackbar2 = Snackbar(context, "لا يمكن تحديث ملف المسجد", "fail");
       snackbar2.showToast();
     }
   }

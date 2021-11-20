@@ -6,13 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'edit_profile_form.dart';
 import 'edit_vprofile_form.dart';
 
-class EditProfile extends StatelessWidget {
-  EditProfile.ensureInitialized(this.document);
+class EditVProfile extends StatelessWidget {
+  EditVProfile.ensureInitialized(this.document);
   final DocumentSnapshot document;
 
-  const EditProfile({Key? key, required this.document}) : super(key: key);
+  const EditVProfile({Key? key, required this.document}) : super(key: key);
 
-  final String _title = "تعديل ملف المسجد";
+  final String _title = "تعديل الملف الشخصي";
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class EditProfile extends StatelessWidget {
                         horizontal: 10, vertical: 15),
                   ),
                   Text(
-                    'نموذج تعديل ملف المسجد',
+                    'نموذج تعديل الملف الشخصي',
                     style: TextStyle(
                       fontFamily: 'Tajawal',
                       fontSize: 23,
