@@ -51,11 +51,20 @@ class Subscribed_List extends State<subscribedList> {
             stream: mosques,
             builder: (context, snapshot) {
               if (!snapshot.hasData) return _buildWaitingScreen();
-              return ListView.builder(
-                //shrinkWrap: true,
-                itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                itemBuilder: (BuildContext context, int index) => buildCards(
-                    context, (snapshot.data! as QuerySnapshot).docs[index]),
+              if ((snapshot.data! as QuerySnapshot).docs.length != 0)
+                return ListView.builder(
+                  //shrinkWrap: true,
+                  itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+                  itemBuilder: (BuildContext context, int index) => buildCards(
+                      context, (snapshot.data! as QuerySnapshot).docs[index]),
+                );
+
+              return Container(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Text("لا يوجد متابَعين حتى الآن"),
+                ),
               );
             }),
       ),
@@ -197,8 +206,10 @@ class Subscribed_List extends State<subscribedList> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) =>
-                {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
+            .then((value) => {
+                  response =
+                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
+                })
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
