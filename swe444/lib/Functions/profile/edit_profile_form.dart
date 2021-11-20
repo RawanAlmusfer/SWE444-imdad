@@ -466,7 +466,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
   void update(String? id) async {
 
     if (widget.document.exists) {
-      SignupMViewModel userVM= new SignupMViewModel();
+      MViewModel userVM= new MViewModel();
       userVM.uID = widget.document['uid'].toString();
       userVM.mosque_location = widget.document['location'].toString();
       userVM.mosque_code = widget.document['mosque_code'].toString();

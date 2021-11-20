@@ -83,9 +83,11 @@ class _SearchRequests extends State<SearchRequests> {
                       controller: searchTerm,
                       onChanged: (_val) {
                         if (_val != null) {
+                          numOfResults = 0;
                           searchTerm.text = _val;
                           search = searchTerm.text;
                           setState(() {
+                            numOfResults = 0;
                             Future.delayed(
                                 Duration.zero,
                                 () => setState(() {
@@ -136,8 +138,10 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                     IconButton(
                         onPressed: () {
+                          numOfResults=0;
                           search = searchTerm.text;
                           setState(() {
+                            numOfResults=0;
                             Future.delayed(
                                 Duration.zero,
                                 () => setState(() {
@@ -185,7 +189,10 @@ class _SearchRequests extends State<SearchRequests> {
                                 (snapshot.data! as QuerySnapshot).docs[index]),
                       );
                     }),
-                if (numOfResults > 0)
+                if (Provider.of<FeedViewModel>(context, listen: false)
+                    .getSearchResults
+                    .length !=
+                    0)
                   Container(
                       margin: const EdgeInsets.only(top: 30.0, bottom: 20),
                       alignment: Alignment.bottomCenter,

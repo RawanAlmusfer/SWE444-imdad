@@ -787,7 +787,7 @@ class _SignUpPageState extends State<SignUpPage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
-    SignupMViewModel userModel = SignupMViewModel();
+    MViewModel userModel = MViewModel();
 
     // writing all the values
     userModel.email = user!.email;
