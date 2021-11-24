@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
-//import 'mm_feed.dart';
+import '../decisions_tree.dart';
+import '../subscribe/SubscribedList.dart';
 import 'home.dart';
 import 'moneyVFeed.dart';
 import '../logout.dart';
@@ -14,16 +18,15 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 1;
+  int _currentIndex = 3;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
     ProfilePage(),
+    SubscribedList(),
+    SearchPage(),
     vhome(),
-    //VolunteerFeed(),
-    //searchPage(),
-    //ProfilePage(),
   ];
 
   @override
@@ -43,6 +46,96 @@ class _HomeState extends State<vHome> {
               fontSize: 24,
             ),
           ),
+
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: Icon(
+                  Icons.logout,
+                  color: Color(0xff334856),
+                ),
+                onPressed: () async {
+                  showDialog(
+                      builder: (ctxt) {
+                        return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(32.0))),
+                            contentPadding: EdgeInsets.only(
+                                right: 20.w, top: 20.h, bottom: 10.h),
+                            title: Text(
+                              "تسجيل الخروج",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: const Color(0xdeedd03c),
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    "هل أنت متأكد من رغبتك في\nتسجيل الخروج؟",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(fontFamily: "Tajawal"),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ElevatedButton(
+                                      child: const Text(
+                                        "إلغاء",
+                                        style: TextStyle(
+                                            color: const Color(0xdeedd03c),
+                                            fontFamily: "Tajawal"),
+                                      ),
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  const Color(0xdeffffff)),
+                                          elevation:
+                                              MaterialStateProperty.all<double>(
+                                                  0)),
+                                      onPressed: () {
+                                        Navigator.of(context).pop(context);
+                                      },
+                                    ),
+                                    ElevatedButton(
+                                      child: Text(
+                                        "تأكيد",
+                                        style: TextStyle(fontFamily: "Tajawal"),
+                                      ),
+                                      onPressed: () async {
+                                        await FirebaseAuth.instance.signOut();
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DecisionsTree()));
+                                      },
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  const Color(0xdeedd03c))),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ));
+                      },
+                      context: context);
+                },
+              ),
+            )
+          ],
           //automaticallyImplyLeading: false,
           backgroundColor: const Color(0xdeedd03c),
           bottomOpacity: 30,
@@ -85,11 +178,14 @@ class _HomeState extends State<vHome> {
                     icon: new Icon(Icons.person),
                     label: "الملف الشخصي",
                   ),
-
-                  // BottomNavigationBarItem(
-                  //   icon: new Icon(Icons.search),
-                  //   label: "البحث",
-                  // ),
+                  BottomNavigationBarItem(
+                    icon: new Icon(Icons.article_outlined),
+                    label: "المتابَعين",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: new Icon(Icons.search),
+                    label: "البحث",
+                  ),
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.home),
                     label: "الصفحة الرئيسية",
@@ -97,6 +193,12 @@ class _HomeState extends State<vHome> {
                 ]),
           ),
         ));
+  }
+
+  logout_() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => DecisionsTree()));
   }
 
   void onTabTapped(int index) {
@@ -108,12 +210,17 @@ class _HomeState extends State<vHome> {
             _title = "الملف الشخصي";
           }
           break;
-        // case 1:
-        //   {
-        //     _title = 'البحث';
-        //   }
-        //   break;
         case 1:
+          {
+            _title = 'قائمة المتابَعين';
+          }
+          break;
+        case 2:
+          {
+            _title = 'البحث';
+          }
+          break;
+        case 3:
           {
             _title = 'الصفحة الرئيسية';
           }

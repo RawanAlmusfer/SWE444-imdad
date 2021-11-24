@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SignupMViewModel {
+class MViewModel {
   String? uid;
   String? email;
   String? mosque_name;
@@ -11,8 +11,9 @@ class SignupMViewModel {
   String? role;
   late String message;
   bool? valid;
+  late String msgType;
 
-  SignupMViewModel(
+  MViewModel(
       {this.uid,
       this.email,
       this.mosque_name,
@@ -60,8 +61,8 @@ class SignupMViewModel {
   }
 
   // receiving data from server
-  factory SignupMViewModel.fromMap(map) {
-    return SignupMViewModel(
+  factory MViewModel.fromMap(map) {
+    return MViewModel(
       uid: map['uid'],
       email: map['email'],
       mosque_name: map['mosque_name'],
@@ -238,5 +239,56 @@ class SignupMViewModel {
         //Snackbar(context, e.toString()).showToast();
       }
     }
+  }
+
+  Future update(String docId, User? user) async {
+    String _message = "";
+    String _msgtype = "";
+
+    MViewModel manger = MViewModel(
+      uid: this.uid,
+      email: this.email,
+      mosque_name: this.mosque_name,
+      mosque_phone: this.mosque_phone,
+      mosque_location: this.mosque_location,
+      mosque_code: this.mosque_code,
+      role: this.role,
+    );
+
+    // await user!
+    //     .updateEmail(this.email!)
+    //     .then((value) async => {
+    //           _message = 'تم تحديث الملف الشخصي بنجاح',
+    //           _msgtype = "success",
+    //           await FirebaseFirestore.instance
+    //               .collection('users')
+    //               .doc(docId)
+    //               .set(manger.toMap())
+    //               .then((value) => {
+    //                     _message = 'تم تحديث الملف الشخصي بنجاح',
+    //                     _msgtype = "success"
+    //                   })
+    //               .catchError((error) => {
+    //                     _message = " فشل في تحديث الملف الشخصي:" + error,
+    //                     _msgtype = "fail"
+    //                   })
+    //         })
+    //     .catchError((error) => {
+    //           _message = " فشل في تحديث الملف الشخصي:" + error.toString(),
+    //           _msgtype = "fail"
+    //         });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(docId)
+        .set(manger.toMap())
+        .then((value) =>
+            {_message = 'تم تحديث الملف الشخصي بنجاح', _msgtype = "success"})
+        .catchError((error) => {
+              _message = " فشل في تحديث الملف الشخصي:" + error,
+              _msgtype = "fail"
+            });
+    message = _message;
+    msgType = _msgtype;
   }
 }

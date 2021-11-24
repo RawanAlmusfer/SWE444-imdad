@@ -5,31 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui' as ui;
 
-class itemsVFeed extends StatelessWidget {
+class eventsVFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedViewModel>(
         create: (_) => FeedViewModel(),
-        child: Container(height: 1200, width: 450, child: itemsv_feed()));
+        child: Container(height: 1200, width: 450, child: eventsv_feed()));
   }
 }
 
-class itemsv_feed extends StatefulWidget {
-  const itemsv_feed({
+class eventsv_feed extends StatefulWidget {
+  const eventsv_feed({
     Key? key,
   }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return ivFeed();
+    return evFeed();
   }
 }
 
-class ivFeed extends State<itemsv_feed> {
+class evFeed extends State<eventsv_feed> {
   @override
   void initState() {
     super.initState();
@@ -53,11 +55,11 @@ class ivFeed extends State<itemsv_feed> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: const EdgeInsets.only(left: 60.0),
+          padding: const EdgeInsets.only(left: 110.0),
           child: Row(
             children: [
               Text(
-                "طلبات التبرع بالموارد",
+                "طلبات التنظيم",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff334856),
@@ -67,11 +69,11 @@ class ivFeed extends State<itemsv_feed> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0),
+                padding: const EdgeInsets.only(left: 45.0),
                 child: IconButton(
                   icon: Icon(
                     Icons.keyboard_backspace_rounded,
-                    textDirection: TextDirection.rtl,
+                    textDirection: ui.TextDirection.rtl,
                     size: 30,
                     color: Color(0xff334856),
                   ),
@@ -106,9 +108,8 @@ class ivFeed extends State<itemsv_feed> {
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "موارد" &&
-        document['donated'] < document['amount_requested']) {
-      // here is the tpye
+
+    if (document['type'].toString() == "تنظيم") {
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(
@@ -233,19 +234,20 @@ class ivFeed extends State<itemsv_feed> {
                           child: Text(
                             document['description'],
                             style: TextStyle(fontFamily: 'Tajawal'),
-                            textDirection: TextDirection
+                            textDirection: ui.TextDirection
                                 .rtl, // make the text from right to left
                           ),
                         ),
+                        //start_date
                         Container(
                           width: 250, // to wrap the text in multiline
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              'العدد: ' +
-                                  document['amount_requested'].toString(),
+                              'تاريخ البداية: ' +
+                                  getTime(document['start_date']),
                               style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: TextDirection
+                              textDirection: ui.TextDirection
                                   .rtl, // make the text from right to left
                             ),
                           ),
@@ -255,9 +257,51 @@ class ivFeed extends State<itemsv_feed> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              "نسبة الإكتمال: ",
+                              'المدة: ' + document['days'].toString() + " يوم",
                               style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: TextDirection.rtl,
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              'يبدأ في تمام الساعة ' +
+                                  document['start_time'].toString() +
+                                  " وينتهي " +
+                                  document['end_time'].toString(),
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Directionality(
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left,
+                              child: Text(
+                                'عدد المنظمين المطلوب: ' +
+                                    document['parts_number'].toString(),
+                                style: TextStyle(fontFamily: 'Tajawal'),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "عدد المشاركين: ",
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection.rtl,
                             ),
                           ),
                         ),
@@ -265,7 +309,7 @@ class ivFeed extends State<itemsv_feed> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['donated'].toString(),
+                              child: Text(document['participants'].toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                       fontFamily: 'Tajawal', fontSize: 10)),
@@ -282,8 +326,8 @@ class ivFeed extends State<itemsv_feed> {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
                                       child: LinearProgressIndicator(
-                                        value: (document['donated'] /
-                                            document['amount_requested']),
+                                        value: (document['participants'] /
+                                            document['parts_number']),
                                         valueColor: AlwaysStoppedAnimation(
                                             Color(0xdeedd03c)),
                                         backgroundColor: Color(0xffededed),
@@ -291,16 +335,15 @@ class ivFeed extends State<itemsv_feed> {
                                     ),
                                     Center(
                                         child: buildLinearProgress(
-                                            (document['donated'] /
-                                                document['amount_requested']))),
+                                            (document['participants'] /
+                                                document['parts_number']))),
                                   ],
                                 ),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(
-                                  document['amount_requested'].toString(),
+                              child: Text(document['parts_number'].toString(),
                                   style: TextStyle(
                                       fontFamily: 'Tajawal', fontSize: 10)),
                             ),
@@ -324,15 +367,11 @@ class ivFeed extends State<itemsv_feed> {
                         ],
                       ),
                       height: 30,
-                      width: 65,
+                      width: 70,
                       child: ElevatedButton(
-                        onPressed: () async {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  ItemsDScreen(document: document)));
-                        },
+                        onPressed: () {},
                         child: Text(
-                          "تبرع",
+                          "شارك",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: 'Tajawal',
@@ -549,10 +588,8 @@ class ivFeed extends State<itemsv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) => {
-                  response =
-                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
-                })
+            .then((value) =>
+                {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -574,26 +611,26 @@ class ivFeed extends State<itemsv_feed> {
     // set up the button
     Widget okButton = Padding(
         padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
-        child: TextButton(
-          child: Text(
-            "موافق",
-            textAlign: TextAlign.right,
-            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
-          ),
-          style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-          onPressed: () {
-            int count = 0;
-            Navigator.of(context).popUntil((_) => count++ >= 2);
-          },
-        ));
+      child:
+    TextButton(
+      child: Text(
+        "موافق",
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+      ),
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+      onPressed: () {
+        int count = 0;
+        Navigator.of(context).popUntil((_) => count++ >= 2);
+      },
+    ));
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding:
-          EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
+      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
         "تأكيد عملية الاشتراك ",
         textAlign: TextAlign.right,
@@ -657,6 +694,18 @@ Future<bool> isSubscribed(String mID) async {
   }
   return false;
 }
+
+String getTime(var timeStamp) {
+  final DateFormat formatter = DateFormat('dd/MM/yyyy'); //your date format here
+  var date = timeStamp.toDate();
+  return formatter.format(date);
+}
+
+// String formattedDate(timeStamp) {
+//   var dateFromTimeStamp =
+//       DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
+//   return DateFormat('dd-MM-yyyy hh:mm a').format(dateFromTimeStamp);
+// }
 
 Widget _buildWaitingScreen() {
   return Scaffold(
