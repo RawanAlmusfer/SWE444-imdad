@@ -369,7 +369,15 @@ class evFeed extends State<eventsv_feed> {
                       height: 30,
                       width: 70,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                        int? wholePartsNum=  document['parts_number'];
+                        int? currentPartsNum=document['participants'];
+                    String  mName= document['mosque_name'].toString();
+                        String mmId=  document['posted_by'].toString();
+
+                         await apply(mName,mmId,wholePartsNum!,currentPartsNum!);
+
+                        },
                         child: Text(
                           "شارك",
                           textAlign: TextAlign.center,
@@ -526,7 +534,89 @@ class evFeed extends State<eventsv_feed> {
         ],
       ),
     );
+
   }
+
+
+  Future<void> apply(String mmId, String mmName, int wholePartsNum, int currentPartsNem) async {
+    String vId = await FirebaseAuth.instance.currentUser!.uid;
+    String? response = '';
+    bool isExsited = false;
+
+
+
+    try {
+      //subscribe
+
+      var document = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(mmId)
+          .collection("subscribedVolunteers")
+          .doc(vId)
+          .get();
+
+      if (document.exists) {
+        if (document != null) {
+          isExsited = true;
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
+        }
+      } else {
+        print('المتطوع ليس مسجل بقائمة المتطوعين');
+      }
+
+      if (!isExsited) {
+        await FirebaseMessaging.instance.getToken().then((token) {
+        });
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(mmId)
+            .collection("subscribedVolunteers")
+            .doc(vId)
+            .set({'uid': vId})
+            .then((value) =>
+        {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+            .catchError((error) =>
+        //////
+        {response = "لم يتم تفعيل التنبيهات بنجاح"});
+        //add to mm
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(vId)
+            .collection("subscribedMosqueManager")
+            .doc(mmId)
+            .set({'mosque_name': mmName, 'mmId': mmId});
+      }
+
+      //Unsubscribe
+
+      else {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(mmId)
+            .collection("subscribedVolunteers")
+            .doc(vId)
+            .delete()
+            .then((value) =>
+        {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
+            .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(vId)
+            .collection("subscribedMosqueManager")
+            .doc(mmId)
+            .delete();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('error to subscribe $e')));
+    }
+
+    showAlertDialog(context, response);
+  }
+
 
   Future<void> subscription(String mmId, String mmName) async {
     String vId = await FirebaseAuth.instance.currentUser!.uid;

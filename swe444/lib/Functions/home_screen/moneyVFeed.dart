@@ -569,7 +569,7 @@ class mvFeed extends State<mv_feed> {
             .then((value) =>
         {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
             .catchError((error) =>
-        //////
+
         {response = "لم يتم تفعيل التنبيهات بنجاح"});
         //add to mm
         await FirebaseFirestore.instance
