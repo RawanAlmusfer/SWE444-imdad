@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
+import 'package:swe444/Functions/map/map_view.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
 import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
@@ -25,6 +26,7 @@ class _HomeState extends State<vHome> {
   final List<Widget> _children = [
     ProfilePage(),
     SubscribedList(),
+    MapSample(),
     SearchPage(),
     vhome(),
   ];
@@ -181,6 +183,10 @@ class _HomeState extends State<vHome> {
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.article_outlined),
                     label: "المتابَعين",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: new Icon(Icons.map_outlined),
+                    label: "الخريطة",
                   ),
                   BottomNavigationBarItem(
                     icon: new Icon(Icons.search),
