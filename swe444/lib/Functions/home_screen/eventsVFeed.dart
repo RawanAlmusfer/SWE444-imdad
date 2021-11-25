@@ -370,13 +370,14 @@ class evFeed extends State<eventsv_feed> {
                       width: 70,
                       child: ElevatedButton(
                         onPressed: () async {
-                        int? wholePartsNum=  document['parts_number'];
-                        int? currentPartsNum=document['participants'];
-                    String  mName= document['mosque_name'].toString();
-                        String mmId=  document['posted_by'].toString();
+                          int? wholePartsNum = document['parts_number'];
+                          int? currentPartsNum = document['participants'];
+                          String mName = document['mosque_name'].toString();
+                          String mmId = document['posted_by'].toString();
+                          String thisDocId = document.id;
 
-                         await apply(mName,mmId,wholePartsNum!,currentPartsNum!);
-
+                          await apply(mName, mmId, wholePartsNum!,
+                              currentPartsNum!, thisDocId);
                         },
                         child: Text(
                           "شارك",
@@ -534,24 +535,21 @@ class evFeed extends State<eventsv_feed> {
         ],
       ),
     );
-
   }
 
-
-  Future<void> apply(String mmId, String mmName, int wholePartsNum, int currentPartsNem) async {
+  Future<void> apply(String mmName, String mmId, int wholePartsNum,
+      int currentPartsNem, String thisDocId) async {
     String vId = await FirebaseAuth.instance.currentUser!.uid;
     String? response = '';
     bool isExsited = false;
 
-
-
     try {
-      //subscribe
+      //apply
 
       var document = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(mmId)
-          .collection("subscribedVolunteers")
+          .collection('requests')
+          .doc(thisDocId)
+          .collection('applicants')
           .doc(vId)
           .get();
 
@@ -563,60 +561,38 @@ class evFeed extends State<eventsv_feed> {
               SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
         }
       } else {
-        print('المتطوع ليس مسجل بقائمة المتطوعين');
-      }
+        print('المتطوع ليس مسجل بقائمة المتقدمين');}
 
-      if (!isExsited) {
-        await FirebaseMessaging.instance.getToken().then((token) {
-        });
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(mmId)
-            .collection("subscribedVolunteers")
-            .doc(vId)
-            .set({'uid': vId})
-            .then((value) =>
-        {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
-            .catchError((error) =>
-        //////
-        {response = "لم يتم تفعيل التنبيهات بنجاح"});
-        //add to mm
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(vId)
-            .collection("subscribedMosqueManager")
-            .doc(mmId)
-            .set({'mosque_name': mmName, 'mmId': mmId});
-      }
+        if (!isExsited) {
+          await FirebaseFirestore.instance
+              .collection('requests')
+              .doc(thisDocId)
+              .collection("applicants")
+              .doc(vId)
+              .set({'uid': vId})
+              .then((value) =>
+          {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+              .catchError((error) =>
 
-      //Unsubscribe
+          {response = "لم يتم تفعيل التنبيهات بنجاح"});
+          //add to mm
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(vId)
+              .collection("subscribedMosqueManager")
+              .doc(mmId)
+              .set({'mosque_name': mmName, 'mmId': mmId});
+        }
 
-      else {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(mmId)
-            .collection("subscribedVolunteers")
-            .doc(vId)
-            .delete()
-            .then((value) =>
-        {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
-            .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
+        //Unsubscribe
 
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(vId)
-            .collection("subscribedMosqueManager")
-            .doc(mmId)
-            .delete();
-      }
-    } catch (e) {
+      }catch (e) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('error to subscribe $e')));
+          .showSnackBar(SnackBar(content: Text('error to apply $e')));
     }
 
     showAlertDialog(context, response);
   }
-
 
   Future<void> subscription(String mmId, String mmName) async {
     String vId = await FirebaseAuth.instance.currentUser!.uid;
@@ -678,8 +654,10 @@ class evFeed extends State<eventsv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) =>
-                {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
+            .then((value) => {
+                  response =
+                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
+                })
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -701,26 +679,26 @@ class evFeed extends State<eventsv_feed> {
     // set up the button
     Widget okButton = Padding(
         padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
-      child:
-    TextButton(
-      child: Text(
-        "موافق",
-        textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
-      ),
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-      onPressed: () {
-        int count = 0;
-        Navigator.of(context).popUntil((_) => count++ >= 2);
-      },
-    ));
+        child: TextButton(
+          child: Text(
+            "موافق",
+            textAlign: TextAlign.right,
+            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+          onPressed: () {
+            int count = 0;
+            Navigator.of(context).popUntil((_) => count++ >= 2);
+          },
+        ));
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
+      contentPadding:
+          EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
         "تأكيد عملية الاشتراك ",
         textAlign: TextAlign.right,
