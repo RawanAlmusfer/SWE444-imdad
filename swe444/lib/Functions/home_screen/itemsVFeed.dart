@@ -242,7 +242,7 @@ class ivFeed extends State<itemsv_feed> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              'العدد: ' +
+                              'العدد المطلوب: ' +
                                   document['amount_requested'].toString(),
                               style: TextStyle(fontFamily: 'Tajawal'),
                               textDirection: TextDirection
@@ -268,7 +268,7 @@ class ivFeed extends State<itemsv_feed> {
                               child: Text(document['donated'].toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 10)),
+                                      fontFamily: 'Tajawal', fontSize: 13)),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -302,7 +302,7 @@ class ivFeed extends State<itemsv_feed> {
                               child: Text(
                                   document['amount_requested'].toString(),
                                   style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 10)),
+                                      fontFamily: 'Tajawal', fontSize: 13)),
                             ),
                           ],
                         ),
@@ -371,6 +371,7 @@ class ivFeed extends State<itemsv_feed> {
     return Container(
       padding: EdgeInsets.all(30),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10, bottom: 20),
@@ -391,7 +392,7 @@ class ivFeed extends State<itemsv_feed> {
             textAlign: TextAlign.center,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -432,6 +433,7 @@ class ivFeed extends State<itemsv_feed> {
     return Container(
       padding: EdgeInsets.all(30),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10, bottom: 20),
@@ -452,7 +454,7 @@ class ivFeed extends State<itemsv_feed> {
             textAlign: TextAlign.center,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -668,11 +670,14 @@ Widget _buildWaitingScreen() {
   );
 }
 
-Widget buildLinearProgress(double val) => Text(
-      '${(val * 100).toStringAsFixed(1)} %',
-      style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
-      textAlign: TextAlign.center,
+Widget buildLinearProgress(double val) => Padding(
+      padding: const EdgeInsets.only(top: 1.0),
+      child: Text(
+        '${(val * 100).toStringAsFixed(1)} %',
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
+        textAlign: TextAlign.center,
+      ),
     );
 
 const String mosqueImage =

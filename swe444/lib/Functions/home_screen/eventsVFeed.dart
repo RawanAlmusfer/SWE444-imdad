@@ -312,7 +312,7 @@ class evFeed extends State<eventsv_feed> {
                               child: Text(document['participants'].toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 10)),
+                                      fontFamily: 'Tajawal', fontSize: 13)),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -345,7 +345,7 @@ class evFeed extends State<eventsv_feed> {
                               padding: const EdgeInsets.only(top: 14.0),
                               child: Text(document['parts_number'].toString(),
                                   style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 10)),
+                                      fontFamily: 'Tajawal', fontSize: 13)),
                             ),
                           ],
                         ),
@@ -410,6 +410,7 @@ class evFeed extends State<eventsv_feed> {
     return Container(
       padding: EdgeInsets.all(30),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10, bottom: 20),
@@ -430,7 +431,7 @@ class evFeed extends State<eventsv_feed> {
             textAlign: TextAlign.center,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -471,6 +472,7 @@ class evFeed extends State<eventsv_feed> {
     return Container(
       padding: EdgeInsets.all(30),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10, bottom: 20),
@@ -491,7 +493,7 @@ class evFeed extends State<eventsv_feed> {
             textAlign: TextAlign.center,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -588,8 +590,10 @@ class evFeed extends State<eventsv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) =>
-                {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
+            .then((value) => {
+                  response =
+                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
+                })
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -611,26 +615,26 @@ class evFeed extends State<eventsv_feed> {
     // set up the button
     Widget okButton = Padding(
         padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
-      child:
-    TextButton(
-      child: Text(
-        "موافق",
-        textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
-      ),
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-      onPressed: () {
-        int count = 0;
-        Navigator.of(context).popUntil((_) => count++ >= 2);
-      },
-    ));
+        child: TextButton(
+          child: Text(
+            "موافق",
+            textAlign: TextAlign.right,
+            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+          onPressed: () {
+            int count = 0;
+            Navigator.of(context).popUntil((_) => count++ >= 2);
+          },
+        ));
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
+      contentPadding:
+          EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
         "تأكيد عملية الاشتراك ",
         textAlign: TextAlign.right,
@@ -717,11 +721,14 @@ Widget _buildWaitingScreen() {
   );
 }
 
-Widget buildLinearProgress(double val) => Text(
-      '${(val * 100).toStringAsFixed(1)} %',
-      style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
-      textAlign: TextAlign.center,
+Widget buildLinearProgress(double val) => Padding(
+      padding: const EdgeInsets.only(top: 1.0),
+      child: Text(
+        '${(val * 100).toStringAsFixed(1)} %',
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
+        textAlign: TextAlign.center,
+      ),
     );
 
 const String mosqueImage =

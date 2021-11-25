@@ -86,41 +86,47 @@ class Subscribed_List extends State<subscribedList> {
                 top: 12.0, bottom: 12.0, left: 2, right: 10),
             child: Row(children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 5.0, bottom: 5.0, left: 2, right: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0xffededed),
-                          spreadRadius: 1,
-                          blurRadius: 10),
-                    ],
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  child: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: const Color(0xff334856),
+                  )
+                  //بي
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //           color: Color(0xffededed),
+                  //           spreadRadius: 1,
+                  //           blurRadius: 10),
+                  //     ],
+                  //   ),
+                  //   height: 30,
+                  //   width: 65,
+                  //   child:
+                  //    ElevatedButton(
+                  //     onPressed: () async {
+                  //       await subscription(
+                  //           document['mmId'], document['mosque_name'].toString());
+                  //     },
+                  //     child: Text(
+                  //       "إلغاء",
+                  //       textAlign: TextAlign.center,
+                  //       style: TextStyle(
+                  //           fontFamily: 'Tajawal',
+                  //           color: const Color(0xff334856)),
+                  //     ),
+                  //     style: ElevatedButton.styleFrom(
+                  //       minimumSize: Size(65.w, 30.h),
+                  //       primary: const Color(0xdeedd03c),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(50),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   ),
-                  height: 30,
-                  width: 65,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await subscription(
-                          document['mmId'], document['mosque_name'].toString());
-                    },
-                    child: Text(
-                      "إلغاء",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: 'Tajawal',
-                          color: const Color(0xff334856)),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(65.w, 30.h),
-                      primary: const Color(0xdeedd03c),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(right: 20, top: 5),

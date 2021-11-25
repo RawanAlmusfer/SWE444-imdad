@@ -71,14 +71,12 @@ class mmFeed extends State<mm_feed> {
 
   Widget buildCards(
       BuildContext context, DocumentSnapshot document, String? id) {
-
     if (document['type'].toString() == "تنظيم")
       return buildEventsCards(context, document, id);
     else if (document['type'].toString() == "موارد")
       return buildItemsCards(context, document, id);
     else
       return buildFundsCards(context, document, id);
-
   }
 
   Widget buildItemsCards(
@@ -242,6 +240,7 @@ class mmFeed extends State<mm_feed> {
                       )
                     ]),
                   ),
+
                 if (document['donated'].toString() != '0')
                   Padding(
                     padding: const EdgeInsets.only(
@@ -260,7 +259,7 @@ class mmFeed extends State<mm_feed> {
                         height: 30,
                         width: 75,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: null,
                           child: Text(
                             "تعديل",
                             textAlign: TextAlign.center,
@@ -268,8 +267,9 @@ class mmFeed extends State<mm_feed> {
                                 fontFamily: 'Tajawal', color: Colors.grey),
                           ),
                           style: ElevatedButton.styleFrom(
+                            onSurface: Colors.grey,
                             minimumSize: Size(65.w, 30.h),
-                            primary: const Color(0xffededed),
+                            primary: const Color(0xdeedd03c),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
@@ -476,7 +476,7 @@ class mmFeed extends State<mm_feed> {
                         height: 30,
                         width: 75,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: null,
                           child: Text(
                             "تعديل",
                             textAlign: TextAlign.center,
@@ -484,8 +484,9 @@ class mmFeed extends State<mm_feed> {
                                 fontFamily: 'Tajawal', color: Colors.grey),
                           ),
                           style: ElevatedButton.styleFrom(
+                            onSurface: Colors.grey,
                             minimumSize: Size(65.w, 30.h),
-                            primary: const Color(0xffededed),
+                            primary: const Color(0xdeedd03c),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
@@ -660,7 +661,7 @@ class mmFeed extends State<mm_feed> {
                         height: 30,
                         width: 75,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: null,
                           child: Text(
                             "تعديل",
                             textAlign: TextAlign.center,
@@ -668,8 +669,9 @@ class mmFeed extends State<mm_feed> {
                                 fontFamily: 'Tajawal', color: Colors.grey),
                           ),
                           style: ElevatedButton.styleFrom(
+                            onSurface: Colors.grey,
                             minimumSize: Size(65.w, 30.h),
-                            primary: const Color(0xffededed),
+                            primary: const Color(0xdeedd03c),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
