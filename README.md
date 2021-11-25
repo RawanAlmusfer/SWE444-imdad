@@ -26,21 +26,32 @@ Moreover, as the Kingdom of Saudi Arabia's interest came in the empowerment of v
 <li> :two: Login+Logout for mosque manager and volunteer features </li>
 <li> :three: Post+cancel requests as a mosque manager features </li>
 <li>:four: View Posted requests as mosque manager and volunteer feature </li>
+<li>5️⃣ As a developer, I would like to install Andriod Studio environment, so that I can develop Imdad application</li>
+<li>6️⃣ As a developer, I would like to install Andriod Studio environment, so that I can develop Imdad application</li>
+<li>7️⃣ As a developer, I would like to install Flutter SDK (Software Must Development Kit), so that I can develop Imdad application</li>
+<li>8️⃣ As a developer, I would like to install Firebase Database, so that I can develop Imdad application</li>
+<li>9️⃣ As a developer, I would like to set up a GitHub account, so Must that I can control and manage Imdad application</li>
+<li>1️⃣0️⃣ As a Developer, I would like to learn dart language and its Must SDK Flutter, so that I can develop Imdad application.</li>
+<li>1️⃣1️⃣ As a Developer, I would like to take Firebase database courses and how noSQL databases work, so that I can develop Imdad application.</li>
  <br> 
  
 <h1>:rocket: Sprint#2</h1>
-<li>5️⃣</li>
-<li>6️⃣</li>
-<li>7️⃣</li>
-<li>8️⃣</li>
-<li>9️⃣</li>
-<li>1️⃣0️⃣ </li>
-<li>1️⃣1️⃣ </li>
-<li>1️⃣2️⃣ </li>
-<li>1️⃣3️⃣</li>
-<li>1️⃣4️⃣</li>
-<li>1️⃣5️⃣</li>
-<li>1️⃣6️⃣</li>
+
+<li>1️⃣2️⃣ As a mosque manager I would like to receive notification if the posted request is fulfilled so that I can manage the donated funds.</li>
+<li>1️⃣3️⃣ As a volunteer I would like to view all requests posted by the mosque so that I can participate in fulfilling the request.</li>
+<li>1️⃣4️⃣ As a volunteer I would like to participate in the group funds posted by mosque manger so that I can help my community.</li>
+<li>1️⃣5️⃣ As a volunteer I would like to pay by credit card so that I can participate in fulfilling a request.</li>
+<li>1️⃣6️⃣ As a mosque manger I would like to post request for item donation so that volunteers can donate.</li>
+<li>1️⃣7️⃣ As a volunteer I would like to view my profile so that I can review its information.</li>
+<li>1️⃣8️⃣ As a Mosque manager, I would like to edit my posted requests, so that I can update the request's information</li>
+<li>1️⃣9️⃣ As a mosque manager I would like to view my profile so that I can review its information.</li>
+<li>2️⃣0️⃣</li>
+<li>2️⃣1️⃣</li>
+<li>2️⃣2️⃣</li>
+<li>2️⃣3️⃣</li>
+<li>2️⃣4️⃣</li>
+<li>2️⃣5️⃣</li>
+<li>2️⃣6️⃣</li>
 
 <h1>:rocket: Sprint#3</h1>
 <h1>:rocket: Sprint#4</h1>
