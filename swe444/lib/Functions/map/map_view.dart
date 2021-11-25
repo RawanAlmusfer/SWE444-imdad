@@ -30,6 +30,7 @@ class MapSampleState extends State<MapSample> {
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
         onMapCreated: (GoogleMapController controller) {
+          print('here');
           _controller.complete(controller);
         },
       ),
