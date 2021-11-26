@@ -19,7 +19,7 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 3;
+  int _currentIndex = 4;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
@@ -223,10 +223,15 @@ class _HomeState extends State<vHome> {
           break;
         case 2:
           {
-            _title = 'البحث';
+            _title = 'الخريطة';
           }
           break;
         case 3:
+          {
+            _title = 'البحث';
+          }
+          break;
+        case 4:
           {
             _title = 'الصفحة الرئيسية';
           }
