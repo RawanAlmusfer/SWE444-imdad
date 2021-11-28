@@ -32,26 +32,57 @@ class _UsersScreenState extends State<UsersScreen> {
         .where('type', isEqualTo: "موارد")
         .get();
 
-    // .doc()
-    // .collection("donations")
-    // .snapshots().
-
-    // var uesrDoc = await FirebaseFirestore.instance
-    //   .collection('users')
-    //   .doc(user?.uid.toString())
-    //   .collection("subscribedMosqueManager")
-    //   .get();
-
     var requestDocs = requests.docs;
     var length = requestDocs.length;
 
-    // for (var Doc in requestDocs) {
-    //   if (!subscribedMosques.contains(Doc.id)) {
-    //     subscribedMosques.add(Doc.id);
-    //   }
-    // }
+    // loop over each item request
+    for (var doc in requestDocs) {
+      // getting current request data
+      var requestData = doc.data();
+      // get donations collection
+      var donationsCollection = await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(doc.id)
+          .collection("donations")
+          .get();
 
-    print("Item requests is ____________" + length.toString());
+      // is donations exists
+      var donations = donationsCollection.docs;
+      if (donations.isNotEmpty) {
+        // loop over each donation for the request
+        for (var donor in donations) {
+          //getting curresnt doc data
+          var donorData = donor.data();
+
+          //Checking status first
+          if (donorData['status'] == "unconfirmed") {
+            // checking the date
+            var donationDate = donorData['date'];
+            var oldDonation = isAfterOneDay(donationDate);
+            // print("isAfterToday: " + oldDonation.toString());
+            if (oldDonation) {
+              // update donated variable
+              // Delete this donation
+            }
+          }
+        }
+      } else {
+        print("Doc title is " + requestData['title']);
+        print("Empty");
+      }
+    }
+
+    // print("Item requests is ____________" + length.toString());
+  }
+
+  bool isAfterOneDay(Timestamp timestamp) {
+    var DonationDate = timestamp.toDate();
+    var deadline = DonationDate.add(Duration(days: 1, hours: 0, minutes: 00));
+
+    return DateTime.fromMillisecondsSinceEpoch(
+      deadline.millisecondsSinceEpoch,
+      isUtc: false,
+    ).toUtc().isBefore(DateTime.now().toUtc());
   }
 
   @override
