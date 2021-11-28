@@ -26,14 +26,12 @@ class _UsersScreenState extends State<UsersScreen> {
   }
 
   setup() async {
-    print("Iam in init state ____________");
     var requests = await FirebaseFirestore.instance
         .collection('requests')
         .where('type', isEqualTo: "موارد")
         .get();
 
     var requestDocs = requests.docs;
-    var length = requestDocs.length;
 
     // loop over each item request
     for (var doc in requestDocs) {
@@ -81,10 +79,11 @@ class _UsersScreenState extends State<UsersScreen> {
             }
           }
         }
-      } else {
-        print("Doc title is " + requestData['title']);
-        print("Empty");
       }
+      // else {
+      //   print("Doc title is " + requestData['title']);
+      //   print("Empty");
+      // }
     }
   }
 
