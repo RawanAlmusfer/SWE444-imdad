@@ -26,11 +26,15 @@ Moreover, as the Kingdom of Saudi Arabia's interest came in the empowerment of v
 <li> :two: Login+Logout for mosque manager and volunteer features </li>
 <li> :three: Post+cancel requests as a mosque manager features </li>
 <li>:four: View Posted requests as mosque manager and volunteer feature </li>
+<h2> Technical Features </h2>
+
 <li>5️⃣ As a developer, I would like to install Andriod Studio environment, so that I can develop Imdad application</li>
 <li>6️⃣ As a developer, I would like to install Andriod Studio environment, so that I can develop Imdad application</li>
 <li>7️⃣ As a developer, I would like to install Flutter SDK (Software Must Development Kit), so that I can develop Imdad application</li>
 <li>8️⃣ As a developer, I would like to install Firebase Database, so that I can develop Imdad application</li>
 <li>9️⃣ As a developer, I would like to set up a GitHub account, so Must that I can control and manage Imdad application</li>
+<h2> knowledge Acquisition Feature </h2>
+
 <li>1️⃣0️⃣ As a Developer, I would like to learn dart language and its Must SDK Flutter, so that I can develop Imdad application.</li>
 <li>1️⃣1️⃣ As a Developer, I would like to take Firebase database courses and how noSQL databases work, so that I can develop Imdad application.</li>
  <br> 
@@ -45,16 +49,31 @@ Moreover, as the Kingdom of Saudi Arabia's interest came in the empowerment of v
 <li>1️⃣7️⃣ As a volunteer I would like to view my profile so that I can review its information.</li>
 <li>1️⃣8️⃣ As a Mosque manager, I would like to edit my posted requests, so that I can update the request's information</li>
 <li>1️⃣9️⃣ As a mosque manager I would like to view my profile so that I can review its information.</li>
-<li>2️⃣0️⃣</li>
-<li>2️⃣1️⃣</li>
-<li>2️⃣2️⃣</li>
-<li>2️⃣3️⃣</li>
-<li>2️⃣4️⃣</li>
-<li>2️⃣5️⃣</li>
-<li>2️⃣6️⃣</li>
+
 
 <h1>:rocket: Sprint#3</h1>
+<li>2️⃣0️⃣ As a volunteer I would like to search for mosque names so that I can find the requests of mosques that I need.</li>
+<li>2️⃣1️⃣ As a volunteer I would like to subscribe to certain mosque so that I can keep up with their posted requests.</li>
+<li>2️⃣2️⃣ As a volunteer I would like to receive notification of subscribed mosque requests so that I can know when a subscribed mosque posts a request.</li>
+<li>2️⃣3️⃣ As a volunteer I would like to donate items for mosques so that I can participate in providing the mosques needs.</li>
+<li>2️⃣4️⃣ As a Mosque manger, I would like to post requests for volunteers to organize events taking place at the mosque, so that I can allow volunteers to participate in organizing those events.</li>
+<li>2️⃣5️⃣ As a Volunteer, I would like to view my subscribed mosques list, so that I can view their latest unfulfilled requests.</li>
+<li>2️⃣6️⃣ As a Volunteer, I would like to unsubscribe a subscribed mosque, so that I can limit my subscribed mosques.</li>
+<li>2️⃣7️⃣ As a Volunteer, I would like to update my profile, so that I can edit wrong and outdated information.</li>
+<li>2️⃣8️⃣ As a Volunteer, I would like to search for specific requests, so that the I can find requests I’m capable of participating in faster.</li>
+<li>2️⃣9️⃣ As a Mosque manager, I would like to update my profile, so that I can edit wrong and outdated information.</li>
+<li>3️⃣0️⃣ As a volunteer, I would like to view mosque manager profile so that I can view mosque manager information.</li>
+<li>3️⃣1️⃣ As a mosque manager, I would like to confirm the received items so that I can keep track of the remaining requested items.</li>
+<li>3️⃣2️⃣ As a mosque manager, I would like to view the received items so that I can keep track of the request status.</li>
+
 <h1>:rocket: Sprint#4</h1>
+<li>3️⃣3️⃣</li>
+<li>3️⃣4️⃣</li>
+<li>3️⃣5️⃣</li>
+<li>3️⃣6️⃣</li>
+<li>3️⃣7️⃣</li>
+<li>3️⃣8️⃣</li>
+<li>3️⃣9️⃣</li>
 
 <h1> :star2:References: </h1>
 
