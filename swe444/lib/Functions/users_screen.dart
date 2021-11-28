@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -14,15 +15,52 @@ class UsersScreen extends StatefulWidget {
 class _UsersScreenState extends State<UsersScreen> {
   static const kYellow = Color(0xdeedd03c);
 
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+        Duration.zero,
+        () => setState(() {
+              setup();
+            }));
+  }
+
+  setup() async {
+    print("Iam in init state ____________");
+    var requests = await FirebaseFirestore.instance
+        .collection('requests')
+        .where('type', isEqualTo: "موارد")
+        .get();
+
+    // .doc()
+    // .collection("donations")
+    // .snapshots().
+
+    // var uesrDoc = await FirebaseFirestore.instance
+    //   .collection('users')
+    //   .doc(user?.uid.toString())
+    //   .collection("subscribedMosqueManager")
+    //   .get();
+
+    var requestDocs = requests.docs;
+    var length = requestDocs.length;
+
+    // for (var Doc in requestDocs) {
+    //   if (!subscribedMosques.contains(Doc.id)) {
+    //     subscribedMosques.add(Doc.id);
+    //   }
+    // }
+
+    print("Item requests is ____________" + length.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    WidgetsBinding.instance!.addPostFrameCallback((_){
-      if (ScaffoldMessenger.of(context).mounted){
-        ScaffoldMessenger.of(context).removeCurrentSnackBar();}
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (ScaffoldMessenger.of(context).mounted) {
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      }
     });
-
 
     return Scaffold(
       backgroundColor: const Color(0xffededed),
@@ -59,14 +97,6 @@ class _UsersScreenState extends State<UsersScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.08,
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Wrap(
-                  //       crossAxisAlignment: WrapCrossAlignment.center,
-                  //     ),
-                  //   ],
-                  // ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context)
