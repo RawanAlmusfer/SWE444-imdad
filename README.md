@@ -22,18 +22,18 @@ Moreover, as the Kingdom of Saudi Arabia's interest came in the empowerment of v
 <h1>:rocket: Sprint#1</h1>
 <br>
 <h1> :star2: Process Timeline (Assigned Features)  </h1>
-<li> :one:  Registration for mosque manager and volunteer feature /li>
+<li> :one:  Registration for mosque manager and volunteer feature </li>
 <li> :two: Login+Logout for mosque manager and volunteer features </li>
 <li> :three: Post+cancel requests as a mosque manager features </li>
 <li>:four: View Posted requests as mosque manager and volunteer feature </li>
-<h2> Technical Features </h2>
+<h2> 📌 Technical Features </h2>
 
 <li>5️⃣ As a developer, I would like to install Andriod Studio environment, so that I can develop Imdad application</li>
 <li>6️⃣ As a developer, I would like to install Andriod Studio environment, so that I can develop Imdad application</li>
 <li>7️⃣ As a developer, I would like to install Flutter SDK (Software Must Development Kit), so that I can develop Imdad application</li>
 <li>8️⃣ As a developer, I would like to install Firebase Database, so that I can develop Imdad application</li>
 <li>9️⃣ As a developer, I would like to set up a GitHub account, so Must that I can control and manage Imdad application</li>
-<h2> knowledge Acquisition Feature </h2>
+<h2> 📌 knowledge Acquisition Feature </h2>
 
 <li>1️⃣0️⃣ As a Developer, I would like to learn dart language and its Must SDK Flutter, so that I can develop Imdad application.</li>
 <li>1️⃣1️⃣ As a Developer, I would like to take Firebase database courses and how noSQL databases work, so that I can develop Imdad application.</li>
@@ -67,13 +67,14 @@ Moreover, as the Kingdom of Saudi Arabia's interest came in the empowerment of v
 <li>3️⃣2️⃣ As a mosque manager, I would like to view the received items so that I can keep track of the request status.</li>
 
 <h1>:rocket: Sprint#4</h1>
-<li>3️⃣3️⃣</li>
-<li>3️⃣4️⃣</li>
-<li>3️⃣5️⃣</li>
-<li>3️⃣6️⃣</li>
-<li>3️⃣7️⃣</li>
-<li>3️⃣8️⃣</li>
-<li>3️⃣9️⃣</li>
+<li>3️⃣3️⃣ As a mosque manager, I want my pending received items for a specific request to be deleted automatically after 24 hours so that I can manage received items donations.</li>
+<li>3️⃣4️⃣ As a volunteer, I would like to view my subscribed mosques’ requests so that I can participate in them swiftly.</li>
+<li>3️⃣5️⃣ As a Volunteer, I would like to volunteer in organizing the events taking place in mosques, so that I can provide help to the mosques management.</li>
+<li>3️⃣6️⃣ As a Volunteer, I would like to check the status of the requests that I participated in, so that I can keep up with the request progress if it is yet need donations.</li>
+<li>3️⃣7️⃣ As a volunteer I would like to view map of all mosques so that I can find nearby mosques.</li>
+<li>3️⃣8️⃣ As a volunteer, I would like to search for specific mosques on the map so that I can choose the nearest mosques.</li>
+<li>3️⃣9️⃣ As a mosque manager, I would like to view the applicants' list so that I can view all the applicant.</li>
+<li>4️⃣0️⃣ As a volunteer I can delete participation in organizing event, so that I can control participation.</li>
 
 <h1> :star2:References: </h1>
 
