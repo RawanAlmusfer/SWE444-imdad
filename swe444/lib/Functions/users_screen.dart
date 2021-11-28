@@ -61,8 +61,23 @@ class _UsersScreenState extends State<UsersScreen> {
             var oldDonation = isAfterOneDay(donationDate);
             // print("isAfterToday: " + oldDonation.toString());
             if (oldDonation) {
+              int willbeDeleted = donorData['num_of_items'];
+              int oldValue = requestData['donated'];
+              int newValue = oldValue - willbeDeleted;
+
               // update donated variable
+              await FirebaseFirestore.instance
+                  .collection('requests')
+                  .doc(doc.id)
+                  .update({'donated': newValue});
+
               // Delete this donation
+              await FirebaseFirestore.instance
+                  .collection('requests')
+                  .doc(doc.id)
+                  .collection("donations")
+                  .doc(donor.id)
+                  .delete();
             }
           }
         }
@@ -71,8 +86,6 @@ class _UsersScreenState extends State<UsersScreen> {
         print("Empty");
       }
     }
-
-    // print("Item requests is ____________" + length.toString());
   }
 
   bool isAfterOneDay(Timestamp timestamp) {
