@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
+import 'package:swe444/Functions/map/map_view.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
 import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
@@ -18,13 +19,14 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 3;
+  int _currentIndex = 4;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
     ProfilePage(),
     SubscribedList(),
+    MapSample(),
     SearchPage(),
     vhome(),
   ];
@@ -183,6 +185,10 @@ class _HomeState extends State<vHome> {
                     label: "المتابَعين",
                   ),
                   BottomNavigationBarItem(
+                    icon: new Icon(Icons.map_outlined),
+                    label: "الخريطة",
+                  ),
+                  BottomNavigationBarItem(
                     icon: new Icon(Icons.search),
                     label: "البحث",
                   ),
@@ -217,10 +223,15 @@ class _HomeState extends State<vHome> {
           break;
         case 2:
           {
-            _title = 'البحث';
+            _title = 'الخريطة';
           }
           break;
         case 3:
+          {
+            _title = 'البحث';
+          }
+          break;
+        case 4:
           {
             _title = 'الصفحة الرئيسية';
           }
