@@ -375,9 +375,10 @@ class evFeed extends State<eventsv_feed> {
                           String mName = document['mosque_name'].toString();
                           String mmId = document['posted_by'].toString();
                           String thisDocId = document.id;
+                          String title= document['title'].toString();
 
                           await apply(mName, mmId, wholePartsNum!,
-                              currentPartsNum!, thisDocId);
+                              currentPartsNum!, thisDocId, title);
                         },
                         child: Text(
                           "شارك",
@@ -538,30 +539,32 @@ class evFeed extends State<eventsv_feed> {
   }
 
   Future<void> apply(String mmName, String mmId, int wholePartsNum,
-      int currentPartsNem, String thisDocId) async {
+      int currentPartsNem, String thisDocId, String title) async {
     String vId = await FirebaseAuth.instance.currentUser!.uid;
     String? response = '';
     bool isExsited = false;
 
+
     try {
-      //apply
+      if(wholePartsNum!=currentPartsNem) {
+        //apply
+        var document = await FirebaseFirestore.instance
+            .collection('requests')
+            .doc(thisDocId)
+            .collection('applicants')
+            .doc(vId)
+            .get();
 
-      var document = await FirebaseFirestore.instance
-          .collection('requests')
-          .doc(thisDocId)
-          .collection('applicants')
-          .doc(vId)
-          .get();
-
-      if (document.exists) {
-        if (document != null) {
-          isExsited = true;
+        if (document.exists) {
+          if (document != null) {
+            isExsited = true;
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
+          }
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
+          print('المتطوع ليس مسجل بقائمة المتقدمين');
         }
-      } else {
-        print('المتطوع ليس مسجل بقائمة المتقدمين');}
 
         if (!isExsited) {
           await FirebaseFirestore.instance
@@ -571,22 +574,16 @@ class evFeed extends State<eventsv_feed> {
               .doc(vId)
               .set({'uid': vId})
               .then((value) =>
-          {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+          {response = ' تم التقديم لتنظيم $title لمسجد $mmName بنجاح '})
               .catchError((error) =>
 
-          {response = "لم يتم تفعيل التنبيهات بنجاح"});
-          //add to mm
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(vId)
-              .collection("subscribedMosqueManager")
-              .doc(mmId)
-              .set({'mosque_name': mmName, 'mmId': mmId});
+          {response = ' لم يتم التقديم لتنظيم$titleبنجاح '});
         }
-
+      }
+      response='عدد المتقدمين مكتمل ..  نشكر لك مساهمتك ';
         //Unsubscribe
 
-      }catch (e) {
+      } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('error to apply $e')));
     }
