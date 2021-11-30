@@ -255,7 +255,7 @@ class ivFeed extends State<itemsv_feed> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              "نسبة الإكتمال: ",
+                              "العدد المتبقي: ",
                               style: TextStyle(fontFamily: 'Tajawal'),
                               textDirection: TextDirection.rtl,
                             ),
@@ -263,13 +263,13 @@ class ivFeed extends State<itemsv_feed> {
                         ),
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['donated'].toString(),
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 13)),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 14.0),
+                            //   child: Text(document['donated'].toString(),
+                            //       textAlign: TextAlign.right,
+                            //       style: TextStyle(
+                            //           fontFamily: 'Tajawal', fontSize: 13)),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.only(
                                   top: 10.0, left: 5, right: 5),
@@ -291,19 +291,19 @@ class ivFeed extends State<itemsv_feed> {
                                     ),
                                     Center(
                                         child: buildLinearProgress(
-                                            (document['donated'] /
-                                                document['amount_requested']))),
+                                            document['donated'],
+                                            document['amount_requested'])),
                                   ],
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(
-                                  document['amount_requested'].toString(),
-                                  style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 13)),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 14.0),
+                            //   child: Text(
+                            //       document['amount_requested'].toString(),
+                            //       style: TextStyle(
+                            //           fontFamily: 'Tajawal', fontSize: 13)),
+                            // ),
                           ],
                         ),
                       ],
@@ -672,12 +672,11 @@ Widget _buildWaitingScreen() {
   );
 }
 
-Widget buildLinearProgress(double val) => Padding(
-      padding: const EdgeInsets.only(top: 1.0),
+Widget buildLinearProgress(int donated, int all) => Padding(
+      padding: const EdgeInsets.only(top: 0.0),
       child: Text(
-        '${(val * 100).toStringAsFixed(1)} %',
-        style: TextStyle(
-            fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
+        donated.toString() + " / " + all.toString(),
+        style: TextStyle(fontSize: 11, fontFamily: 'Tajawal'),
         textAlign: TextAlign.center,
       ),
     );
