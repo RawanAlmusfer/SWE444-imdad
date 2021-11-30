@@ -836,7 +836,9 @@ class mmFeed extends State<mm_feed> {
       backgroundColor: const Color(0xffededed),
       body: Container(
         alignment: Alignment.center,
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: const Color(0xdeedd03c),
+        ),
       ),
     );
   }

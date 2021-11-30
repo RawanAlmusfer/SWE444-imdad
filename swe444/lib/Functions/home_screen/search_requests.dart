@@ -1400,7 +1400,9 @@ class _SearchRequests extends State<SearchRequests> {
 Widget _buildWaitingScreen() {
   return Container(
     alignment: Alignment.center,
-    child: CircularProgressIndicator(),
+    child: CircularProgressIndicator(
+      color: const Color(0xdeedd03c),
+    ),
   );
 }
 
