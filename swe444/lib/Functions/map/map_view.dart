@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:swe444/Functions/map/markers.dart';
 import 'package:swe444/Sevices/geolocater_service.dart';
 
 class MapSample extends StatefulWidget {
@@ -15,6 +16,8 @@ class MapSampleState extends State<MapSample> {
   LatLng current = LatLng(0, 0);
   Completer<GoogleMapController> _controller = Completer();
    GoogleMapController? _gmcontroller;
+  MarkersViewModel markers= MarkersViewModel();
+
   CameraPosition cp = CameraPosition(
     target: LatLng(24.7135517, 46.6752957),
     zoom: 12.4746,
@@ -45,6 +48,7 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
+
     SchedulerBinding.instance!.addPostFrameCallback((_) {
       if (mounted)
         setState(() {
@@ -59,6 +63,7 @@ class MapSampleState extends State<MapSample> {
         child: GoogleMap(
           myLocationEnabled: true,
           initialCameraPosition: cp,
+          markers: markers.markers,
           mapType: MapType.normal,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class ListViewModel {
-  Stream<QuerySnapshot<Map<String, dynamic>>>? _mosques;
-  late List<Marker> markers = [];
+class MarkersViewModel {
+  // Stream<QuerySnapshot<Map<String, dynamic>>>? _mosques;
+  late Set<Marker> _markers = {};
 
   fetchMosques() async {
     FirebaseFirestore.instance
@@ -12,7 +12,7 @@ class ListViewModel {
         .forEach((snapshot) {
       var i = snapshot.docs.iterator;
       while (i.moveNext()) {
-        markers.add(Marker(
+        _markers.add(Marker(
           markerId: i.current['name'],
           position: LatLng(i.current['lat'], i.current['long']),
           infoWindow: InfoWindow(title: i.current['name']),
@@ -21,7 +21,8 @@ class ListViewModel {
     }).onError((error, stackTrace) => print("error"));
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>>? get mosques {
-    return _mosques;
+  Set<Marker> get markers {
+    return _markers;
   }
+
 }
