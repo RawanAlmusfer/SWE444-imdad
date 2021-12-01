@@ -14,7 +14,7 @@ class MapSampleState extends State<MapSample> {
   GeolocaterService location = GeolocaterService();
   LatLng current = LatLng(0, 0);
   Completer<GoogleMapController> _controller = Completer();
-   GoogleMapController? _gmcontroller ;
+   GoogleMapController? _gmcontroller;
   CameraPosition cp = CameraPosition(
     target: LatLng(24.7135517, 46.6752957),
     zoom: 12.4746,
