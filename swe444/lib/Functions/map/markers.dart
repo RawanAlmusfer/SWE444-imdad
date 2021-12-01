@@ -1,22 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class ListViewModel with ChangeNotifier {
+
+class ListViewModel {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _mosques;
-  // User? user = FirebaseAuth.instance.currentUser;
-  // late bool? isVSubscribed;
-  // late List<String> isVSubscribed = [];
+  late List<Marker> markers = [];
+
+
 
   fetchMosques() async {
-    _mosques = FirebaseFirestore.instance
-        .collection('users')
-        .doc(user?.uid.toString())
-        .collection("subscribedMosqueManager")
-        .snapshots();
+    FirebaseFirestore.instance
+        .collection('mosques_code')
+        .snapshots()
+        .forEach((snapshot) {
+      var i = snapshot.docs.iterator;
+      while (i.moveNext()) {
+        markers.add(Marker(markerId: i.current['name'], position: LatLng(i.current['lat'],i.current['long'])));
+      }
+    }).onError((error, stackTrace) => print("error"));
 
-    notifyListeners();
   }
+
+
+
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? get mosques {
     return _mosques;
