@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MarkersViewModel {
   // Stream<QuerySnapshot<Map<String, dynamic>>>? _mosques;
   late Set<Marker> _markers = {};
 
-  fetchMosques() async {
+  Future<Set<Marker>> fetchMosques() async {
     FirebaseFirestore.instance
         .collection('mosques_code')
         .snapshots()
@@ -13,12 +14,15 @@ class MarkersViewModel {
       var i = snapshot.docs.iterator;
       while (i.moveNext()) {
         _markers.add(Marker(
-          markerId: i.current['name'],
+          markerId: MarkerId(i.current['name']),
+          icon: BitmapDescriptor.defaultMarkerWithHue(60),
           position: LatLng(i.current['lat'], i.current['long']),
           infoWindow: InfoWindow(title: i.current['name']),
         ));
+        print('here!!!!!!!!!!!!');
       }
-    }).onError((error, stackTrace) => print("error"));
+    }).onError((error, stackTrace) => print("error" + error.toString()));
+    return _markers;
   }
 
   Set<Marker> get markers {

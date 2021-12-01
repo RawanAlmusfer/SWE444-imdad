@@ -17,6 +17,7 @@ class MapSampleState extends State<MapSample> {
   Completer<GoogleMapController> _controller = Completer();
    GoogleMapController? _gmcontroller;
   MarkersViewModel markers= MarkersViewModel();
+  Set<Marker> ms={};
 
   CameraPosition cp = CameraPosition(
     target: LatLng(24.7135517, 46.6752957),
@@ -31,6 +32,15 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(
+        Duration.zero,
+            () => setState(() {
+          setup();
+        }));
+  }
+
+  setup() async {
+    ms= await markers.fetchMosques();
   }
 
   getCurrentLocation() async {
@@ -49,21 +59,21 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
 
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
-      if (mounted)
-        setState(() {
-          getCurrentLocation();
-          if (_gmcontroller != null)
-          _gmcontroller!.animateCamera(CameraUpdate.newCameraPosition(cp));
-        });
-    });
+    // SchedulerBinding.instance!.addPostFrameCallback((_) {
+    //   if (mounted)
+    //     setState(() {
+    //       getCurrentLocation();
+    //       if (_gmcontroller != null)
+    //       _gmcontroller!.animateCamera(CameraUpdate.newCameraPosition(cp));
+    //     });
+    // });
     return Scaffold(
       body: Container(
         margin: EdgeInsets.fromLTRB(0, 0, 0, 65),
         child: GoogleMap(
           myLocationEnabled: true,
           initialCameraPosition: cp,
-          markers: markers.markers,
+          markers: ms,
           mapType: MapType.normal,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
