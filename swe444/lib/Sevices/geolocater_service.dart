@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GeolocaterService {
   final Geolocator geo= new Geolocator();
@@ -9,6 +10,9 @@ class GeolocaterService {
   }
 
   Future<Position> getInitialLocation() async{
+
     return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
+
+
 }
