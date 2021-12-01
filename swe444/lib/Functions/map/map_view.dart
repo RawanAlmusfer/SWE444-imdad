@@ -59,18 +59,19 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
 
-    // SchedulerBinding.instance!.addPostFrameCallback((_) {
-    //   if (mounted)
-    //     setState(() {
-    //       getCurrentLocation();
-    //       if (_gmcontroller != null)
-    //       _gmcontroller!.animateCamera(CameraUpdate.newCameraPosition(cp));
-    //     });
-    // });
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      if (mounted)
+        setState(() {
+          ms= markers.markers;
+          // getCurrentLocation();
+          // if (_gmcontroller != null)
+          // _gmcontroller!.animateCamera(CameraUpdate.newCameraPosition(cp));
+        });
+    });
     return Scaffold(
       body: Container(
         margin: EdgeInsets.fromLTRB(0, 0, 0, 65),
-        child: GoogleMap(
+        child:  GoogleMap(
           myLocationEnabled: true,
           initialCameraPosition: cp,
           markers: ms,
@@ -79,7 +80,7 @@ class MapSampleState extends State<MapSample> {
             _controller.complete(controller);
             _gmcontroller = controller;
           },
-        ),
+        )
       ),
       // floatingActionButton: FloatingActionButton.extended(
       //   onPressed: _goToTheLake,
