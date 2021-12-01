@@ -6,14 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Payment/PaymentScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Payment/PaymentScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/raneemalrashoud/.android/avd/Nexus_6_API_28.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/rawanmohammed/.android/avd/Pixel_3a_API_30.avd]" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -31,6 +34,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/swe444/android/app/build.gradle" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1yiwR9eYJ9kwhfxYQWkjwDXuZ9i" />
   <component name="ProjectViewState">

@@ -37,6 +37,7 @@ dependencies:
   provider: ^6.0.1
   #flutter_pw_validator: ^1.2.1
   cupertino_icons: ^1.0.2
+  geolocator: 7.6.2
 
 dev_dependencies:
   flutter_test:
