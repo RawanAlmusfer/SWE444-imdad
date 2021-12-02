@@ -10,7 +10,6 @@ class GeolocaterService {
   }
 
   Future<Position> getInitialLocation() async{
-
     return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 

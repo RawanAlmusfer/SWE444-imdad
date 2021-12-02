@@ -14,9 +14,9 @@ class MapSampleState extends State<MapSample> {
   GeolocaterService location = GeolocaterService();
   LatLng current = LatLng(0, 0);
   Completer<GoogleMapController> _controller = Completer();
-   GoogleMapController? _gmcontroller;
-  MarkersViewModel markers= MarkersViewModel();
-  Set<Marker> ms={};
+  GoogleMapController? _gmcontroller;
+  MarkersViewModel markers = MarkersViewModel();
+  Set<Marker> ms = {};
 
   CameraPosition cp = CameraPosition(
     target: LatLng(24.7135517, 46.6752957),
@@ -33,54 +33,54 @@ class MapSampleState extends State<MapSample> {
     super.initState();
     Future.delayed(
         Duration.zero,
-            () => setState(() {
-          setup();
-        }));
+        () => setState(() {
+              setup();
+            }));
   }
 
   setup() async {
-    ms= await markers.fetchMosques();
+    ms = await markers.fetchMosques();
   }
 
-  getCurrentLocation() async {
-    double lat = 0;
-    double long = 0;
+  getCurrentLocation(GoogleMapController controller) async {
     await location.getInitialLocation().then((value) {
-      long = value.longitude;
-      lat = value.latitude;
+      double long = value.longitude;
+      double lat = value.latitude;
+      if (controller != null){
+        controller
+            .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(lat, long),
+          zoom: 12.4746,
+        )));}
     }).catchError((error) {
       print(error.toString());
     });
     // return CameraPosition(target: LatLng(24.7135517,46.6752957), zoom: 12.4746, );
-    cp = CameraPosition(target: LatLng(lat, long), zoom: 12.4746);
   }
 
   @override
   Widget build(BuildContext context) {
-
     SchedulerBinding.instance!.addPostFrameCallback((_) {
-      if (mounted)
+      if (mounted) {
         setState(() {
-          ms= markers.markers;
-          // getCurrentLocation();
-          // if (_gmcontroller != null)
-          // _gmcontroller!.animateCamera(CameraUpdate.newCameraPosition(cp));
+          ms = markers.markers;
         });
+      }
     });
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 65),
-        child:  GoogleMap(
-          myLocationEnabled: true,
-          initialCameraPosition: cp,
-          markers: ms,
-          mapType: MapType.normal,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-            _gmcontroller = controller;
-          },
-        )
-      ),
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 65),
+          child: GoogleMap(
+            myLocationEnabled: true,
+            initialCameraPosition: cp,
+            markers: ms,
+            mapType: MapType.normal,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              _gmcontroller = controller;
+              getCurrentLocation(controller);
+            },
+          )),
       // floatingActionButton: FloatingActionButton.extended(
       //   onPressed: _goToTheLake,
       //   label: Text('To the lake!'),
