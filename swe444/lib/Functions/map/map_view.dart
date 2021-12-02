@@ -42,13 +42,16 @@ class MapSampleState extends State<MapSample> {
             }));
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   setup() async {
     ms = await markers.fetchMosques();
   }
 
-  searchFunc(String s) async {
-
-  }
+  searchFunc(String s) async {}
 
   getCurrentLocation() async {
     Position loc = await location.getInitialLocation();
@@ -81,82 +84,6 @@ class MapSampleState extends State<MapSample> {
           margin: EdgeInsets.fromLTRB(0, 0, 0, 65),
           child: Stack(
             children: [
-          Padding(
-          padding: const EdgeInsets.only(
-              left: 30.0, right: 30, top: 20, bottom: 10),
-        child: Stack(
-          children: [
-            TextField(
-              textDirection: ui.TextDirection.rtl,
-              maxLines: 1,
-              controller: searchTerm,
-              onChanged: (_val) {
-                if (_val != null) {
-                  search = searchTerm.text;
-                  setState(() {
-                    Future.delayed(
-                        Duration.zero,
-                            () => setState(() {
-                          searchFunc(search);
-                        }));
-                  });
-                }
-              },
-              showCursor: true,
-              cursorColor: const Color(0xdeedd03c),
-              style: TextStyle(
-                  fontSize: 17, color: const Color(0xff334856)),
-              textAlign: TextAlign.right,
-              decoration: InputDecoration(
-                // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
-                filled: true,
-                fillColor: Color(0xbfffffff),
-                contentPadding: EdgeInsets.only(right: 20, top: 3),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 0.20,
-                    color: const Color(0xffc1c1c1),
-                  ),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(
-                    color: const Color(0xdeedd03c),
-                  ),
-                ),
-                prefixStyle: TextStyle(
-                    fontSize: 17, color: const Color(0xff334856)),
-                hoverColor: const Color(0xff334856),
-                hintText: "إبحث عن",
-                hintStyle: TextStyle(
-                    fontSize: 16,
-                    color: const Color(0xffcbcbcc),
-                    fontFamily: 'Tajawal'),
-                labelStyle: TextStyle(
-                    fontSize: 15,
-                    color: const Color(0xff334856),
-                    fontFamily: 'Tajawal'),
-                alignLabelWithHint: true,
-                //border: OutlineInputBorder(),
-                // hoverColor: const Color(0xff334856),
-              ),
-            ),
-            IconButton(
-                onPressed: () {
-                  search = searchTerm.text;
-                  setState(() {
-                    Future.delayed(
-                        Duration.zero,
-                            () => setState(() {
-                          searchFunc(search);
-                        }));
-                  });
-                },
-                icon:
-                Icon(Icons.search, color: const Color(0xdeedd03c))),
-          ],
-        ),),
               GoogleMap(
                 myLocationEnabled: true,
                 initialCameraPosition: cp,
@@ -167,6 +94,85 @@ class MapSampleState extends State<MapSample> {
                   _gmcontroller = controller;
                 },
               ),
+              Container(
+                height: 60,
+                padding: const EdgeInsets.only(
+                    left: 30.0, right: 55, top: 10, bottom: 10),                alignment: Alignment.topCenter,
+                child: Stack(
+                  children: [
+                    TextField(
+                      textDirection: ui.TextDirection.rtl,
+                      maxLines: 1,
+                      controller: searchTerm,
+                      onChanged: (_val) {
+                        if (_val != null) {
+                          search = searchTerm.text;
+                          setState(() {
+                            Future.delayed(
+                                Duration.zero,
+                                    () => setState(() {
+                                  searchFunc(search);
+                                }));
+                          });
+                        }
+                      },
+                      showCursor: true,
+                      cursorColor: const Color(0xdeedd03c),
+                      style: TextStyle(
+                          fontSize: 17, color: const Color(0xff334856)),
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(
+                        // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
+                        filled: true,
+                        fillColor: Color(0xffffffff),
+                        contentPadding: EdgeInsets.only(right: 20, top: 3),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0.20,
+                            color: const Color(0xffc1c1c1),
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide(
+                            color: const Color(0xdeedd03c),
+                          ),
+                        ),
+                        prefixStyle: TextStyle(
+                            fontSize: 17, color: const Color(0xff334856)),
+                        hoverColor: const Color(0xff334856),
+                        hintText: "إبحث عن",
+                        hintStyle: TextStyle(
+                            fontSize: 16,
+                            color: const Color(0xffcbcbcc),
+                            fontFamily: 'Tajawal'),
+                        labelStyle: TextStyle(
+                            fontSize: 15,
+                            color: const Color(0xff334856),
+                            fontFamily: 'Tajawal'),
+                        alignLabelWithHint: true,
+                        //border: OutlineInputBorder(),
+                        // hoverColor: const Color(0xff334856),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          search = searchTerm.text;
+                          setState(() {
+                            Future.delayed(
+                                Duration.zero,
+                                    () => setState(() {
+                                  searchFunc(search);
+                                }));
+                          });
+                        },
+                        icon:
+                        Icon(Icons.search, color: const Color(0xdeedd03c))),
+                  ],
+                ),
+              ),
+
             ],
           )),
       // floatingActionButton: FloatingActionButton.extended(
