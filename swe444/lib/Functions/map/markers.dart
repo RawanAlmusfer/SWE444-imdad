@@ -15,7 +15,7 @@ class MarkersViewModel {
       while (i.moveNext()) {
         markers.add(Marker(
           markerId: MarkerId(i.current['name']),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
           position: LatLng(i.current['lat'], i.current['long']),
           infoWindow: InfoWindow(title: i.current['name']),
         ));
