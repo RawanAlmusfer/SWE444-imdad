@@ -6,6 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/Podfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/Runner/AppDelegate.swift" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/Runner/AppDelegate.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/GoogleMaps.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/GoogleMaps.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Stripe-Stripe.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Stripe-Stripe.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Stripe.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/Stripe.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/google_maps_flutter.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/google_maps_flutter.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/stripe_payment.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/ios/build/Pods.build/Release-iphonesimulator/stripe_payment.build/dgph" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

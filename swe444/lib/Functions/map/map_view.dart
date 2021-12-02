@@ -57,7 +57,7 @@ class MapSampleState extends State<MapSample> {
     Position loc = await location.getInitialLocation();
     double long = loc.longitude;
     double lat = loc.latitude;
-    print('------here-----');
+    // print('------here-----');
     setState(() {
       ms = markers.markers;
       ms.add(Marker(
