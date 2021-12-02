@@ -626,7 +626,7 @@ class evFeed extends State<eventsv_feed> {
 //   }
 
   Future<void> apply(String mmName, String mmId, int wholePartsNum,
-      int currentPartsNem, String thisDocId, String title) async {
+      int currentPartsNum, String thisDocId, String title) async {
     String vId = await FirebaseAuth.instance.currentUser!.uid;
     String? response = '';
     bool isExsited = false;
@@ -663,7 +663,7 @@ class evFeed extends State<eventsv_feed> {
     showAlertDialog(context, response);
 
   }
-//
+
   showAlertDialog(BuildContext context, String? response) {
     // set up the button
     Widget okButton = Padding(
