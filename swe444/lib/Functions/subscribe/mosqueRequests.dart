@@ -4,60 +4,52 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:swe444/Functions/donation/items/donation_view_model.dart';
-import 'package:swe444/Functions/donation/items/viewDonations.dart';
-import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/request/edit_request_view.dart';
-import 'package:swe444/Functions/subscribe/mosque_view_model.dart';
 import '../CustomPageRoute.dart';
 import '../request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
-class MosqueMangerRequests extends StatelessWidget {
-  const MosqueMangerRequests({Key? key}) : super(key: key);
+// class MosqueMangerRequests extends StatelessWidget {
+//   const MosqueMangerRequests({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MosqueViewModel>(
-        create: (_) => MosqueViewModel(),
-        child: Container(height: 1200, width: 450, child: mosqueRequests()));
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return ChangeNotifierProvider<MosqueViewModel>(
+//         create: (_) => MosqueViewModel(),
+//         child: Container(height: 1200, width: 450, child: mosqueRequests()));
+//   }
+// }
 
-class mosqueRequests extends StatefulWidget {
+class MosqueMangerRequests extends StatefulWidget {
+  MosqueMangerRequests.ensureInitialized(this.document);
+  final DocumentSnapshot document;
+
+  const MosqueMangerRequests({Key? key, required this.document})
+      : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return MosqueRequests();
   }
 }
 
-class MosqueRequests extends State<mosqueRequests> {
-  //User? user = FirebaseAuth.instance.currentUser;
-
+class MosqueRequests extends State<MosqueMangerRequests> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-        Duration.zero,
-        () => setState(() {
-              setup();
-            }));
-  }
-
-  setup() async {
-    await Provider.of<MosqueViewModel>(context, listen: false).fetchRequests();
   }
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-        Provider.of<MosqueViewModel>(context, listen: false).requests;
+    Stream<QuerySnapshot<Map<String, dynamic>>>? requests = FirebaseFirestore
+        .instance
+        .collection('requests')
+        .where('posted_by', isEqualTo: widget.document['mmId'])
+        .orderBy('uplaod_time', descending: true)
+        .snapshots();
 
-    String? name = Provider.of<MosqueViewModel>(context, listen: false).getName;
-    String? id = Provider.of<MosqueViewModel>(context, listen: false).getID;
-    print(name);
     // Navigator.pop(context);
     return Scaffold(
       appBar: AppBar(
@@ -67,7 +59,7 @@ class MosqueRequests extends State<mosqueRequests> {
           child: Row(
             children: [
               Text(
-                " مسجد",
+                "مسجد " + widget.document['mosque_name'],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff334856),
@@ -111,29 +103,25 @@ class MosqueRequests extends State<mosqueRequests> {
             return ListView.builder(
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
               itemBuilder: (BuildContext context, int index) => buildCards(
-                  context, (snapshot.data! as QuerySnapshot).docs[index], id),
+                  context, (snapshot.data! as QuerySnapshot).docs[index]),
             );
           }),
     );
   }
 
-  Widget buildCards(
-      BuildContext context, DocumentSnapshot document, String? id) {
+  Widget buildCards(BuildContext context, DocumentSnapshot document) {
     return Container();
   }
 
-  Widget buildMoneyCards(
-      BuildContext context, DocumentSnapshot document, String? id) {
+  Widget buildMoneyCards(BuildContext context, DocumentSnapshot document) {
     return Container();
   }
 
-  Widget buildEventsCards(
-      BuildContext context, DocumentSnapshot document, String? id) {
+  Widget buildEventsCards(BuildContext context, DocumentSnapshot document) {
     return Container();
   }
 
-  Widget buildFundsCards(
-      BuildContext context, DocumentSnapshot document, String? id) {
+  Widget buildFundsCards(BuildContext context, DocumentSnapshot document) {
     return Container();
   }
 

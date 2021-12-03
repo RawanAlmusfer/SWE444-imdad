@@ -50,7 +50,7 @@ class requestDonations extends State<ViewItemDonations> {
         .doc(widget.document.id)
         .collection("donations")
         .snapshots();
-    print(widget.document.id.toString());
+
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(

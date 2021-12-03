@@ -179,7 +179,7 @@ class mmFeed extends State<mm_feed> {
                   onTap: () async {
                     DonationsViewModel dnm = DonationsViewModel();
                     dnm.setdocID = document.id.toString();
-                    String docID = document.id.toString();
+                    // String docID = document.id.toString();
                     Navigator.of(context).push(CustomPageRoute(
                         child: ViewItemDonations(document: document)));
                   },

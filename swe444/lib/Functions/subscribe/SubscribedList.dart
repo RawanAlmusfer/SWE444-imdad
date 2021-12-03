@@ -9,8 +9,6 @@ import '../CustomPageRoute.dart';
 import 'list_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'mosque_view_model.dart';
-
 class SubscribedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -93,11 +91,10 @@ class Subscribed_List extends State<subscribedList> {
             child: Row(children: <Widget>[
               GestureDetector(
                 onTap: () async {
-                  MosqueViewModel mVM = MosqueViewModel();
-                  mVM.id = mID;
-                  mVM.name = mName;
-                  Navigator.of(context)
-                      .push(CustomPageRoute(child: MosqueMangerRequests()));
+                  Navigator.of(context).push(CustomPageRoute(
+                      child: MosqueMangerRequests(
+                    document: document,
+                  )));
                 },
                 child: Padding(
                     padding: const EdgeInsets.only(
