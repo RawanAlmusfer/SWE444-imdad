@@ -1,28 +1,25 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/donation/items/item_donation.dart';
+import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/request/edit_request_view.dart';
+import 'package:swe444/Payment/PaymentScreen.dart';
 import '../CustomPageRoute.dart';
 import '../request/request_view_model.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
-// class MosqueMangerRequests extends StatelessWidget {
-//   const MosqueMangerRequests({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ChangeNotifierProvider<MosqueViewModel>(
-//         create: (_) => MosqueViewModel(),
-//         child: Container(height: 1200, width: 450, child: mosqueRequests()));
-//   }
-// }
-
 class MosqueMangerRequests extends StatefulWidget {
+  static String? mmEmailDonated = '';
+  static String? mmNameDonated = '';
+  static int wholeAmount = 0;
+  static int wholeDonated = 0;
   MosqueMangerRequests.ensureInitialized(this.document);
   final DocumentSnapshot document;
 
@@ -46,7 +43,6 @@ class MosqueRequests extends State<MosqueMangerRequests> {
     Stream<QuerySnapshot<Map<String, dynamic>>>? requests = FirebaseFirestore
         .instance
         .collection('requests')
-        .where('posted_by', isEqualTo: widget.document['mmId'])
         .orderBy('uplaod_time', descending: true)
         .snapshots();
 
@@ -110,71 +106,808 @@ class MosqueRequests extends State<MosqueMangerRequests> {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    return Container();
-  }
-
-  Widget buildMoneyCards(BuildContext context, DocumentSnapshot document) {
-    return Container();
+    if (document['posted_by'].toString() == widget.document['mmId']) {
+      if (document['type'].toString() == "تنظيم")
+        return buildEventsCards(context, document);
+      else if (document['type'].toString() == "موارد")
+        return buildItemsCards(context, document);
+      else
+        return buildFundsCards(context, document);
+    } else {
+      return Container();
+    }
   }
 
   Widget buildEventsCards(BuildContext context, DocumentSnapshot document) {
     return Container();
   }
 
-  Widget buildFundsCards(BuildContext context, DocumentSnapshot document) {
-    return Container();
-  }
-
-  String getTime(var timeStamp) {
-    final DateFormat formatter =
-        DateFormat('dd/MM/yyyy'); //your date format here
-    var date = timeStamp.toDate();
-    return formatter.format(date);
-  }
-
-  showAlertDialog(DocumentSnapshot document) {
-    RequestViewModel requestVM = RequestViewModel();
-    // set up the buttons
-    Widget cancelButton = ElevatedButton(
-      child: const Text(
-        "إلغاء",
-        style: TextStyle(fontFamily: "Tajawal", color: const Color(0xdeedd03c)),
-      ),
-      onPressed: () {
-        Navigator.of(context).pop(context);
-      },
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
-          elevation: MaterialStateProperty.all<double>(0)),
-    );
-
-    Widget confirmButton = Padding(
-      padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
-      child: ElevatedButton(
-        child: Text(
-          "تأكيد",
-          style: TextStyle(fontFamily: "Tajawal"),
+  Widget buildItemsCards(BuildContext context, DocumentSnapshot document) {
+    FeedViewModel feedVM = FeedViewModel();
+    if (document['type'].toString() == "موارد" &&
+        document['donated'] < document['amount_requested']) {
+      // here is the tpye
+      return Container(
+        padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(19.0),
+          ),
+          shadowColor: Color(0xff334856),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 9.0, left: 2, right: 10),
+                  child: Row(children: <Widget>[
+                    GestureDetector(
+                      onTap: () async {
+                        bool flag = await isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
+                        if (!flag) {
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildSubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        } else {
+                          showModalBottomSheet(
+                              //isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildUnsubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                      },
+                      child: Container(
+                        width: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 20, top: 5),
+                          child: Text(
+                            "مسجد " + document['mosque_name'],
+                            style: TextStyle(
+                                fontFamily: 'Tajawal',
+                                fontSize: 12,
+                                decoration: TextDecoration.underline),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10, top: 5),
+                      child: Text(
+                        document['title'],
+                        style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                        // textAlign: TextAlign.left,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        bool flag = await isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
+                        if (!flag) {
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildSubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        } else {
+                          showModalBottomSheet(
+                              //isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildUnsubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: SvgPicture.string(
+                          mosqueImage,
+                          allowDrawingOutsideViewBox: true,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                  child: Row(children: <Widget>[
+                    const Spacer(),
+                    Column(
+                      children: [
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Text(
+                            document['description'],
+                            style: TextStyle(fontFamily: 'Tajawal'),
+                            textDirection: ui.TextDirection
+                                .rtl, // make the text from right to left
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              'العدد المطلوب: ' +
+                                  document['amount_requested'].toString(),
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "العدد المتبقي: ",
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection.rtl,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 14.0),
+                            //   child: Text(document['donated'].toString(),
+                            //       textAlign: TextAlign.right,
+                            //       style: TextStyle(
+                            //           fontFamily: 'Tajawal', fontSize: 13)),
+                            // ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10.0, left: 5, right: 5),
+                              child: SizedBox(
+                                width: 200,
+                                height: 10,
+                                child: Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: LinearProgressIndicator(
+                                        value: (document['donated'] /
+                                            document['amount_requested']),
+                                        valueColor: AlwaysStoppedAnimation(
+                                            Color(0xdeedd03c)),
+                                        backgroundColor: Color(0xffededed),
+                                      ),
+                                    ),
+                                    Center(
+                                        child: itemsBuildLinearProgress(
+                                            document['donated'],
+                                            document['amount_requested'])),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 14.0),
+                            //   child: Text(
+                            //       document['amount_requested'].toString(),
+                            //       style: TextStyle(
+                            //           fontFamily: 'Tajawal', fontSize: 13)),
+                            // ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  child: Row(children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0xffededed),
+                              spreadRadius: 1,
+                              blurRadius: 10),
+                        ],
+                      ),
+                      height: 30,
+                      width: 65,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  ItemsDScreen(document: document)));
+                        },
+                        child: Text(
+                          "تبرع",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              color: const Color(0xff334856)),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(65.w, 30.h),
+                          primary: const Color(0xdeedd03c),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    IconButton(
+                      icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
+                      onPressed: () async {
+                        await feedVM
+                            .lunchURL(document['mosque_location'].toString());
+                      },
+                    ),
+                  ]),
+                ),
+              ],
+            ),
+          ),
         ),
-        style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-        onPressed: () async {
-          Navigator.of(context).pop(context);
-          await requestVM.cancelRequest(document);
-          Snackbar bar =
-              Snackbar(context, requestVM.message, requestVM.msgType);
-          bar.showToast();
-        },
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Widget buildFundsCards(BuildContext context, DocumentSnapshot document) {
+    FeedViewModel feedVM = FeedViewModel();
+    if (document['type'].toString() == "مبلغ" &&
+        document['donated'] < document['amount']) {
+      return Container(
+        padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(19.0),
+          ),
+          shadowColor: Color(0xff334856),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 9.0, left: 2, right: 10),
+                  child: Row(children: <Widget>[
+                    GestureDetector(
+                      onTap: () async {
+                        bool flag = await isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
+                        if (!flag) {
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildSubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        } else {
+                          showModalBottomSheet(
+                              //isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildUnsubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                      },
+                      child: Container(
+                        width: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 20, top: 5),
+                          child: Text(
+                            "مسجد " + document['mosque_name'],
+                            style: TextStyle(
+                                fontFamily: 'Tajawal',
+                                fontSize: 12,
+                                decoration: TextDecoration.underline),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10, top: 5),
+                      child: Text(
+                        document['title'],
+                        style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                        // textAlign: TextAlign.left,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        bool flag = await isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
+                        if (!flag) {
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildSubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        } else {
+                          showModalBottomSheet(
+                              //isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(19.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) => BuildUnsubscribedProfile(
+                                  document['mosque_name'].toString(),
+                                  document['posted_by'].toString()));
+                        }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: SvgPicture.string(
+                          mosqueImage,
+                          allowDrawingOutsideViewBox: true,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                  child: Row(children: <Widget>[
+                    const Spacer(),
+                    Column(
+                      children: [
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Text(
+                            document['description'],
+                            style: TextStyle(fontFamily: 'Tajawal'),
+                            textDirection: ui.TextDirection
+                                .rtl, // make the text from right to left
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              'المبلغ: ' + document['amount'].toString(),
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection
+                                  .rtl, // make the text from right to left
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 250, // to wrap the text in multiline
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "نسبة الإكتمال: ",
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                              textDirection: ui.TextDirection.rtl,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 14.0),
+                              child: Text(document['donated'].toString(),
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      fontFamily: 'Tajawal', fontSize: 10)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10.0, left: 5, right: 5),
+                              child: SizedBox(
+                                width: 200,
+                                height: 10,
+                                child: Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: LinearProgressIndicator(
+                                        value: (document['donated'] /
+                                            document['amount']),
+                                        valueColor: AlwaysStoppedAnimation(
+                                            Color(0xdeedd03c)),
+                                        backgroundColor: Color(0xffededed),
+                                      ),
+                                    ),
+                                    Center(
+                                        child: buildLinearProgress(
+                                            (document['donated'] /
+                                                document['amount']))),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 14.0),
+                              child: Text(document['amount'].toString(),
+                                  style: TextStyle(
+                                      fontFamily: 'Tajawal', fontSize: 10)),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 5.0, left: 2, right: 10),
+                  child: Row(children: <Widget>[
+                    //This button for sprint 2
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0xffededed),
+                              spreadRadius: 1,
+                              blurRadius: 10),
+                        ],
+                      ),
+                      height: 30,
+                      width: 65,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          String? mmId = document['posted_by'];
+                          MosqueMangerRequests.wholeDonated =
+                              document['donated'];
+                          int cumDonated = document['donated'];
+                          MosqueMangerRequests.wholeAmount = document['amount'];
+                          String? mName = document['mosque_name'];
+
+                          MosqueMangerRequests.mmNameDonated = mName;
+
+                          var documentFormmId = await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(mmId)
+                              .get();
+
+                          String? mmEmail = documentFormmId['email'];
+                          MosqueMangerRequests.mmEmailDonated = mmEmail;
+
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PaymentScreen()));
+
+                          cumDonated += PaymentScreen.vDonatedAmount!;
+
+                          String docId = document.id;
+                          await FirebaseFirestore.instance
+                              .collection('requests')
+                              .doc(docId)
+                              .update({'donated': cumDonated});
+
+                          //update the denoation for next user
+                          PaymentScreen.vDonatedAmount = 0;
+                          //  db.collection("requests").doc(docId).update({donated: 10});
+                        },
+                        child: Text(
+                          "تبرع",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              color: const Color(0xff334856)),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(65.w, 30.h),
+                          primary: const Color(0xdeedd03c),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Spacer(),
+                    IconButton(
+                      icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
+                      onPressed: () async {
+                        await feedVM
+                            .lunchURL(document['mosque_location'].toString());
+                      },
+                    ),
+                  ]),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Widget BuildSubscribedProfile(String name, String id) {
+    return Container(
+      padding: EdgeInsets.all(30),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 10, bottom: 20),
+            height: 80,
+            width: 80,
+            child: SvgPicture.string(
+              mosqueImage,
+              allowDrawingOutsideViewBox: true,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Text(
+            "مسجد " + name,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontFamily: 'Tajawal',
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffededed),
+                      spreadRadius: 1,
+                      blurRadius: 10),
+                ],
+              ),
+              height: 30,
+              width: 70,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await subscription(id, name);
+                },
+                child: Text(
+                  "تابع",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
+                ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(65.w, 30.h),
+                  primary: const Color(0xdeedd03c),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget BuildUnsubscribedProfile(String name, String id) {
+    return Container(
+      padding: EdgeInsets.all(30),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 10, bottom: 20),
+            height: 80,
+            width: 80,
+            child: SvgPicture.string(
+              mosqueImage,
+              allowDrawingOutsideViewBox: true,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Text(
+            "مسجد " + name,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontFamily: 'Tajawal',
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffededed),
+                      spreadRadius: 1,
+                      blurRadius: 10),
+                ],
+              ),
+              height: 30,
+              width: 120,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await subscription(id, name);
+                },
+                child: Text(
+                  "إلغاء المتابعة",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
+                ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(65.w, 30.h),
+                  primary: const Color(0xdeedd03c),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> subscription(String mmId, String mmName) async {
+    String vId = await FirebaseAuth.instance.currentUser!.uid;
+    String? dToken;
+    String? response = '';
+    bool isExsited = false;
+
+    try {
+      //subscribe
+
+      var document = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(mmId)
+          .collection("subscribedVolunteers")
+          .doc(vId)
+          .get();
+
+      if (document.exists) {
+        if (document != null) {
+          isExsited = true;
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
+        }
+      } else {
+        print('المتطوع ليس مسجل بقائمة المتطوعين');
+      }
+
+      if (!isExsited) {
+        await FirebaseMessaging.instance.getToken().then((token) {
+          dToken = token.toString();
+        });
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(mmId)
+            .collection("subscribedVolunteers")
+            .doc(vId)
+            .set({'uid': vId, 'token': dToken})
+            .then((value) =>
+                {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+            .catchError((error) =>
+                //////
+                {response = "لم يتم تفعيل التنبيهات بنجاح"});
+        //add to mm
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(vId)
+            .collection("subscribedMosqueManager")
+            .doc(mmId)
+            .set({'mosque_name': mmName, 'mmId': mmId});
+      }
+
+      //Unsubscribe
+
+      else {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(mmId)
+            .collection("subscribedVolunteers")
+            .doc(vId)
+            .delete()
+            .then((value) => {
+                  response =
+                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
+                })
+            .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(vId)
+            .collection("subscribedMosqueManager")
+            .doc(mmId)
+            .delete();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('error to subscribe $e')));
+    }
+
+    showAlertDialog(context, response);
+  }
+
+  showAlertDialog(BuildContext context, String? response) {
+    // set up the button
+    Widget okButton = Padding(
+        padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
+        child: TextButton(
+          child: Text(
+            "موافق",
+            textAlign: TextAlign.right,
+            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+          onPressed: () {
+            int count = 0;
+            Navigator.of(context).popUntil((_) => count++ >= 2);
+          },
+        ));
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
+      contentPadding:
+          EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
-        "إلغاء",
+        "تأكيد عملية الاشتراك ",
         textAlign: TextAlign.right,
         style: TextStyle(
           fontFamily: "Tajawal",
@@ -182,15 +915,17 @@ class MosqueRequests extends State<MosqueMangerRequests> {
         ),
       ),
       content: Text(
-        "هل أنت متأكد من رغبتك في\n إلغاء الطلب؟",
+        response!
+        // feedbackResponse(response)!
+        ,
         textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal"),
+        style: TextStyle(fontFamily: "Tajawal", height: 1.5),
       ),
       actions: [
-        cancelButton,
-        confirmButton,
+        okButton,
       ],
     );
+
     // show the dialog
     showDialog(
       context: context,
@@ -198,6 +933,47 @@ class MosqueRequests extends State<MosqueMangerRequests> {
         return alert;
       },
     );
+  }
+
+  String? feedbackResponse(int response) {
+    if ((response) == 1) {
+//Extract the mosuqe name to add in the msg
+      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+    } else {
+      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+    }
+  }
+
+  Future<bool> isSubscribed(String mID) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    var subscribedMosques = [];
+
+    var uesrDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid.toString())
+        .collection("subscribedMosqueManager")
+        .get();
+
+    var docs = uesrDoc.docs;
+    //var length = uesrDoc.docs.length;
+
+    for (var Doc in docs) {
+      if (!subscribedMosques.contains(Doc.id)) {
+        subscribedMosques.add(Doc.id);
+      }
+    }
+
+    if (subscribedMosques.contains(mID)) {
+      return true;
+    }
+    return false;
+  }
+
+  String getTime(var timeStamp) {
+    final DateFormat formatter =
+        DateFormat('dd/MM/yyyy'); //your date format here
+    var date = timeStamp.toDate();
+    return formatter.format(date);
   }
 
   showAlertDialogEdit(DocumentSnapshot document) {
@@ -276,6 +1052,25 @@ class MosqueRequests extends State<MosqueMangerRequests> {
       ),
     );
   }
+
+  Widget buildLinearProgress(double val) => Padding(
+        padding: const EdgeInsets.only(top: 1.0),
+        child: Text(
+          '${(val * 100).toStringAsFixed(1)} %',
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 8, fontFamily: 'Tajawal'),
+          textAlign: TextAlign.center,
+        ),
+      );
+
+  Widget itemsBuildLinearProgress(int donated, int all) => Padding(
+        padding: const EdgeInsets.only(top: 0.0),
+        child: Text(
+          donated.toString() + " / " + all.toString(),
+          style: TextStyle(fontSize: 11, fontFamily: 'Tajawal'),
+          textAlign: TextAlign.center,
+        ),
+      );
 }
 
 const String mosqueImage =
