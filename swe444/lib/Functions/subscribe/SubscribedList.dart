@@ -4,8 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/subscribe/mosqueRequests.dart';
+import '../CustomPageRoute.dart';
 import 'list_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'mosque_view_model.dart';
 
 class SubscribedList extends StatelessWidget {
   @override
@@ -72,6 +76,8 @@ class Subscribed_List extends State<subscribedList> {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
+    String mID = document['mmId'];
+    String mName = document['mosque_name'];
     return Container(
       padding: const EdgeInsets.only(top: 5.0, bottom: 0, left: 20, right: 20),
       child: Card(
@@ -85,13 +91,22 @@ class Subscribed_List extends State<subscribedList> {
             padding: const EdgeInsets.only(
                 top: 12.0, bottom: 12.0, left: 2, right: 10),
             child: Row(children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 5.0, left: 2, right: 10),
-                  child: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: const Color(0xff334856),
-                  )),
+              GestureDetector(
+                onTap: () async {
+                  MosqueViewModel mVM = MosqueViewModel();
+                  mVM.id = mID;
+                  mVM.name = mName;
+                  Navigator.of(context)
+                      .push(CustomPageRoute(child: MosqueMangerRequests()));
+                },
+                child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: const Color(0xff334856),
+                    )),
+              ),
               GestureDetector(
                 onTap: () async {
                   await subscription(

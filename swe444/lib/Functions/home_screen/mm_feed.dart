@@ -180,7 +180,6 @@ class mmFeed extends State<mm_feed> {
                     DonationsViewModel dnm = DonationsViewModel();
                     dnm.setdocID = document.id.toString();
                     String docID = document.id.toString();
-                    print("Doc ID hehe ____________" + dnm.docID.toString());
                     Navigator.of(context).push(CustomPageRoute(
                         child: ViewItemDonations(document: document)));
                   },
