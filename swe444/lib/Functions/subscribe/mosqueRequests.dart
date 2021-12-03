@@ -4,14 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
 import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/request/edit_request_view.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
-import '../CustomPageRoute.dart';
 import '../request/request_view_model.dart';
-import 'package:swe444/Widgets/show_snackbar.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
@@ -119,13 +116,302 @@ class MosqueRequests extends State<MosqueMangerRequests> {
   }
 
   Widget buildEventsCards(BuildContext context, DocumentSnapshot document) {
-    return Container();
+    FeedViewModel feedVM = FeedViewModel();
+    return Container(
+      padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(19.0),
+        ),
+        shadowColor: Color(0xff334856),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 9.0, left: 2, right: 10),
+                child: Row(children: <Widget>[
+                  GestureDetector(
+                    onTap: () async {
+                      bool flag = await isSubscribed(document['posted_by']);
+                      print("Flag is " + flag.toString());
+                      if (!flag) {
+                        showModalBottomSheet(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(19.0),
+                              ),
+                            ),
+                            context: context,
+                            builder: (context) => BuildSubscribedProfile(
+                                document['mosque_name'].toString(),
+                                document['posted_by'].toString()));
+                      } else {
+                        showModalBottomSheet(
+                            //isScrollControlled: true,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(19.0),
+                              ),
+                            ),
+                            context: context,
+                            builder: (context) => BuildUnsubscribedProfile(
+                                document['mosque_name'].toString(),
+                                document['posted_by'].toString()));
+                      }
+                      //await
+                      //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                    },
+                    child: Container(
+                      width: 100,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 20, top: 5),
+                        child: Text(
+                          "مسجد " + document['mosque_name'],
+                          style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              fontSize: 12,
+                              decoration: TextDecoration.underline),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10, top: 5),
+                    child: Text(
+                      document['title'],
+                      style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                      // textAlign: TextAlign.left,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      bool flag = await isSubscribed(document['posted_by']);
+                      print("Flag is " + flag.toString());
+                      if (!flag) {
+                        showModalBottomSheet(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(19.0),
+                              ),
+                            ),
+                            context: context,
+                            builder: (context) => BuildSubscribedProfile(
+                                document['mosque_name'].toString(),
+                                document['posted_by'].toString()));
+                      } else {
+                        showModalBottomSheet(
+                            //isScrollControlled: true,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(19.0),
+                              ),
+                            ),
+                            context: context,
+                            builder: (context) => BuildUnsubscribedProfile(
+                                document['mosque_name'].toString(),
+                                document['posted_by'].toString()));
+                      }
+                      //await
+                      //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: SvgPicture.string(
+                        mosqueImage,
+                        allowDrawingOutsideViewBox: true,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                child: Row(children: <Widget>[
+                  const Spacer(),
+                  Column(
+                    children: [
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Text(
+                          document['description'],
+                          style: TextStyle(fontFamily: 'Tajawal'),
+                          textDirection: ui.TextDirection
+                              .rtl, // make the text from right to left
+                        ),
+                      ),
+                      //start_date
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            'تاريخ البداية: ' + getTime(document['start_date']),
+                            style: TextStyle(fontFamily: 'Tajawal'),
+                            textDirection: ui.TextDirection
+                                .rtl, // make the text from right to left
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            'المدة: ' + document['days'].toString() + " يوم",
+                            style: TextStyle(fontFamily: 'Tajawal'),
+                            textDirection: ui.TextDirection
+                                .rtl, // make the text from right to left
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            'يبدأ في تمام الساعة ' +
+                                document['start_time'].toString() +
+                                " وينتهي " +
+                                document['end_time'].toString(),
+                            style: TextStyle(fontFamily: 'Tajawal'),
+                            textDirection: ui.TextDirection
+                                .rtl, // make the text from right to left
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Directionality(
+                            textDirection: ui.TextDirection
+                                .rtl, // make the text from right to left,
+                            child: Text(
+                              'عدد المنظمين المطلوب: ' +
+                                  document['parts_number'].toString(),
+                              style: TextStyle(fontFamily: 'Tajawal'),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            "عدد المشاركين: ",
+                            style: TextStyle(fontFamily: 'Tajawal'),
+                            textDirection: ui.TextDirection.rtl,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 14.0),
+                            child: Text(document['participants'].toString(),
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontFamily: 'Tajawal', fontSize: 13)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0, left: 5, right: 5),
+                            child: SizedBox(
+                              width: 200,
+                              height: 10,
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: LinearProgressIndicator(
+                                      value: (document['participants'] /
+                                          document['parts_number']),
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Color(0xdeedd03c)),
+                                      backgroundColor: Color(0xffededed),
+                                    ),
+                                  ),
+                                  Center(
+                                      child: buildLinearProgress(
+                                          (document['participants'] /
+                                              document['parts_number']))),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 14.0),
+                            child: Text(document['parts_number'].toString(),
+                                style: TextStyle(
+                                    fontFamily: 'Tajawal', fontSize: 13)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 5.0, left: 2, right: 10),
+                child: Row(children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0xffededed),
+                            spreadRadius: 1,
+                            blurRadius: 10),
+                      ],
+                    ),
+                    height: 30,
+                    width: 70,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        "شارك",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'Tajawal',
+                            color: const Color(0xff334856)),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(65.w, 30.h),
+                        primary: const Color(0xdeedd03c),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
+                    onPressed: () async {
+                      await feedVM
+                          .lunchURL(document['mosque_location'].toString());
+                    },
+                  ),
+                ]),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget buildItemsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "موارد" &&
-        document['donated'] < document['amount_requested']) {
+    if (document['donated'] < document['amount_requested']) {
       // here is the tpye
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
@@ -387,8 +673,7 @@ class MosqueRequests extends State<MosqueMangerRequests> {
 
   Widget buildFundsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "مبلغ" &&
-        document['donated'] < document['amount']) {
+    if (document['donated'] < document['amount']) {
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(
