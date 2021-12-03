@@ -196,8 +196,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             if (donated > mv_feed.wholeAmount )
                               return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
 
-                            if(donated==mv_feed.wholeAmount && check != 0)
-                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
+                            if(donated==mv_feed.wholeAmount && check < mv_feed.wholeAmount && check !=0)
+                              return " قيمة التبرع أكبر من المبلغ المتبقي،المبلغ المتبقي $check";
 
 
 
