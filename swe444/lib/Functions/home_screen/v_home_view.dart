@@ -26,7 +26,7 @@ class _HomeState extends State<vHome> {
   final List<Widget> _children = [
     ProfilePage(),
     SubscribedList(),
-    MapSample(),
+    MapScreen(),
     SearchPage(),
     vhome(),
   ];

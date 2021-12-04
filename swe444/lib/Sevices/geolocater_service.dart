@@ -4,15 +4,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class GeolocaterService {
   final Geolocator geo= new Geolocator();
 
-  Stream<Position> getCurrentLocation(){
-    var locationOptions= LocationOptions(accuracy: LocationAccuracy.high);
-    return Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.high);
-  }
+  // Stream<Position> getCurrentLocation(){
+  //   var locationOptions= LocationOptions(accuracy: LocationAccuracy.high);
+  //   return Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.high);
+  // }
 
-  Future<Position> getInitialLocation() async{
-    // print('------here!!!!!!!!!');
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  Future<Position> getCurrentLocation() async {
+    return  await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
-
 
 }
