@@ -62,11 +62,11 @@ class vFeeds extends State<v_allDonations> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: const EdgeInsets.only(left: 60.0),
+          padding: const EdgeInsets.only(left: 150.0),
           child: Row(
             children: [
               Text(
-                "طلبات التبرع بالموارد",
+                "تبرعاتي",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff334856),
@@ -76,7 +76,7 @@ class vFeeds extends State<v_allDonations> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0),
+                padding: const EdgeInsets.only(left: 70.0),
                 child: IconButton(
                   icon: Icon(
                     Icons.keyboard_backspace_rounded,
@@ -123,7 +123,7 @@ class vFeeds extends State<v_allDonations> {
     FeedViewModel feedVM = FeedViewModel();
     if (document['type'].toString() == "موارد" &&
         document['donated'] < document['amount_requested'] &&
-        vDocument.exists && (document != null)) {
+    vDocument != null) {
       // here is the type
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
