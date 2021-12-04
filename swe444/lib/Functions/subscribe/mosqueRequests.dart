@@ -46,42 +46,41 @@ class MosqueRequests extends State<MosqueMangerRequests> {
     // Navigator.pop(context);
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 70.0),
-          child: Row(
-            children: [
-              Text(
-                "مسجد " + widget.document['mosque_name'],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xff334856),
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Tajawal',
-                  fontSize: 24,
-                ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              "مسجد " + widget.document['mosque_name'],
+              style: TextStyle(
+                color: Color(0xff334856),
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Tajawal',
+                fontSize: 24,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 0.0),
-                child: IconButton(
-                    icon: Icon(
-                      Icons.keyboard_backspace_rounded,
-                      textDirection: ui.TextDirection.rtl,
-                      size: 30,
-                      color: Color(0xff334856),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      //   Navigator.pop(context);
-                    }),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-        //automaticallyImplyLeading: false,
         backgroundColor: const Color(0xdeedd03c),
         bottomOpacity: 30,
-        // elevation: 1,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: IconButton(
+                icon: Icon(
+                  Icons.keyboard_backspace_rounded,
+                  textDirection: ui.TextDirection.rtl,
+                  size: 30,
+                  color: Color(0xff334856),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  //   Navigator.pop(context);
+                }),
+          ),
+        ],
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(50),
