@@ -27,12 +27,12 @@ class PlacesService {
       var i = snapshot.docs.iterator;
       while (i.moveNext()) {
         if (i.current["name"].toString().contains(search)) {
-          PlaceSearch place= PlaceSearch(placeId: i.current['name'].toString(), geometry: LatLng(double.parse(i.current['lat']),double.parse(i.current['long'])));
+          PlaceSearch place= PlaceSearch(placeId: i.current['name'].toString(), geometry: LatLng(double.parse(i.current['lat'].toString()),double.parse(i.current['long'].toString())));
           if(!placesResults.contains(place))
           placesResults.add(place);
         }
       }
-    }).onError((error, stackTrace) => print("error"));
+    }).onError((error, stackTrace) => print("error"+ error.toString()));
 
   }
 

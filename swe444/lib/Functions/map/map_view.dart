@@ -220,11 +220,14 @@ class MapState extends State<Map> {
                                     color: Colors.black.withOpacity(.6),
                                     backgroundBlendMode: BlendMode.darken,
                                   ),
-                                  child: ElevatedButton(
+                                  child: FlatButton(
                                     onPressed: () {
                                       searchTerm.text= "";
                                     },
-                                    child: ListTile(
+                                    // style: ElevatedButton.styleFrom(
+                                    //   primary: Colors.black.withOpacity(.1),
+                                    // ),
+                                  child: ListTile(
                                         title: Text(
                                       applicationBloc.searchResults[index].placeId,
                                           textAlign: TextAlign.right,
