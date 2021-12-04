@@ -3,6 +3,7 @@
 // import 'dart:convert' as convert;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:swe444/Models/place_search.dart';
 
 class PlacesService {
@@ -26,7 +27,7 @@ class PlacesService {
       var i = snapshot.docs.iterator;
       while (i.moveNext()) {
         if (i.current["name"].toString().contains(search)) {
-          PlaceSearch place= PlaceSearch(placeId: i.current['name'].toString());
+          PlaceSearch place= PlaceSearch(placeId: i.current['name'].toString(), geometry: LatLng(double.parse(i.current['lat']),double.parse(i.current['long'])));
           if(!placesResults.contains(place))
           placesResults.add(place);
         }

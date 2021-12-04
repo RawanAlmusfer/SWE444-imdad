@@ -210,20 +210,30 @@ class MapState extends State<Map> {
                       // ),
                       if (applicationBloc.searchResults.isNotEmpty && searchTerm.text.trim().isNotEmpty)
                         Container(
-                          margin: EdgeInsets.only(top: 100),
+                          margin: EdgeInsets.only(top: 50),
                         height: double.infinity,
-                        child: ListView.builder(
-                            itemCount: applicationBloc.searchResults.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                tileColor: Colors.black.withOpacity(.6),
-                                  title: Text(
-                                applicationBloc.searchResults[index].placeId,
-                                    textAlign: TextAlign.right,
-                                style: TextStyle(color: Colors.white),
-                              ));
-                            }),
-                      )
+                          child: ListView.builder(
+                              itemCount: applicationBloc.searchResults.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(.6),
+                                    backgroundBlendMode: BlendMode.darken,
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      searchTerm.text= "";
+                                    },
+                                    child: ListTile(
+                                        title: Text(
+                                      applicationBloc.searchResults[index].placeId,
+                                          textAlign: TextAlign.right,
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                                  ),
+                                );
+                              }),
+                        ),
                     ],
                   ),
                   Container(
