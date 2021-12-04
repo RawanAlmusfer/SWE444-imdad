@@ -210,7 +210,7 @@ class MapState extends State<Map> {
                       // ),
                       if (applicationBloc.searchResults.isNotEmpty && searchTerm.text.trim().isNotEmpty)
                         Container(
-                          margin: EdgeInsets.only(top: 50),
+                          margin: EdgeInsets.only(top: 51),
                         height: double.infinity,
                           child: ListView.builder(
                               itemCount: applicationBloc.searchResults.length,
