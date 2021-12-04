@@ -74,10 +74,10 @@ class MapState extends State<Map> {
     final applicationBloc =
         Provider.of<ApplicationBloc>(context, listen: false);
 
-    print('here2-------222');
+    // print('here2-------222');
     locationsub = applicationBloc.selectedLocation.stream.listen((place) {
       if (applicationBloc.selectedLocationStatic != null) {
-        print('here444-------444');
+        // print('here444-------444');
 
         _goToPlace(applicationBloc.selectedLocationStatic!);
       }
@@ -301,8 +301,9 @@ class MapState extends State<Map> {
     );
   }
 
+
   Future<void> _goToPlace(Place place) async {
-    print('here1-------1111');
+    // print('here1-------1111');
     final GoogleMapController controller = await _gmcontroller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(place.lat, place.long), zoom: 14)));
