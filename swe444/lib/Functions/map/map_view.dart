@@ -49,14 +49,6 @@ class MapState extends State<Map> {
 
   @override
   void initState() {
-    final applicationBloc = Provider.of<ApplicationBloc>(context, listen: false);
-
-    locationsub= applicationBloc.selectedLocation.stream.listen((place) {
-      if (place != null){
-        _goToPlace(place);
-      }
-    });
-
     super.initState();
     Future.delayed(
         Duration.zero,
@@ -67,17 +59,29 @@ class MapState extends State<Map> {
 
   @override
   void dispose() {
-    final applicationBloc = Provider.of<ApplicationBloc>(context, listen: false);
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
     applicationBloc.dispose();
 
-    if (locationsub != null)
-      locationsub!.cancel();
+    if (locationsub != null) locationsub!.cancel();
 
     super.dispose();
   }
 
   setup() async {
     ms = await markers.fetchMosques();
+
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+
+    print('here2-------222');
+    locationsub = applicationBloc.selectedLocation.stream.listen((place) {
+      if (applicationBloc.selectedLocationStatic != null) {
+        print('here444-------444');
+
+        _goToPlace(applicationBloc.selectedLocationStatic!);
+      }
+    });
   }
 
   searchFunc(String s, ApplicationBloc bloc) async {
@@ -209,7 +213,7 @@ class MapState extends State<Map> {
                         markers: ms,
                         mapType: MapType.normal,
                         onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
+                          // _controller.complete(controller);
                           _gmcontroller.complete(controller);
                         },
                       ),
@@ -233,11 +237,10 @@ class MapState extends State<Map> {
                               itemCount: applicationBloc.searchResults.length,
                               itemBuilder: (context, index) {
                                 return Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white
-                                    //     .withOpacity(.6),
-                                    // backgroundBlendMode: BlendMode.darken,
-                                  ),
+                                  decoration: BoxDecoration(color: Colors.white
+                                      //     .withOpacity(.6),
+                                      // backgroundBlendMode: BlendMode.darken,
+                                      ),
                                   child: ListTile(
                                     title: Text(
                                       applicationBloc
@@ -245,17 +248,36 @@ class MapState extends State<Map> {
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         color: const Color(0xff334856),
-                                      // Colors.white
+                                        // Colors.white
                                       ),
                                     ),
-                                    onTap:  () async {
-                                      // await _goToPlace(applicationBloc
-                                      //     .searchResults[index]);
-                                      applicationBloc.setSelectedLocation(applicationBloc
-                                          .searchResults[index].placeId);
+                                    onTap: () async {
+                                      await _goToPlace(new Place(
+                                        name: applicationBloc
+                                            .searchResults[index].placeId,
+                                        lat: applicationBloc
+                                            .searchResults[index]
+                                            .geometry
+                                            .latitude,
+                                        long: applicationBloc
+                                            .searchResults[index]
+                                            .geometry
+                                            .longitude,
+                                      ));
+                                      // applicationBloc.setSelectedLocation(
+                                      //     applicationBloc
+                                      //         .searchResults[index].placeId);
+                                      // if (applicationBloc
+                                      //         .selectedLocationStatic !=
+                                      //     null) {
+                                      //   print('here66666-------666');
+                                      //
+                                      //   _goToPlace(applicationBloc
+                                      //       .selectedLocationStatic!);
+                                      // }
                                       searchTerm.text = applicationBloc
                                           .searchResults[index].placeId;
-                                      // applicationBloc.searchResults.clear();
+                                      applicationBloc.searchResults.clear();
                                     },
                                   ),
                                 );
@@ -280,11 +302,9 @@ class MapState extends State<Map> {
   }
 
   Future<void> _goToPlace(Place place) async {
+    print('here1-------1111');
     final GoogleMapController controller = await _gmcontroller.future;
-    controller.animateCamera(
-      CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(place.lat,place.long), zoom: 14)
-      )
-    );
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(place.lat, place.long), zoom: 14)));
   }
 }

@@ -1,4 +1,3 @@
-import 'package:swe444/Models/geometry.dart';
 
 class Place {
   // final Geometry geo;

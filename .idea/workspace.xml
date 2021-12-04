@@ -7,6 +7,9 @@
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Models/geometry.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Models/location.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Models/place.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Models/place.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/Sevices/application_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Sevices/application_bloc.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/Sevices/places_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Sevices/places_service.dart" afterDir="false" />
     </list>

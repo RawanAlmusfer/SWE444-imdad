@@ -18,7 +18,7 @@ class ApplicationBloc with ChangeNotifier {
   List<PlaceSearch> searchResults = [];
   StreamController<Place> selectedLocation = StreamController<Place>();
   // StreamController<LatLngBounds> bounds = StreamController<LatLngBounds>();
-  // Place selectedLocationStatic;
+  Place? selectedLocationStatic;
   // String placeType= "";
   // List<Place> placeResults= [];
   List<Marker> markers = [];
@@ -44,14 +44,15 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
-
-  setSelectedLocation(String placeId) async {
-    var sLocation = await placesService.getPlace(placeId);
-    selectedLocation.add(sLocation!);
-    // selectedLocationStatic = sLocation;
-    searchResults = [];
-    notifyListeners();
-  }
+  //
+  // setSelectedLocation(String placeId) async {
+  //   var sLocation = await placesService.getPlace(placeId);
+  //   selectedLocation.add(sLocation!);
+  //   print('here4-------444');
+  //   selectedLocationStatic = sLocation;
+  //   searchResults = [];
+  //   notifyListeners();
+  // }
 
   //
   // clearSelectedLocation() {
