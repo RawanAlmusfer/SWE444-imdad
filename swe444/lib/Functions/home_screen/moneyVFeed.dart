@@ -138,7 +138,6 @@ class mvFeed extends State<mv_feed> {
                     GestureDetector(
                       onTap: () async {
                         bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
@@ -193,7 +192,6 @@ class mvFeed extends State<mv_feed> {
                     GestureDetector(
                       onTap: () async {
                         bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
@@ -323,7 +321,6 @@ class mvFeed extends State<mv_feed> {
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 5.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
-                    //This button for sprint 2
                     Container(
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -386,7 +383,6 @@ class mvFeed extends State<mv_feed> {
                         ),
                       ),
                     ),
-
                     Spacer(),
                     IconButton(
                       icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),

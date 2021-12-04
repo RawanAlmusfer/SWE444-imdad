@@ -265,7 +265,6 @@ class _SearchRequests extends State<SearchRequests> {
                       GestureDetector(
                         onTap: () async {
                           bool flag = await isSubscribed(document['posted_by']);
-                          print("Flag is " + flag.toString());
                           if (!flag) {
                             showModalBottomSheet(
                                 shape: RoundedRectangleBorder(
@@ -321,7 +320,6 @@ class _SearchRequests extends State<SearchRequests> {
                       GestureDetector(
                         onTap: () async {
                           bool flag = await isSubscribed(document['posted_by']);
-                          print("Flag is " + flag.toString());
                           if (!flag) {
                             showModalBottomSheet(
                                 shape: RoundedRectangleBorder(
@@ -451,7 +449,6 @@ class _SearchRequests extends State<SearchRequests> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -515,7 +512,6 @@ class _SearchRequests extends State<SearchRequests> {
                           ),
                         ),
                       ),
-
                       Spacer(),
                       IconButton(
                         icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
@@ -559,7 +555,6 @@ class _SearchRequests extends State<SearchRequests> {
                     GestureDetector(
                       onTap: () async {
                         bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
@@ -614,7 +609,6 @@ class _SearchRequests extends State<SearchRequests> {
                     GestureDetector(
                       onTap: () async {
                         bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
@@ -821,7 +815,6 @@ class _SearchRequests extends State<SearchRequests> {
                     GestureDetector(
                       onTap: () async {
                         bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
@@ -876,7 +869,6 @@ class _SearchRequests extends State<SearchRequests> {
                     GestureDetector(
                       onTap: () async {
                         bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(

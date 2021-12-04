@@ -203,7 +203,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -245,7 +244,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -283,7 +281,6 @@ class mmFeed extends State<mm_feed> {
         ),
       );
     } else {
-      //print('not included');
       return Container();
     }
   }
@@ -421,7 +418,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -462,7 +458,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -500,7 +495,6 @@ class mmFeed extends State<mm_feed> {
         ),
       );
     } else {
-      //print('not included');
       return Container();
     }
   }
@@ -606,7 +600,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -647,7 +640,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -685,7 +677,6 @@ class mmFeed extends State<mm_feed> {
         ),
       );
     } else {
-      //print('not included');
       return Container();
     }
   }

@@ -77,7 +77,6 @@ class MosqueRequests extends State<MosqueMangerRequests> {
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  //   Navigator.pop(context);
                 }),
           ),
         ],

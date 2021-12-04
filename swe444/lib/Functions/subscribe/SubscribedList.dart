@@ -136,10 +136,6 @@ class Subscribed_List extends State<subscribedList> {
         ),
       ),
     );
-    // } else {
-    //   //print('not included');
-    //   return Container();
-    // }
   }
 
   Future<void> subscription(String mmId, String mmName) async {

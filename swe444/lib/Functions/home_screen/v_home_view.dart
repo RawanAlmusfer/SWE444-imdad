@@ -7,7 +7,6 @@ import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
 import 'home.dart';
 import 'moneyVFeed.dart';
-import '../logout.dart';
 
 class vHome extends StatefulWidget {
   @override
