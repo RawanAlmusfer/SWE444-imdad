@@ -4,6 +4,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:swe444/Models/place.dart';
 import 'package:swe444/Models/place_search.dart';
 
 class PlacesService {
@@ -36,14 +37,24 @@ class PlacesService {
 
   }
 
-  // Future<Place> getPlace(String placeId) async {
-  //   var url =
-  //       'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$key';
-  //   var response = await http.get(url);
-  //   var json = convert.jsonDecode(response.body);
-  //   var jsonResult = json['result'] as Map<String,dynamic>;
-  //   return Place.fromJson(jsonResult);
-  // }
+  Future<Place?> getPlace(String placeId) async {
+    Place? place;
+
+    await FirebaseFirestore.instance
+        .collection('mosques_code')
+        .where('name', isEqualTo: placeId)
+        .snapshots()
+        .forEach((snapshot) {
+      var i = snapshot.docs.iterator;
+      while (i.moveNext()) {
+        place= new Place(long: double.parse(i.current['long'].toString()), lat: double.parse(i.current['lat'].toString()), name: i.current['name'].toString());
+      }
+    }).onError((error, stackTrace) => print("error"+ error.toString()));
+
+
+    return place;
+  }
+
   //
   // Future<List<Place>> getPlaces(double lat, double lng,String placeType) async {
   //   var url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?location=$lat,$lng&type=$placeType&rankby=distance&key=$key';

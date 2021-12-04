@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:swe444/Models/place.dart';
 import 'package:swe444/Models/place_search.dart';
 import 'package:swe444/Sevices/geolocater_service.dart';
 import 'package:swe444/Sevices/places_service.dart';
@@ -15,7 +16,7 @@ class ApplicationBloc with ChangeNotifier {
   //Variables
   Position? currentLocation;
   List<PlaceSearch> searchResults = [];
-  // StreamController<Place> selectedLocation = StreamController<Place>();
+  StreamController<Place> selectedLocation = StreamController<Place>();
   // StreamController<LatLngBounds> bounds = StreamController<LatLngBounds>();
   // Place selectedLocationStatic;
   // String placeType= "";
@@ -44,13 +45,14 @@ class ApplicationBloc with ChangeNotifier {
   }
 
 
-  // setSelectedLocation(String placeId) async {
-  //   var sLocation = await placesService.getPlace(placeId);
-  //   selectedLocation.add(sLocation);
-  //   selectedLocationStatic = sLocation;
-  //   searchResults = null;
-  //   notifyListeners();
-  // }
+  setSelectedLocation(String placeId) async {
+    var sLocation = await placesService.getPlace(placeId);
+    selectedLocation.add(sLocation!);
+    // selectedLocationStatic = sLocation;
+    searchResults = [];
+    notifyListeners();
+  }
+
   //
   // clearSelectedLocation() {
   //   selectedLocation.add(null);
@@ -88,11 +90,11 @@ class ApplicationBloc with ChangeNotifier {
   // }
   //
   //
-  //
-  // @override
-  // void dispose() {
-  //   selectedLocation.close();
-  //   bounds.close();
-  //   super.dispose();
-  // }
+
+  @override
+  void dispose() {
+    selectedLocation.close();
+    // bounds.close();
+    super.dispose();
+  }
 }

@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/map/markers.dart';
+import 'package:swe444/Models/place.dart';
 import 'package:swe444/Models/place_search.dart';
 import 'package:swe444/Sevices/application_bloc.dart';
 import 'package:swe444/Sevices/geolocater_service.dart';
@@ -34,6 +35,7 @@ class MapState extends State<Map> {
   TextEditingController searchTerm = TextEditingController();
   String search = "";
   List<PlaceSearch> placesResults = [];
+  StreamSubscription? locationsub;
 
   CameraPosition cp = CameraPosition(
     target: LatLng(24.7135517, 46.6752957),
@@ -47,6 +49,14 @@ class MapState extends State<Map> {
 
   @override
   void initState() {
+    final applicationBloc = Provider.of<ApplicationBloc>(context, listen: false);
+
+    locationsub= applicationBloc.selectedLocation.stream.listen((place) {
+      if (place != null){
+        _goToPlace(place);
+      }
+    });
+
     super.initState();
     Future.delayed(
         Duration.zero,
@@ -57,6 +67,12 @@ class MapState extends State<Map> {
 
   @override
   void dispose() {
+    final applicationBloc = Provider.of<ApplicationBloc>(context, listen: false);
+    applicationBloc.dispose();
+
+    if (locationsub != null)
+      locationsub!.cancel();
+
     super.dispose();
   }
 
@@ -194,7 +210,7 @@ class MapState extends State<Map> {
                         mapType: MapType.normal,
                         onMapCreated: (GoogleMapController controller) {
                           _controller.complete(controller);
-                          // _gmcontroller = controller;
+                          _gmcontroller.complete(controller);
                         },
                       ),
                       // if (applicationBloc.searchResults.isNotEmpty &&
@@ -232,12 +248,14 @@ class MapState extends State<Map> {
                                       // Colors.white
                                       ),
                                     ),
-                                    onTap:  () {
+                                    onTap:  () async {
+                                      // await _goToPlace(applicationBloc
+                                      //     .searchResults[index]);
+                                      applicationBloc.setSelectedLocation(applicationBloc
+                                          .searchResults[index].placeId);
                                       searchTerm.text = applicationBloc
                                           .searchResults[index].placeId;
-                                      applicationBloc.searchResults.clear();
-                                      _goToPlace(applicationBloc
-                                          .searchResults[index]);
+                                      // applicationBloc.searchResults.clear();
                                     },
                                   ),
                                 );
@@ -261,11 +279,11 @@ class MapState extends State<Map> {
     );
   }
 
-  Future<void> _goToPlace(PlaceSearch place) async {
+  Future<void> _goToPlace(Place place) async {
     final GoogleMapController controller = await _gmcontroller.future;
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
-          CameraPosition(target: place.geometry, zoom: 14)
+          CameraPosition(target: LatLng(place.lat,place.long), zoom: 14)
       )
     );
   }
