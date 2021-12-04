@@ -28,7 +28,7 @@ class MapState extends State<Map> {
   GeolocaterService location = GeolocaterService();
   LatLng current = LatLng(0, 0);
   Completer<GoogleMapController> _controller = Completer();
-  GoogleMapController? _gmcontroller;
+  Completer<GoogleMapController> _gmcontroller = Completer();
   MarkersViewModel markers = MarkersViewModel();
   Set<Marker> ms = {};
   TextEditingController searchTerm = TextEditingController();
@@ -194,7 +194,7 @@ class MapState extends State<Map> {
                         mapType: MapType.normal,
                         onMapCreated: (GoogleMapController controller) {
                           _controller.complete(controller);
-                          _gmcontroller = controller;
+                          // _gmcontroller = controller;
                         },
                       ),
                       // if (applicationBloc.searchResults.isNotEmpty &&
@@ -208,31 +208,37 @@ class MapState extends State<Map> {
                       //     backgroundBlendMode: BlendMode.darken,
                       //   ),
                       // ),
-                      if (applicationBloc.searchResults.isNotEmpty && searchTerm.text.trim().isNotEmpty)
+                      if (applicationBloc.searchResults.isNotEmpty &&
+                          searchTerm.text.trim().isNotEmpty)
                         Container(
                           margin: EdgeInsets.only(top: 51),
-                        height: double.infinity,
+                          height: double.infinity,
                           child: ListView.builder(
                               itemCount: applicationBloc.searchResults.length,
                               itemBuilder: (context, index) {
                                 return Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(.6),
-                                    backgroundBlendMode: BlendMode.darken,
+                                    color: Colors.white
+                                    //     .withOpacity(.6),
+                                    // backgroundBlendMode: BlendMode.darken,
                                   ),
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      searchTerm.text= "";
-                                    },
-                                    // style: ElevatedButton.styleFrom(
-                                    //   primary: Colors.black.withOpacity(.1),
-                                    // ),
                                   child: ListTile(
-                                        title: Text(
-                                      applicationBloc.searchResults[index].placeId,
-                                          textAlign: TextAlign.right,
-                                      style: TextStyle(color: Colors.white),
-                                    )),
+                                    title: Text(
+                                      applicationBloc
+                                          .searchResults[index].placeId,
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        color: const Color(0xff334856),
+                                      // Colors.white
+                                      ),
+                                    ),
+                                    onTap:  () {
+                                      searchTerm.text = applicationBloc
+                                          .searchResults[index].placeId;
+                                      applicationBloc.searchResults.clear();
+                                      _goToPlace(applicationBloc
+                                          .searchResults[index]);
+                                    },
                                   ),
                                 );
                               }),
@@ -252,6 +258,15 @@ class MapState extends State<Map> {
       //   label: Text('To the lake!'),
       //   icon: Icon(Icons.directions_boat),
       // ),
+    );
+  }
+
+  Future<void> _goToPlace(PlaceSearch place) async {
+    final GoogleMapController controller = await _gmcontroller.future;
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+          CameraPosition(target: place.geometry, zoom: 14)
+      )
     );
   }
 }
