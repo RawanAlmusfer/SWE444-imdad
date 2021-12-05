@@ -399,6 +399,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                             ),
                                           ),
+                                          if (role == "volunteer")
                                           ListTile(
                                             leading: Icon(
                                               Icons.link,
