@@ -161,7 +161,7 @@ class evFeed extends State<eventsv_feed> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -423,7 +423,7 @@ class evFeed extends State<eventsv_feed> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -485,7 +485,7 @@ class evFeed extends State<eventsv_feed> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -590,10 +590,8 @@ class evFeed extends State<eventsv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) => {
-                  response =
-                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
-                })
+            .then((value) =>
+                {response = ' تم إلغاء تفعيل التنبيهات \n لـ $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance

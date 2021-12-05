@@ -170,7 +170,7 @@ class mvFeed extends State<mv_feed> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -420,7 +420,7 @@ class mvFeed extends State<mv_feed> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -482,7 +482,7 @@ class mvFeed extends State<mv_feed> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',

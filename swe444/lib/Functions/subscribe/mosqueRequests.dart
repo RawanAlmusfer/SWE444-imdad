@@ -53,7 +53,7 @@ class MosqueRequests extends State<MosqueMangerRequests> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              "مسجد " + widget.document['mosque_name'],
+              widget.document['mosque_name'],
               style: TextStyle(
                 color: Color(0xff334856),
                 fontWeight: FontWeight.w700,
@@ -166,7 +166,7 @@ class MosqueRequests extends State<MosqueMangerRequests> {
                       child: Padding(
                         padding: const EdgeInsets.only(right: 20, top: 5),
                         child: Text(
-                          "مسجد " + document['mosque_name'],
+                          document['mosque_name'],
                           style: TextStyle(
                               fontFamily: 'Tajawal',
                               fontSize: 12,
@@ -462,7 +462,7 @@ class MosqueRequests extends State<MosqueMangerRequests> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -723,7 +723,7 @@ class MosqueRequests extends State<MosqueMangerRequests> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -977,7 +977,7 @@ class MosqueRequests extends State<MosqueMangerRequests> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -1039,7 +1039,7 @@ class MosqueRequests extends State<MosqueMangerRequests> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',

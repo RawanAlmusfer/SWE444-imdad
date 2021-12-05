@@ -278,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Text(
                       isVolunteer()
                           ? "${_userFirstName} ${_userLastName}"
-                          : "مسجد " + "${mosqueName} ",
+                          : "${mosqueName} ",
                       style: TextStyle(
                         fontSize: 22,
                         //  fontWeight: FontWeight.bold,
@@ -409,35 +409,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(
                             height: 20,
                           ),
+
                           ///
                           if (role == "volunteer")
-                          ElevatedButton(
-                            child: Text("تعديل الملف الشخصي",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'Tajawal',
-                                    color: const Color(0xff334856))),
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(150, 50),
-                              primary: const Color(0xdeedd03c),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                            onPressed: () async {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditVProfile(document: document)));
-                            },
-                          ),
-
-                          if (role == "mosqueManager")
                             ElevatedButton(
-                              child: Text("تعديل ملف المسجد",
+                              child: Text("تعديل الملف الشخصي",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontFamily: 'Tajawal', color: const Color(0xff334856))),
-
+                                      fontFamily: 'Tajawal',
+                                      color: const Color(0xff334856))),
                               style: ElevatedButton.styleFrom(
                                 minimumSize: Size(150, 50),
                                 primary: const Color(0xdeedd03c),
@@ -445,7 +425,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                               ),
-                              onPressed:() async {
+                              onPressed: () async {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditVProfile(document: document)));
+                              },
+                            ),
+
+                          if (role == "mosqueManager")
+                            ElevatedButton(
+                              child: Text("تعديل ملف المسجد",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'Tajawal',
+                                      color: const Color(0xff334856))),
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size(150, 50),
+                                primary: const Color(0xdeedd03c),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                              ),
+                              onPressed: () async {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>
                                         EditProfile(document: document)));
