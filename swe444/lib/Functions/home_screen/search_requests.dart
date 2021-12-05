@@ -14,6 +14,8 @@ import 'package:swe444/Functions/subscribe/subscription.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
 import 'dart:ui' as ui;
 
+import 'package:swe444/Payment/searchPaymentScreen.dart';
+
 
 class SearchPage extends StatelessWidget {
   @override
@@ -25,10 +27,10 @@ class SearchPage extends StatelessWidget {
 }
 
 class SearchRequests extends StatefulWidget {
-  static String? mmEmailDonated = '';
-  static String? mmNameDonated = '';
-  static int wholeAmount = 0;
-  static int wholeDonated = 0;
+  static String? mmEmailDonated2 = '';
+  static String? mmNameDonated2 = '';
+  static int wholeAmount2 = 0;
+  static int wholeDonated2 = 0;
 
   const SearchRequests({
     Key? key,
@@ -461,12 +463,12 @@ class _SearchRequests extends State<SearchRequests> {
                         child: ElevatedButton(
                           onPressed: () async {
                             String? mmId = document['posted_by'];
-                            SearchRequests.wholeDonated = document['donated'];
+                            SearchRequests.wholeDonated2 = document['donated'];
                             int cumDonated = document['donated'];
-                            SearchRequests.wholeAmount = document['amount'];
+                            SearchRequests.wholeAmount2 = document['amount'];
                             String? mName = document['mosque_name'];
 
-                            SearchRequests.mmNameDonated = mName;
+                            SearchRequests.mmNameDonated2 = mName;
 
                             var documentFormmId = await FirebaseFirestore.instance
                                 .collection('users')
@@ -474,14 +476,14 @@ class _SearchRequests extends State<SearchRequests> {
                                 .get();
 
                             String? mmEmail = documentFormmId['email'];
-                            SearchRequests.mmEmailDonated = mmEmail;
+                            SearchRequests.mmEmailDonated2 = mmEmail;
 
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PaymentScreen()));
+                                    builder: (context) => searchPaymentScreen()));
 
-                            cumDonated += PaymentScreen.vDonatedAmount!;
+                            cumDonated += searchPaymentScreen.vDonatedAmount2!;
 
                             String docId = document.id;
                             await FirebaseFirestore.instance
@@ -490,7 +492,7 @@ class _SearchRequests extends State<SearchRequests> {
                                 .update({'donated': cumDonated});
 
                             //update the denoation for next user
-                            PaymentScreen.vDonatedAmount = 0;
+                            searchPaymentScreen.vDonatedAmount2 = 0;
                             //  db.collection("requests").doc(docId).update({donated: 10});
                           },
                           child: Text(
