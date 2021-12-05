@@ -1,17 +1,14 @@
-import 'dart:ui';
-
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'edit_profile_view.dart';
 import 'edit_vprofile_view.dart';
+import 'eventsreleted.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -24,15 +21,9 @@ class _ProfilePageState extends State<ProfilePage> {
   double _drawerIconSize = 24;
   double _drawerFontSize = 17;
   String _title = "الملف الشخصي";
-  bool _displayfirstname = true;
-  bool _displaylastname = true;
-  bool _displayemail = true;
-  bool _displayphonnumber = true;
-  RegExp regex = RegExp(r'^.{2,}$');
-  RegExp regex2 =  RegExp(r'^.{6,}$');
-  RegExp regex1 = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
+
   final auth = FirebaseAuth.instance;
-  static const IconData edit = IconData(0xe21a, fontFamily: 'MaterialIcons');
+
   String _userFirstName = 'User NAme';
   String _userLastName = 'Last Name';
   late String _userEmail;
@@ -89,8 +80,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     super.initState();
   }
-
-  updateprofilefirstname() {}
 
   @override
   Widget build(BuildContext context) {
@@ -260,28 +249,28 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.only(
                           left: 10, right: 10, bottom: 20, top: 40),
                       decoration: BoxDecoration(
-                          // borderRadius: BorderRadius.circular(100),
-                          // border: Border.all(width: 5, color: Colors.white),
-                          // color: Colors.white,
-                          ),
+                        // borderRadius: BorderRadius.circular(100),
+                        // border: Border.all(width: 5, color: Colors.white),
+                        // color: Colors.white,
+                      ),
                       child: isVolunteer()
                           ? Icon(
-                              Icons.person,
-                              size: 80,
-                              color: const Color(0xdeedd03c),
-                            )
+                        Icons.person,
+                        size: 80,
+                        color: const Color(0xdeedd03c),
+                      )
                           : Container(
-                              height: 60,
-                              width: 80,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: SvgPicture.string(
-                                  mosqueImage,
-                                  allowDrawingOutsideViewBox: true,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
+                        height: 60,
+                        width: 80,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: SvgPicture.string(
+                            mosqueImage,
+                            allowDrawingOutsideViewBox: true,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
                     ),
                     // SizedBox(
                     //   height: 1,
@@ -339,61 +328,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         color: Colors.grey,
                                         tiles: [
                                           ListTile(
-                                            enabled: isVolunteer(),
-                                            onTap: () async {
-                                              //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                             final text =
-                                              await showTextInputDialog(
-                                                context: context,
-                                                title: ' الاسم الأول',
-                                                textFields: [DialogTextField(
-                                                 hintText: 'ادخل الاسم الاول ',
-                                                 validator: (value){
-                                                   RegExp regex = RegExp(r'^.{2,}$');
-                                                    if (value!.isEmpty || value.trim().isEmpty) {
-                                                      return ("الرجاء قم بإدخال اسمك الاول");
-                                                   }
-                                                   if (!regex.hasMatch(value)) {
-                                                      return ("يجب ان يحتوي على حرفين على الأقل");
-                                                    }
-                                                  if (!RegExp(r"^[\p{L} ,.'-]*$",
-                                                        caseSensitive: false, unicode: true, dotAll: true)
-                                                        .hasMatch(value)) {
-                                                      return ("يجب ان يحتوي الأسم الأول على أحرف فقط");
-                                                    }
-                                                    return null;
-                                                  } ,
-
-                                                )],
-                                                okLabel: 'تأكيد',
-                                                cancelLabel: 'الغاء',
-                                              );
-
-                                              if (text != null)
-                                                setState(() {
-                                                  _userFirstName = text[0];
-                                                });
-                                                _userFirstName.trim().isEmpty|| _userFirstName!.isEmpty && RegExp(r"^[\p{L} ,.'-]*$",
-                                                  caseSensitive: false, unicode: true, dotAll: true)
-                                                 .hasMatch( _userFirstName)&&!regex.hasMatch(_userFirstName)?_displayfirstname=false:_displayfirstname=true;
-
-                                              if (_displayfirstname) {
-                                                FirebaseFirestore.instance
-                                                    .collection('users')
-                                                    .doc(auth.currentUser!.uid)
-                                                    .update(
-                                                  //  {isVolunteer() ?'first_name':'mosque_name':text[0]}).then((value) {
-                                                    {
-                                                      'first_name': text![0]
-                                                    }).then((value) {});
-                                              }
-                                            },
                                             leading: Icon(isVolunteer()
                                                 ? Icons.person
                                                 : Icons.account_balance),
-                                            trailing: Icon(isVolunteer()
-                                                ? Icons.edit
-                                                : null),
                                             title: Text(
                                               isVolunteer()
                                                   ? "الاسم الاول "
@@ -411,73 +348,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
 
                                           ListTile(
-                                              enabled: isVolunteer(),
-                                              onTap: () async {
-                                                // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                                final text =
-                                                await showTextInputDialog(
-                                                    context: context,
-                                                    title:
-                                                    ' الاسم الأخير',
-                                                    textFields: [
-                                                      DialogTextField(
-                                                          hintText: 'ادخل الاسم الاخير ',
-                                                          validator: (value){
-                                                            // return !regex.hasMatch(value!) ? 'يجب ان يكون ثلاث حروف أو أكثر ' : null;
-                                                            RegExp regex = RegExp(r'^.{2,}$');
-                                                            if (value!.isEmpty || value.trim().isEmpty) {
-                                                              return ("الرجاء قم بإدخال اسم عائلتك");
-                                                            }
-                                                            if (!regex.hasMatch(value)) {
-                                                              return ("يجب ان يحتوي على حرفين على الأقل");
-                                                            }
-                                                            if (!RegExp(r"^[\p{L} ,.'-]*$",
-                                                                caseSensitive: false, unicode: true, dotAll: true)
-                                                                .hasMatch(value)) {
-                                                              return ("يجب ان يحتوي الأسم الأخير على أحرف فقط");
-                                                            }
-                                                            return null;
-                                                          }
-                                                      )
-                                                    ],
-                                                    okLabel: 'تأكيد',
-                                                    cancelLabel: 'الغاء');
-
-                                                //  _userLastName.trim().isEmpty|| _userLastName!.isEmpty && RegExp(r"^[\p{L} ,.'-]*$",
-                                                //    caseSensitive: false, unicode: true, dotAll: true)
-                                                //   .hasMatch( _userLastName)&&!regex.hasMatch(_userLastName)?_displaylastname=false:_displaylastname=true;
-                                                if (text != null)
-                                                  FirebaseFirestore.instance
-                                                      .collection('users')
-                                                      .doc(
-                                                      auth.currentUser!.uid)
-                                                      .update(
-                                                    //    {isVolunteer() ?'last_name': 'mosque_code':text[0]}).then((value) {
-                                                      {
-                                                        'last_name': text[0]
-                                                      }).then(
-                                                        (value) {
-                                                      setState(() {
-                                                        _userLastName = text[0];
-                                                      });
-                                                    },
-                                                  );
-                                              },
                                               leading: Icon(isVolunteer()
                                                   ? Icons.person
                                                   : Icons.shield),
-                                              trailing: Icon(isVolunteer()
-                                                  ? Icons.edit
-                                                  : null),
                                               title: Text(
                                                 isVolunteer()
                                                     ? "الاسم الاخير "
                                                     : " كود المسجد",
-
-                                                //  style: bold,
-
                                                 // style: bold,
-
                                               ),
                                               subtitle: Text(
                                                 "${isVolunteer() ? _userLastName : mosqueCode}",
@@ -493,50 +371,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                           //   subtitle: Text("USA"),
                                           // ),
                                           ListTile(
-                                            onTap: () async {
-                                              // final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                              final text =
-                                              await showTextInputDialog(
-                                                  context: context,
-                                                  title:
-                                                  ' البريد الالكتروني',
-                                                  textFields: [
-                                                    DialogTextField(
-                                                        hintText: 'ادخل بريد الكتروني ',
-                                                        validator: (value){
-                                                          //   return !value!.contains('@') ? 'ادخل بريد الكتروني صحيح' : null;
-                                                          if (value!.isEmpty || value.trim().isEmpty) {
-                                                            return ("الرجاء قم بإدخال بريد إلكتروني");
-                                                          }
-                                                          // reg expression for email validation
-                                                          if (!RegExp(
-                                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                                              .hasMatch(value)) {
-                                                            return ("البريد الإلكتروني غير صحيح");//ASDFGHJKL123!
-                                                          }
-                                                          return null;
-
-                                                        }
-                                                    )
-                                                  ],
-                                                  okLabel: 'تأكيد',
-                                                  cancelLabel: 'الغاء');
-                                              // _userEmail.trim().isEmpty|| _userEmail!.isEmpty&&!regex2.hasMatch(_userEmail)?_displayemail=false:_displayemail=false;
-
-                                              if (text != null)
-                                                FirebaseFirestore.instance
-                                                    .collection('users')
-                                                    .doc(auth.currentUser!.uid)
-                                                    .update({
-                                                  'email': text[0]
-                                                }).then((value) {
-                                                  setState(() {
-                                                    auth.currentUser
-                                                        ?.updateEmail(text[0]);
-                                                    _userEmail = text[0];
-                                                  });
-                                                });
-                                            },
                                             title: Text(
                                               "البريد الالكتروني",
                                               //  style: bold,
@@ -547,53 +381,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   fontFamily: 'Tajawal'),
                                             ),
                                             leading: Icon(Icons.mail),
-                                            trailing: Icon(Icons.edit),
                                           ),
                                           ListTile(
-                                            onTap: () async {
-                                              //  final text  = await showTextInputDialog(context: context, textFields: [DialogTextField()]);
-                                              final text =
-                                              await showTextInputDialog(
-                                                context: context,
-                                                title: ' رقم الجوال',
-
-                                                textFields: [DialogTextField(
-                                                    hintText: ' أدخل رقم الجوال',
-                                                    validator: (value){
-                                                      // return !regex1.hasMatch(value!) ? 'ادخل رقم جوال صحيح  ' : null;
-                                                      RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
-                                                      if (value!.isEmpty || value.trim().isEmpty) {
-                                                        return ("الرجاء إدخال رقم الجوال ");
-                                                      }
-                                                      if (!regex.hasMatch(value)) {
-                                                        return ("ادخل رقم جوال صحيح");
-                                                      }
-                                                      if (value.length < 10) {
-                                                        return ("ادخل رقم جوال صحيح");
-                                                      }
-                                                      return null;
-                                                    }
-                                                )],
-                                                okLabel: 'تأكيد',
-                                                cancelLabel: 'الغاء',
-                                              );
-                                              //    _userPhone.trim().isEmpty|| _userPhone!.isEmpty && _userPhone.length < 10 &&!regex1.hasMatch(_userPhone)?_displayphonnumber=false:_displayphonnumber=true;
-                                              if (text != null)
-                                                FirebaseFirestore.instance
-                                                    .collection('users')
-                                                    .doc(auth.currentUser!.uid)
-                                                    .update({
-                                                  'phone_number': text[0]
-                                                }).then((value) {
-                                                  setState(() {
-                                                    _userPhone = text[0];
-                                                  });
-                                                });
-                                            },
                                             leading: Icon(
                                               Icons.phone,
                                             ),
-                                            trailing: Icon(Icons.edit),
                                             title: Text(
                                               "رقم الجوال",
                                               style: TextStyle(
@@ -606,6 +398,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 fontFamily: 'Tajawal',
                                               ),
                                             ),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(
+                                              Icons.link,
+                                            ),
+                                            title: Text(
+                                              "تنظيماتي",
+                                              style: TextStyle(
+                                                fontFamily: 'Tajawal',
+                                              ),
+                                            ),
+                                            onTap: () async {
+                                              Navigator.of(context).push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EventsVFeed()));
+
+                                            },
                                           ),
                                         ],
                                       ),
@@ -620,25 +429,25 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           ///
                           if (role == "volunteer")
-                          ElevatedButton(
-                            child: Text("تعديل الملف الشخصي",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'Tajawal',
-                                    color: const Color(0xff334856))),
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(150, 50),
-                              primary: const Color(0xdeedd03c),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
+                            ElevatedButton(
+                              child: Text("تعديل الملف الشخصي",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'Tajawal',
+                                      color: const Color(0xff334856))),
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size(150, 50),
+                                primary: const Color(0xdeedd03c),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
                               ),
+                              onPressed: () async {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditVProfile(document: document)));
+                              },
                             ),
-                            onPressed: () async {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditVProfile(document: document)));
-                            },
-                          ),
 
                           if (role == "mosqueManager")
                             ElevatedButton(
@@ -683,8 +492,6 @@ class _ProfilePageState extends State<ProfilePage> {
   } //QWEqwerty123@
 
   bool isVolunteer() => role == 'volunteer';
-
-
 }
 
 const String mosqueImage =

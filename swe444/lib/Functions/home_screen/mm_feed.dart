@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/donation/items/donation_view_model.dart';
-import 'package:swe444/Functions/donation/items/eventDonation.dart';
 import 'package:swe444/Functions/donation/items/viewDonations.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/request/edit_request_view.dart';
@@ -418,22 +417,14 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
-                GestureDetector(
-                  onTap: () async {
-                    DonationsViewModel dnm = DonationsViewModel();
-                    dnm.setdocID = document.id.toString();
-                    String docID = document.id.toString();
-                    print("Doc ID hehe ____________" + dnm.docID.toString());
-                    Navigator.of(context).push(CustomPageRoute(
-                        child: VieweventDonations(document: document)));
-                  },
-                  child: Padding(
+                if (document['type'].toString() == "تنظيم")
+                  Padding(
                     padding: const EdgeInsets.only(
                         top: 0.1, bottom: 10.0, right: 70),
                     child: Row(children: <Widget>[
                       const Spacer(),
                       const Text(
-                        " عرض المتطوعين في التنظيم",
+                        " عرض المتطوعين",
                         style: TextStyle(
                             fontFamily: 'Tajawal',
                             decoration: TextDecoration.underline,
@@ -441,7 +432,6 @@ class mmFeed extends State<mm_feed> {
                       ),
                     ]),
                   ),
-                ),
                 if (document['participants'].toString() == '0')
                   Padding(
                     padding: const EdgeInsets.only(

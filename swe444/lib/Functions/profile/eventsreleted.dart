@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +10,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:swe444/Models/users.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui' as ui;
 
-class eventsVFeed extends StatelessWidget {
+class EventsVFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedViewModel>(
@@ -45,11 +48,17 @@ class evFeed extends State<eventsv_feed> {
   setup() async {
     await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
   }
+  Future<dynamic> x()async{
+    String vId = await FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore.instance
+        .collection('requests').snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-        Provider.of<FeedViewModel>(context, listen: false).requests;
+
+    Stream<QuerySnapshot<Map<String, dynamic>>>? requests ;
+
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(
@@ -59,7 +68,7 @@ class evFeed extends State<eventsv_feed> {
           child: Row(
             children: [
               Text(
-                "طلبات التنظيم",
+                "تنظيماتي",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff334856),
@@ -98,13 +107,18 @@ class evFeed extends State<eventsv_feed> {
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
             return ListView.builder(
-              itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-              itemBuilder: (BuildContext context, int index) => buildCards(
-                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+                itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return buildCards(
+                      context, (snapshot.data! as QuerySnapshot).docs[index]);
+                }
             );
+            return Container();
           }),
     );
   }
+
+
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
@@ -369,7 +383,8 @@ class evFeed extends State<eventsv_feed> {
                       height: 30,
                       width: 70,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                        },
                         child: Text(
                           "شارك",
                           textAlign: TextAlign.center,
@@ -380,6 +395,38 @@ class evFeed extends State<eventsv_feed> {
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(65.w, 30.h),
                           primary: const Color(0xdeedd03c),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0xffededed),
+                              spreadRadius: 1,
+                              blurRadius: 10),
+                        ],
+                      ),
+                      height: 30,
+                      width: 70,
+                      margin: EdgeInsetsDirectional.only(start: 20),
+                      child: ElevatedButton(
+                        onPressed: () async {
+
+                        },
+                        child: Text(
+                          "الغاء",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              color: const Color(0xff334856)),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(65.w, 30.h),
+                          primary: Colors.red,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
@@ -588,8 +635,10 @@ class evFeed extends State<eventsv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) =>
-        {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
+            .then((value) => {
+          response =
+          ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
+        })
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -611,8 +660,7 @@ class evFeed extends State<eventsv_feed> {
     // set up the button
     Widget okButton = Padding(
         padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
-        child:
-        TextButton(
+        child: TextButton(
           child: Text(
             "موافق",
             textAlign: TextAlign.right,
@@ -630,7 +678,8 @@ class evFeed extends State<eventsv_feed> {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
+      contentPadding:
+      EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
         "تأكيد عملية الاشتراك ",
         textAlign: TextAlign.right,
