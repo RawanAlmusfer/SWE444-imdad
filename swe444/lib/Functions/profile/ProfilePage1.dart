@@ -3,12 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/gestures.dart';
+import 'package:swe444/Functions/home_screen/v_view_allDonations.dart';
+//import 'package:swe444/Widgets/navigation_drawer_widget.dart';
 
 import 'edit_profile_view.dart';
 import 'edit_vprofile_view.dart';
-import 'eventsreleted.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -85,10 +88,12 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final bold = TextStyle(fontWeight: FontWeight.bold);
     return Directionality(
+
       textDirection: TextDirection.rtl,
       child: Scaffold(
+
         backgroundColor: const Color(0xffededed),
-        drawer: Drawer(
+        drawer: new Drawer(
           child: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -234,8 +239,11 @@ class _ProfilePageState extends State<ProfilePage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              //  Container(height: 100, child: HeaderWidget(100,false,Icons.house_rounded),),
+              //  build2(),
+
               Container(
+
+
                 //width: 250, // to wrap the text in multiline
 
                 alignment: Alignment.centerRight,
@@ -244,15 +252,57 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Column(
                   children: [
+
+                    // build3(),
                     //Positioned.directional(textDirection: TextDirection.rtl, child: ,),
                     Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(left: 10,),
+                      child:new IconButton(
+                        icon: new Icon(Icons.spa,
+                          size: 50,
+                          color: const Color(0xff334856),),
+
+
+
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  vAllDonations()));
+
+
+                        },
+
+
+                      ),),
+
+                    Container(
+
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(top: 10,right:20),
+                      child: Text(
+                        'تبرعاتي', style: TextStyle(
+                          fontSize: 15.0,
+                          fontFamily: 'Tajawal',
+                          color: Color(0xff334856),
+                          fontWeight: FontWeight.w700),
+
+                      ),
+                    ),
+
+
+                    Container(
+
                       padding: EdgeInsets.only(
-                          left: 10, right: 10, bottom: 20, top: 40),
+                          left: 10, right: 10),
                       decoration: BoxDecoration(
+
                         // borderRadius: BorderRadius.circular(100),
                         // border: Border.all(width: 5, color: Colors.white),
                         // color: Colors.white,
                       ),
+
+
                       child: isVolunteer()
                           ? Icon(
                         Icons.person,
@@ -399,23 +449,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                             ),
                                           ),
-                                          ListTile(
-                                            leading: Icon(
-                                              Icons.link,
-                                            ),
-                                            title: Text(
-                                              "تنظيماتي",
-                                              style: TextStyle(
-                                                fontFamily: 'Tajawal',
-                                              ),
-                                            ),
-                                            onTap: () async {
-                                              Navigator.of(context).push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EventsVFeed()));
-
-                                            },
-                                          ),
                                         ],
                                       ),
                                     ],
@@ -492,6 +525,39 @@ class _ProfilePageState extends State<ProfilePage> {
   } //QWEqwerty123@
 
   bool isVolunteer() => role == 'volunteer';
+
+  Widget build3(){
+    return Scaffold(
+     // drawer: NavigationDrawerWidget(),
+    );
+
+  }
+  Widget build2() {
+    TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
+    TextStyle linkStyle = TextStyle(color: Colors.blue);
+    return RichText(
+
+      text: TextSpan(
+        style: defaultStyle,
+
+
+        children: [
+
+          TextSpan(
+              text: 'تبرعاتي',
+
+              style:TextStyle(decoration: TextDecoration.underline,color: const Color (0xff334856),   fontSize: 20.0,
+                fontFamily: 'Tajawal',),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  print('Terms of Service"');
+                }
+          ),
+
+        ],
+      ),
+    );
+  }
 }
 
 const String mosqueImage =

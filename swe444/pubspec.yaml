@@ -37,7 +37,7 @@ dependencies:
 
   #  flutter_polyline_points: ^1.0.0
   #  google_maps: ^5.3.0
-  #  google_maps_flutter: ^2.0.10
+  google_maps_flutter: ^2.0.10
   provider: ^6.0.1
   #flutter_pw_validator: ^1.2.1
   cupertino_icons: ^1.0.2

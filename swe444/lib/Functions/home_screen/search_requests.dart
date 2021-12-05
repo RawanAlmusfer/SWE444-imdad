@@ -10,8 +10,11 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:swe444/Functions/subscribe/subscription.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
 import 'dart:ui' as ui;
+
+import 'package:swe444/Payment/searchPaymentScreen.dart';
 
 
 class SearchPage extends StatelessWidget {
@@ -24,10 +27,10 @@ class SearchPage extends StatelessWidget {
 }
 
 class SearchRequests extends StatefulWidget {
-  static String? mmEmailDonated = '';
-  static String? mmNameDonated = '';
-  static int wholeAmount = 0;
-  static int wholeDonated = 0;
+  static String? mmEmailDonated2 = '';
+  static String? mmNameDonated2 = '';
+  static int wholeAmount2 = 0;
+  static int wholeDonated2 = 0;
 
   const SearchRequests({
     Key? key,
@@ -46,6 +49,7 @@ class _SearchRequests extends State<SearchRequests> {
   String search = "";
   int i = 0;
   int numOfResults = 0;
+  Subscribe subscribe= new Subscribe();
 
   @override
   void initState() {
@@ -258,7 +262,7 @@ class _SearchRequests extends State<SearchRequests> {
                     child: Row(children: <Widget>[
                       GestureDetector(
                         onTap: () async {
-                          bool flag = await isSubscribed(document['posted_by']);
+                          bool flag = await subscribe.isSubscribed(document['posted_by']);
                           print("Flag is " + flag.toString());
                           if (!flag) {
                             showModalBottomSheet(
@@ -268,9 +272,9 @@ class _SearchRequests extends State<SearchRequests> {
                                   ),
                                 ),
                                 context: context,
-                                builder: (context) => BuildSubscribedProfile(
+                                builder: (context) => subscribe.BuildSubscribedProfile(
                                     document['mosque_name'].toString(),
-                                    document['posted_by'].toString()));
+                                    document['posted_by'].toString(), context));
                           } else {
                             showModalBottomSheet(
                               //isScrollControlled: true,
@@ -280,9 +284,9 @@ class _SearchRequests extends State<SearchRequests> {
                                   ),
                                 ),
                                 context: context,
-                                builder: (context) => BuildUnsubscribedProfile(
+                                builder: (context) => subscribe.BuildUnsubscribedProfile(
                                     document['mosque_name'].toString(),
-                                    document['posted_by'].toString()));
+                                    document['posted_by'].toString(), context));
                           }
                           //await
                           //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
@@ -313,7 +317,7 @@ class _SearchRequests extends State<SearchRequests> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          bool flag = await isSubscribed(document['posted_by']);
+                          bool flag = await subscribe.isSubscribed(document['posted_by']);
                           print("Flag is " + flag.toString());
                           if (!flag) {
                             showModalBottomSheet(
@@ -323,9 +327,9 @@ class _SearchRequests extends State<SearchRequests> {
                                   ),
                                 ),
                                 context: context,
-                                builder: (context) => BuildSubscribedProfile(
+                                builder: (context) => subscribe.BuildSubscribedProfile(
                                     document['mosque_name'].toString(),
-                                    document['posted_by'].toString()));
+                                    document['posted_by'].toString(), context));
                           } else {
                             showModalBottomSheet(
                               //isScrollControlled: true,
@@ -335,9 +339,9 @@ class _SearchRequests extends State<SearchRequests> {
                                   ),
                                 ),
                                 context: context,
-                                builder: (context) => BuildUnsubscribedProfile(
+                                builder: (context) => subscribe.BuildUnsubscribedProfile(
                                     document['mosque_name'].toString(),
-                                    document['posted_by'].toString()));
+                                    document['posted_by'].toString(), context));
                           }
                           //await
                           //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
@@ -459,12 +463,12 @@ class _SearchRequests extends State<SearchRequests> {
                         child: ElevatedButton(
                           onPressed: () async {
                             String? mmId = document['posted_by'];
-                            SearchRequests.wholeDonated = document['donated'];
+                            SearchRequests.wholeDonated2 = document['donated'];
                             int cumDonated = document['donated'];
-                            SearchRequests.wholeAmount = document['amount'];
+                            SearchRequests.wholeAmount2 = document['amount'];
                             String? mName = document['mosque_name'];
 
-                            SearchRequests.mmNameDonated = mName;
+                            SearchRequests.mmNameDonated2 = mName;
 
                             var documentFormmId = await FirebaseFirestore.instance
                                 .collection('users')
@@ -472,14 +476,14 @@ class _SearchRequests extends State<SearchRequests> {
                                 .get();
 
                             String? mmEmail = documentFormmId['email'];
-                            SearchRequests.mmEmailDonated = mmEmail;
+                            SearchRequests.mmEmailDonated2 = mmEmail;
 
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PaymentScreen()));
+                                    builder: (context) => searchPaymentScreen()));
 
-                            cumDonated += PaymentScreen.vDonatedAmount!;
+                            cumDonated += searchPaymentScreen.vDonatedAmount2!;
 
                             String docId = document.id;
                             await FirebaseFirestore.instance
@@ -488,7 +492,7 @@ class _SearchRequests extends State<SearchRequests> {
                                 .update({'donated': cumDonated});
 
                             //update the denoation for next user
-                            PaymentScreen.vDonatedAmount = 0;
+                            searchPaymentScreen.vDonatedAmount2 = 0;
                             //  db.collection("requests").doc(docId).update({donated: 10});
                           },
                           child: Text(
@@ -550,7 +554,7 @@ class _SearchRequests extends State<SearchRequests> {
                   child: Row(children: <Widget>[
                     GestureDetector(
                       onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
+                        bool flag = await subscribe.isSubscribed(document['posted_by']);
                         print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
@@ -560,9 +564,9 @@ class _SearchRequests extends State<SearchRequests> {
                                 ),
                               ),
                               context: context,
-                              builder: (context) => BuildSubscribedProfile(
+                              builder: (context) => subscribe.BuildSubscribedProfile(
                                   document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
+                                  document['posted_by'].toString(), context));
                         } else {
                           showModalBottomSheet(
                             //isScrollControlled: true,
@@ -572,9 +576,9 @@ class _SearchRequests extends State<SearchRequests> {
                                 ),
                               ),
                               context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
+                              builder: (context) => subscribe.BuildUnsubscribedProfile(
                                   document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
+                                  document['posted_by'].toString(), context));
                         }
                         //await
                         //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
@@ -605,7 +609,7 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
+                        bool flag = await subscribe.isSubscribed(document['posted_by']);
                         print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
@@ -615,9 +619,9 @@ class _SearchRequests extends State<SearchRequests> {
                                 ),
                               ),
                               context: context,
-                              builder: (context) => BuildSubscribedProfile(
+                              builder: (context) => subscribe.BuildSubscribedProfile(
                                   document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
+                                  document['posted_by'].toString(), context));
                         } else {
                           showModalBottomSheet(
                             //isScrollControlled: true,
@@ -627,9 +631,9 @@ class _SearchRequests extends State<SearchRequests> {
                                 ),
                               ),
                               context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
+                              builder: (context) => subscribe.BuildUnsubscribedProfile(
                                   document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
+                                  document['posted_by'].toString(), context));
                         }
                         //await
                         //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
@@ -812,7 +816,7 @@ class _SearchRequests extends State<SearchRequests> {
                   child: Row(children: <Widget>[
                     GestureDetector(
                       onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
+                        bool flag = await subscribe.isSubscribed(document['posted_by']);
                         print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
@@ -822,9 +826,9 @@ class _SearchRequests extends State<SearchRequests> {
                                 ),
                               ),
                               context: context,
-                              builder: (context) => BuildSubscribedProfile(
+                              builder: (context) => subscribe.BuildSubscribedProfile(
                                   document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
+                                  document['posted_by'].toString(), context));
                         } else {
                           showModalBottomSheet(
                             //isScrollControlled: true,
@@ -834,9 +838,9 @@ class _SearchRequests extends State<SearchRequests> {
                                 ),
                               ),
                               context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
+                              builder: (context) => subscribe.BuildUnsubscribedProfile(
                                   document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
+                                  document['posted_by'].toString(), context));
                         }
                         //await
                         //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
@@ -867,7 +871,7 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
+                        bool flag = await subscribe.isSubscribed(document['posted_by']);
                         print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
@@ -877,9 +881,9 @@ class _SearchRequests extends State<SearchRequests> {
                                 ),
                               ),
                               context: context,
-                              builder: (context) => BuildSubscribedProfile(
+                              builder: (context) => subscribe.BuildSubscribedProfile(
                                   document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
+                                  document['posted_by'].toString(), context));
                         } else {
                           showModalBottomSheet(
                             //isScrollControlled: true,
@@ -889,9 +893,9 @@ class _SearchRequests extends State<SearchRequests> {
                                 ),
                               ),
                               context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
+                              builder: (context) => subscribe.BuildUnsubscribedProfile(
                                   document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
+                                  document['posted_by'].toString(), context));
                         }
                         //await
                         //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
@@ -1054,7 +1058,19 @@ class _SearchRequests extends State<SearchRequests> {
                       height: 30,
                       width: 70,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+
+                          int? wholePartsNum = document['parts_number'];
+                          int? currentPartsNum = document['participants'];
+                          String mName = document['mosque_name'].toString();
+                          String mmId = document['posted_by'].toString();
+                          String thisDocId = document.id;
+                          String title= document['title'];
+
+                          await apply(mName, mmId, wholePartsNum!,
+                          currentPartsNum!, thisDocId, title);
+
+                        },
                         child: Text(
                           "شارك",
                           textAlign: TextAlign.center,
@@ -1091,241 +1107,202 @@ class _SearchRequests extends State<SearchRequests> {
     }
   }
 
-  Widget BuildSubscribedProfile(String name, String id) {
-    return Container(
-      padding: EdgeInsets.all(30),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, bottom: 20),
-            height: 80,
-            width: 80,
-            child: SvgPicture.string(
-              mosqueImage,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Text(
-            "مسجد " + name,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Tajawal',
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffededed),
-                      spreadRadius: 1,
-                      blurRadius: 10),
-                ],
-              ),
-              height: 30,
-              width: 70,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await subscription(id, name);
-                },
-                child: Text(
-                  "تابع",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(65.w, 30.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget BuildUnsubscribedProfile(String name, String id) {
-    return Container(
-      padding: EdgeInsets.all(30),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, bottom: 20),
-            height: 80,
-            width: 80,
-            child: SvgPicture.string(
-              mosqueImage,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Text(
-            "مسجد " + name,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Tajawal',
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffededed),
-                      spreadRadius: 1,
-                      blurRadius: 10),
-                ],
-              ),
-              height: 30,
-              width: 120,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await subscription(id, name);
-                },
-                child: Text(
-                  "إلغاء المتابعة",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(65.w, 30.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
 
-  String? feedbackResponse(int response) {
-    if ((response) == 1) {
-//Extract the mosuqe name to add in the msg
-      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
-    } else {
-      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
-    }
-  }
+//   Widget BuildSubscribedProfile(String name, String id) {
+//     return Container(
+//       padding: EdgeInsets.all(30),
+//       child: Column(
+//         children: [
+//           Container(
+//             padding: const EdgeInsets.only(left: 10, bottom: 20),
+//             height: 80,
+//             width: 80,
+//             child: SvgPicture.string(
+//               mosqueImage,
+//               allowDrawingOutsideViewBox: true,
+//               fit: BoxFit.fill,
+//             ),
+//           ),
+//           Text(
+//             "مسجد " + name,
+//             style: TextStyle(
+//               fontSize: 18.0,
+//               fontFamily: 'Tajawal',
+//             ),
+//             textAlign: TextAlign.center,
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 boxShadow: [
+//                   BoxShadow(
+//                       color: Color(0xffededed),
+//                       spreadRadius: 1,
+//                       blurRadius: 10),
+//                 ],
+//               ),
+//               height: 30,
+//               width: 70,
+//               child: ElevatedButton(
+//                 onPressed: () async {
+//                   await subscription(id, name);
+//                 },
+//                 child: Text(
+//                   "تابع",
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(
+//                       fontFamily: 'Tajawal', color: const Color(0xff334856)),
+//                 ),
+//                 style: ElevatedButton.styleFrom(
+//                   minimumSize: Size(65.w, 30.h),
+//                   primary: const Color(0xdeedd03c),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(50),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   Widget BuildUnsubscribedProfile(String name, String id) {
+//     return Container(
+//       padding: EdgeInsets.all(30),
+//       child: Column(
+//         children: [
+//           Container(
+//             padding: const EdgeInsets.only(left: 10, bottom: 20),
+//             height: 80,
+//             width: 80,
+//             child: SvgPicture.string(
+//               mosqueImage,
+//               allowDrawingOutsideViewBox: true,
+//               fit: BoxFit.fill,
+//             ),
+//           ),
+//           Text(
+//             "مسجد " + name,
+//             style: TextStyle(
+//               fontSize: 18.0,
+//               fontFamily: 'Tajawal',
+//             ),
+//             textAlign: TextAlign.center,
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 boxShadow: [
+//                   BoxShadow(
+//                       color: Color(0xffededed),
+//                       spreadRadius: 1,
+//                       blurRadius: 10),
+//                 ],
+//               ),
+//               height: 30,
+//               width: 120,
+//               child: ElevatedButton(
+//                 onPressed: () async {
+//                   await subscription(id, name);
+//                 },
+//                 child: Text(
+//                   "إلغاء المتابعة",
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(
+//                       fontFamily: 'Tajawal', color: const Color(0xff334856)),
+//                 ),
+//                 style: ElevatedButton.styleFrom(
+//                   minimumSize: Size(65.w, 30.h),
+//                   primary: const Color(0xdeedd03c),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(50),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   String? feedbackResponse(int response) {
+//     if ((response) == 1) {
+// //Extract the mosuqe name to add in the msg
+//       return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+//     } else {
+//       return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+//     }
+//   }
+//
+//   Future<bool> isSubscribed(String mID) async {
+//     User? user = FirebaseAuth.instance.currentUser;
+//     var subscribedMosques = [];
+//
+//     var uesrDoc = await FirebaseFirestore.instance
+//         .collection('users')
+//         .doc(user?.uid.toString())
+//         .collection("subscribedMosqueManager")
+//         .get();
+//
+//     var docs = uesrDoc.docs;
+//     //var length = uesrDoc.docs.length;
+//
+//     for (var Doc in docs) {
+//       if (!subscribedMosques.contains(Doc.id)) {
+//         subscribedMosques.add(Doc.id);
+//       }
+//     }
+//
+//     if (subscribedMosques.contains(mID)) {
+//       return true;
+//     }
+//     return false;
+//   }
+//
 
-  Future<bool> isSubscribed(String mID) async {
-    User? user = FirebaseAuth.instance.currentUser;
-    var subscribedMosques = [];
-
-    var uesrDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user?.uid.toString())
-        .collection("subscribedMosqueManager")
-        .get();
-
-    var docs = uesrDoc.docs;
-    //var length = uesrDoc.docs.length;
-
-    for (var Doc in docs) {
-      if (!subscribedMosques.contains(Doc.id)) {
-        subscribedMosques.add(Doc.id);
-      }
-    }
-
-    if (subscribedMosques.contains(mID)) {
-      return true;
-    }
-    return false;
-  }
-
-
-  Future<void> subscription(String mmId, String mmName) async {
+  Future<void> apply(String mmName, String mmId, int wholePartsNum,
+      int currentPartsNum, String thisDocId, String title) async {
     String vId = await FirebaseAuth.instance.currentUser!.uid;
-    String? dToken;
     String? response = '';
     bool isExsited = false;
+    var document = await FirebaseFirestore.instance.collection('requests')
+        .doc(thisDocId)
+        .collection('applicants')
+        .doc(vId)
+        .get();
 
-    try {
-      //subscribe
-
-      var document = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(mmId)
-          .collection("subscribedVolunteers")
-          .doc(vId)
-          .get();
-
-      if (document.exists) {
-        if (document != null) {
-          isExsited = true;
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
-        }
+    if (document.exists) {
+      if (document != null) {
+        isExsited = true;
       } else {
-        print('المتطوع ليس مسجل بقائمة المتطوعين');
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
       }
-
-      if (!isExsited) {
-        await FirebaseMessaging.instance.getToken().then((token) {
-          dToken = token.toString();
-        });
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(mmId)
-            .collection("subscribedVolunteers")
-            .doc(vId)
-            .set({'uid': vId, 'token': dToken})
-            .then((value) =>
-        {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
-            .catchError((error) =>
-        //////
-        {response = "لم يتم تفعيل التنبيهات بنجاح"});
-        //add to mm
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(vId)
-            .collection("subscribedMosqueManager")
-            .doc(mmId)
-            .set({'mosque_name': mmName, 'mmId': mmId});
-      }
-
-      //Unsubscribe
-
-      else {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(mmId)
-            .collection("subscribedVolunteers")
-            .doc(vId)
-            .delete()
-            .then((value) =>
-        {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
-            .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
-
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(vId)
-            .collection("subscribedMosqueManager")
-            .doc(mmId)
-            .delete();
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('error to subscribe $e')));
+    } else {
+      print('المتطوع ليس مسجل بقائمة المشاركين');
     }
+    if (!isExsited) {
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(thisDocId)
+          .collection("applicants")
+          .doc(vId)
+          .set({'uid': vId})
+          .then((value) =>
+      {response = ' تم تقديم طلب للمشاركة في $title لمسجد $mmName بنجاح '})
+          .catchError((error) =>
 
+      {response = "لم يتم تفعيل التنبيهات بنجاح"});}
+
+    else response = ' لقد قمت بتقديم مُسبق  للمشاركة في $title لمسجد $mmName  ';
     showAlertDialog(context, response);
+
   }
 
   showAlertDialog(BuildContext context, String? response) {
@@ -1343,8 +1320,8 @@ class _SearchRequests extends State<SearchRequests> {
               backgroundColor:
               MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
           onPressed: () {
-            int count = 0;
-            Navigator.of(context).popUntil((_) => count++ >= 2);
+
+            Navigator.of(context).pop();
           },
         ));
     // set up the AlertDialog
@@ -1353,7 +1330,7 @@ class _SearchRequests extends State<SearchRequests> {
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
       contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
-        "تأكيد عملية الاشتراك ",
+        "تأكيد عملية التقديم ",
         textAlign: TextAlign.right,
         style: TextStyle(
           fontFamily: "Tajawal",
@@ -1380,6 +1357,8 @@ class _SearchRequests extends State<SearchRequests> {
       },
     );
   }
+
+
 
   String getTime(var timeStamp) {
     final DateFormat formatter = DateFormat('dd/MM/yyyy'); //your date format here
