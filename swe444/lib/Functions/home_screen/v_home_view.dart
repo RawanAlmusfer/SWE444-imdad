@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
-import 'package:swe444/Functions/map/map_view.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
 import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
@@ -19,14 +18,13 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 4;
+  int _currentIndex = 3;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
     ProfilePage(),
     SubscribedList(),
-    MapSample(),
     SearchPage(),
     vhome(),
   ];
@@ -63,7 +61,7 @@ class _HomeState extends State<vHome> {
                         return AlertDialog(
                             shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(32.0))),
+                                BorderRadius.all(Radius.circular(32.0))),
                             contentPadding: EdgeInsets.only(
                                 right: 20.w, top: 20.h, bottom: 10.h),
                             title: Text(
@@ -89,7 +87,7 @@ class _HomeState extends State<vHome> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  MainAxisAlignment.spaceEvenly,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     ElevatedButton(
@@ -101,11 +99,11 @@ class _HomeState extends State<vHome> {
                                       ),
                                       style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  const Color(0xdeffffff)),
+                                          MaterialStateProperty.all<Color>(
+                                              const Color(0xdeffffff)),
                                           elevation:
-                                              MaterialStateProperty.all<double>(
-                                                  0)),
+                                          MaterialStateProperty.all<double>(
+                                              0)),
                                       onPressed: () {
                                         Navigator.of(context).pop(context);
                                       },
@@ -125,8 +123,8 @@ class _HomeState extends State<vHome> {
                                       },
                                       style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  const Color(0xdeedd03c))),
+                                          MaterialStateProperty.all<Color>(
+                                              const Color(0xdeedd03c))),
                                     )
                                   ],
                                 ),
@@ -185,10 +183,6 @@ class _HomeState extends State<vHome> {
                     label: "المتابَعين",
                   ),
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.map_outlined),
-                    label: "الخريطة",
-                  ),
-                  BottomNavigationBarItem(
                     icon: new Icon(Icons.search),
                     label: "البحث",
                   ),
@@ -223,15 +217,10 @@ class _HomeState extends State<vHome> {
           break;
         case 2:
           {
-            _title = 'الخريطة';
-          }
-          break;
-        case 3:
-          {
             _title = 'البحث';
           }
           break;
-        case 4:
+        case 3:
           {
             _title = 'الصفحة الرئيسية';
           }
