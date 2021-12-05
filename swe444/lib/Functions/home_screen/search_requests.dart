@@ -13,7 +13,6 @@ import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
 import 'dart:ui' as ui;
 
-
 class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -138,10 +137,10 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                     IconButton(
                         onPressed: () {
-                          numOfResults=0;
+                          numOfResults = 0;
                           search = searchTerm.text;
                           setState(() {
-                            numOfResults=0;
+                            numOfResults = 0;
                             Future.delayed(
                                 Duration.zero,
                                 () => setState(() {
@@ -190,8 +189,8 @@ class _SearchRequests extends State<SearchRequests> {
                       );
                     }),
                 if (Provider.of<FeedViewModel>(context, listen: false)
-                    .getSearchResults
-                    .length !=
+                        .getSearchResults
+                        .length !=
                     0)
                   Container(
                       margin: const EdgeInsets.only(top: 30.0, bottom: 20),
@@ -273,7 +272,7 @@ class _SearchRequests extends State<SearchRequests> {
                                     document['posted_by'].toString()));
                           } else {
                             showModalBottomSheet(
-                              //isScrollControlled: true,
+                                //isScrollControlled: true,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(19.0),
@@ -292,7 +291,7 @@ class _SearchRequests extends State<SearchRequests> {
                           child: Padding(
                             padding: const EdgeInsets.only(right: 20, top: 5),
                             child: Text(
-                              "مسجد " + document['mosque_name'],
+                              document['mosque_name'],
                               style: TextStyle(
                                   fontFamily: 'Tajawal',
                                   fontSize: 12,
@@ -307,7 +306,8 @@ class _SearchRequests extends State<SearchRequests> {
                         padding: const EdgeInsets.only(right: 10, top: 5),
                         child: Text(
                           document['title'],
-                          style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                          style:
+                              TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
                           // textAlign: TextAlign.left,
                         ),
                       ),
@@ -328,7 +328,7 @@ class _SearchRequests extends State<SearchRequests> {
                                     document['posted_by'].toString()));
                           } else {
                             showModalBottomSheet(
-                              //isScrollControlled: true,
+                                //isScrollControlled: true,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(19.0),
@@ -354,8 +354,8 @@ class _SearchRequests extends State<SearchRequests> {
                     ]),
                   ),
                   Padding(
-                    padding:
-                    const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                    padding: const EdgeInsets.only(
+                        top: 4.0, bottom: 15.0, right: 70),
                     child: Row(children: <Widget>[
                       const Spacer(),
                       Column(
@@ -466,7 +466,8 @@ class _SearchRequests extends State<SearchRequests> {
 
                             SearchRequests.mmNameDonated = mName;
 
-                            var documentFormmId = await FirebaseFirestore.instance
+                            var documentFormmId = await FirebaseFirestore
+                                .instance
                                 .collection('users')
                                 .doc(mmId)
                                 .get();
@@ -565,7 +566,7 @@ class _SearchRequests extends State<SearchRequests> {
                                   document['posted_by'].toString()));
                         } else {
                           showModalBottomSheet(
-                            //isScrollControlled: true,
+                              //isScrollControlled: true,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(19.0),
@@ -584,7 +585,7 @@ class _SearchRequests extends State<SearchRequests> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -620,7 +621,7 @@ class _SearchRequests extends State<SearchRequests> {
                                   document['posted_by'].toString()));
                         } else {
                           showModalBottomSheet(
-                            //isScrollControlled: true,
+                              //isScrollControlled: true,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(19.0),
@@ -647,7 +648,7 @@ class _SearchRequests extends State<SearchRequests> {
                 ),
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Column(
@@ -827,7 +828,7 @@ class _SearchRequests extends State<SearchRequests> {
                                   document['posted_by'].toString()));
                         } else {
                           showModalBottomSheet(
-                            //isScrollControlled: true,
+                              //isScrollControlled: true,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(19.0),
@@ -846,7 +847,7 @@ class _SearchRequests extends State<SearchRequests> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -882,7 +883,7 @@ class _SearchRequests extends State<SearchRequests> {
                                   document['posted_by'].toString()));
                         } else {
                           showModalBottomSheet(
-                            //isScrollControlled: true,
+                              //isScrollControlled: true,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(19.0),
@@ -909,7 +910,7 @@ class _SearchRequests extends State<SearchRequests> {
                 ),
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Column(
@@ -1107,7 +1108,7 @@ class _SearchRequests extends State<SearchRequests> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -1168,7 +1169,7 @@ class _SearchRequests extends State<SearchRequests> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -1213,13 +1214,12 @@ class _SearchRequests extends State<SearchRequests> {
     );
   }
 
-
   String? feedbackResponse(int response) {
     if ((response) == 1) {
 //Extract the mosuqe name to add in the msg
-      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+      return "تم تفعيل التنبيهات لـ \n  شاكرين لك مساهمتك";
     } else {
-      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+      return "لم يتم تفعيل التنبيهات لـ بنجاح";
     }
   }
 
@@ -1247,7 +1247,6 @@ class _SearchRequests extends State<SearchRequests> {
     }
     return false;
   }
-
 
   Future<void> subscription(String mmId, String mmName) async {
     String vId = await FirebaseAuth.instance.currentUser!.uid;
@@ -1286,11 +1285,11 @@ class _SearchRequests extends State<SearchRequests> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
-            .then((value) =>
-        {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+            .then(
+                (value) => {response = ' تم تفعيل التنبيهات لـ $mmName بنجاح '})
             .catchError((error) =>
-        //////
-        {response = "لم يتم تفعيل التنبيهات بنجاح"});
+                //////
+                {response = "لم يتم تفعيل التنبيهات بنجاح"});
         //add to mm
         await FirebaseFirestore.instance
             .collection('users')
@@ -1310,7 +1309,7 @@ class _SearchRequests extends State<SearchRequests> {
             .doc(vId)
             .delete()
             .then((value) =>
-        {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
+                {response = ' تم إلغاء تفعيل التنبيهات \n لـ $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -1332,8 +1331,7 @@ class _SearchRequests extends State<SearchRequests> {
     // set up the button
     Widget okButton = Padding(
         padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
-        child:
-        TextButton(
+        child: TextButton(
           child: Text(
             "موافق",
             textAlign: TextAlign.right,
@@ -1341,7 +1339,7 @@ class _SearchRequests extends State<SearchRequests> {
           ),
           style: ButtonStyle(
               backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
           onPressed: () {
             int count = 0;
             Navigator.of(context).popUntil((_) => count++ >= 2);
@@ -1351,7 +1349,8 @@ class _SearchRequests extends State<SearchRequests> {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
+      contentPadding:
+          EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
         "تأكيد عملية الاشتراك ",
         textAlign: TextAlign.right,
@@ -1382,7 +1381,8 @@ class _SearchRequests extends State<SearchRequests> {
   }
 
   String getTime(var timeStamp) {
-    final DateFormat formatter = DateFormat('dd/MM/yyyy'); //your date format here
+    final DateFormat formatter =
+        DateFormat('dd/MM/yyyy'); //your date format here
     var date = timeStamp.toDate();
     return formatter.format(date);
   }

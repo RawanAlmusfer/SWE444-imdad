@@ -160,7 +160,7 @@ class ivFeed extends State<itemsv_feed> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -383,7 +383,7 @@ class ivFeed extends State<itemsv_feed> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -444,7 +444,7 @@ class ivFeed extends State<itemsv_feed> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -526,8 +526,8 @@ class ivFeed extends State<itemsv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
-            .then((value) =>
-                {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+            .then(
+                (value) => {response = ' تم تفعيل التنبيهات لـ $mmName بنجاح '})
             .catchError((error) =>
                 //////
                 {response = "لم يتم تفعيل التنبيهات بنجاح"});
@@ -549,10 +549,8 @@ class ivFeed extends State<itemsv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) => {
-                  response =
-                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
-                })
+            .then((value) =>
+                {response = ' تم إلغاء تفعيل التنبيهات \n لـ $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -626,9 +624,9 @@ class ivFeed extends State<itemsv_feed> {
   String? feedbackResponse(int response) {
     if ((response) == 1) {
 //Extract the mosuqe name to add in the msg
-      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+      return "تم تفعيل التنبيهات لـ \n  شاكرين لك مساهمتك";
     } else {
-      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+      return "لم يتم تفعيل التنبيهات لـ بنجاح";
     }
   }
 }

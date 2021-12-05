@@ -125,7 +125,7 @@ class Subscribed_List extends State<subscribedList> {
               Padding(
                 padding: const EdgeInsets.only(right: 20, top: 5),
                 child: Text(
-                  "مسجد " + document['mosque_name'].toString(),
+                  document['mosque_name'].toString(),
                   style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
                   textAlign: TextAlign.center,
                 ),
@@ -183,8 +183,8 @@ class Subscribed_List extends State<subscribedList> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
-            .then((value) =>
-                {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+            .then(
+                (value) => {response = ' تم تفعيل التنبيهات لـ $mmName بنجاح '})
             .catchError((error) =>
                 //////
                 {response = "لم يتم تفعيل التنبيهات بنجاح"});
@@ -206,10 +206,8 @@ class Subscribed_List extends State<subscribedList> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) => {
-                  response =
-                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
-                })
+            .then((value) =>
+                {response = ' تم إلغاء تفعيل التنبيهات \n لـ $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance

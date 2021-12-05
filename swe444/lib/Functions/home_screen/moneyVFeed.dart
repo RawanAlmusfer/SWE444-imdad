@@ -171,7 +171,7 @@ class mvFeed extends State<mv_feed> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -423,7 +423,7 @@ class mvFeed extends State<mv_feed> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -484,7 +484,7 @@ class mvFeed extends State<mv_feed> {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -566,11 +566,11 @@ class mvFeed extends State<mv_feed> {
             .collection("subscribedVolunteers")
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
-            .then((value) =>
-        {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+            .then(
+                (value) => {response = ' تم تفعيل التنبيهات لـ $mmName بنجاح '})
             .catchError((error) =>
-        //////
-        {response = "لم يتم تفعيل التنبيهات بنجاح"});
+                //////
+                {response = "لم يتم تفعيل التنبيهات بنجاح"});
         //add to mm
         await FirebaseFirestore.instance
             .collection('users')
@@ -590,7 +590,7 @@ class mvFeed extends State<mv_feed> {
             .doc(vId)
             .delete()
             .then((value) =>
-        {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
+                {response = ' تم إلغاء تفعيل التنبيهات \n لـ $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -612,8 +612,7 @@ class mvFeed extends State<mv_feed> {
     // set up the button
     Widget okButton = Padding(
         padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
-        child:
-        TextButton(
+        child: TextButton(
           child: Text(
             "موافق",
             textAlign: TextAlign.right,
@@ -621,7 +620,7 @@ class mvFeed extends State<mv_feed> {
           ),
           style: ButtonStyle(
               backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
           onPressed: () {
             int count = 0;
             Navigator.of(context).popUntil((_) => count++ >= 2);
@@ -631,7 +630,8 @@ class mvFeed extends State<mv_feed> {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
+      contentPadding:
+          EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
         "تأكيد عملية الاشتراك ",
         textAlign: TextAlign.right,
@@ -664,9 +664,9 @@ class mvFeed extends State<mv_feed> {
   String? feedbackResponse(int response) {
     if ((response) == 1) {
 //Extract the mosuqe name to add in the msg
-      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+      return "تم تفعيل التنبيهات لـ \n  شاكرين لك مساهمتك";
     } else {
-      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+      return "لم يتم تفعيل التنبيهات لـ بنجاح";
     }
   }
 }

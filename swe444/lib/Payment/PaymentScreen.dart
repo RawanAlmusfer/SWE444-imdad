@@ -172,39 +172,37 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             )),
                       ),
                       textAlign: TextAlign.left,
-                      inputFormatters: [new WhitelistingTextInputFormatter(RegExp("[0-9]")),],
+                      inputFormatters: [
+                        new WhitelistingTextInputFormatter(RegExp("[0-9]")),
+                      ],
                       onSaved: (value) {
                         _controller.text = value!;
                       },
                       validator: (value) {
-                       // String text = _controller.text;
-                        value =_controller.text;
+                        // String text = _controller.text;
+                        value = _controller.text;
                         int donated = int.parse(value);
                         int check = mv_feed.wholeAmount - mv_feed.wholeDonated;
 
-                        if (value == null || value.isEmpty || value.trim().isEmpty)
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().isEmpty)
                           return "الرجاء إدخال قيمة التبرع المرغوبة";
-                        else
-
-                        {
+                        else {
                           if (donated > 50000) return "أقصى قيمة للتبرع= 50000";
                           if (donated < 10) return "أدنى قيمة للتبرع = 10";
 
                           if (check == 0)
                             return "الحالة مكتملة ، شكراً لتعاونك";
 
-                            if (donated > mv_feed.wholeAmount )
-                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
+                          if (donated > mv_feed.wholeAmount)
+                            return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
 
-                            if(donated==mv_feed.wholeAmount && check != 0)
-                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
+                          if (donated == mv_feed.wholeAmount && check != 0)
+                            return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
+                        }
 
-
-
-                          }
-
-
-                      //  return "الرجاء إدخال قيمة عددية";
+                        //  return "الرجاء إدخال قيمة عددية";
                         // return null if the text is valid
                         return null;
                       },
@@ -221,38 +219,38 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     //     dollarToSR=(double.parse(_controller.text) * 100)*3.75050163;
-                    PaymentScreen.vDonatedAmount =
-                        int.parse(_controller.text);
-                   // int? inGate = (PaymentScreen.vDonatedAmount!* 0.27 ).toInt();
+                    PaymentScreen.vDonatedAmount = int.parse(_controller.text);
+                    // int? inGate = (PaymentScreen.vDonatedAmount!* 0.27 ).toInt();
                     // double? inGate = PaymentScreen.vDonatedAmount!* 0.27;
-                  int? inGate = PaymentScreen.vDonatedAmount;
+                    int? inGate = PaymentScreen.vDonatedAmount;
 
                     String? mmEmailToGate = mv_feed.mmEmailDonated;
                     String? mmNameToGate = mv_feed.mmNameDonated;
                     //   String description = '$mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني  $mmNameToGate ريال سعودي لصالح المسجد $inGate التبرع بالمبلغ ';
                     List<String> list = [
                       "التبرع بالمبلغ $inGate  SR ",
-                      " لصالح مسجد $mmNameToGate ",
+                      " لصالح  $mmNameToGate ",
                       " $mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني "
                     ];
                     var stringList = list.join("");
                     String description = stringList;
 
                     //convert from USD to saudi Riyal
-                    int amount1=((int.parse(_controller.text))*0.27* 100).toInt();
+                    int amount1 =
+                        ((int.parse(_controller.text)) * 0.27 * 100).toInt();
                     String amount = amount1.toString();
 
                     var response = await StripeServices.payNowHandler(
                         amount: amount,
                         currency: 'SAR',
                         description: description);
-                   // print(response.message);
+                    // print(response.message);
 
                     showAlertDialog(context, response);
-                   // feedbackResponseDonation(response);
+                    // feedbackResponseDonation(response);
                   } else {
-
-                    String errorMessage= 'الرجاء التأكد من القيمة العددية المدخلة';
+                    String errorMessage =
+                        'الرجاء التأكد من القيمة العددية المدخلة';
                     var snackbar2 = Snackbar(context, errorMessage, "fail");
                     snackbar2.showToast();
                   }

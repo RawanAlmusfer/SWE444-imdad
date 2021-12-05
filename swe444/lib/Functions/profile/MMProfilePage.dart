@@ -2,29 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
-
-
-class MMProfilePage extends StatefulWidget{
-
+class MMProfilePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _ProfilePageState();
   }
 }
 
-class _ProfilePageState extends State<MMProfilePage>{
-
-  double  _drawerIconSize = 24;
+class _ProfilePageState extends State<MMProfilePage> {
+  double _drawerIconSize = 24;
   double _drawerFontSize = 17;
   String _title = "الملف الشخصي";
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -40,7 +32,7 @@ class _ProfilePageState extends State<MMProfilePage>{
         ),
         //automaticallyImplyLeading: false,
         backgroundColor: const Color(0xdeedd03c),
-      //  backgroundColor: const Color(0xffededed),
+        //  backgroundColor: const Color(0xffededed),
         bottomOpacity: 30,
         // elevation: 1,
         shape: const RoundedRectangleBorder(
@@ -50,86 +42,146 @@ class _ProfilePageState extends State<MMProfilePage>{
         ),
       ),
       drawer: Drawer(
-
         child: Container(
-
-          decoration:BoxDecoration(
+          decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-
-                  stops: [0.0, 1.0],
+                  stops: [
+                0.0,
+                1.0
+              ],
                   colors: [
-                    Theme.of(context).primaryColor.withOpacity(0.2),
-                    Theme.of(context).accentColor.withOpacity(0.5),
-                  ]
-              )
-          ) ,
+                Theme.of(context).primaryColor.withOpacity(0.2),
+                Theme.of(context).accentColor.withOpacity(0.5),
+              ])),
           child: ListView(
             children: [
               DrawerHeader(
-
                 decoration: BoxDecoration(
-
                   color: Theme.of(context).primaryColor,
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     stops: [0.0, 1.0],
-                    colors: [ Theme.of(context).primaryColor,Theme.of(context).accentColor,],
+                    colors: [
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).accentColor,
+                    ],
                   ),
                 ),
                 child: Container(
-
                   alignment: Alignment.topRight,
-                  child: Text("FlutterTutorial.Net",
-                    style: TextStyle(fontSize: 25,color: Colors.white, fontWeight: FontWeight.bold),
+                  child: Text(
+                    "FlutterTutorial.Net",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.screen_lock_landscape_rounded, size: _drawerIconSize, color: Theme.of(context).accentColor,),
-                title: Text('Splash Screen', style: TextStyle(fontSize: 17, color: Theme.of(context).accentColor),),
-                onTap: (){
+                leading: Icon(
+                  Icons.screen_lock_landscape_rounded,
+                  size: _drawerIconSize,
+                  color: Theme.of(context).accentColor,
+                ),
+                title: Text(
+                  'Splash Screen',
+                  style: TextStyle(
+                      fontSize: 17, color: Theme.of(context).accentColor),
+                ),
+                onTap: () {
                   //  Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreen(title: "Splash Screen")));
                 },
               ),
               ListTile(
-                leading: Icon(Icons.login_rounded,size: _drawerIconSize,color: Theme.of(context).accentColor),
-                title: Text('Login Page', style: TextStyle(fontSize: _drawerFontSize, color: Theme.of(context).accentColor),
+                leading: Icon(Icons.login_rounded,
+                    size: _drawerIconSize,
+                    color: Theme.of(context).accentColor),
+                title: Text(
+                  'Login Page',
+                  style: TextStyle(
+                      fontSize: _drawerFontSize,
+                      color: Theme.of(context).accentColor),
                 ),
                 onTap: () {
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
                 },
               ),
-              Divider(color: Theme.of(context).primaryColor, height: 1,),
-              ListTile(
-                leading: Icon(Icons.person_add_alt_1, size: _drawerIconSize,color: Theme.of(context).accentColor),
-                title: Text('Registration Page',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
-                onTap: () {
-
-                },
+              Divider(
+                color: Theme.of(context).primaryColor,
+                height: 1,
               ),
-              Divider(color: Theme.of(context).primaryColor, height: 1,),
               ListTile(
-                leading: Icon(Icons.password_rounded, size: _drawerIconSize,color: Theme.of(context).accentColor,),
-                title: Text('Forgot Password Page',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
+                leading: Icon(Icons.person_add_alt_1,
+                    size: _drawerIconSize,
+                    color: Theme.of(context).accentColor),
+                title: Text(
+                  'Registration Page',
+                  style: TextStyle(
+                      fontSize: _drawerFontSize,
+                      color: Theme.of(context).accentColor),
+                ),
+                onTap: () {},
+              ),
+              Divider(
+                color: Theme.of(context).primaryColor,
+                height: 1,
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.password_rounded,
+                  size: _drawerIconSize,
+                  color: Theme.of(context).accentColor,
+                ),
+                title: Text(
+                  'Forgot Password Page',
+                  style: TextStyle(
+                      fontSize: _drawerFontSize,
+                      color: Theme.of(context).accentColor),
+                ),
                 onTap: () {
                   //   Navigator.push( context, MaterialPageRoute(builder: (context) => ForgotPasswordPage()),);
                 },
               ),
-              Divider(color: Theme.of(context).primaryColor, height: 1,),
+              Divider(
+                color: Theme.of(context).primaryColor,
+                height: 1,
+              ),
               ListTile(
-                leading: Icon(Icons.verified_user_sharp, size: _drawerIconSize,color: Theme.of(context).accentColor,),
-                title: Text('Verification Page',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
+                leading: Icon(
+                  Icons.verified_user_sharp,
+                  size: _drawerIconSize,
+                  color: Theme.of(context).accentColor,
+                ),
+                title: Text(
+                  'Verification Page',
+                  style: TextStyle(
+                      fontSize: _drawerFontSize,
+                      color: Theme.of(context).accentColor),
+                ),
                 onTap: () {
                   //  Navigator.push( context, MaterialPageRoute(builder: (context) => ForgotPasswordVerificationPage()), );
                 },
               ),
-              Divider(color: Theme.of(context).primaryColor, height: 1,),
+              Divider(
+                color: Theme.of(context).primaryColor,
+                height: 1,
+              ),
               ListTile(
-                leading: Icon(Icons.logout_rounded, size: _drawerIconSize,color: Theme.of(context).accentColor,),
-                title: Text('Logout',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
+                leading: Icon(
+                  Icons.logout_rounded,
+                  size: _drawerIconSize,
+                  color: Theme.of(context).accentColor,
+                ),
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                      fontSize: _drawerFontSize,
+                      color: Theme.of(context).accentColor),
+                ),
                 onTap: () {
                   SystemNavigator.pop();
                 },
@@ -155,23 +207,44 @@ class _ProfilePageState extends State<MMProfilePage>{
                       border: Border.all(width: 5, color: Colors.white),
                       color: Colors.white,
                       boxShadow: [
-                        BoxShadow(color: Colors.black12, blurRadius: 20, offset: const Offset(5, 5),),
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 20,
+                          offset: const Offset(5, 5),
+                        ),
                       ],
                     ),
-                    child: Icon(Icons.person, size: 80, color: Colors.grey.shade300,),
+                    child: Icon(
+                      Icons.person,
+                      size: 80,
+                      color: Colors.grey.shade300,
+                    ),
                   ),
-                  SizedBox(height: 20,),
-                  Text(  "firebase", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                      SizedBox(height: 20,),
-                  Text('مالك المسجد', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "firebase",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'مالك المسجد',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     padding: EdgeInsets.all(10),
                     child: Column(
                       children: <Widget>[
                         Container(
-                          padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
-                         //
+                          padding:
+                              const EdgeInsets.only(left: 8.0, bottom: 4.0),
+                          //
                           alignment: Alignment.topRight,
                           child: Text(
                             "معلومات المستخدم",
@@ -185,12 +258,10 @@ class _ProfilePageState extends State<MMProfilePage>{
                         ),
                         Card(
                           child: Container(
-
                             //
                             alignment: Alignment.topRight,
                             padding: EdgeInsets.all(15),
                             child: Column(
-
                               children: <Widget>[
                                 Column(
                                   children: <Widget>[
@@ -199,21 +270,15 @@ class _ProfilePageState extends State<MMProfilePage>{
                                       tiles: [
                                         ListTile(
                                           title: Text("اسم المسجد "),
-                                          subtitle: Text(
-                                              "firebasexx"),
+                                          subtitle: Text("firebasexx"),
                                           leading: Icon(
-                                              Icons.account_balance,
-
-                                          ),),
-
-
+                                            Icons.account_balance,
+                                          ),
+                                        ),
                                         ListTile(
                                             leading: Icon(Icons.shield),
                                             title: Text("كود المسجد"),
-                                            subtitle: Text(
-                                                "firebase")
-                                        ),
-
+                                            subtitle: Text("firebase")),
                                         ListTile(
                                           leading: Icon(Icons.email),
                                           title: Text("البريد الالكتروني"),
@@ -224,7 +289,6 @@ class _ProfilePageState extends State<MMProfilePage>{
                                           title: Text("رقم الجوال"),
                                           subtitle: Text("firebase"),
                                         ),
-
                                       ],
                                     ),
                                   ],
@@ -244,5 +308,4 @@ class _ProfilePageState extends State<MMProfilePage>{
       ),
     );
   }
-
 }
