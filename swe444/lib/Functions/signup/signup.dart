@@ -9,7 +9,6 @@ import 'package:swe444/Widgets/show_snackbar.dart';
 import 'package:swe444/password/flutter_pw_validator.dart';
 import '../signup_login_screen.dart';
 
-
 class SignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
 
@@ -29,7 +28,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController mosqueCode = TextEditingController();
 
   String errorMessage = "";
-  String? mCodeMessage  = null;
+  String? mCodeMessage = null;
   final _formKey = GlobalKey<FormState>();
 
   static const kYellow = const Color(0xdeedd03c);
@@ -46,14 +45,12 @@ class _SignUpPageState extends State<SignUpPage> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال بريد إلكتروني");
         }
         // reg expression for email validation
         if (!RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(value)) {
           return ("البريد الإلكتروني غير صحيح");
         }
@@ -64,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
         _controllerEmail.text = value!;
       },
       showCursor: true,
-      maxLines:2 ,
+      maxLines: 2,
       minLines: 1,
       cursorColor: const Color(0xdeedd03c),
       style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
@@ -157,11 +154,11 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       autocorrect: false,
       obscureText: true,
-
-      onTap: (){setState(() {
-
-        isFoucesedPassword=true;
-      });},
+      onTap: () {
+        setState(() {
+          isFoucesedPassword = true;
+        });
+      },
     );
   }
 
@@ -228,16 +225,14 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^.{5,}$');
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال اسم المسجد");
         }
         if (!regex.hasMatch(value)) {
           return ("يجب ان يحتوي على 5 حروف على الأقل");
         }
         if (!RegExp(r"^[\p{L} ,.'-]*$",
-            caseSensitive: false, unicode: true, dotAll: true)
+                caseSensitive: false, unicode: true, dotAll: true)
             .hasMatch(value)) {
           return ("يجب ان يحتوي اسم المسجد على أحرف فقط");
         }
@@ -292,9 +287,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء إدخال رقم جوال المسجد ");
         }
         if (!regex.hasMatch(value)) {
@@ -354,9 +347,8 @@ class _SignUpPageState extends State<SignUpPage> {
         mosqueCode.text = value!;
       },
       validator: (value) {
-
         var pattern = r'\d{2}-\d{5}';
-        RegExp regex =  RegExp(pattern);
+        RegExp regex = RegExp(pattern);
         if (!regex.hasMatch(value!))
           return 'الرجاء ادخال رقم كود المسجد';
         else
@@ -463,7 +455,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 child: Image.asset('images/logo.png')), // email
                             Padding(
                               padding:
-                              const EdgeInsets.only(left: 5.0, top: 55),
+                                  const EdgeInsets.only(left: 5.0, top: 55),
                               child: Text(
                                 "مرحباً بك في",
                                 style: TextStyle(
@@ -477,10 +469,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ],
                         ),
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.05,
+                          height: MediaQuery.of(context).size.height * 0.05,
                         ),
                         Container(
                           width: 330,
@@ -490,10 +479,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // email container
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.02,
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
                         Container(
                           width: 330,
@@ -502,29 +488,26 @@ class _SignUpPageState extends State<SignUpPage> {
                             child: _buildPasswordField(),
                           ),
                         ),
-                        Visibility(
-                          visible: isFoucesedPassword,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FlutterPwValidator(
-                                controller: _controllerPass,
-                                minLength: 6,
+                        // Visibility(
+                        //   visible: isFoucesedPassword,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     child: FlutterPwValidator(
+                        //         controller: _controllerPass,
+                        //         minLength: 6,
 
-                                uppercaseCharCount: 2,
-                                numericCharCount: 3,
-                               specialCharCount: 1,
-                                width: 360,
-                                height: 150,
-                                onSuccess: (value) {
-                                  //_controllerPass.text = value;
-                                }),
-                          ),
-                        ), // password container
+                        //         uppercaseCharCount: 2,
+                        //         numericCharCount: 3,
+                        //        specialCharCount: 1,
+                        //         width: 360,
+                        //         height: 150,
+                        //         onSuccess: (value) {
+                        //           //_controllerPass.text = value;
+                        //         }),
+                        //   ),
+                        // ), // password container
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.02,
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
                         Container(
                           width: 330,
@@ -534,10 +517,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // conform container
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.02,
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
                         Container(
                           width: 330,
@@ -547,10 +527,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // mosque name
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.02,
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
                         Container(
                           width: 330,
@@ -560,10 +537,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // phone
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.02,
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
                         // Container(
                         //   width: 330,
@@ -583,10 +557,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ), // code
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.02,
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
 
                         Row(
@@ -598,10 +569,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ],
                         ),
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.02,
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
                         ElevatedButton(
                             onPressed: () {
@@ -624,10 +592,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             )),
                         Text(error),
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.15,
+                          height: MediaQuery.of(context).size.height * 0.15,
                         ),
                       ],
                     ),
@@ -646,7 +611,7 @@ class _SignUpPageState extends State<SignUpPage> {
       try {
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
-            email: _controllerEmail.text, password: _controllerPass.text);
+                email: _controllerEmail.text, password: _controllerPass.text);
         print(userCredential.user);
         widget.onSignIn(userCredential.user!);
         //
@@ -668,7 +633,7 @@ class _SignUpPageState extends State<SignUpPage> {
           try {
             _auth
                 .createUserWithEmailAndPassword(
-                email: email, password: password)
+                    email: email, password: password)
                 .then((value) => {postDetailsToFirestore()});
             authen();
           } on FirebaseAuthException catch (e) {
@@ -686,25 +651,25 @@ class _SignUpPageState extends State<SignUpPage> {
               case "too-many-requests":
                 setState(() {
                   errorMessage =
-                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                      'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
                 });
                 break;
               case "operation-not-allowed":
                 setState(() {
                   errorMessage =
-                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                      'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
                 });
                 break;
               case "network-request-failed":
                 setState(() {
                   errorMessage =
-                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                      'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
                 });
                 break;
               case "credential-already-in-use":
                 setState(() {
                   errorMessage =
-                  'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+                      'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
                 });
                 break;
 
@@ -736,25 +701,25 @@ class _SignUpPageState extends State<SignUpPage> {
               case "too-many-requests":
                 setState(() {
                   errorMessage =
-                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                      'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
                 });
                 break;
               case "operation-not-allowed":
                 setState(() {
                   errorMessage =
-                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                      'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
                 });
                 break;
               case "network-request-failed":
                 setState(() {
                   errorMessage =
-                  'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
+                      'يجب على المستخدم إعادة المصادقة قبل تنفيذ هذه العملية';
                 });
                 break;
               case "credential-already-in-use":
                 setState(() {
                   errorMessage =
-                  'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
+                      'بيانات الاعتماد هذه مرتبطة بالفعل بحساب مستخدم مختلف';
                 });
                 break;
               default:
@@ -767,7 +732,6 @@ class _SignUpPageState extends State<SignUpPage> {
             snackbar3!.showToast();
           } //end 2ed switch
         } else {
-
           setState(() {
             mCodeMessage = 'كود المسجد المدخل غير صالح';
           });
@@ -813,14 +777,14 @@ class _SignUpPageState extends State<SignUpPage> {
             .then((value) {
           snackbar = new Snackbar(context, "تم التسجيل بنجاح ", "success");
         }).catchError(
-              (e) {
+          (e) {
             valid = false;
             snackbar = new Snackbar(context, "حدث خطأ ", "fail");
           },
         );
       }
     }).catchError(
-          (e) {
+      (e) {
         valid = false;
         snackbar = new Snackbar(context, "حدث خطأ ", "fail");
       },

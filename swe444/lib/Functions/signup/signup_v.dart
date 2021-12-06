@@ -7,6 +7,7 @@ import '../../Models/VUserModel.dart';
 import '../../Widgets/show_snackbar.dart';
 import '../signup_login_screen.dart';
 import 'package:swe444/password/flutter_pw_validator.dart';
+
 class VSignUpPage extends StatefulWidget {
   final Function(User) onSignIn;
 
@@ -44,7 +45,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: _controllerEmail.text, password: _controllerPass.text);
-     // userCredential.user..updateDisplayName(displayName);
+      // userCredential.user..updateDisplayName(displayName);
       widget.onSignIn(userCredential.user!);
       //
     } on FirebaseAuthException catch (e) {
@@ -165,11 +166,11 @@ class _SignUpPageState extends State<VSignUpPage> {
       ),
       autocorrect: false,
       obscureText: true,
-
-        onTap: (){setState(() {
-
-          isFoucesedPassword=true;
-        });},
+      onTap: () {
+        setState(() {
+          isFoucesedPassword = true;
+        });
+      },
     );
   }
 
@@ -498,28 +499,27 @@ class _SignUpPageState extends State<VSignUpPage> {
                             child: _buildPasswordField(),
                           ),
                         ),
-                        Visibility(
+                        // Visibility(
 
+                        //   visible: isFoucesedPassword,
+                        //   child:
+                        //   Padding(
 
-                          visible: isFoucesedPassword,
-                          child:
-                          Padding(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     child: FlutterPwValidator(
+                        //         controller: _controllerPass,
+                        //         minLength: 6,
 
-                            padding: const EdgeInsets.all(8.0),
-                            child: FlutterPwValidator(
-                                controller: _controllerPass,
-                                minLength: 6,
-
-                                uppercaseCharCount: 2,
-                                numericCharCount: 3,
-                                specialCharCount: 1,
-                                width: 360,
-                                height: 150,
-                                onSuccess: (value) {
-                                  //_controllerPass.text = value;
-                                }),
-                          ),
-                        ), // password container
+                        //         uppercaseCharCount: 2,
+                        //         numericCharCount: 3,
+                        //         specialCharCount: 1,
+                        //         width: 360,
+                        //         height: 150,
+                        //         onSuccess: (value) {
+                        //           //_controllerPass.text = value;
+                        //         }),
+                        //   ),
+                        // ), // password container
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02,
                         ),
@@ -728,7 +728,8 @@ class _SignUpPageState extends State<VSignUpPage> {
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap())
-        .then((value) => snackbar = Snackbar(context, "تم التسجيل بنجاح ", "success"))
+        .then((value) =>
+            snackbar = Snackbar(context, "تم التسجيل بنجاح ", "success"))
         .catchError((e) {
       valid = false;
       snackbar = Snackbar(context, "حدث خطأ ", "fail");
