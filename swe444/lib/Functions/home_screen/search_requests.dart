@@ -14,6 +14,8 @@ import 'package:swe444/Functions/subscribe/subscription.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
 import 'dart:ui' as ui;
 
+import 'package:swe444/Payment/searchPaymentScreen.dart';
+
 class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,10 +26,10 @@ class SearchPage extends StatelessWidget {
 }
 
 class SearchRequests extends StatefulWidget {
-  static String? mmEmailDonated = '';
-  static String? mmNameDonated = '';
-  static int wholeAmount = 0;
-  static int wholeDonated = 0;
+  static String? mmEmailDonated2 = '';
+  static String? mmNameDonated2 = '';
+  static int wholeAmount2 = 0;
+  static int wholeDonated2 = 0;
 
   const SearchRequests({
     Key? key,
@@ -47,6 +49,7 @@ class _SearchRequests extends State<SearchRequests> {
   int i = 0;
   int numOfResults = 0;
   Subscribe subscribe = new Subscribe();
+
   @override
   void initState() {
     super.initState();
@@ -267,6 +270,7 @@ class _SearchRequests extends State<SearchRequests> {
                         onTap: () async {
                           bool flag = await subscribe
                               .isSubscribed(document['posted_by']);
+                          print("Flag is " + flag.toString());
                           if (!flag) {
                             showModalBottomSheet(
                                 shape: RoundedRectangleBorder(
@@ -295,6 +299,8 @@ class _SearchRequests extends State<SearchRequests> {
                                         document['posted_by'].toString(),
                                         context));
                           }
+                          //await
+                          //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
                         },
                         child: Container(
                           width: 100,
@@ -325,6 +331,7 @@ class _SearchRequests extends State<SearchRequests> {
                         onTap: () async {
                           bool flag = await subscribe
                               .isSubscribed(document['posted_by']);
+                          print("Flag is " + flag.toString());
                           if (!flag) {
                             showModalBottomSheet(
                                 shape: RoundedRectangleBorder(
@@ -353,6 +360,8 @@ class _SearchRequests extends State<SearchRequests> {
                                         document['posted_by'].toString(),
                                         context));
                           }
+                          //await
+                          //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -456,6 +465,7 @@ class _SearchRequests extends State<SearchRequests> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
+                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -470,12 +480,12 @@ class _SearchRequests extends State<SearchRequests> {
                         child: ElevatedButton(
                           onPressed: () async {
                             String? mmId = document['posted_by'];
-                            SearchRequests.wholeDonated = document['donated'];
+                            SearchRequests.wholeDonated2 = document['donated'];
                             int cumDonated = document['donated'];
-                            SearchRequests.wholeAmount = document['amount'];
+                            SearchRequests.wholeAmount2 = document['amount'];
                             String? mName = document['mosque_name'];
 
-                            SearchRequests.mmNameDonated = mName;
+                            SearchRequests.mmNameDonated2 = mName;
 
                             var documentFormmId = await FirebaseFirestore
                                 .instance
@@ -484,14 +494,15 @@ class _SearchRequests extends State<SearchRequests> {
                                 .get();
 
                             String? mmEmail = documentFormmId['email'];
-                            SearchRequests.mmEmailDonated = mmEmail;
+                            SearchRequests.mmEmailDonated2 = mmEmail;
 
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PaymentScreen()));
+                                    builder: (context) =>
+                                        searchPaymentScreen()));
 
-                            cumDonated += PaymentScreen.vDonatedAmount!;
+                            cumDonated += searchPaymentScreen.vDonatedAmount2!;
 
                             String docId = document.id;
                             await FirebaseFirestore.instance
@@ -500,7 +511,7 @@ class _SearchRequests extends State<SearchRequests> {
                                 .update({'donated': cumDonated});
 
                             //update the denoation for next user
-                            PaymentScreen.vDonatedAmount = 0;
+                            searchPaymentScreen.vDonatedAmount2 = 0;
                             //  db.collection("requests").doc(docId).update({donated: 10});
                           },
                           child: Text(
@@ -519,6 +530,7 @@ class _SearchRequests extends State<SearchRequests> {
                           ),
                         ),
                       ),
+
                       Spacer(),
                       IconButton(
                         icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
@@ -563,6 +575,7 @@ class _SearchRequests extends State<SearchRequests> {
                       onTap: () async {
                         bool flag =
                             await subscribe.isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
@@ -591,6 +604,8 @@ class _SearchRequests extends State<SearchRequests> {
                                       document['posted_by'].toString(),
                                       context));
                         }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
                       },
                       child: Container(
                         width: 100,
@@ -620,6 +635,7 @@ class _SearchRequests extends State<SearchRequests> {
                       onTap: () async {
                         bool flag =
                             await subscribe.isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
@@ -648,6 +664,8 @@ class _SearchRequests extends State<SearchRequests> {
                                       document['posted_by'].toString(),
                                       context));
                         }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
@@ -829,6 +847,7 @@ class _SearchRequests extends State<SearchRequests> {
                       onTap: () async {
                         bool flag =
                             await subscribe.isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
@@ -857,6 +876,8 @@ class _SearchRequests extends State<SearchRequests> {
                                       document['posted_by'].toString(),
                                       context));
                         }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
                       },
                       child: Container(
                         width: 100,
@@ -886,6 +907,7 @@ class _SearchRequests extends State<SearchRequests> {
                       onTap: () async {
                         bool flag =
                             await subscribe.isSubscribed(document['posted_by']);
+                        print("Flag is " + flag.toString());
                         if (!flag) {
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
@@ -914,6 +936,8 @@ class _SearchRequests extends State<SearchRequests> {
                                       document['posted_by'].toString(),
                                       context));
                         }
+                        //await
+                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
@@ -1073,7 +1097,17 @@ class _SearchRequests extends State<SearchRequests> {
                       height: 30,
                       width: 70,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          int? wholePartsNum = document['parts_number'];
+                          int? currentPartsNum = document['participants'];
+                          String mName = document['mosque_name'].toString();
+                          String mmId = document['posted_by'].toString();
+                          String thisDocId = document.id;
+                          String title = document['title'];
+
+                          await apply(mName, mmId, wholePartsNum!,
+                              currentPartsNum!, thisDocId, title);
+                        },
                         child: Text(
                           "شارك",
                           textAlign: TextAlign.center,
@@ -1108,6 +1142,95 @@ class _SearchRequests extends State<SearchRequests> {
     } else {
       return Container();
     }
+  }
+
+  Future<void> apply(String mmName, String mmId, int wholePartsNum,
+      int currentPartsNum, String thisDocId, String title) async {
+    String vId = await FirebaseAuth.instance.currentUser!.uid;
+    String? response = '';
+    bool isExsited = false;
+    var document = await FirebaseFirestore.instance
+        .collection('requests')
+        .doc(thisDocId)
+        .collection('applicants')
+        .doc(vId)
+        .get();
+
+    if (document.exists) {
+      if (document != null) {
+        isExsited = true;
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
+      }
+    } else {
+      print('المتطوع ليس مسجل بقائمة المشاركين');
+    }
+    if (!isExsited) {
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(thisDocId)
+          .collection("applicants")
+          .doc(vId)
+          .set({'uid': vId})
+          .then((value) =>
+              {response = ' تم تقديم طلب للمشاركة في $title لـ $mmName بنجاح '})
+          .catchError((error) => {response = "لم يتم تفعيل التنبيهات بنجاح"});
+    } else
+      response = ' لقد قمت بتقديم مُسبق  للمشاركة في $title لـ $mmName  ';
+    showAlertDialog(context, response);
+  }
+
+  showAlertDialog(BuildContext context, String? response) {
+    // set up the button
+    Widget okButton = Padding(
+        padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
+        child: TextButton(
+          child: Text(
+            "موافق",
+            textAlign: TextAlign.right,
+            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ));
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding:
+          EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
+      title: Text(
+        "تأكيد عملية التقديم ",
+        textAlign: TextAlign.right,
+        style: TextStyle(
+          fontFamily: "Tajawal",
+          color: const Color(0xdeedd03c),
+        ),
+      ),
+      content: Text(
+        response!
+        // feedbackResponse(response)!
+        ,
+        textAlign: TextAlign.right,
+        style: TextStyle(fontFamily: "Tajawal", height: 1.5),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   String getTime(var timeStamp) {

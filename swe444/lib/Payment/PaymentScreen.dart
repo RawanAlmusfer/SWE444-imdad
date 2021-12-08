@@ -200,12 +200,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                             if (check == 0)
                               return "الحالة مكتملة ، شكراً لتعاونك";
+                            if (donated > mv_feed.wholeAmount &&
+                                check == mv_feed.wholeAmount)
+                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المطلوب $check";
 
                             if (donated > mv_feed.wholeAmount)
                               return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
 
-                            if (donated == mv_feed.wholeAmount && check != 0)
-                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
+                            if (donated == mv_feed.wholeAmount &&
+                                check < mv_feed.wholeAmount &&
+                                check != 0)
+                              return " قيمة التبرع أكبر من المبلغ المتبقي،المبلغ المتبقي $check";
                           }
 
                           //  return "الرجاء إدخال قيمة عددية";
@@ -244,7 +249,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                       //convert from USD to saudi Riyal
                       int amount1 =
-                          ((int.parse(_controller.text)) * 0.27 * 100).toInt();
+                          ((int.parse(_controller.text)) * 100).toInt();
                       String amount = amount1.toString();
 
                       var response = await StripeServices.payNowHandler(
