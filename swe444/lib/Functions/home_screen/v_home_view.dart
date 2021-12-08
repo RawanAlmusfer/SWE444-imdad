@@ -6,7 +6,6 @@ import 'package:swe444/Functions/profile/ProfilePage1.dart';
 import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
 import 'home.dart';
-import 'moneyVFeed.dart';
 
 class vHome extends StatefulWidget {
   @override
@@ -17,13 +16,14 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 3;
+  int _currentIndex = 4;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
     ProfilePage(),
     SubscribedList(),
+    SearchPage(),
     SearchPage(),
     vhome(),
   ];
@@ -182,6 +182,10 @@ class _HomeState extends State<vHome> {
                     label: "المتابَعين",
                   ),
                   BottomNavigationBarItem(
+                    icon: new Icon(Icons.map),
+                    label: "map",
+                  ),
+                  BottomNavigationBarItem(
                     icon: new Icon(Icons.search),
                     label: "البحث",
                   ),
@@ -216,10 +220,16 @@ class _HomeState extends State<vHome> {
           break;
         case 2:
           {
+            _title = 'الخريطة';
+          }
+          break;
+
+        case 3:
+          {
             _title = 'البحث';
           }
           break;
-        case 3:
+        case 4:
           {
             _title = 'الصفحة الرئيسية';
           }

@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/subscribe/mosqueRequests.dart';
+import '../CustomPageRoute.dart';
 import 'list_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -72,6 +74,8 @@ class Subscribed_List extends State<subscribedList> {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
+    String mID = document['mmId'];
+    String mName = document['mosque_name'];
     return Container(
       padding: const EdgeInsets.only(top: 5.0, bottom: 0, left: 20, right: 20),
       child: Card(
@@ -85,41 +89,33 @@ class Subscribed_List extends State<subscribedList> {
             padding: const EdgeInsets.only(
                 top: 12.0, bottom: 12.0, left: 2, right: 10),
             child: Row(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 5.0, bottom: 5.0, left: 2, right: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0xffededed),
-                          spreadRadius: 1,
-                          blurRadius: 10),
-                    ],
-                  ),
-                  height: 30,
-                  width: 65,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await subscription(
-                          document['mmId'], document['mosque_name'].toString());
-                    },
-                    child: Text(
-                      "إلغاء",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: 'Tajawal',
-                          color: const Color(0xff334856)),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(65.w, 30.h),
-                      primary: const Color(0xdeedd03c),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                  ),
-                ),
+              GestureDetector(
+                onTap: () async {
+                  Navigator.of(context).push(CustomPageRoute(
+                      child: MosqueMangerRequests(
+                    document: document,
+                  )));
+                },
+                child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: const Color(0xff334856),
+                    )),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await subscription(
+                      document['mmId'], document['mosque_name'].toString());
+                },
+                child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Icon(
+                      Icons.notifications,
+                      color: const Color(0xdeedd03c),
+                    )),
               ),
               const Spacer(),
               Padding(
@@ -140,10 +136,6 @@ class Subscribed_List extends State<subscribedList> {
         ),
       ),
     );
-    // } else {
-    //   //print('not included');
-    //   return Container();
-    // }
   }
 
   Future<void> subscription(String mmId, String mmName) async {
@@ -170,7 +162,7 @@ class Subscribed_List extends State<subscribedList> {
               SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
         }
       } else {
-        print('المتطوع ليس مسجل بقائمة المتطوعين');
+        //print('المتطوع ليس مسجل بقائمة المتطوعين');
       }
 
       if (!isExsited) {
@@ -207,7 +199,7 @@ class Subscribed_List extends State<subscribedList> {
             .doc(vId)
             .delete()
             .then((value) =>
-                {response = ' تم إلغاء تفعيل التنبيهات \n لـ $mmName بنجاح  '})
+                {response = ' تم إلغاء تفعيل التنبيهات \n لـ$mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -284,7 +276,9 @@ class Subscribed_List extends State<subscribedList> {
       backgroundColor: const Color(0xffededed),
       body: Container(
         alignment: Alignment.center,
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: const Color(0xdeedd03c),
+        ),
       ),
     );
   }

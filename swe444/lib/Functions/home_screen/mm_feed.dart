@@ -30,11 +30,14 @@ class mm_feed extends StatefulWidget {
   }
 }
 
-class mmFeed extends State<mm_feed> {
+class mmFeed extends State<mm_feed> with SingleTickerProviderStateMixin {
   User? user = FirebaseAuth.instance.currentUser;
-
+  TabController? _tabController;
+  final colorstheme = const Color(0xdeedd03c);
   @override
   void initState() {
+    _tabController = new TabController(length: 3, vsync: this, initialIndex: 2)
+      ..addListener(() {});
     super.initState();
     Future.delayed(
         Duration.zero,
@@ -54,31 +57,104 @@ class mmFeed extends State<mm_feed> {
     // Navigator.pop(context);
     return Scaffold(
       backgroundColor: const Color(0xffededed),
-      body: StreamBuilder(
-          stream: requests,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return _buildWaitingScreen();
-            return ListView.builder(
-              itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-              itemBuilder: (BuildContext context, int index) => buildCards(
-                  context,
-                  (snapshot.data! as QuerySnapshot).docs[index],
-                  user?.uid.toString()),
-            );
-          }),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  color: Colors.grey[300]),
+              child: TabBar(
+                  isScrollable: true,
+                  //indicatorPadding: EdgeInsets.all(0),
+                  labelColor: Colors.white,
+                  unselectedLabelColor: colorstheme,
+                  labelStyle: TextStyle(fontSize: 20),
+                  labelPadding:
+                      EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+                  indicator: BoxDecoration(
+                      color: colorstheme,
+                      borderRadius: BorderRadius.circular(40)),
+                  controller: _tabController,
+                  tabs: [
+                    Text(
+                      'تنظيم',
+                      style: TextStyle(
+                          fontFamily: "Tajawal", color: Color(0xff334856)),
+                    ),
+                    Text(
+                      'موارد',
+                      style: TextStyle(
+                          fontFamily: "Tajawal",
+                          color: const Color(0xff334856)),
+                    ),
+                    Text(
+                      'مبلغ',
+                      style: TextStyle(
+                          fontFamily: "Tajawal",
+                          color: const Color(0xff334856)),
+                    ),
+                  ]),
+            ),
+          ),
+          StreamBuilder(
+              stream: requests,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return _buildWaitingScreen();
+                return Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      ListView.builder(
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildCards(
+                                context,
+                                (snapshot.data! as QuerySnapshot).docs[index],
+                                user?.uid.toString(),
+                                "تنظيم"),
+                      ),
+                      ListView.builder(
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildCards(
+                                context,
+                                (snapshot.data! as QuerySnapshot).docs[index],
+                                user?.uid.toString(),
+                                "موارد"),
+                      ),
+                      ListView.builder(
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildCards(
+                                context,
+                                (snapshot.data! as QuerySnapshot).docs[index],
+                                user?.uid.toString(),
+                                "مبلغ"),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        ],
+      ),
     );
   }
 
-  Widget buildCards(
-      BuildContext context, DocumentSnapshot document, String? id) {
-
-    if (document['type'].toString() == "تنظيم")
+  Widget buildCards(BuildContext context, DocumentSnapshot document, String? id,
+      String type) {
+    if (document['type'].toString() == "تنظيم" && type == "تنظيم")
       return buildEventsCards(context, document, id);
-    else if (document['type'].toString() == "موارد")
+    else if (document['type'].toString() == "موارد" && type == "موارد")
       return buildItemsCards(context, document, id);
-    else
+    else if (document['type'].toString() == "مبلغ" && type == "مبلغ")
       return buildFundsCards(context, document, id);
-
+    else
+      return Container();
   }
 
   Widget buildItemsCards(
@@ -181,8 +257,7 @@ class mmFeed extends State<mm_feed> {
                   onTap: () async {
                     DonationsViewModel dnm = DonationsViewModel();
                     dnm.setdocID = document.id.toString();
-                    String docID = document.id.toString();
-                    print("Doc ID hehe ____________" + dnm.docID.toString());
+                    // String docID = document.id.toString();
                     Navigator.of(context).push(CustomPageRoute(
                         child: ViewItemDonations(document: document)));
                   },
@@ -206,7 +281,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -242,12 +316,12 @@ class mmFeed extends State<mm_feed> {
                       )
                     ]),
                   ),
+
                 if (document['donated'].toString() != '0')
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -260,7 +334,7 @@ class mmFeed extends State<mm_feed> {
                         height: 30,
                         width: 75,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: null,
                           child: Text(
                             "تعديل",
                             textAlign: TextAlign.center,
@@ -268,8 +342,9 @@ class mmFeed extends State<mm_feed> {
                                 fontFamily: 'Tajawal', color: Colors.grey),
                           ),
                           style: ElevatedButton.styleFrom(
+                            onSurface: Colors.grey,
                             minimumSize: Size(65.w, 30.h),
-                            primary: const Color(0xffededed),
+                            primary: const Color(0xdeedd03c),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
@@ -284,7 +359,6 @@ class mmFeed extends State<mm_feed> {
         ),
       );
     } else {
-      //print('not included');
       return Container();
     }
   }
@@ -422,7 +496,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -463,7 +536,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -476,7 +548,7 @@ class mmFeed extends State<mm_feed> {
                         height: 30,
                         width: 75,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: null,
                           child: Text(
                             "تعديل",
                             textAlign: TextAlign.center,
@@ -484,8 +556,9 @@ class mmFeed extends State<mm_feed> {
                                 fontFamily: 'Tajawal', color: Colors.grey),
                           ),
                           style: ElevatedButton.styleFrom(
+                            onSurface: Colors.grey,
                             minimumSize: Size(65.w, 30.h),
-                            primary: const Color(0xffededed),
+                            primary: const Color(0xdeedd03c),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
@@ -500,7 +573,6 @@ class mmFeed extends State<mm_feed> {
         ),
       );
     } else {
-      //print('not included');
       return Container();
     }
   }
@@ -606,7 +678,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -647,7 +718,6 @@ class mmFeed extends State<mm_feed> {
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 2, right: 10),
                     child: Row(children: <Widget>[
-                      //This button for sprint 2
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -660,7 +730,7 @@ class mmFeed extends State<mm_feed> {
                         height: 30,
                         width: 75,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: null,
                           child: Text(
                             "تعديل",
                             textAlign: TextAlign.center,
@@ -668,8 +738,9 @@ class mmFeed extends State<mm_feed> {
                                 fontFamily: 'Tajawal', color: Colors.grey),
                           ),
                           style: ElevatedButton.styleFrom(
+                            onSurface: Colors.grey,
                             minimumSize: Size(65.w, 30.h),
-                            primary: const Color(0xffededed),
+                            primary: const Color(0xdeedd03c),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
@@ -684,7 +755,6 @@ class mmFeed extends State<mm_feed> {
         ),
       );
     } else {
-      //print('not included');
       return Container();
     }
   }
@@ -830,11 +900,10 @@ class mmFeed extends State<mm_feed> {
   }
 
   Widget _buildWaitingScreen() {
-    return Scaffold(
-      backgroundColor: const Color(0xffededed),
-      body: Container(
-        alignment: Alignment.center,
-        child: CircularProgressIndicator(),
+    return Container(
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(
+        color: const Color(0xdeedd03c),
       ),
     );
   }

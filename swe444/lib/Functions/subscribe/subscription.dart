@@ -7,11 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Subscribe {
-
   Widget BuildSubscribedProfile(String name, String id, BuildContext context) {
     return Container(
       padding: EdgeInsets.all(30),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10, bottom: 20),
@@ -24,7 +24,7 @@ class Subscribe {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -32,7 +32,7 @@ class Subscribe {
             textAlign: TextAlign.center,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -74,6 +74,7 @@ class Subscribe {
     return Container(
       padding: EdgeInsets.all(30),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10, bottom: 20),
@@ -86,7 +87,7 @@ class Subscribe {
             ),
           ),
           Text(
-            "مسجد " + name,
+            name,
             style: TextStyle(
               fontSize: 18.0,
               fontFamily: 'Tajawal',
@@ -94,7 +95,7 @@ class Subscribe {
             textAlign: TextAlign.center,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -169,11 +170,11 @@ class Subscribe {
             .collection("subscribedVolunteers")
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
-            .then((value) =>
-        {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+            .then(
+                (value) => {response = ' تم تفعيل التنبيهات لـ$mmName بنجاح '})
             .catchError((error) =>
-        //////
-        {response = "لم يتم تفعيل التنبيهات بنجاح"});
+                //////
+                {response = "لم يتم تفعيل التنبيهات بنجاح"});
         //add to mm
         await FirebaseFirestore.instance
             .collection('users')
@@ -192,10 +193,8 @@ class Subscribe {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) => {
-          response =
-          ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
-        })
+            .then((value) =>
+                {response = ' تم إلغاء تفعيل التنبيهات \n لـ$mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -225,7 +224,7 @@ class Subscribe {
           ),
           style: ButtonStyle(
               backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
           onPressed: () {
             int count = 0;
             Navigator.of(context).popUntil((_) => count++ >= 2);
@@ -236,7 +235,7 @@ class Subscribe {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
       contentPadding:
-      EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
+          EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
         "تأكيد عملية الاشتراك ",
         textAlign: TextAlign.right,
@@ -269,9 +268,9 @@ class Subscribe {
   String? feedbackResponse(int response) {
     if ((response) == 1) {
 //Extract the mosuqe name to add in the msg
-      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+      return "تم تفعيل التنبيهات لـ \n  شاكرين لك مساهمتك";
     } else {
-      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+      return "لم يتم تفعيل التنبيهات لـ بنجاح";
     }
   }
 
