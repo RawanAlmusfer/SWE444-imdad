@@ -9,6 +9,8 @@ class FeedViewModel with ChangeNotifier {
   // late bool? isVSubscribed;
   late List<String> isVSubscribed = [];
   Stream<QuerySnapshot<Map<String, dynamic>>>? _requests2;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _requests3;
+  User? user = FirebaseAuth.instance.currentUser;
   late List<String> searchResults = [];
   late int length;
 
@@ -19,12 +21,97 @@ class FeedViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // fetchRequests2() async {
+  //
+  //   _requests3 = await FirebaseFirestore.instance.collection('requests')
+  //       .doc()
+  //       .collection('donations')
+  //       .where('uid', isEqualTo: vUser).snapshots();
+  //
+  //
+  //   notifyListeners();
+  // }
+
+
+  get userDocument {
+    return FirebaseFirestore.instance.collection("testDonations").doc(user!.uid).get();
+  }
+
+ Future<String> checkRequestExistence(DocumentSnapshot  requestId)  async {
+   bool isIrequestExsisted=false;
+   bool isMrequestExsisted=false;
+   String? returnWord='';
+   if(requestId['type']=='موارد'){
+    final querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('testDonations')
+        .doc(user!.uid)
+        .get();
+if(querySnapshot.exists){
+    final data = querySnapshot.data();
+
+    if (data != null) {
+      List requestsIds = data['donatedRequests'];
+
+      isIrequestExsisted = requestsIds.contains(requestId.id);
+      if(isIrequestExsisted)
+        returnWord ='item';
+    } }}
+
+
+   ////money
+   if(requestId['type']=='مبلغ'){
+     final querySnapshot = await FirebaseFirestore
+         .instance
+         .collection('moneyDonations')
+         .doc(user!.uid)
+         .get();
+     if(querySnapshot.exists){
+       final data = querySnapshot.data();
+
+       if (data != null) {
+         List requestsIds = data['donatedRequests'];
+
+         isMrequestExsisted = requestsIds.contains(requestId.id);
+         if(isMrequestExsisted)
+           returnWord= 'money';
+       } }}
+
+
+
+
+    return returnWord;
+  }
+
+  Future<bool> checkRequestExistence2(String? requestId)  async {
+    bool isRequestExsisted=false;
+    final querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('moneyDonations')
+        .doc(user!.uid)
+        .get();
+    if(querySnapshot.exists){
+      final data = querySnapshot.data();
+
+      if (data != null) {
+        List requestsIds = data['donatedRequests'];
+
+        isRequestExsisted = requestsIds.contains(requestId);
+      } }
+
+    return isRequestExsisted;
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>>? get requests {
     return _requests;
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? get requests2 {
     return _requests2;
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? get requests3 {
+    return _requests3;
   }
 
   List<String> get getSearchResults {
@@ -87,16 +174,17 @@ class FeedViewModel with ChangeNotifier {
           if ((i.current['type'].toString() == "مبلغ" &&
               i.current['donated'] < i.current['amount']) ||
               (i.current['type'].toString() == "موارد" &&
-              i.current['donated'] < i.current['amount_requested']) ||
+                  i.current['donated'] < i.current['amount_requested']) ||
               (i.current['type'].toString() == "تنظيم" &&
                   i.current['participants'] < i.current['parts_number'])
           ) {
-          String id = i.current.id;
-          // print(id);
-          if (!searchResults.contains(id)) {
-            searchResults.add(id);
+            String id = i.current.id;
+            // print(id);
+            if (!searchResults.contains(id)) {
+              searchResults.add(id);
+            }
+            ;
           }
-          ;}
         }
       }
     }).onError((error, stackTrace) => print("error"));
@@ -117,10 +205,12 @@ class FeedViewModel with ChangeNotifier {
                   i.current['participants'] < i.current['parts_number'])
           ) {
             String id = i.current.id;
-          // print(id);
-          if (!searchResults.contains(id)) {
-            searchResults.add(id);}
-          ;}
+            // print(id);
+            if (!searchResults.contains(id)) {
+              searchResults.add(id);
+            }
+            ;
+          }
         }
       }
     }).onError((error, stackTrace) => print("error"));
@@ -145,12 +235,12 @@ class FeedViewModel with ChangeNotifier {
             if (!searchResults.contains(id)) {
               searchResults.add(id);
             }
-          }}
+          }
+        }
       }
     }).onError((error, stackTrace) => print("error"));
 
     notifyListeners();
-
   }
 
 }
