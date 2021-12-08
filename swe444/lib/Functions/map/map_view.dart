@@ -25,10 +25,10 @@ class Map extends StatefulWidget {
   State<Map> createState() => MapState();
 }
 
-class MapState extends State<Map> {
+class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
   GeolocaterService location = GeolocaterService();
   LatLng current = LatLng(0, 0);
-  Completer<GoogleMapController> _controller = Completer();
+  // Completer<GoogleMapController> _controller = Completer();
   Completer<GoogleMapController> _gmcontroller = Completer();
   MarkersViewModel markers = MarkersViewModel();
   Set<Marker> ms = {};
@@ -36,15 +36,11 @@ class MapState extends State<Map> {
   String search = "";
   List<PlaceSearch> placesResults = [];
   StreamSubscription? locationsub;
+  var applicationBloc;
 
   CameraPosition cp = CameraPosition(
     target: LatLng(24.7135517, 46.6752957),
     zoom: 12.4746,
-  );
-
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
   );
 
   @override
@@ -57,16 +53,17 @@ class MapState extends State<Map> {
             }));
   }
 
-  @override
-  void dispose() {
-    final applicationBloc =
-        Provider.of<ApplicationBloc>(context, listen: false);
-    applicationBloc.dispose();
 
-    if (locationsub != null) locationsub!.cancel();
-
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //
+  //   final applicationBloc = Provider.of<ApplicationBloc>(context, listen: false);
+  //   applicationBloc.dispose();
+  //
+  //   if (locationsub != null) locationsub!.cancel();
+  //
+  //   super.dispose();
+  // }
 
   setup() async {
     ms = await markers.fetchMosques();
@@ -74,10 +71,8 @@ class MapState extends State<Map> {
     final applicationBloc =
         Provider.of<ApplicationBloc>(context, listen: false);
 
-    // print('here2-------222');
     locationsub = applicationBloc.selectedLocation.stream.listen((place) {
       if (applicationBloc.selectedLocationStatic != null) {
-        // print('here444-------444');
 
         _goToPlace(applicationBloc.selectedLocationStatic!);
       }
@@ -86,7 +81,6 @@ class MapState extends State<Map> {
 
   searchFunc(String s, ApplicationBloc bloc) async {
     bloc.searchPlaces(s);
-    // placesResults = bloc.searchResults;
   }
 
   Widget searchField(ApplicationBloc bloc) {
@@ -164,10 +158,10 @@ class MapState extends State<Map> {
   }
 
   getCurrentLocation() async {
+    if (mounted){
     Position loc = await location.getCurrentLocation();
     double long = loc.longitude;
     double lat = loc.latitude;
-    // print('------here-----');
     setState(() {
       ms = markers.markers;
       ms.add(Marker(
@@ -177,14 +171,18 @@ class MapState extends State<Map> {
         infoWindow: InfoWindow(title: 'أنت هنا!'),
       ));
     });
-  }
+  }}
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    final applicationBloc = Provider.of<ApplicationBloc>(context);
+    super.build(context);
+    applicationBloc = Provider.of<ApplicationBloc>(context);
 
     SchedulerBinding.instance!.addPostFrameCallback((_) {
-      if (mounted) {
+      if (mounted && applicationBloc.currentLocation != null) {
         getCurrentLocation();
         setState(() {
           ms = markers.markers;
@@ -213,21 +211,10 @@ class MapState extends State<Map> {
                         markers: ms,
                         mapType: MapType.normal,
                         onMapCreated: (GoogleMapController controller) {
-                          // _controller.complete(controller);
+                          if (!_gmcontroller.isCompleted)
                           _gmcontroller.complete(controller);
                         },
                       ),
-                      // if (applicationBloc.searchResults.isNotEmpty &&
-                      //     applicationBloc.searchResults.length != 0 && searchTerm.text.trim().isNotEmpty)
-                      // Container(
-                      //   margin: EdgeInsets.only(),
-                      //   width: double.infinity,
-                      //   height: double.infinity,
-                      //   decoration: BoxDecoration(
-                      //     color: Colors.black.withOpacity(.6),
-                      //     backgroundBlendMode: BlendMode.darken,
-                      //   ),
-                      // ),
                       if (applicationBloc.searchResults.isNotEmpty &&
                           searchTerm.text.trim().isNotEmpty)
                         Container(
@@ -238,8 +225,6 @@ class MapState extends State<Map> {
                               itemBuilder: (context, index) {
                                 return Container(
                                   decoration: BoxDecoration(color: Colors.white
-                                      //     .withOpacity(.6),
-                                      // backgroundBlendMode: BlendMode.darken,
                                       ),
                                   child: ListTile(
                                     title: Text(
@@ -264,17 +249,6 @@ class MapState extends State<Map> {
                                             .geometry
                                             .longitude,
                                       ));
-                                      // applicationBloc.setSelectedLocation(
-                                      //     applicationBloc
-                                      //         .searchResults[index].placeId);
-                                      // if (applicationBloc
-                                      //         .selectedLocationStatic !=
-                                      //     null) {
-                                      //   print('here66666-------666');
-                                      //
-                                      //   _goToPlace(applicationBloc
-                                      //       .selectedLocationStatic!);
-                                      // }
                                       searchTerm.text = applicationBloc
                                           .searchResults[index].placeId;
                                       applicationBloc.searchResults.clear();
@@ -293,17 +267,10 @@ class MapState extends State<Map> {
                       child: searchField(applicationBloc)),
                 ],
               )),
-      // floatingActionButton: FloatingActionButton.extended(
-      //   onPressed: _goToTheLake,
-      //   label: Text('To the lake!'),
-      //   icon: Icon(Icons.directions_boat),
-      // ),
     );
   }
 
-
   Future<void> _goToPlace(Place place) async {
-    // print('here1-------1111');
     final GoogleMapController controller = await _gmcontroller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(place.lat, place.long), zoom: 14)));
