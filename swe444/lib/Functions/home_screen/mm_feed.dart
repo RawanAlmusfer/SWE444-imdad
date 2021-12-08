@@ -98,62 +98,63 @@ class mmFeed extends State<mm_feed> with SingleTickerProviderStateMixin {
                   ]),
             ),
           ),
-          Expanded(
-            child: TabBarView(controller: _tabController, children: [
-              StreamBuilder(
-                  stream: requests,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return _buildWaitingScreen();
-                    return ListView.builder(
-                      itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          buildCards(
-                              context,
-                              (snapshot.data! as QuerySnapshot).docs[index],
-                              user?.uid.toString()),
-                    );
-                  }),
-              StreamBuilder(
-                  stream: requests,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return _buildWaitingScreen();
-                    return ListView.builder(
-                      itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          buildCards(
-                              context,
-                              (snapshot.data! as QuerySnapshot).docs[index],
-                              user?.uid.toString()),
-                    );
-                  }),
-              StreamBuilder(
-                  stream: requests,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return _buildWaitingScreen();
-                    return ListView.builder(
-                      itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          buildCards(
-                              context,
-                              (snapshot.data! as QuerySnapshot).docs[index],
-                              user?.uid.toString()),
-                    );
-                  }),
-            ]),
-          )
+          StreamBuilder(
+              stream: requests,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return _buildWaitingScreen();
+                return Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      ListView.builder(
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildCards(
+                                context,
+                                (snapshot.data! as QuerySnapshot).docs[index],
+                                user?.uid.toString(),
+                                "تنظيم"),
+                      ),
+                      ListView.builder(
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildCards(
+                                context,
+                                (snapshot.data! as QuerySnapshot).docs[index],
+                                user?.uid.toString(),
+                                "موارد"),
+                      ),
+                      ListView.builder(
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildCards(
+                                context,
+                                (snapshot.data! as QuerySnapshot).docs[index],
+                                user?.uid.toString(),
+                                "مبلغ"),
+                      ),
+                    ],
+                  ),
+                );
+              }),
         ],
       ),
     );
   }
 
-  Widget buildCards(
-      BuildContext context, DocumentSnapshot document, String? id) {
-    if (document['type'].toString() == "تنظيم")
+  Widget buildCards(BuildContext context, DocumentSnapshot document, String? id,
+      String type) {
+    if (document['type'].toString() == "تنظيم" && type == "تنظيم")
       return buildEventsCards(context, document, id);
-    else if (document['type'].toString() == "موارد")
+    else if (document['type'].toString() == "موارد" && type == "موارد")
       return buildItemsCards(context, document, id);
-    else
+    else if (document['type'].toString() == "مبلغ" && type == "مبلغ")
       return buildFundsCards(context, document, id);
+    else
+      return Container();
   }
 
   Widget buildItemsCards(
@@ -899,13 +900,10 @@ class mmFeed extends State<mm_feed> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildWaitingScreen() {
-    return Scaffold(
-      backgroundColor: const Color(0xffededed),
-      body: Container(
-        alignment: Alignment.center,
-        child: CircularProgressIndicator(
-          color: const Color(0xdeedd03c),
-        ),
+    return Container(
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(
+        color: const Color(0xdeedd03c),
       ),
     );
   }
