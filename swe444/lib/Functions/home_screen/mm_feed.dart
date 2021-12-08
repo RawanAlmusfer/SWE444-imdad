@@ -30,11 +30,14 @@ class mm_feed extends StatefulWidget {
   }
 }
 
-class mmFeed extends State<mm_feed> {
+class mmFeed extends State<mm_feed> with SingleTickerProviderStateMixin {
   User? user = FirebaseAuth.instance.currentUser;
-
+  TabController? _tabController;
+  final colorstheme = const Color(0xdeedd03c);
   @override
   void initState() {
+    _tabController = new TabController(length: 3, vsync: this, initialIndex: 2)
+      ..addListener(() {});
     super.initState();
     Future.delayed(
         Duration.zero,
@@ -54,18 +57,92 @@ class mmFeed extends State<mm_feed> {
     // Navigator.pop(context);
     return Scaffold(
       backgroundColor: const Color(0xffededed),
-      body: StreamBuilder(
-          stream: requests,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return _buildWaitingScreen();
-            return ListView.builder(
-              itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-              itemBuilder: (BuildContext context, int index) => buildCards(
-                  context,
-                  (snapshot.data! as QuerySnapshot).docs[index],
-                  user?.uid.toString()),
-            );
-          }),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  color: Colors.grey[300]),
+              child: TabBar(
+                  isScrollable: true,
+                  //indicatorPadding: EdgeInsets.all(0),
+                  labelColor: Colors.white,
+                  unselectedLabelColor: colorstheme,
+                  labelStyle: TextStyle(fontSize: 20),
+                  labelPadding:
+                      EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+                  indicator: BoxDecoration(
+                      color: colorstheme,
+                      borderRadius: BorderRadius.circular(40)),
+                  controller: _tabController,
+                  tabs: [
+                    Text(
+                      'تنظيم',
+                      style: TextStyle(
+                          fontFamily: "Tajawal", color: Color(0xff334856)),
+                    ),
+                    Text(
+                      'موارد',
+                      style: TextStyle(
+                          fontFamily: "Tajawal",
+                          color: const Color(0xff334856)),
+                    ),
+                    Text(
+                      'مبلغ',
+                      style: TextStyle(
+                          fontFamily: "Tajawal",
+                          color: const Color(0xff334856)),
+                    ),
+                  ]),
+            ),
+          ),
+          Expanded(
+            child: TabBarView(controller: _tabController, children: [
+              StreamBuilder(
+                  stream: requests,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return _buildWaitingScreen();
+                    return ListView.builder(
+                      itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          buildCards(
+                              context,
+                              (snapshot.data! as QuerySnapshot).docs[index],
+                              user?.uid.toString()),
+                    );
+                  }),
+              StreamBuilder(
+                  stream: requests,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return _buildWaitingScreen();
+                    return ListView.builder(
+                      itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          buildCards(
+                              context,
+                              (snapshot.data! as QuerySnapshot).docs[index],
+                              user?.uid.toString()),
+                    );
+                  }),
+              StreamBuilder(
+                  stream: requests,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return _buildWaitingScreen();
+                    return ListView.builder(
+                      itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          buildCards(
+                              context,
+                              (snapshot.data! as QuerySnapshot).docs[index],
+                              user?.uid.toString()),
+                    );
+                  }),
+            ]),
+          )
+        ],
+      ),
     );
   }
 
