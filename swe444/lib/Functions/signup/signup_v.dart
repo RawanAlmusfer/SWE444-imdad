@@ -118,7 +118,7 @@ class _SignUpPageState extends State<VSignUpPage> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{6,}$');
+        RegExp regex = new RegExp(r'^.{8,}$');
         if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء تعيين كلمة مرور");
         }
@@ -360,7 +360,7 @@ class _SignUpPageState extends State<VSignUpPage> {
         phoneNum.text = value!;
       },
       validator: (value) {
-        RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
+        RegExp regex = RegExp(r'^((?:[0]+)(?:[5]+)(?:\s?\d{8}))$');
         if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء إدخال رقم الجوال ");
         }
@@ -423,7 +423,7 @@ class _SignUpPageState extends State<VSignUpPage> {
       },
       child: Scaffold(
         backgroundColor: const Color(0xffededed),
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: Container(
           padding: EdgeInsets.all(15.0),
           child: SingleChildScrollView(

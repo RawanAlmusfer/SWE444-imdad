@@ -850,6 +850,7 @@ class _EditRequestFormState extends State<EditRequestForm> {
 
     if (deviceOrientation == Orientation.landscape) portrait = false;
     return SingleChildScrollView(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       child: Form(
         key: _formKey,
         child: Column(

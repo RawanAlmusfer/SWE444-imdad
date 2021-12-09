@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/request/edit_request_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/request/edit_request_form.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,5 +90,21 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/swe444/lib/Functions/request/edit_request_form.dart</url>
+          <line>361</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/swe444/lib/Functions/request/edit_request_form.dart</url>
+          <line>570</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

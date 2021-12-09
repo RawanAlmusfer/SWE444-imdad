@@ -109,7 +109,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{6,}$');
+        RegExp regex = new RegExp(r'^.{8,}$');
         if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء تعيين كلمة مرور");
         }
@@ -433,7 +433,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       child: Scaffold(
         backgroundColor: const Color(0xffededed),
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: Container(
           padding: EdgeInsets.all(15.0),
           child: SingleChildScrollView(
@@ -610,9 +610,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                   fontFamily: 'Tajawal'),
                             )),
                         Text(error),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.15,
-                        ),
+                        // SizedBox(
+                        //   height: MediaQuery.of(context).size.height * 0.15,
+                        // ),
                       ],
                     ),
                   ),
