@@ -8,6 +8,7 @@ import 'package:swe444/Widgets/show_snackbar.dart';
 //import 'package:stripe/StripeGateway.dart';
 
 import 'StripeGateway.dart';
+import 'moneyDonations.dart';
 
 class PaymentScreen extends StatefulWidget {
   static int? vDonatedAmount = 0;
@@ -22,6 +23,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController _controller = TextEditingController();
   int isVDonatedPaymentScreen = 0;
+
 
   //int? vDonatedAmount=int.parse(_controller.text);
 
@@ -257,6 +259,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           currency: 'SAR',
                           description: description);
                       // print(response.message);
+                     // if(response=='')
+
 
                       showAlertDialog(context, response);
                       // feedbackResponseDonation(response);

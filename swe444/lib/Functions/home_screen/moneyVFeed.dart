@@ -10,6 +10,7 @@ import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/request/request_view_model.dart';
 import 'package:swe444/Functions/subscribe/subscription.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
+import 'package:swe444/Payment/moneyDonations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../CustomPageRoute.dart';
 import 'itemsVFeed.dart';
@@ -41,8 +42,9 @@ class mv_feed extends StatefulWidget {
 
 class mvFeed extends State<mv_feed> {
   User? user = FirebaseAuth.instance.currentUser;
-
+  postMoneyDonations postDB = new postMoneyDonations();
   Subscribe subscribe = new Subscribe();
+
   @override
   void initState() {
     super.initState();
@@ -370,6 +372,9 @@ class mvFeed extends State<mv_feed> {
                               .collection('requests')
                               .doc(docId)
                               .update({'donated': cumDonated});
+
+                          if (PaymentScreen.vDonatedAmount != 0)
+                            postDB.postToDB(document, user!.uid);
 
                           //update the denoation for next user
                           PaymentScreen.vDonatedAmount = 0;
