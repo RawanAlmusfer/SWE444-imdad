@@ -365,10 +365,10 @@ class _SignUpPageState extends State<VSignUpPage> {
           return ("الرجاء إدخال رقم الجوال ");
         }
         if (!regex.hasMatch(value)) {
-          return ("Enter Valid Phone number");
+          return ("رقم الجوال المدخل غير صحيح");
         }
         if (value.length < 10) {
-          return ("Enter Valid Phone number");
+          return ("رقم الجوال المدخل غير صحيح");
         }
         return null;
       },
