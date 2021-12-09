@@ -67,31 +67,33 @@ class mvFeed extends State<mv_feed> {
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        centerTitle: true,
-        actions: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: Container(
-              margin: EdgeInsets.only(right: 20, bottom: 8),
-              child: Icon(
-                Icons.keyboard_backspace_rounded,
-                textDirection: TextDirection.rtl,
-                size: 30,
-                color: Color(0xff334856),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 70.0),
+          child: Row(
+            children: [
+              Text(
+                "طلبات التبرع بالمال",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xff334856),
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Tajawal',
+                  fontSize: 24,
+                ),
               ),
-            ),
-          ),
-        ],
-        title: Text(
-          "طلبات التبرع بالمال",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color(0xff334856),
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Tajawal',
-            fontSize: 24,
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.keyboard_backspace_rounded,
+                    textDirection: TextDirection.rtl,
+                    size: 30,
+                    color: Color(0xff334856),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ],
           ),
         ),
         //automaticallyImplyLeading: false,

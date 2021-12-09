@@ -79,31 +79,39 @@ class _PaymentScreenState extends State<searchPaymentScreen> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          centerTitle: true,
-          actions: <Widget>[
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                margin: EdgeInsets.only(right: 20, bottom: 8),
-                child: Icon(
-                  Icons.keyboard_backspace_rounded,
-                  textDirection: TextDirection.rtl,
-                  size: 30,
-                  color: Color(0xff334856),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 70.0),
+            child: Row(
+              children: [
+                Text(
+                  "عملية التبرع بالمال",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xff334856),
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Tajawal',
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-            ),
-          ],
-          title: Text(
-            "عملية التبرع بالمال",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xff334856),
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Tajawal',
-              fontSize: 24,
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.keyboard_backspace_rounded,
+                        textDirection: TextDirection.rtl,
+                        size: 30,
+                        color: Color(0xff334856),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchRequests()));
+
+                        //   Navigator.pop(context);
+                      }),
+                ),
+              ],
             ),
           ),
           //automaticallyImplyLeading: false,
@@ -168,7 +176,7 @@ class _PaymentScreenState extends State<searchPaymentScreen> {
                                 color: Color(0xdeedd03c),
                               )),
                         ),
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.left,
                         inputFormatters: [
                           new WhitelistingTextInputFormatter(RegExp("[0-9]")),
                         ],

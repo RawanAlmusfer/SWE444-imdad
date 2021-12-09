@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AllDonationVM with ChangeNotifier {
+class AllDonation with ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _requests;
 
   // late bool? isVSubscribed;
-  late List<String> userDonations = [];
+  // late List<String> myDonations = [];
   Stream<List<String>>? myDonations;
   late int length;
 
@@ -20,81 +20,36 @@ class AllDonationVM with ChangeNotifier {
         .collection('requests')
         .snapshots()
         .forEach((snapshot) {
-      if (snapshot.docs.isNotEmpty) {
-        var i = snapshot.docs.iterator;
-        while (i.moveNext()) {
-          String id = i.current.id;
-          QueryDocumentSnapshot request = i.current;
-
-          if (FirebaseFirestore.instance
-                  .collection('requests')
-                  .doc(i.current.id)
-                  .collection('donations')
-                  .runtimeType !=
-              'Null') {
-            FirebaseFirestore.instance
-                .collection('requests')
-                .doc(i.current.id)
-                .collection('donations')
-                .where('uid', isEqualTo: uid)
-                .snapshots()
-                .forEach((snapshot) {
-              if (snapshot.docs.isNotEmpty) {
-                var j = snapshot.docs.iterator;
-                while (j.moveNext()) {
-                  if (j.current["uid"].toString() == uid) {
-                    // String id = j.current.id;
-                    if (!userDonations.contains(id)) {
-                      print(request['title']);
-                      userDonations.add(id);
-                    }
-                  }
-                }
+      var i = snapshot.docs.iterator;
+      while (i.moveNext()) {
+        FirebaseFirestore.instance
+            .collection('requests')
+            .doc(i.current.id)
+            .collection('donations')
+            .where('uid', isEqualTo: uid)
+            .snapshots()
+            .forEach((snapshot) {
+          var i = snapshot.docs.iterator;
+          while (i.moveNext()) {
+            if (i.current["title"].toString().contains(uid)) {
+              if ((i.current['type'].toString() == "مبلغ" &&
+                      i.current['donated'] < i.current['amount']) ||
+                  (i.current['type'].toString() == "موارد" &&
+                      i.current['donated'] < i.current['amount_requested']) ||
+                  (i.current['type'].toString() == "تنظيم" &&
+                      i.current['participants'] < i.current['parts_number'])) {
+                String id = i.current.id;
+                myDonations!.forEach((list) {
+                  if (list.contains(id)) {}
+                });
               }
-            }).onError((error, stackTrace) =>
-                    print("error" + error.toString() + stackTrace.toString()));
+            }
           }
-
-          /// item
-
-          if (FirebaseFirestore.instance
-                  .collection('requests')
-                  .doc(i.current.id)
-                  .collection('donations')
-                  .runtimeType !=
-              'Null') {
-            FirebaseFirestore.instance
-                .collection('requests')
-                .doc(i.current.id)
-                .collection('moneyDonations')
-                .where('uid', isEqualTo: uid)
-                .snapshots()
-                .forEach((snapshot) {
-              if (snapshot.docs.isNotEmpty) {
-                var j = snapshot.docs.iterator;
-                while (j.moveNext()) {
-                  if (j.current["uid"].toString() == uid) {
-                    // String id = j.current.id;
-                    if (!userDonations.contains(id)) {
-                      print(request['title']);
-                      userDonations.add(id);
-                    }
-                  }
-                }
-              }
-            }).onError((error, stackTrace) =>
-                    print("error" + error.toString() + stackTrace.toString()));
-          }
-        }
+        }).onError((error, stackTrace) => print("error"));
       }
-    }).onError((error, stackTrace) =>
-            print("error" + error.toString() + stackTrace.toString()));
+    });
 
     notifyListeners();
-  }
-
-  List<String> get donations {
-    return userDonations;
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? get requests {

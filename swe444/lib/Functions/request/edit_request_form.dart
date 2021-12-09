@@ -254,8 +254,8 @@ class _EditRequestFormState extends State<EditRequestForm> {
           return "مطلوب";
         else {
           _value = double.parse(value);
-          if (_value > 50000) return "الحد الآقصى= 50000";
-          if (_value < 10) return "الحد الآدنى= 10";
+          if (_value > 50000) return "الآقصى= 50000";
+          if (_value < 10) return "الآدنى= 10";
         }
       },
       textAlign: TextAlign.right,
@@ -858,6 +858,17 @@ class _EditRequestFormState extends State<EditRequestForm> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
             ),
+            // Container(
+            //   width: portrait == true ? 250.w : 300.w,
+            //   child: Directionality(
+            //     textDirection: TextDirection.rtl,
+            //     child: _buildType(),
+            //   ),
+            // ),
+            // // email container
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height * 0.02,
+            // ),
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Container(
