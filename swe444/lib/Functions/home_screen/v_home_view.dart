@@ -1,10 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:swe444/Functions/donation/all_donations_view_model.dart';
+import 'package:swe444/Functions/donation/userDonations.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
+import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
 import 'home.dart';
-import 'moneyVFeed.dart';
-import '../logout.dart';
+
+class vHomeA extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<AllDonationVM>(
+        create: (_) => AllDonationVM(),
+        child: vHome());
+  }
+}
 
 class vHome extends StatefulWidget {
   @override
@@ -15,13 +28,14 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 3;
+  int _currentIndex = 4;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
     ProfilePage(),
     SubscribedList(),
+    SearchPage(),
     SearchPage(),
     vhome(),
   ];
@@ -43,6 +57,107 @@ class _HomeState extends State<vHome> {
               fontSize: 24,
             ),
           ),
+          leading: IconButton(
+            onPressed: () async {
+              AllDonationVM donationsVM= AllDonationVM();
+              donationsVM.usersDonations(FirebaseAuth.instance.currentUser!.uid);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      donationsView(donations: donationsVM.userDonations)));
+            },
+            icon: Icon(Icons.spa),
+            padding: const EdgeInsets.only(left: 20,),
+            color: const Color(0xff334856),
+          ),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: Icon(
+                  Icons.logout,
+                  color: Color(0xff334856),
+                ),
+                onPressed: () async {
+                  showDialog(
+                      builder: (ctxt) {
+                        return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(32.0))),
+                            contentPadding: EdgeInsets.only(
+                                right: 20.w, top: 20.h, bottom: 10.h),
+                            title: Text(
+                              "تسجيل الخروج",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: const Color(0xdeedd03c),
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    "هل أنت متأكد من رغبتك في\nتسجيل الخروج؟",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(fontFamily: "Tajawal"),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ElevatedButton(
+                                      child: const Text(
+                                        "إلغاء",
+                                        style: TextStyle(
+                                            color: const Color(0xdeedd03c),
+                                            fontFamily: "Tajawal"),
+                                      ),
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  const Color(0xdeffffff)),
+                                          elevation:
+                                              MaterialStateProperty.all<double>(
+                                                  0)),
+                                      onPressed: () {
+                                        Navigator.of(context).pop(context);
+                                      },
+                                    ),
+                                    ElevatedButton(
+                                      child: Text(
+                                        "تأكيد",
+                                        style: TextStyle(fontFamily: "Tajawal"),
+                                      ),
+                                      onPressed: () async {
+                                        await FirebaseAuth.instance.signOut();
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DecisionsTree()));
+                                      },
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  const Color(0xdeedd03c))),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ));
+                      },
+                      context: context);
+                },
+              ),
+            )
+          ],
           //automaticallyImplyLeading: false,
           backgroundColor: const Color(0xdeedd03c),
           bottomOpacity: 30,
@@ -90,6 +205,10 @@ class _HomeState extends State<vHome> {
                     label: "المتابَعين",
                   ),
                   BottomNavigationBarItem(
+                    icon: new Icon(Icons.map),
+                    label: "map",
+                  ),
+                  BottomNavigationBarItem(
                     icon: new Icon(Icons.search),
                     label: "البحث",
                   ),
@@ -100,6 +219,12 @@ class _HomeState extends State<vHome> {
                 ]),
           ),
         ));
+  }
+
+  logout_() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => DecisionsTree()));
   }
 
   void onTabTapped(int index) {
@@ -118,10 +243,16 @@ class _HomeState extends State<vHome> {
           break;
         case 2:
           {
+            _title = 'الخريطة';
+          }
+          break;
+
+        case 3:
+          {
             _title = 'البحث';
           }
           break;
-        case 3:
+        case 4:
           {
             _title = 'الصفحة الرئيسية';
           }
