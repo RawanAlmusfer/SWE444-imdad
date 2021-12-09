@@ -250,8 +250,8 @@ class _AddRequestFormState extends State<PostRequestForm> {
           return "مطلوب";
         else {
           _value = double.parse(value);
-          if (_value > 50000) return "الآقصى= 50000";
-          if (_value < 10) return "الآدنى= 10";
+          if (_value > 50000) return "الحد الآقصى= 50000";
+          if (_value < 10) return "الحد الآدنى= 10";
         }
       },
       textAlign: TextAlign.right,
@@ -366,7 +366,7 @@ class _AddRequestFormState extends State<PostRequestForm> {
           return "مطلوب";
         else {
           _value = double.parse(value);
-          if (_value > 50) return "الحد الآقصى= 50";
+          if (_value > 50) return "الحد الآقصى= 80";
           if (_value < 1) return "الحد الآدنى= 1";
         }
       },
