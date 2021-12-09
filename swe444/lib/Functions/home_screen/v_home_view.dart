@@ -1,11 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:swe444/Functions/donation/all_donations_view_model.dart';
+import 'package:swe444/Functions/donation/userDonations.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Functions/profile/ProfilePage1.dart';
 import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
 import 'home.dart';
+
+class vHomeA extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<AllDonationVM>(
+        create: (_) => AllDonationVM(),
+        child: vHome());
+  }
+}
 
 class vHome extends StatefulWidget {
   @override
@@ -46,7 +58,13 @@ class _HomeState extends State<vHome> {
             ),
           ),
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              AllDonationVM donationsVM= AllDonationVM();
+              donationsVM.usersDonations(FirebaseAuth.instance.currentUser!.uid);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      donationsView(donations: donationsVM.userDonations)));
+            },
             icon: Icon(Icons.spa),
             padding: const EdgeInsets.only(left: 20,),
             color: const Color(0xff334856),

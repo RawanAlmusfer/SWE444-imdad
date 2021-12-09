@@ -29,7 +29,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     StripeServices.init();
   }
@@ -80,39 +79,31 @@ class _PaymentScreenState extends State<PaymentScreen> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 70.0),
-            child: Row(
-              children: [
-                Text(
-                  "عملية التبرع بالمال",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xff334856),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'Tajawal',
-                    fontSize: 24,
-                  ),
+          centerTitle: true,
+          actions: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                margin: EdgeInsets.only(right: 20, bottom: 8),
+                child: Icon(
+                  Icons.keyboard_backspace_rounded,
+                  textDirection: TextDirection.rtl,
+                  size: 30,
+                  color: Color(0xff334856),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0),
-                  child: IconButton(
-                      icon: Icon(
-                        Icons.keyboard_backspace_rounded,
-                        textDirection: TextDirection.rtl,
-                        size: 30,
-                        color: Color(0xff334856),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => moneyVFeed()));
-
-                        //   Navigator.pop(context);
-                      }),
-                ),
-              ],
+              ),
+            ),
+          ],
+          title: Text(
+            "عملية التبرع بالمال",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xff334856),
+              fontWeight: FontWeight.w700,
+              fontFamily: 'Tajawal',
+              fontSize: 24,
             ),
           ),
           //automaticallyImplyLeading: false,
@@ -177,7 +168,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 color: Color(0xdeedd03c),
                               )),
                         ),
-                        textAlign: TextAlign.left,
+                        textAlign: TextAlign.right,
                         inputFormatters: [
                           new WhitelistingTextInputFormatter(RegExp("[0-9]")),
                         ],
