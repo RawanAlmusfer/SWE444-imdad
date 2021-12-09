@@ -8,7 +8,6 @@ class postMoneyDonations{
 
 
 
-
   postToDB ( DocumentSnapshot document, String vId) async {
     String _message = "";
     String _msgtype = "";

@@ -12,6 +12,7 @@ import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/subscribe/subscription.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
+import 'package:swe444/Payment/moneyDonations.dart';
 import 'dart:ui' as ui;
 
 import 'package:swe444/Payment/searchPaymentScreen.dart';
@@ -42,7 +43,10 @@ class SearchRequests extends StatefulWidget {
 }
 
 class _SearchRequests extends State<SearchRequests> {
-  int? donated = PaymentScreen.vDonatedAmount;
+  int? donated = searchPaymentScreen.vDonatedAmount2;
+  User? user = FirebaseAuth.instance.currentUser;
+  postMoneyDonations postDB = new postMoneyDonations();
+
   bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
   String search = "";
@@ -509,7 +513,8 @@ class _SearchRequests extends State<SearchRequests> {
                                 .collection('requests')
                                 .doc(docId)
                                 .update({'donated': cumDonated});
-
+                            if (searchPaymentScreen.vDonatedAmount2 != 0)
+                              postDB.postToDB(document, user!.uid);
                             //update the denoation for next user
                             searchPaymentScreen.vDonatedAmount2 = 0;
                             //  db.collection("requests").doc(docId).update({donated: 10});

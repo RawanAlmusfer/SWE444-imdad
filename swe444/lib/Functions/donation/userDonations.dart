@@ -1,10 +1,7 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,8 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/subscribe/subscription.dart';
-import 'package:swe444/Payment/PaymentScreen.dart';
-import 'package:swe444/Payment/searchPaymentScreen.dart';
+import 'package:swe444/Payment/allDonationsPaymentScreen.dart';
+import 'package:swe444/Payment/moneyDonations.dart';
 import 'dart:ui' as ui;
 
 import 'all_donations_view_model.dart';
@@ -36,10 +33,10 @@ class donationsView extends StatelessWidget {
 class ViewUserDonations extends StatefulWidget {
   ViewUserDonations.ensureInitialized(this.donations);
   final List<String> donations;
-  static String? mmEmailDonated2 = '';
-  static String? mmNameDonated2 = '';
-  static int wholeAmount2 = 0;
-  static int wholeDonated2 = 0;
+  static String? mmEmailDonated3 = '';
+  static String? mmNameDonated3= '';
+  static int wholeAmount3 = 0;
+  static int wholeDonated3 = 0;
 
   const ViewUserDonations({Key? key, required this.donations})
       : super(key: key);
@@ -52,7 +49,9 @@ class ViewUserDonations extends StatefulWidget {
 
 class userDonations extends State<ViewUserDonations> {
   List<String>? mydonations;
-  int? donated = PaymentScreen.vDonatedAmount;
+  int? donated = allPaymentScreen.vDonatedAmount3;
+  User? user = FirebaseAuth.instance.currentUser;
+  postMoneyDonations postDB = new postMoneyDonations();
   bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
   String search = "";
@@ -395,13 +394,13 @@ class userDonations extends State<ViewUserDonations> {
                         child: ElevatedButton(
                           onPressed: () async {
                             String? mmId = document['posted_by'];
-                            ViewUserDonations.wholeDonated2 =
+                            ViewUserDonations.wholeDonated3 =
                                 document['donated'];
                             int cumDonated = document['donated'];
-                            ViewUserDonations.wholeAmount2 = document['amount'];
+                            ViewUserDonations.wholeAmount3 = document['amount'];
                             String? mName = document['mosque_name'];
 
-                            ViewUserDonations.mmNameDonated2 = mName;
+                            ViewUserDonations.mmNameDonated3 = mName;
 
                             var documentFormmId = await FirebaseFirestore
                                 .instance
@@ -410,24 +409,25 @@ class userDonations extends State<ViewUserDonations> {
                                 .get();
 
                             String? mmEmail = documentFormmId['email'];
-                            ViewUserDonations.mmEmailDonated2 = mmEmail;
+                            ViewUserDonations.mmEmailDonated3 = mmEmail;
 
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        searchPaymentScreen()));
+                                     allPaymentScreen()));
 
-                            cumDonated += searchPaymentScreen.vDonatedAmount2!;
+                            cumDonated += allPaymentScreen.vDonatedAmount3!;
 
                             String docId = document.id;
                             await FirebaseFirestore.instance
                                 .collection('requests')
                                 .doc(docId)
                                 .update({'donated': cumDonated});
-
+                            if (allPaymentScreen.vDonatedAmount3 != 0)
+                              postDB.postToDB(document, user!.uid);
                             //update the denoation for next user
-                            searchPaymentScreen.vDonatedAmount2 = 0;
+                            allPaymentScreen.vDonatedAmount3 = 0;
                             //  db.collection("requests").doc(docId).update({donated: 10});
                           },
                           child: Text(
