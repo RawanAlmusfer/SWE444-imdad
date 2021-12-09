@@ -176,7 +176,7 @@ class _PaymentScreenState extends State<searchPaymentScreen> {
                                 color: Color(0xdeedd03c),
                               )),
                         ),
-                        textAlign: TextAlign.left,
+                        textAlign: TextAlign.right,
                         inputFormatters: [
                           new WhitelistingTextInputFormatter(RegExp("[0-9]")),
                         ],

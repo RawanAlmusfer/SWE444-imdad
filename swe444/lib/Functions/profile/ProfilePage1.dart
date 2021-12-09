@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-
-import '../logout.dart';
 import 'edit_profile_view.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -434,7 +432,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
-                          logout(),
+                          // logout(),
                         ],
                       ),
                     )

@@ -24,7 +24,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   TextEditingController _controller = TextEditingController();
   int isVDonatedPaymentScreen = 0;
 
-
   //int? vDonatedAmount=int.parse(_controller.text);
 
   @override
@@ -259,8 +258,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           currency: 'SAR',
                           description: description);
                       // print(response.message);
-                     // if(response=='')
-
+                      // if(response=='')
 
                       showAlertDialog(context, response);
                       // feedbackResponseDonation(response);
