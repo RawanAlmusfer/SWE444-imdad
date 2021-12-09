@@ -35,6 +35,7 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -67,6 +68,54 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
                     }),
               ),
             ],
+=======
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 70.0),
+            child: Row(
+              children: [
+                Text(
+                  "عملية التبرع بالموارد",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xff334856),
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Tajawal',
+                    fontSize: 24,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.keyboard_backspace_rounded,
+                        textDirection: TextDirection.rtl,
+                        size: 30,
+                        color: Color(0xff334856),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        //   Navigator.pop(context);
+                      }),
+                ),
+              ],
+            ),
+          ),
+          //automaticallyImplyLeading: false,
+          backgroundColor: const Color(0xdeedd03c),
+          bottomOpacity: 30,
+          // elevation: 1,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(50),
+            ),
+>>>>>>> parent of 935d5805 (updates to back btn + donations things list)
           ),
         ),
         //automaticallyImplyLeading: false,
