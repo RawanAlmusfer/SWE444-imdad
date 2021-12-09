@@ -45,7 +45,12 @@ class _HomeState extends State<vHome> {
               fontSize: 24,
             ),
           ),
-
+          leading: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.spa),
+            padding: const EdgeInsets.only(left: 20,),
+            color: const Color(0xff334856),
+          ),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 20.0),
