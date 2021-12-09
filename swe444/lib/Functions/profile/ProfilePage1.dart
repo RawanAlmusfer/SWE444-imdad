@@ -5,11 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-<<<<<<< Updated upstream
-=======
-import 'package:flutter/gestures.dart';
-import 'package:swe444/Functions/home_screen/v_view_allDonations.dart';
->>>>>>> Stashed changes
 
 import 'edit_profile_view.dart';
 import 'edit_vprofile_view.dart';
@@ -238,12 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-<<<<<<< Updated upstream
               //  Container(height: 100, child: HeaderWidget(100,false,Icons.house_rounded),),
-=======
-              //  build2(),
-
->>>>>>> Stashed changes
               Container(
                 //width: 250, // to wrap the text in multiline
 
@@ -253,51 +243,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Column(
                   children: [
-<<<<<<< Updated upstream
                     //Positioned.directional(textDirection: TextDirection.rtl, child: ,),
                     Container(
                       padding: EdgeInsets.only(
                           left: 10, right: 10, bottom: 20, top: 40),
                       decoration: BoxDecoration(
-=======
-                    // build3(),
-                    //Positioned.directional(textDirection: TextDirection.rtl, child: ,),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      padding: const EdgeInsets.only(
-                        left: 10,
-                      ),
-                      child: new IconButton(
-                        icon: new Icon(
-                          Icons.spa,
-                          size: 50,
-                          color: const Color(0xff334856),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => vAllDonations()));
-                        },
-                      ),
-                    ),
-
-                    Container(
-                      alignment: Alignment.topLeft,
-                      padding: const EdgeInsets.only(top: 10, right: 20),
-                      child: Text(
-                        'تبرعاتي',
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: 'Tajawal',
-                            color: Color(0xff334856),
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      decoration: BoxDecoration(
-
->>>>>>> Stashed changes
                           // borderRadius: BorderRadius.circular(100),
                           // border: Border.all(width: 5, color: Colors.white),
                           // color: Colors.white,
@@ -525,39 +475,6 @@ class _ProfilePageState extends State<ProfilePage> {
   } //QWEqwerty123@
 
   bool isVolunteer() => role == 'volunteer';
-<<<<<<< Updated upstream
-=======
-
-  // Widget build3() {
-  //   return Scaffold(
-  //     drawer: NavigationDrawerWidget(),
-  //   );
-  // }
-
-  Widget build2() {
-    TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
-    TextStyle linkStyle = TextStyle(color: Colors.blue);
-    return RichText(
-      text: TextSpan(
-        style: defaultStyle,
-        children: [
-          TextSpan(
-              text: 'تبرعاتي',
-              style: TextStyle(
-                decoration: TextDecoration.underline,
-                color: const Color(0xff334856),
-                fontSize: 20.0,
-                fontFamily: 'Tajawal',
-              ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  print('Terms of Service"');
-                }),
-        ],
-      ),
-    );
-  }
->>>>>>> Stashed changes
 }
 
 const String mosqueImage =
