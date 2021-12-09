@@ -22,7 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPass = TextEditingController();
   final TextEditingController _controllerPass2 = TextEditingController();
-  final TextEditingController mosqueName = TextEditingController();
+  // final TextEditingController mosqueName = TextEditingController();
   final TextEditingController phoneNum = TextEditingController();
   final TextEditingController mosqueLocation = TextEditingController();
   final TextEditingController mosqueCode = TextEditingController();
@@ -39,6 +39,9 @@ class _SignUpPageState extends State<SignUpPage> {
   Snackbar? snackbar;
   Snackbar? snackbar2, snackbar3;
   bool valid = true;
+  bool? exist;
+
+  MViewModel userModel = MViewModel();
 
   Widget _buildEmailField() {
     return TextFormField(
@@ -58,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
         return null;
       },
       onSaved: (value) {
-        _controllerEmail.text = value!;
+        if (value != null) _controllerEmail.text = value;
       },
       showCursor: true,
       maxLines: 2,
@@ -115,7 +118,7 @@ class _SignUpPageState extends State<SignUpPage> {
         }
       },
       onSaved: (value) {
-        _controllerPass.text = value!;
+        if (value != null) _controllerPass.text = value;
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
@@ -175,7 +178,7 @@ class _SignUpPageState extends State<SignUpPage> {
         return null;
       },
       onSaved: (value) {
-        _controllerPass2.text = value!;
+        if (value != null) _controllerPass2.text = value;
       },
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
@@ -217,67 +220,67 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildMosqueNameField() {
-    return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      onSaved: (value) {
-        mosqueName.text = value!;
-      },
-      validator: (value) {
-        RegExp regex = RegExp(r'^.{5,}$');
-        if (value!.isEmpty || value.trim().isEmpty) {
-          return ("الرجاء قم بإدخال اسم المسجد");
-        }
-        if (!regex.hasMatch(value)) {
-          return ("يجب ان يحتوي على 5 حروف على الأقل");
-        }
-        if (!RegExp(r"^[\p{L} ,.'-]*$",
-                caseSensitive: false, unicode: true, dotAll: true)
-            .hasMatch(value)) {
-          return ("يجب ان يحتوي اسم المسجد على أحرف فقط");
-        }
-        return null;
-      },
-      showCursor: true,
-      cursorColor: const Color(0xdeedd03c),
-      style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-      textAlign: TextAlign.right,
-      controller: mosqueName,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // width: 0.0 produces a thin "hairline" border
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: const Color(0xdeedd03c),
-          ),
-        ),
-        prefixIcon: Icon(
-          Icons.account_balance,
-          color: const Color(0xff334856),
-        ),
-        prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
-        hoverColor: const Color(0xff334856),
-        alignLabelWithHint: true,
-        //border: OutlineInputBorder(),
-        hintText: 'أدخل اسم المسجد',
-        labelText: 'اسم المسجد*',
-        hintStyle: TextStyle(
-            fontSize: 14,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-
-        labelStyle: TextStyle(
-            fontSize: 18,
-            color: const Color(0xff334856),
-            fontFamily: 'Tajawal'),
-      ),
-      autocorrect: false,
-      obscureText: false,
-    );
-  }
+  // Widget _buildMosqueNameField() {
+  //   return TextFormField(
+  //     autovalidateMode: AutovalidateMode.onUserInteraction,
+  //     onSaved: (value) {
+  //       mosqueName.text = value!;
+  //     },
+  //     validator: (value) {
+  //       RegExp regex = RegExp(r'^.{5,}$');
+  //       if (value!.isEmpty || value.trim().isEmpty) {
+  //         return ("الرجاء قم بإدخال اسم المسجد");
+  //       }
+  //       if (!regex.hasMatch(value)) {
+  //         return ("يجب ان يحتوي على 5 حروف على الأقل");
+  //       }
+  //       if (!RegExp(r"^[\p{L} ,.'-]*$",
+  //               caseSensitive: false, unicode: true, dotAll: true)
+  //           .hasMatch(value)) {
+  //         return ("يجب ان يحتوي اسم المسجد على أحرف فقط");
+  //       }
+  //       return null;
+  //     },
+  //     showCursor: true,
+  //     cursorColor: const Color(0xdeedd03c),
+  //     style: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+  //     textAlign: TextAlign.right,
+  //     controller: mosqueName,
+  //     decoration: InputDecoration(
+  //       border: OutlineInputBorder(
+  //         borderRadius: BorderRadius.circular(30),
+  //       ),
+  //       focusedBorder: OutlineInputBorder(
+  //         // width: 0.0 produces a thin "hairline" border
+  //         borderRadius: BorderRadius.circular(30),
+  //         borderSide: BorderSide(
+  //           color: const Color(0xdeedd03c),
+  //         ),
+  //       ),
+  //       prefixIcon: Icon(
+  //         Icons.account_balance,
+  //         color: const Color(0xff334856),
+  //       ),
+  //       prefixStyle: TextStyle(fontSize: 18, color: const Color(0xff334856)),
+  //       hoverColor: const Color(0xff334856),
+  //       alignLabelWithHint: true,
+  //       //border: OutlineInputBorder(),
+  //       hintText: 'أدخل اسم المسجد',
+  //       labelText: 'اسم المسجد*',
+  //       hintStyle: TextStyle(
+  //           fontSize: 14,
+  //           color: const Color(0xff334856),
+  //           fontFamily: 'Tajawal'),
+  //
+  //       labelStyle: TextStyle(
+  //           fontSize: 18,
+  //           color: const Color(0xff334856),
+  //           fontFamily: 'Tajawal'),
+  //     ),
+  //     autocorrect: false,
+  //     obscureText: false,
+  //   );
+  // }
 
   Widget _buildPhoneField() {
     return TextFormField(
@@ -286,7 +289,7 @@ class _SignUpPageState extends State<SignUpPage> {
         phoneNum.text = value!;
       },
       validator: (value) {
-        RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
+        RegExp regex = RegExp(r'^((?:[0]+)(?:[5]+)(?:\s?\d{8}))$');
         if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء إدخال رقم جوال المسجد ");
         }
@@ -344,18 +347,35 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (value) {
-        mosqueCode.text = value!;
+        if (value != null) mosqueCode.text = value;
+      },
+      onChanged: (value) {
+        if (value != null) {
+          userModel.findMosqueCode(value);
+          if (userModel.exist != null && userModel.exist == true) {
+            exist = true;
+          }
+        }
       },
       validator: (value) {
-        var pattern = r'\d{2}-\d{5}';
+        var pattern = r'\d{7}';
         RegExp regex = RegExp(pattern);
-        if (!regex.hasMatch(value!))
-          return 'الرجاء ادخال رقم كود المسجد';
-        else
-          return null;
+        if (value != null) {
+          if (value.isEmpty || value.trim().isEmpty) {
+            return ("الرجاء ادخال رقم كود المسجد");
+          } else if (!regex.hasMatch(value))
+            return 'الرجاء ادخال رقم كود المسجد';
+          else if (!userModel.findMosqueCode(value)) {
+            return 'الرجاء ادخال رقم كود مسجد صالح';
+          } else
+            return null;
+        }
       },
       //keyboardType: TextInputType.numberWithOptions(decimal: true),
-
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(7),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+      ],
       showCursor: true,
       cursorColor: const Color(0xdeedd03c),
       maxLength: 8,
@@ -391,7 +411,6 @@ class _SignUpPageState extends State<SignUpPage> {
         hintText: 'أدخل كود المسجد',
         labelText: 'كود المسجد*',
         errorText: mCodeMessage,
-
         hintStyle: TextStyle(
             fontSize: 14,
             color: const Color(0xff334856),
@@ -516,16 +535,16 @@ class _SignUpPageState extends State<SignUpPage> {
                             child: _buildConfirmPasswordField(),
                           ),
                         ), // conform container
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Container(
-                          width: 330,
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: _buildMosqueNameField(),
-                          ),
-                        ), // mosque name
+                        // SizedBox(
+                        //   height: MediaQuery.of(context).size.height * 0.02,
+                        // ),
+                        // Container(
+                        //   width: 330,
+                        //   child: Directionality(
+                        //     textDirection: TextDirection.rtl,
+                        //     child: _buildMosqueNameField(),
+                        //   ),
+                        // ), // mosque name
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02,
                         ),
@@ -624,6 +643,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Future<void> signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
       firebaseFirestore
           .collection('mosques_code')
           .where('code', isEqualTo: mosqueCode.text)
@@ -733,16 +753,12 @@ class _SignUpPageState extends State<SignUpPage> {
           } //end 2ed switch
         } else {
           setState(() {
-            mCodeMessage = 'كود المسجد المدخل غير صالح';
+            // mCodeMessage = 'كود المسجد المدخل غير صالح';
           });
         }
         ;
       }).catchError((error) {
-        // Snackbar sb = Snackbar(context, "كود المسجد المدخل غير صالح");
-        // sb.showToast();
-        setState(() {
-          mCodeMessage = 'bla bla bal';
-        });
+        setState(() {});
       });
     }
   }
@@ -751,12 +767,10 @@ class _SignUpPageState extends State<SignUpPage> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
-    MViewModel userModel = MViewModel();
-
     // writing all the values
     userModel.email = user!.email;
     userModel.uid = user.uid;
-    userModel.mosque_name = mosqueName.text;
+    // userModel.mosque_name = mosqueName.text;
     userModel.mosque_phone = int.parse(phoneNum.text);
     // userModel.mosque_location = mosqueLocation.text;
     userModel.mosque_code = mosqueCode.text;
@@ -770,6 +784,7 @@ class _SignUpPageState extends State<SignUpPage> {
       for (var mosque in mosques.docs) {
         Map<String, dynamic>? data = mosque.data();
         userModel.mosque_location = data['location'];
+        userModel.mosque_name = data['name'];
         firebaseFirestore
             .collection("users")
             .doc(user.uid)
