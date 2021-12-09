@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/request/edit_request_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/request/edit_request_form.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/request/request_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/request/request_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Models/donation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Models/donation.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +44,6 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -103,6 +101,11 @@
           <url>file://$PROJECT_DIR$/swe444/lib/Functions/request/edit_request_form.dart</url>
           <line>570</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/swe444/lib/Functions/request/request_view_model.dart</url>
+          <line>38</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
