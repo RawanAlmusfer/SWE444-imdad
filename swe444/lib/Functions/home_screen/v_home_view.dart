@@ -15,8 +15,7 @@ class vHomeA extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AllDonationVM>(
-        create: (_) => AllDonationVM(),
-        child: vHome());
+        create: (_) => AllDonationVM(), child: vHome());
   }
 }
 
@@ -29,7 +28,7 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 3;
+  int _currentIndex = 1;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
@@ -59,14 +58,17 @@ class _HomeState extends State<vHome> {
           ),
           leading: IconButton(
             onPressed: () async {
-              AllDonationVM donationsVM= AllDonationVM();
-              donationsVM.usersDonations(FirebaseAuth.instance.currentUser!.uid);
+              AllDonationVM donationsVM = AllDonationVM();
+              donationsVM
+                  .usersDonations(FirebaseAuth.instance.currentUser!.uid);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
                       donationsView(donations: donationsVM.userDonations)));
             },
             icon: Icon(Icons.spa),
-            padding: const EdgeInsets.only(left: 20,),
+            padding: const EdgeInsets.only(
+              left: 20,
+            ),
             color: const Color(0xff334856),
           ),
           actions: <Widget>[
