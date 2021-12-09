@@ -368,7 +368,7 @@ class RequestViewModel {
       String lastName = userDoc['last_name'].toString().trim();
 
       Donation donation = new Donation(
-          items, "unconfirmed", firstName + " " + lastName, DateTime.now());
+          items, "unconfirmed", firstName + " " + lastName,user.uid.toString(),DateTime.now());
 
       ItemsRequest request = ItemsRequest(
           type: document['type'],
