@@ -185,7 +185,7 @@ class _HomeState extends State<vHome> {
                     label: "المتابَعين",
                   ),
                   BottomNavigationBarItem(
-                    icon: new Icon(Icons.map_outlined),
+                    icon: new Icon(Icons.map),
                     label: "الخريطة",
                   ),
                   BottomNavigationBarItem(
