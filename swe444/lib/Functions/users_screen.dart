@@ -85,7 +85,7 @@ class _UsersScreenState extends State<UsersScreen> {
 
   bool isAfterOneDay(Timestamp timestamp) {
     var DonationDate = timestamp.toDate();
-    var deadline = DonationDate.add(Duration(days: 1, hours: 0, minutes: 00));
+    var deadline = DonationDate.add(Duration(days: 7, hours: 0, minutes: 00));
 
     //Testing
     // var deadline = DonationDate.add(Duration(days: 0, hours: 0, minutes: 05));
