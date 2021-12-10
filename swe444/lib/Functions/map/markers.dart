@@ -39,7 +39,7 @@ class MarkersViewModel {
   }
 
   callProfile(String name, String ID, BuildContext context) async {
-    String? id;
+    String? id="";
 
     await FirebaseFirestore.instance
         .collection('users')
@@ -50,7 +50,7 @@ class MarkersViewModel {
       id = mosque.id;
     }).catchError((error, stackTrace) => print("error" + error.toString()));
 
-    if (id != null) {
+    if (id != "") {
       var followers = await FirebaseFirestore.instance
           .collection('users')
           .doc(id)
@@ -68,6 +68,25 @@ class MarkersViewModel {
         MosqueName: name,
       )));
     }
+    if (id == "") {
+      var followers = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(ID)
+          .collection("subscribedVolunteers")
+          .get();
+      bool flag = await isSubscribed(ID.toString());
+      String v = followers.docs.length.toString();
+      String r = await countNumOfRequests(ID);
+      Navigator.of(context).push(CustomPageRoute(
+          child: MosqueMangerProfile(
+            isSubscribed: flag,
+            numOfVolunteers: v,
+            numOfRequests: r,
+            MosqueID: ID,
+            MosqueName: name,
+          )));
+    }
+
   }
 
   Future<String> countNumOfRequests(String mmId) async {
