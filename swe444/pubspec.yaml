@@ -1,6 +1,6 @@
 name: swe444
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -23,6 +23,7 @@ dependencies:
   get: ^4.3.8
   random_string: ^2.3.1
   url_launcher: ^6.0.12
+  intl: ^0.17.0
 
   firebase_database: ^8.0.0
   dio: ^4.0.0
@@ -30,12 +31,13 @@ dependencies:
   stripe_payment: ^1.1.4
   http: ^0.13.4
 
-#  flutter_polyline_points: ^1.0.0
-#  google_maps: ^5.3.0
-#  google_maps_flutter: ^2.0.10
+  #  flutter_polyline_points: ^1.0.0
+  #  google_maps: ^5.3.0
+  google_maps_flutter: ^2.0.10
   provider: ^6.0.1
   #flutter_pw_validator: ^1.2.1
   cupertino_icons: ^1.0.2
+  geolocator: 7.6.2
 
 dev_dependencies:
   flutter_test:
@@ -43,7 +45,6 @@ dev_dependencies:
   flutter_lints: ^1.0.0
 
 flutter:
-
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
@@ -53,6 +54,7 @@ flutter:
     - images/items.png
     - images/logo.png
     - images/money.png
+    - images/events.png
 
   fonts:
     - family: Tajawal
