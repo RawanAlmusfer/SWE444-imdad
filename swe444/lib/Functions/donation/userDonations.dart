@@ -460,7 +460,7 @@ class userDonations extends State<ViewUserDonations> {
     if (document['type'].toString() == "موارد"
         && document['amount_requested'] > document['donated']
     ) {
-      // here is the type
+      // here is the tpye
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(

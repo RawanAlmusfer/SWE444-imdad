@@ -155,6 +155,7 @@ class requestDonations extends State<ViewItemDonations> {
                           'date': document['date'],
                           'donated_by': document['donated_by'],
                           'num_of_items': document['num_of_items'],
+                          'uid': document['uid'],
                           'status': "confirmed"
                         });
                       },
