@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'edit_vprofile_view.dart';
+
 class VolunteerProfile extends StatefulWidget {
   const VolunteerProfile({
     Key? key,
@@ -228,7 +230,11 @@ class volunteerProfile extends State<VolunteerProfile> {
                             borderRadius: BorderRadius.circular(50),
                           ),
                         ),
-                        onPressed: () async {},
+                        onPressed: () async {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  EditVProfile(document: document)));
+                        },
                       ),
                     ],
                   ),

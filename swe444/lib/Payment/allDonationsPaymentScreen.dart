@@ -243,7 +243,7 @@ class _PaymentScreenState extends State<allPaymentScreen> {
 
                       //convert from USD to saudi Riyal
                       int amount1 =
-                      ((int.parse(_controller.text)) * 100).toInt();
+                          ((int.parse(_controller.text)) * 100).toInt();
                       String amount = amount1.toString();
 
                       var response = await StripeServices.payNowHandler(
@@ -264,7 +264,7 @@ class _PaymentScreenState extends State<allPaymentScreen> {
                   child: Text(
                     'ادفع الآن',
                     style:
-                    TextStyle(fontFamily: "Tajawal", color: Colors.white),
+                        TextStyle(fontFamily: "Tajawal", color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(85.w, 40.h),
@@ -290,24 +290,25 @@ class _PaymentScreenState extends State<allPaymentScreen> {
 
   showAlertDialog(BuildContext context, var response) {
     // set up the button
-    Widget okButton = TextButton(
-      child: Text(
-        "موافق",
-        textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
-      ),
-      style: ButtonStyle(
-          backgroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-      onPressed: () {
+    Widget okButton = Padding(
+        padding: EdgeInsets.only(right: 40.w),
+        child: TextButton(
+          child: Text(
+            "موافق",
+            textAlign: TextAlign.right,
+            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+          onPressed: () {
+            Navigator.of(context).pop(context);
+            Navigator.of(context).pop(context);
 
-        Navigator.of(context).pop(context);
-        Navigator.of(context).pop(context);
-
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
-      },
-    );
+            // Navigator.pushReplacement(
+            //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
+          },
+        ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
@@ -355,7 +356,7 @@ class _PaymentScreenState extends State<allPaymentScreen> {
       return "لم تتم عملية التبرع بنجاح";
     } else {
       //  isVDonatedPaymentScreen=0;
-    allPaymentScreen.vDonatedAmount3 = 0;
+      allPaymentScreen.vDonatedAmount3 = 0;
       return "لم تتم عملية التبرع بنجاح";
     }
   }

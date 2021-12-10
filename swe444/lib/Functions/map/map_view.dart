@@ -66,7 +66,7 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
   // }
 
   setup() async {
-    ms = await markers.fetchMosques();
+    ms = await markers.fetchMosques(context);
 
     final applicationBloc =
         Provider.of<ApplicationBloc>(context, listen: false);

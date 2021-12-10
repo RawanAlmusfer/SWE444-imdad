@@ -99,6 +99,17 @@ class userDonations extends State<ViewUserDonations> {
     mydonations = donationsVM
         .donations;
 
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          mydonations =
+              Provider.of<AllDonationVM>(context, listen: false).donations;
+          // if (mydonations.length == 0) {
+          //   none();
+          // }
+        });
+      }
+    });
     // mydonations= Provider.of<AllDonationVM>(context, listen: false).donations;
 
     // mydonations = Provider.of<AllDonationVM>(context, listen: false).userDonations;
@@ -159,24 +170,24 @@ class userDonations extends State<ViewUserDonations> {
               physics: ScrollPhysics(),
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
               itemBuilder: (BuildContext context, int index) => buildCards(
-                  context, (snapshot.data! as QuerySnapshot).docs[index], donationsVM.donations),
+                  context, (snapshot.data! as QuerySnapshot).docs[index], mydonations),
             );
           }),
     );
   }
 
   buildCards(BuildContext context, DocumentSnapshot document, List<String> mydonations) {
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
-      if (mounted) {
-        setState(() {
-          mydonations =
-              Provider.of<AllDonationVM>(context, listen: false).donations;
-          if (mydonations.length == 0) {
-            none();
-          }
-        });
-      }
-    });
+    // SchedulerBinding.instance!.addPostFrameCallback((_) {
+    //   if (mounted) {
+    //     setState(() {
+    //       mydonations =
+    //           Provider.of<AllDonationVM>(context, listen: false).donations;
+    //       if (mydonations.length == 0) {
+    //         none();
+    //       }
+    //     });
+    //   }
+    // });
 
     // mydonations = donationsVM.donations;
     if (mydonations.contains(document.id)) {

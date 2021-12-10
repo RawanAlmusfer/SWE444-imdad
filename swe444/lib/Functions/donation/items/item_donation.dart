@@ -218,20 +218,22 @@ class _ItemsDScreenState extends State<ItemsDScreen> {
 
   showAlertDialog(BuildContext context) {
     // set up the button
-    Widget okButton = TextButton(
-      child: Text(
-        "موافق",
-        textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
-      ),
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-      onPressed: () {
-        Navigator.of(context).pop(context);
-        Navigator.of(context).pop(context);
-      },
-    );
+    Widget okButton = Padding(
+        padding: EdgeInsets.only(right: 40.w),
+        child: TextButton(
+          child: Text(
+            "موافق",
+            textAlign: TextAlign.right,
+            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+          onPressed: () {
+            Navigator.of(context).pop(context);
+            Navigator.of(context).pop(context);
+          },
+        ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(

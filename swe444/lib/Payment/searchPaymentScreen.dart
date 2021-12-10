@@ -289,7 +289,9 @@ class _PaymentScreenState extends State<searchPaymentScreen> {
 
   showAlertDialog(BuildContext context, var response) {
     // set up the button
-    Widget okButton = TextButton(
+    Widget okButton = Padding(
+        padding: EdgeInsets.only(right: 40.w),
+        child: TextButton(
       child: Text(
         "موافق",
         textAlign: TextAlign.right,
@@ -302,7 +304,7 @@ class _PaymentScreenState extends State<searchPaymentScreen> {
         Navigator.of(context).pop(context);
         Navigator.of(context).pop(context);
       },
-    );
+    ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
