@@ -14,14 +14,19 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
 class viewMosqueProfile extends StatelessWidget {
-  viewMosqueProfile.ensureInitialized(this.document, this.isSubscribed);
+  viewMosqueProfile.ensureInitialized(this.document, this.isSubscribed,
+      this.numOfVolunteers, this.numOfRequests);
   final DocumentSnapshot document;
   final bool isSubscribed;
+  final String numOfVolunteers;
+  final String numOfRequests;
 
   const viewMosqueProfile({
     Key? key,
     required this.document,
     required this.isSubscribed,
+    required this.numOfVolunteers,
+    required this.numOfRequests,
   }) : super(key: key);
 
   @override
@@ -32,7 +37,11 @@ class viewMosqueProfile extends StatelessWidget {
             height: 1200,
             width: 450,
             child: MosqueMangerProfile(
-                document: this.document, isSubscribed: this.isSubscribed)));
+              document: this.document,
+              isSubscribed: this.isSubscribed,
+              numOfVolunteers: this.numOfVolunteers,
+              numOfRequests: this.numOfRequests,
+            )));
   }
 }
 
@@ -41,12 +50,19 @@ class MosqueMangerProfile extends StatefulWidget {
   static String? mmNameDonated = '';
   static int wholeAmount = 0;
   static int wholeDonated = 0;
-  MosqueMangerProfile.ensureInitialized(this.document, this.isSubscribed);
+  MosqueMangerProfile.ensureInitialized(this.document, this.isSubscribed,
+      this.numOfVolunteers, this.numOfRequests);
   final DocumentSnapshot document;
   final bool isSubscribed;
+  final String numOfVolunteers;
+  final String numOfRequests;
 
   const MosqueMangerProfile(
-      {Key? key, required this.document, required this.isSubscribed})
+      {Key? key,
+      required this.document,
+      required this.isSubscribed,
+      required this.numOfVolunteers,
+      required this.numOfRequests})
       : super(key: key);
 
   @override
@@ -62,7 +78,7 @@ class MosqueProfile extends State<MosqueMangerProfile>
 
   @override
   void initState() {
-    _tabController = new TabController(length: 2, vsync: this, initialIndex: 1)
+    _tabController = new TabController(length: 1, vsync: this, initialIndex: 0)
       ..addListener(() {});
     super.initState();
   }
@@ -109,163 +125,229 @@ class MosqueProfile extends State<MosqueMangerProfile>
         padding: const EdgeInsets.only(top: 20),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(left: 10, bottom: 20),
-              height: 80,
-              width: 80,
-              child: SvgPicture.string(
-                mosqueImage,
-                allowDrawingOutsideViewBox: true,
-                fit: BoxFit.fill,
-              ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, bottom: 30),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.notifications,
+                        size: 30,
+                        color: widget.isSubscribed
+                            ? Color(0xdeedd03c)
+                            : Colors.grey,
+                      ),
+                      onPressed: () async {
+                        await subscription(widget.document['mmId'],
+                            widget.document['mosque_name']);
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 80.0),
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 10, bottom: 20),
+                    height: 80,
+                    width: 80,
+                    child: SvgPicture.string(
+                      mosqueImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Text(
               widget.document['mosque_name'],
               style: TextStyle(
                 fontSize: 18.0,
                 fontFamily: 'Tajawal',
+                fontWeight: FontWeight.bold,
+                color: Color(0xff334856),
               ),
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color(0xffededed),
-                        spreadRadius: 1,
-                        blurRadius: 10),
-                  ],
-                ),
-                height: 30,
-                width: widget.isSubscribed ? 120 : 70,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await subscription(widget.document['mmId'],
-                        widget.document['mosque_name']);
-                  },
-                  child: Text(
-                    widget.isSubscribed ? "إلغاء المتابعة" : "تابع",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'Tajawal', color: const Color(0xff334856)),
+              padding: const EdgeInsets.only(top: 10.0, bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 3.0),
+                        child: Text(
+                          'المتابِعين',
+                          style: TextStyle(
+                            color: Color(0xff334856),
+                            fontFamily: 'Tajawal',
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        widget.numOfVolunteers,
+                        style: TextStyle(
+                          color: Color(0xff334856),
+                          fontFamily: 'Tajawal',
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
                   ),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(65.w, 30.h),
-                    primary: const Color(0xdeedd03c),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 25,
+                      vertical: 7,
+                    ),
+                    child: Container(
+                      height: 30,
+                      width: 2,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 3.0),
+                        child: Text(
+                          'الطلبات',
+                          style: TextStyle(
+                            color: Color(0xff334856),
+                            fontFamily: 'Tajawal',
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        widget.numOfRequests,
+                        style: TextStyle(
+                          color: Color(0xff334856),
+                          fontFamily: 'Tajawal',
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       boxShadow: [
+            //         BoxShadow(
+            //             color: Color(0xffededed),
+            //             spreadRadius: 1,
+            //             blurRadius: 10),
+            //       ],
+            //     ),
+            //     height: 30,
+            //     width: widget.isSubscribed ? 120 : 70,
+            //     child: ElevatedButton(
+            //       onPressed: () async {
+            //         await subscription(widget.document['mmId'],
+            //             widget.document['mosque_name']);
+            //       },
+            //       child: Text(
+            //         widget.isSubscribed ? "إلغاء المتابعة" : "تابع",
+            //         textAlign: TextAlign.center,
+            //         style: TextStyle(
+            //             fontFamily: 'Tajawal', color: const Color(0xff334856)),
+            //       ),
+            //       style: ElevatedButton.styleFrom(
+            //         minimumSize: Size(65.w, 30.h),
+            //         primary: const Color(0xdeedd03c),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(50),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             TabBar(
+                isScrollable: true,
                 labelColor: Color(0xff334856),
                 unselectedLabelColor: Colors.grey,
                 indicatorColor: colorstheme,
                 labelStyle: TextStyle(fontSize: 18),
                 controller: _tabController,
                 tabs: [
-                  Column(
-                    children: [
-                      Text(
-                        'المتابعين',
-                        style: TextStyle(fontFamily: "Tajawal"),
-                      ),
-                      Text(
-                        '500',
-                        style: TextStyle(
-                            fontFamily: "Tajawal",
-                            fontSize: 14,
-                            color: Colors.grey[500]),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        'الطلبات',
-                        style: TextStyle(fontFamily: "Tajawal"),
-                      ),
-                      Text(
-                        '10',
-                        style: TextStyle(
-                            fontFamily: "Tajawal",
-                            fontSize: 14,
-                            color: Colors.grey[500]),
-                      )
-                    ],
+                  Text(
+                    'الطلبات',
+                    style: TextStyle(fontFamily: "Tajawal"),
                   ),
                 ]),
-            // StreamBuilder(
-            //     stream: requests,
-            //     builder: (context, snapshot) {
-            //       if (!snapshot.hasData) return _buildWaitingScreen();
-            //       return Expanded(
-            //         child: TabBarView(
-            //           controller: _tabController,
-            //           children: [
-            //             ListView.builder(
-            //               scrollDirection: Axis.vertical,
-            //               shrinkWrap: true,
-            //               itemCount:
-            //                   (snapshot.data! as QuerySnapshot).docs.length,
-            //               itemBuilder: (BuildContext context, int index) =>
-            //                   buildCards(
-            //                       context,
-            //                       (snapshot.data! as QuerySnapshot)
-            //                           .docs[index]),
-            //             ),
-            //             ListView.builder(
-            //               scrollDirection: Axis.vertical,
-            //               shrinkWrap: true,
-            //               itemCount:
-            //                   (snapshot.data! as QuerySnapshot).docs.length,
-            //               itemBuilder: (BuildContext context, int index) =>
-            //                   buildCards(
-            //                       context,
-            //                       (snapshot.data! as QuerySnapshot)
-            //                           .docs[index]),
-            //             ),
-            //           ],
-            //         ),
-            //       );
-            //     }),
-
-            Expanded(
-              child: TabBarView(controller: _tabController, children: [
-                StreamBuilder(
-                    stream: requests,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return _buildWaitingScreen();
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount:
-                            (snapshot.data! as QuerySnapshot).docs.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            buildCards(context,
-                                (snapshot.data! as QuerySnapshot).docs[index]),
-                      );
-                    }),
-                StreamBuilder(
-                    stream: followrs,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return _buildWaitingScreen();
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount:
-                            (snapshot.data! as QuerySnapshot).docs.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            buildCards(context,
-                                (snapshot.data! as QuerySnapshot).docs[index]),
-                      );
-                    }),
-              ]),
-            ),
+            StreamBuilder(
+                stream: requests,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return _buildWaitingScreen();
+                  return Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount:
+                              (snapshot.data! as QuerySnapshot).docs.length,
+                          itemBuilder: (BuildContext context, int index) =>
+                              buildCards(
+                                  context,
+                                  (snapshot.data! as QuerySnapshot)
+                                      .docs[index]),
+                        ),
+                        // ListView.builder(
+                        //   scrollDirection: Axis.vertical,
+                        //   shrinkWrap: true,
+                        //   itemCount:
+                        //       (snapshot.data! as QuerySnapshot).docs.length,
+                        //   itemBuilder: (BuildContext context, int index) =>
+                        //       buildCards(
+                        //           context,
+                        //           (snapshot.data! as QuerySnapshot)
+                        //               .docs[index]),
+                        // ),
+                      ],
+                    ),
+                  );
+                }),
+            // Expanded(
+            //   child: TabBarView(controller: _tabController, children: [
+            //     StreamBuilder(
+            //         stream: requests,
+            //         builder: (context, snapshot) {
+            //           if (!snapshot.hasData) return _buildWaitingScreen();
+            //           return ListView.builder(
+            //             scrollDirection: Axis.vertical,
+            //             shrinkWrap: true,
+            //             itemCount:
+            //                 (snapshot.data! as QuerySnapshot).docs.length,
+            //             itemBuilder: (BuildContext context, int index) =>
+            //                 buildCards(context,
+            //                     (snapshot.data! as QuerySnapshot).docs[index]),
+            //           );
+            //         }),
+            //     StreamBuilder(
+            //         stream: followrs,
+            //         builder: (context, snapshot) {
+            //           if (!snapshot.hasData) return _buildWaitingScreen();
+            //           return ListView.builder(
+            //             scrollDirection: Axis.vertical,
+            //             shrinkWrap: true,
+            //             itemCount:
+            //                 (snapshot.data! as QuerySnapshot).docs.length,
+            //             itemBuilder: (BuildContext context, int index) =>
+            //                 buildCards(context,
+            //                     (snapshot.data! as QuerySnapshot).docs[index]),
+            //           );
+            //         }),
+            //   ]),
+            // ),
           ],
         ),
       ),
@@ -517,427 +599,418 @@ class MosqueProfile extends State<MosqueMangerProfile>
 
   Widget buildItemsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['donated'] < document['amount_requested']) {
-      // here is the tpye
-      return Container(
-        padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(19.0),
-          ),
-          shadowColor: Color(0xff334856),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 9.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    // Container(
-                    //   width: 100,
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(right: 20, top: 5),
-                    //     child: Text(
-                    //       document['mosque_name'],
-                    //       style: TextStyle(
-                    //           fontFamily: 'Tajawal',
-                    //           fontSize: 12,
-                    //           decoration: TextDecoration.underline),
-                    //       textAlign: TextAlign.center,
-                    //     ),
-                    //   ),
-                    // ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10, top: 5),
-                      child: Text(
-                        document['title'],
-                        style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
-                        // textAlign: TextAlign.left,
-                      ),
+    // here is the tpye
+    return Container(
+      padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(19.0),
+        ),
+        shadowColor: Color(0xff334856),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 9.0, left: 2, right: 10),
+                child: Row(children: <Widget>[
+                  // Container(
+                  //   width: 100,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(right: 20, top: 5),
+                  //     child: Text(
+                  //       document['mosque_name'],
+                  //       style: TextStyle(
+                  //           fontFamily: 'Tajawal',
+                  //           fontSize: 12,
+                  //           decoration: TextDecoration.underline),
+                  //       textAlign: TextAlign.center,
+                  //     ),
+                  //   ),
+                  // ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10, top: 5),
+                    child: Text(
+                      document['title'],
+                      style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                      // textAlign: TextAlign.left,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: SvgPicture.string(
-                        mosqueImage,
-                        allowDrawingOutsideViewBox: true,
-                        fit: BoxFit.fill,
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: SvgPicture.string(
+                      mosqueImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
                     ),
-                  ]),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
-                  child: Row(children: <Widget>[
-                    const Spacer(),
-                    Column(
-                      children: [
-                        Container(
-                          width: 250, // to wrap the text in multiline
+                  ),
+                ]),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                child: Row(children: <Widget>[
+                  const Spacer(),
+                  Column(
+                    children: [
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Text(
+                          document['description'],
+                          style: TextStyle(fontFamily: 'Tajawal'),
+                          textDirection: ui.TextDirection
+                              .rtl, // make the text from right to left
+                        ),
+                      ),
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            document['description'],
+                            'العدد المطلوب: ' +
+                                document['amount_requested'].toString(),
                             style: TextStyle(fontFamily: 'Tajawal'),
                             textDirection: ui.TextDirection
                                 .rtl, // make the text from right to left
                           ),
                         ),
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              'العدد المطلوب: ' +
-                                  document['amount_requested'].toString(),
-                              style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: ui.TextDirection
-                                  .rtl, // make the text from right to left
-                            ),
+                      ),
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            "العدد المتبقي: ",
+                            style: TextStyle(fontFamily: 'Tajawal'),
+                            textDirection: ui.TextDirection.rtl,
                           ),
                         ),
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              "العدد المتبقي: ",
-                              style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: ui.TextDirection.rtl,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            // Padding(
-                            //   padding: const EdgeInsets.only(top: 14.0),
-                            //   child: Text(document['donated'].toString(),
-                            //       textAlign: TextAlign.right,
-                            //       style: TextStyle(
-                            //           fontFamily: 'Tajawal', fontSize: 13)),
-                            // ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, left: 5, right: 5),
-                              child: SizedBox(
-                                width: 200,
-                                height: 10,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: LinearProgressIndicator(
-                                        value: (document['donated'] /
-                                            document['amount_requested']),
-                                        valueColor: AlwaysStoppedAnimation(
-                                            Color(0xdeedd03c)),
-                                        backgroundColor: Color(0xffededed),
-                                      ),
+                      ),
+                      Row(
+                        children: [
+                          // Padding(
+                          //   padding: const EdgeInsets.only(top: 14.0),
+                          //   child: Text(document['donated'].toString(),
+                          //       textAlign: TextAlign.right,
+                          //       style: TextStyle(
+                          //           fontFamily: 'Tajawal', fontSize: 13)),
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0, left: 5, right: 5),
+                            child: SizedBox(
+                              width: 200,
+                              height: 10,
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: LinearProgressIndicator(
+                                      value: (document['donated'] /
+                                          document['amount_requested']),
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Color(0xdeedd03c)),
+                                      backgroundColor: Color(0xffededed),
                                     ),
-                                    Center(
-                                        child: itemsBuildLinearProgress(
-                                            document['donated'],
-                                            document['amount_requested'])),
-                                  ],
-                                ),
+                                  ),
+                                  Center(
+                                      child: itemsBuildLinearProgress(
+                                          document['donated'],
+                                          document['amount_requested'])),
+                                ],
                               ),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(top: 14.0),
-                            //   child: Text(
-                            //       document['amount_requested'].toString(),
-                            //       style: TextStyle(
-                            //           fontFamily: 'Tajawal', fontSize: 13)),
-                            // ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ]),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 5.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xffededed),
-                              spreadRadius: 1,
-                              blurRadius: 10),
+                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(top: 14.0),
+                          //   child: Text(
+                          //       document['amount_requested'].toString(),
+                          //       style: TextStyle(
+                          //           fontFamily: 'Tajawal', fontSize: 13)),
+                          // ),
                         ],
                       ),
-                      height: 30,
-                      width: 65,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  ItemsDScreen(document: document)));
-                        },
-                        child: Text(
-                          "تبرع",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              color: const Color(0xff334856)),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(65.w, 30.h),
-                          primary: const Color(0xdeedd03c),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
+                    ],
+                  ),
+                ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 5.0, left: 2, right: 10),
+                child: Row(children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0xffededed),
+                            spreadRadius: 1,
+                            blurRadius: 10),
+                      ],
+                    ),
+                    height: 30,
+                    width: 65,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                ItemsDScreen(document: document)));
+                      },
+                      child: Text(
+                        "تبرع",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'Tajawal',
+                            color: const Color(0xff334856)),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(65.w, 30.h),
+                        primary: const Color(0xdeedd03c),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
                         ),
                       ),
                     ),
-                    Spacer(),
-                    IconButton(
-                      icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
-                      onPressed: () async {
-                        await feedVM
-                            .lunchURL(document['mosque_location'].toString());
-                      },
-                    ),
-                  ]),
-                ),
-              ],
-            ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
+                    onPressed: () async {
+                      await feedVM
+                          .lunchURL(document['mosque_location'].toString());
+                    },
+                  ),
+                ]),
+              ),
+            ],
           ),
         ),
-      );
-    } else {
-      return Container();
-    }
+      ),
+    );
   }
 
   Widget buildFundsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['donated'] < document['amount']) {
-      return Container(
-        padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(19.0),
-          ),
-          shadowColor: Color(0xff334856),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 9.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    // Container(
-                    //   width: 100,
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(right: 20, top: 5),
-                    //     child: Text(
-                    //       document['mosque_name'],
-                    //       style: TextStyle(
-                    //           fontFamily: 'Tajawal',
-                    //           fontSize: 12,
-                    //           decoration: TextDecoration.underline),
-                    //       textAlign: TextAlign.center,
-                    //     ),
-                    //   ),
-                    // ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10, top: 5),
-                      child: Text(
-                        document['title'],
-                        style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
-                        // textAlign: TextAlign.left,
-                      ),
+    return Container(
+      padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(19.0),
+        ),
+        shadowColor: Color(0xff334856),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 9.0, left: 2, right: 10),
+                child: Row(children: <Widget>[
+                  // Container(
+                  //   width: 100,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(right: 20, top: 5),
+                  //     child: Text(
+                  //       document['mosque_name'],
+                  //       style: TextStyle(
+                  //           fontFamily: 'Tajawal',
+                  //           fontSize: 12,
+                  //           decoration: TextDecoration.underline),
+                  //       textAlign: TextAlign.center,
+                  //     ),
+                  //   ),
+                  // ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10, top: 5),
+                    child: Text(
+                      document['title'],
+                      style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                      // textAlign: TextAlign.left,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: SvgPicture.string(
-                        mosqueImage,
-                        allowDrawingOutsideViewBox: true,
-                        fit: BoxFit.fill,
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: SvgPicture.string(
+                      mosqueImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
                     ),
-                  ]),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
-                  child: Row(children: <Widget>[
-                    const Spacer(),
-                    Column(
-                      children: [
-                        Container(
-                          width: 250, // to wrap the text in multiline
+                  ),
+                ]),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                child: Row(children: <Widget>[
+                  const Spacer(),
+                  Column(
+                    children: [
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Text(
+                          document['description'],
+                          style: TextStyle(fontFamily: 'Tajawal'),
+                          textDirection: ui.TextDirection
+                              .rtl, // make the text from right to left
+                        ),
+                      ),
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            document['description'],
+                            'المبلغ: ' + document['amount'].toString(),
                             style: TextStyle(fontFamily: 'Tajawal'),
                             textDirection: ui.TextDirection
                                 .rtl, // make the text from right to left
                           ),
                         ),
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              'المبلغ: ' + document['amount'].toString(),
-                              style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: ui.TextDirection
-                                  .rtl, // make the text from right to left
-                            ),
+                      ),
+                      Container(
+                        width: 250, // to wrap the text in multiline
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            "نسبة الإكتمال: ",
+                            style: TextStyle(fontFamily: 'Tajawal'),
+                            textDirection: ui.TextDirection.rtl,
                           ),
                         ),
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              "نسبة الإكتمال: ",
-                              style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: ui.TextDirection.rtl,
-                            ),
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 14.0),
+                            child: Text(document['donated'].toString(),
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontFamily: 'Tajawal', fontSize: 10)),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['donated'].toString(),
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 10)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, left: 5, right: 5),
-                              child: SizedBox(
-                                width: 200,
-                                height: 10,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: LinearProgressIndicator(
-                                        value: (document['donated'] /
-                                            document['amount']),
-                                        valueColor: AlwaysStoppedAnimation(
-                                            Color(0xdeedd03c)),
-                                        backgroundColor: Color(0xffededed),
-                                      ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0, left: 5, right: 5),
+                            child: SizedBox(
+                              width: 200,
+                              height: 10,
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: LinearProgressIndicator(
+                                      value: (document['donated'] /
+                                          document['amount']),
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Color(0xdeedd03c)),
+                                      backgroundColor: Color(0xffededed),
                                     ),
-                                    Center(
-                                        child: buildLinearProgress(
-                                            (document['donated'] /
-                                                document['amount']))),
-                                  ],
-                                ),
+                                  ),
+                                  Center(
+                                      child: buildLinearProgress(
+                                          (document['donated'] /
+                                              document['amount']))),
+                                ],
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['amount'].toString(),
-                                  style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 10)),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ]),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 5.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    //This button for sprint 2
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xffededed),
-                              spreadRadius: 1,
-                              blurRadius: 10),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 14.0),
+                            child: Text(document['amount'].toString(),
+                                style: TextStyle(
+                                    fontFamily: 'Tajawal', fontSize: 10)),
+                          ),
                         ],
                       ),
-                      height: 30,
-                      width: 65,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          String? mmId = document['posted_by'];
-                          MosqueMangerProfile.wholeDonated =
-                              document['donated'];
-                          int cumDonated = document['donated'];
-                          MosqueMangerProfile.wholeAmount = document['amount'];
-                          String? mName = document['mosque_name'];
+                    ],
+                  ),
+                ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 5.0, left: 2, right: 10),
+                child: Row(children: <Widget>[
+                  //This button for sprint 2
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0xffededed),
+                            spreadRadius: 1,
+                            blurRadius: 10),
+                      ],
+                    ),
+                    height: 30,
+                    width: 65,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        String? mmId = document['posted_by'];
+                        MosqueMangerProfile.wholeDonated = document['donated'];
+                        int cumDonated = document['donated'];
+                        MosqueMangerProfile.wholeAmount = document['amount'];
+                        String? mName = document['mosque_name'];
 
-                          MosqueMangerProfile.mmNameDonated = mName;
+                        MosqueMangerProfile.mmNameDonated = mName;
 
-                          var documentFormmId = await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(mmId)
-                              .get();
+                        var documentFormmId = await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(mmId)
+                            .get();
 
-                          String? mmEmail = documentFormmId['email'];
-                          MosqueMangerProfile.mmEmailDonated = mmEmail;
+                        String? mmEmail = documentFormmId['email'];
+                        MosqueMangerProfile.mmEmailDonated = mmEmail;
 
-                          await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PaymentScreen()));
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PaymentScreen()));
 
-                          cumDonated += PaymentScreen.vDonatedAmount!;
+                        cumDonated += PaymentScreen.vDonatedAmount!;
 
-                          String docId = document.id;
-                          await FirebaseFirestore.instance
-                              .collection('requests')
-                              .doc(docId)
-                              .update({'donated': cumDonated});
+                        String docId = document.id;
+                        await FirebaseFirestore.instance
+                            .collection('requests')
+                            .doc(docId)
+                            .update({'donated': cumDonated});
 
-                          //update the denoation for next user
-                          PaymentScreen.vDonatedAmount = 0;
-                          //  db.collection("requests").doc(docId).update({donated: 10});
-                        },
-                        child: Text(
-                          "تبرع",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              color: const Color(0xff334856)),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(65.w, 30.h),
-                          primary: const Color(0xdeedd03c),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
+                        //update the denoation for next user
+                        PaymentScreen.vDonatedAmount = 0;
+                        //  db.collection("requests").doc(docId).update({donated: 10});
+                      },
+                      child: Text(
+                        "تبرع",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'Tajawal',
+                            color: const Color(0xff334856)),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(65.w, 30.h),
+                        primary: const Color(0xdeedd03c),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
                         ),
                       ),
                     ),
+                  ),
 
-                    Spacer(),
-                    IconButton(
-                      icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
-                      onPressed: () async {
-                        await feedVM
-                            .lunchURL(document['mosque_location'].toString());
-                      },
-                    ),
-                  ]),
-                ),
-              ],
-            ),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
+                    onPressed: () async {
+                      await feedVM
+                          .lunchURL(document['mosque_location'].toString());
+                    },
+                  ),
+                ]),
+              ),
+            ],
           ),
         ),
-      );
-    } else {
-      return Container();
-    }
+      ),
+    );
   }
 
   Future<void> subscription(String mmId, String mmName) async {

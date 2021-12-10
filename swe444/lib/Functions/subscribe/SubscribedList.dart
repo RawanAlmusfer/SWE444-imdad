@@ -78,12 +78,23 @@ class Subscribed_List extends State<subscribedList> {
     String mName = document['mosque_name'];
     return GestureDetector(
       onTap: () async {
-        bool flag = await isSubscribed(document['mmId'].toString());
-        Navigator.of(context).push(CustomPageRoute(
-            child: MosqueMangerProfile(
-          document: document,
-          isSubscribed: flag,
-        )));
+        callProfile(document);
+        // bool flag = await isSubscribed(document['mmId'].toString());
+        // var followrs = await FirebaseFirestore.instance
+        //     .collection('users')
+        //     .doc(document['mmId'])
+        //     .collection("subscribedVolunteers")
+        //     .get();
+        // String v = followrs.docs.length.toString();
+        // print(v);
+        // String r = await countNumOfRequests(document['mmId']);
+        // Navigator.of(context).push(CustomPageRoute(
+        //     child: MosqueMangerProfile(
+        //   document: document,
+        //   isSubscribed: flag,
+        //   numOfVolunteers: v,
+        //   numOfRequests: r,
+        // )));
       },
       child: Container(
         padding:
@@ -139,6 +150,42 @@ class Subscribed_List extends State<subscribedList> {
         ),
       ),
     );
+  }
+
+  callProfile(DocumentSnapshot document) async {
+    bool flag = await isSubscribed(document['mmId'].toString());
+
+    var followrs = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(document['mmId'])
+        .collection("subscribedVolunteers")
+        .get();
+    String v = followrs.docs.length.toString();
+    String r = await countNumOfRequests(document['mmId']);
+    Navigator.of(context).push(CustomPageRoute(
+        child: MosqueMangerProfile(
+      document: document,
+      isSubscribed: flag,
+      numOfVolunteers: v,
+      numOfRequests: r,
+    )));
+  }
+
+  Future<String> countNumOfRequests(String mmId) async {
+    var requests =
+        await FirebaseFirestore.instance.collection('requests').get();
+    var numOfR = 0;
+    var requestDocs = requests.docs;
+
+    // loop over each item request
+    for (var doc in requestDocs) {
+      var requestData = doc.data();
+      if (requestData['posted_by'] == mmId) {
+        numOfR = numOfR + 1;
+      }
+    }
+
+    return numOfR.toString();
   }
 
   Future<void> subscription(String mmId, String mmName) async {
