@@ -53,33 +53,31 @@ class evFeed extends State<eventsv_feed> {
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 110.0),
-          child: Row(
-            children: [
-              Text(
-                "طلبات التنظيم",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xff334856),
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Tajawal',
-                  fontSize: 24,
-                ),
+        centerTitle: true,
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20, bottom: 8),
+              child: Icon(
+                Icons.keyboard_backspace_rounded,
+                textDirection: ui.TextDirection.rtl,
+                size: 30,
+                color: Color(0xff334856),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 45.0),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.keyboard_backspace_rounded,
-                    textDirection: ui.TextDirection.rtl,
-                    size: 30,
-                    color: Color(0xff334856),
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ),
-            ],
+            ),
+          ),
+        ],
+        title: Text(
+          "طلبات التنظيم",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Color(0xff334856),
+            fontWeight: FontWeight.w700,
+            fontFamily: 'Tajawal',
+            fontSize: 24,
           ),
         ),
         //automaticallyImplyLeading: false,

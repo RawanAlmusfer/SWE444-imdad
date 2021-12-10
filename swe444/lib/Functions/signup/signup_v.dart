@@ -740,7 +740,7 @@ class _SignUpPageState extends State<VSignUpPage> {
     if (valid == true) {
       login();
       Navigator.pushAndRemoveUntil((context),
-          MaterialPageRoute(builder: (context) => vHome()), (route) => false);
+          MaterialPageRoute(builder: (context) => vHomeA()), (route) => false);
     }
   }
 }
