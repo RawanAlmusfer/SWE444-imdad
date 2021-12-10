@@ -70,7 +70,7 @@ class mosqueProfile extends State<MosqueProfile> {
             padding: const EdgeInsets.only(
                 top: 100.0, bottom: 0, left: 35, right: 35),
             child: Container(
-              height: 440,
+              height: 390,
               width: 330,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
@@ -185,9 +185,21 @@ class mosqueProfile extends State<MosqueProfile> {
                         padding: const EdgeInsets.only(top: 10),
                         child: Row(
                           children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, bottom: 8),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.edit,
+                                  //size: 100,
+                                  color: const Color(0xdeedd03c),
+                                ),
+                                onPressed: () {},
+                              ),
+                            ),
                             Container(
                               height: 40,
-                              width: 230,
+                              width: 160,
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: Text(
@@ -251,29 +263,6 @@ class mosqueProfile extends State<MosqueProfile> {
                             ),
                           ],
                         ),
-                      ),
-                      Divider(
-                        thickness: 0.4,
-                        endIndent: 30,
-                        indent: 30,
-                      ),
-                      SizedBox(
-                        height: 35,
-                      ),
-                      ElevatedButton(
-                        child: Text("تعديل",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: 'Tajawal',
-                                color: const Color(0xff334856))),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(100, 35),
-                          primary: const Color(0xdeedd03c),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                        onPressed: () async {},
                       ),
                     ],
                   ),
