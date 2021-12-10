@@ -18,7 +18,7 @@ class mmHome extends StatefulWidget {
 
 class _HomeState extends State<mmHome> {
   // the default location which the user will be in:
-  int _currentIndex = 0;
+  int _currentIndex = 2;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:

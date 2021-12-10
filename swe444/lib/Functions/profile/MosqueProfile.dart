@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:swe444/Functions/profile/edit_profile_view.dart';
 
 class MosqueProfile extends StatefulWidget {
   const MosqueProfile({
@@ -82,7 +83,7 @@ class mosqueProfile extends State<MosqueProfile> {
                     height: 20,
                   ),
                   Text(
-                    "مدير المسجد",
+                    "معلومات المسجد",
                     style: TextStyle(
                         fontFamily: 'Tajawal',
                         fontSize: 23,
@@ -128,11 +129,6 @@ class mosqueProfile extends State<MosqueProfile> {
                                   fit: BoxFit.fill,
                                 ),
                               ),
-                              //  Icon(
-                              //   Icons.person,
-                              //   //size: 100,
-                              //   color: const Color(0xdeedd03c),
-                              // ),
                             ),
                           ],
                         ),
@@ -194,7 +190,11 @@ class mosqueProfile extends State<MosqueProfile> {
                                   //size: 100,
                                   color: const Color(0xdeedd03c),
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          EditProfile(document: document)));
+                                },
                               ),
                             ),
                             Container(

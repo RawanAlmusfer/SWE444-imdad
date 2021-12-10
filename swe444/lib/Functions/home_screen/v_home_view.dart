@@ -28,7 +28,7 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 0;
+  int _currentIndex = 4;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
