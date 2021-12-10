@@ -69,6 +69,13 @@ class MosqueProfile extends State<MosqueMangerProfile>
 
   @override
   Widget build(BuildContext context) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? followrs = FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc(widget.document['mmId'])
+        .collection("subscribedVolunteers")
+        .snapshots();
+
     Stream<QuerySnapshot<Map<String, dynamic>>>? requests = FirebaseFirestore
         .instance
         .collection('requests')
@@ -192,73 +199,73 @@ class MosqueProfile extends State<MosqueMangerProfile>
                     ],
                   ),
                 ]),
-            StreamBuilder(
-                stream: requests,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return _buildWaitingScreen();
-                  return Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount:
-                              (snapshot.data! as QuerySnapshot).docs.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              buildCards(
-                                  context,
-                                  (snapshot.data! as QuerySnapshot)
-                                      .docs[index]),
-                        ),
-                        ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount:
-                              (snapshot.data! as QuerySnapshot).docs.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              buildCards(
-                                  context,
-                                  (snapshot.data! as QuerySnapshot)
-                                      .docs[index]),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
+            // StreamBuilder(
+            //     stream: requests,
+            //     builder: (context, snapshot) {
+            //       if (!snapshot.hasData) return _buildWaitingScreen();
+            //       return Expanded(
+            //         child: TabBarView(
+            //           controller: _tabController,
+            //           children: [
+            //             ListView.builder(
+            //               scrollDirection: Axis.vertical,
+            //               shrinkWrap: true,
+            //               itemCount:
+            //                   (snapshot.data! as QuerySnapshot).docs.length,
+            //               itemBuilder: (BuildContext context, int index) =>
+            //                   buildCards(
+            //                       context,
+            //                       (snapshot.data! as QuerySnapshot)
+            //                           .docs[index]),
+            //             ),
+            //             ListView.builder(
+            //               scrollDirection: Axis.vertical,
+            //               shrinkWrap: true,
+            //               itemCount:
+            //                   (snapshot.data! as QuerySnapshot).docs.length,
+            //               itemBuilder: (BuildContext context, int index) =>
+            //                   buildCards(
+            //                       context,
+            //                       (snapshot.data! as QuerySnapshot)
+            //                           .docs[index]),
+            //             ),
+            //           ],
+            //         ),
+            //       );
+            //     }),
 
-            // Expanded(
-            //   child: TabBarView(controller: _tabController, children: [
-            //     StreamBuilder(
-            //         stream: requests,
-            //         builder: (context, snapshot) {
-            //           if (!snapshot.hasData) return _buildWaitingScreen();
-            //           return ListView.builder(
-            //             scrollDirection: Axis.vertical,
-            //             shrinkWrap: true,
-            //             itemCount:
-            //                 (snapshot.data! as QuerySnapshot).docs.length,
-            //             itemBuilder: (BuildContext context, int index) =>
-            //                 buildCards(context,
-            //                     (snapshot.data! as QuerySnapshot).docs[index]),
-            //           );
-            //         }),
-            //     StreamBuilder(
-            //         stream: requests,
-            //         builder: (context, snapshot) {
-            //           if (!snapshot.hasData) return _buildWaitingScreen();
-            //           return ListView.builder(
-            //             scrollDirection: Axis.vertical,
-            //             shrinkWrap: true,
-            //             itemCount:
-            //                 (snapshot.data! as QuerySnapshot).docs.length,
-            //             itemBuilder: (BuildContext context, int index) =>
-            //                 buildCards(context,
-            //                     (snapshot.data! as QuerySnapshot).docs[index]),
-            //           );
-            //         }),
-            //   ]),
-            // ),
+            Expanded(
+              child: TabBarView(controller: _tabController, children: [
+                StreamBuilder(
+                    stream: requests,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return _buildWaitingScreen();
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildCards(context,
+                                (snapshot.data! as QuerySnapshot).docs[index]),
+                      );
+                    }),
+                StreamBuilder(
+                    stream: followrs,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return _buildWaitingScreen();
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildCards(context,
+                                (snapshot.data! as QuerySnapshot).docs[index]),
+                      );
+                    }),
+              ]),
+            ),
           ],
         ),
       ),
@@ -1200,6 +1207,42 @@ class MosqueProfile extends State<MosqueMangerProfile>
           textAlign: TextAlign.center,
         ),
       );
+  Widget buildSubscribers(BuildContext context, DocumentSnapshot document) {
+    return Container(
+      padding: const EdgeInsets.only(top: 5.0, bottom: 0, left: 20, right: 20),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(19.0),
+        ),
+        shadowColor: Color(0xdef3f1e9),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 12.0, bottom: 12.0, left: 2, right: 10),
+            child: Row(children: <Widget>[
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(right: 10, top: 5),
+                child: Text(
+                  document['uid'].toString(),
+                  style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+                child: Icon(
+                  Icons.person,
+                  size: 35,
+                  color: const Color(0xdeedd03c),
+                ),
+              ),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 const String mosqueImage =
