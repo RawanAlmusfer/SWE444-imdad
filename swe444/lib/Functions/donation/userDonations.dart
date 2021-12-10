@@ -159,12 +159,12 @@ class userDonations extends State<ViewUserDonations> {
           stream: requests,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
-            if (noDonations == 0)
-            // if (mydonations.length == 0)
-              return Container(
-                alignment: Alignment.center,
-                child: Text("لا يوجد لديك اي مساهمات سابقة"),
-              );
+            // if (noDonations == 0)
+            // // if (mydonations.length == 0)
+            //   return Container(
+            //     alignment: Alignment.center,
+            //     child: Text("لا يوجد لديك اي مساهمات سابقة"),
+            //   );
             return ListView.builder(
               shrinkWrap: true,
               physics: ScrollPhysics(),
