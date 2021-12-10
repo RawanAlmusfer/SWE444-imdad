@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:swe444/Functions/profile/MosqueProfile.dart';
 import 'package:swe444/Functions/request/post_request_view.dart';
 import 'package:swe444/Functions/users_screen.dart';
-import 'package:swe444/Functions/profile/ProfilePage1.dart';
-//import 'logout.dart';
 import '../decisions_tree.dart';
 import 'feed_view_model.dart';
 import 'mm_feed.dart';
@@ -19,12 +18,12 @@ class mmHome extends StatefulWidget {
 
 class _HomeState extends State<mmHome> {
   // the default location which the user will be in:
-  int _currentIndex = 2;
+  int _currentIndex = 0;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
-    ProfilePage(),
+    MosqueProfile(),
     PostRequest(),
     MosqueMangerFeed(),
   ];

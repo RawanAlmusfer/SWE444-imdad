@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:swe444/Functions/donation/all_donations_view_model.dart';
 import 'package:swe444/Functions/donation/userDonations.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
-import 'package:swe444/Functions/profile/ProfilePage1.dart';
+import 'package:swe444/Functions/profile/VolunteerProfile.dart';
 import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
 import 'home.dart';
@@ -28,12 +28,12 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 4;
+  int _currentIndex = 0;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
-    ProfilePage(),
+    VolunteerProfile(),
     SubscribedList(),
     SearchPage(),
     SearchPage(),
