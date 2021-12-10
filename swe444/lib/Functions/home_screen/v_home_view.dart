@@ -64,7 +64,7 @@ class _HomeState extends State<vHome> {
                   .usersDonations(FirebaseAuth.instance.currentUser!.uid);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      donationsView(donations: donationsVM.userDonations)));
+                      donationsView()));
             },
             icon: Icon(Icons.spa),
             padding: const EdgeInsets.only(
