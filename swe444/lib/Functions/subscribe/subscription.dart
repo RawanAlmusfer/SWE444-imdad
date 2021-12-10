@@ -7,130 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Subscribe {
-
-  Widget BuildSubscribedProfile(String name, String id, BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(30),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, bottom: 20),
-            height: 80,
-            width: 80,
-            child: SvgPicture.string(
-              mosqueImage,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Text(
-            "مسجد " + name,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Tajawal',
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffededed),
-                      spreadRadius: 1,
-                      blurRadius: 10),
-                ],
-              ),
-              height: 30,
-              width: 70,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await subscription(id, name, context);
-                },
-                child: Text(
-                  "تابع",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(65.w, 30.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget BuildUnsubscribedProfile(
-      String name, String id, BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(30),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, bottom: 20),
-            height: 80,
-            width: 80,
-            child: SvgPicture.string(
-              mosqueImage,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Text(
-            "مسجد " + name,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Tajawal',
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffededed),
-                      spreadRadius: 1,
-                      blurRadius: 10),
-                ],
-              ),
-              height: 30,
-              width: 120,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await subscription(id, name, context);
-                },
-                child: Text(
-                  "إلغاء المتابعة",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(65.w, 30.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Future<void> subscription(
       String mmId, String mmName, BuildContext context) async {
     String vId = await FirebaseAuth.instance.currentUser!.uid;
@@ -169,8 +45,8 @@ class Subscribe {
             .collection("subscribedVolunteers")
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
-            .then((value) =>
-                {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
+            .then(
+                (value) => {response = ' تم تفعيل التنبيهات لـ$mmName بنجاح '})
             .catchError((error) =>
                 //////
                 {response = "لم يتم تفعيل التنبيهات بنجاح"});
@@ -192,10 +68,8 @@ class Subscribe {
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) => {
-                  response =
-                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
-                })
+            .then((value) =>
+                {response = ' تم إلغاء تفعيل التنبيهات \n لـ$mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -269,9 +143,9 @@ class Subscribe {
   String? feedbackResponse(int response) {
     if ((response) == 1) {
 //Extract the mosuqe name to add in the msg
-      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+      return "تم تفعيل التنبيهات لـ \n  شاكرين لك مساهمتك";
     } else {
-      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+      return "لم يتم تفعيل التنبيهات لـ بنجاح";
     }
   }
 

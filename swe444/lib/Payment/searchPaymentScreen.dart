@@ -4,31 +4,31 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //import 'package:swe444/Functions/home_screen/v_feed.dart';
 import 'package:swe444/Functions/home_screen/moneyVFeed.dart';
+import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 //import 'package:stripe/StripeGateway.dart';
 
 import 'StripeGateway.dart';
-import 'moneyDonations.dart';
 
-class PaymentScreen extends StatefulWidget {
-  static int? vDonatedAmount = 0;
+class searchPaymentScreen extends StatefulWidget {
+  static int? vDonatedAmount2 = 0;
 
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _PaymentScreenState extends State<searchPaymentScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController _controller = TextEditingController();
-  int isVDonatedPaymentScreen = 0;
-
+  int isVDonatedPaymentScreen2 = 0;
 
   //int? vDonatedAmount=int.parse(_controller.text);
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     StripeServices.init();
   }
@@ -50,7 +50,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     // at any time, we can get the text from _controller.value.text
     final text = _controller.value.text;
     final donated = double.parse(text);
-    final check = mv_feed.wholeAmount - donated;
+    final check = SearchRequests.wholeAmount2 - donated;
 
     // Note: you can do your own custom validation here
     // Move this logic this outside the widget for more testable code
@@ -63,7 +63,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       if (!donated.isNaN) return "الرجاء إدخال قيمة عددية";
       if (check == 0) return "الحالة مكتملة ، شكراً لتعاونك";
 
-      if (donated > mv_feed.wholeAmount)
+      if (donated > SearchRequests.wholeAmount2)
         return " قيمة التبرع أكبر من المبلغ المطلوب ، المبلغ المتبقي للتبرع هو $check";
     }
     // return null if the text is valid
@@ -179,8 +179,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           // String text = _controller.text;
                           value = _controller.text;
                           int donated = int.parse(value);
-                          int check =
-                              mv_feed.wholeAmount - mv_feed.wholeDonated;
+                          int check = SearchRequests.wholeAmount2 -
+                              SearchRequests.wholeDonated2;
 
                           if (value == null ||
                               value.isEmpty ||
@@ -193,15 +193,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                             if (check == 0)
                               return "الحالة مكتملة ، شكراً لتعاونك";
-                            if (donated > mv_feed.wholeAmount &&
-                                check == mv_feed.wholeAmount)
+                            if (donated > SearchRequests.wholeAmount2 &&
+                                check == SearchRequests.wholeAmount2)
                               return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المطلوب $check";
 
-                            if (donated > mv_feed.wholeAmount)
+                            if (donated > SearchRequests.wholeAmount2)
                               return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
 
-                            if (donated == mv_feed.wholeAmount &&
-                                check < mv_feed.wholeAmount &&
+                            if (donated == SearchRequests.wholeAmount2 &&
+                                check < SearchRequests.wholeAmount2 &&
                                 check != 0)
                               return " قيمة التبرع أكبر من المبلغ المتبقي،المبلغ المتبقي $check";
                           }
@@ -223,14 +223,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       //     dollarToSR=(double.parse(_controller.text) * 100)*3.75050163;
-                      PaymentScreen.vDonatedAmount =
+                      searchPaymentScreen.vDonatedAmount2 =
                           int.parse(_controller.text);
                       // int? inGate = (PaymentScreen.vDonatedAmount!* 0.27 ).toInt();
                       // double? inGate = PaymentScreen.vDonatedAmount!* 0.27;
-                      int? inGate = PaymentScreen.vDonatedAmount;
+                      int? inGate = searchPaymentScreen.vDonatedAmount2;
 
-                      String? mmEmailToGate = mv_feed.mmEmailDonated;
-                      String? mmNameToGate = mv_feed.mmNameDonated;
+                      String? mmEmailToGate = SearchRequests.mmEmailDonated2;
+                      String? mmNameToGate = SearchRequests.mmNameDonated2;
                       //   String description = '$mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني  $mmNameToGate ريال سعودي لصالح المسجد $inGate التبرع بالمبلغ ';
                       List<String> list = [
                         "التبرع بالمبلغ $inGate  SR ",
@@ -250,8 +250,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           currency: 'SAR',
                           description: description);
                       // print(response.message);
-                     // if(response=='')
-
 
                       showAlertDialog(context, response);
                       // feedbackResponseDonation(response);
@@ -351,19 +349,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
     } else if ((response.message) == 'Transaction canceled' ||
         (response.message) == 'Something went wrong' ||
         (response.message) == "لم تتم عملية التبرع بنجاح") {
-      PaymentScreen.vDonatedAmount = 0;
+      searchPaymentScreen.vDonatedAmount2 = 0;
       //  isVDonatedPaymentScreen=0;
       return "لم تتم عملية التبرع بنجاح";
     } else {
       //  isVDonatedPaymentScreen=0;
-      PaymentScreen.vDonatedAmount = 0;
+      searchPaymentScreen.vDonatedAmount2 = 0;
       return "لم تتم عملية التبرع بنجاح";
     }
   }
 
   int donated() {
-    if (isVDonatedPaymentScreen == 1) {
-      isVDonatedPaymentScreen = 0;
+    if (isVDonatedPaymentScreen2 == 1) {
+      isVDonatedPaymentScreen2 = 0;
       return int.parse(_controller.text) * 100;
     } else
       return 0;

@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 class ListViewModel with ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _mosques;
   User? user = FirebaseAuth.instance.currentUser;
-  // late bool? isVSubscribed;
-  // late List<String> isVSubscribed = [];
 
   fetchMosques() async {
     _mosques = FirebaseFirestore.instance

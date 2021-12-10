@@ -12,7 +12,6 @@ class FeedViewModel with ChangeNotifier {
   late List<String> searchResults = [];
   late int length;
 
-
   fetchRequests() async {
     var firebase = FirebaseFirestore.instance.collection('requests');
     _requests = firebase.orderBy('uplaod_time', descending: true).snapshots();
@@ -35,7 +34,6 @@ class FeedViewModel with ChangeNotifier {
     return length;
   }
 
-
   Future<void> lunchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -43,35 +41,6 @@ class FeedViewModel with ChangeNotifier {
       throw "Could not lunch the url";
     }
   }
-
-
-  // Future<void> subscribedList() async {
-  //   User? user = FirebaseAuth.instance.currentUser;
-  //
-  //   var userList = await FirebaseFirestore.instance.collection('users').get();
-  //
-  //   FirebaseFirestore.instance
-  //       .collection('users')
-  //       .where('role', isEqualTo: "mosqueManager")
-  //       .get()
-  //       .then((snapshot) {
-  //     snapshot.docs.forEach((mosqueManager) {
-  //       var isHere =
-  //       FirebaseFirestore
-  //           .instance
-  //           .collection("users")
-  //           .doc(mosqueManager.id)
-  //           .collection("subscribedVolunteers")
-  //           .doc(user?.uid.toString());
-  //       if (isHere != null) {
-  //         if (!isVSubscribed.contains(mosqueManager.id)) isVSubscribed.add(
-  //             mosqueManager.id);
-  //       } else {
-  //         print("not a fan hehehe:" + mosqueManager.id.toString());
-  //       }
-  //     });
-  //   });
-  // }
 
   Future QueryRequests(String query) async {
     searchResults.clear();
@@ -85,18 +54,17 @@ class FeedViewModel with ChangeNotifier {
       while (i.moveNext()) {
         if (i.current["title"].toString().contains(query)) {
           if ((i.current['type'].toString() == "مبلغ" &&
-              i.current['donated'] < i.current['amount']) ||
+                  i.current['donated'] < i.current['amount']) ||
               (i.current['type'].toString() == "موارد" &&
-              i.current['donated'] < i.current['amount_requested']) ||
+                  i.current['donated'] < i.current['amount_requested']) ||
               (i.current['type'].toString() == "تنظيم" &&
-                  i.current['participants'] < i.current['parts_number'])
-          ) {
-          String id = i.current.id;
-          // print(id);
-          if (!searchResults.contains(id)) {
-            searchResults.add(id);
+                  i.current['participants'] < i.current['parts_number'])) {
+            String id = i.current.id;
+            if (!searchResults.contains(id)) {
+              searchResults.add(id);
+            }
+            ;
           }
-          ;}
         }
       }
     }).onError((error, stackTrace) => print("error"));
@@ -110,17 +78,18 @@ class FeedViewModel with ChangeNotifier {
       while (i.moveNext()) {
         if (i.current["mosque_name"].toString().contains(query)) {
           if ((i.current['type'].toString() == "مبلغ" &&
-              i.current['donated'] < i.current['amount']) ||
+                  i.current['donated'] < i.current['amount']) ||
               (i.current['type'].toString() == "موارد" &&
                   i.current['donated'] < i.current['amount_requested']) ||
               (i.current['type'].toString() == "تنظيم" &&
-                  i.current['participants'] < i.current['parts_number'])
-          ) {
+                  i.current['participants'] < i.current['parts_number'])) {
             String id = i.current.id;
-          // print(id);
-          if (!searchResults.contains(id)) {
-            searchResults.add(id);}
-          ;}
+            // print(id);
+            if (!searchResults.contains(id)) {
+              searchResults.add(id);
+            }
+            ;
+          }
         }
       }
     }).onError((error, stackTrace) => print("error"));
@@ -134,23 +103,21 @@ class FeedViewModel with ChangeNotifier {
       while (i.moveNext()) {
         if (i.current["description"].toString().contains(query)) {
           if ((i.current['type'].toString() == "مبلغ" &&
-              i.current['donated'] < i.current['amount']) ||
+                  i.current['donated'] < i.current['amount']) ||
               (i.current['type'].toString() == "موارد" &&
                   i.current['donated'] < i.current['amount_requested']) ||
               (i.current['type'].toString() == "تنظيم" &&
-                  i.current['participants'] < i.current['parts_number'])
-          ) {
+                  i.current['participants'] < i.current['parts_number'])) {
             String id = i.current.id;
             // print(id);
             if (!searchResults.contains(id)) {
               searchResults.add(id);
             }
-          }}
+          }
+        }
       }
     }).onError((error, stackTrace) => print("error"));
 
     notifyListeners();
-
   }
-
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,38 +15,45 @@ import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/profile/viewMosqueProfile.dart';
 import 'package:swe444/Functions/subscribe/subscription.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
+import 'package:swe444/Payment/searchPaymentScreen.dart';
 import 'dart:ui' as ui;
 
-import 'package:swe444/Payment/searchPaymentScreen.dart';
-
 import '../CustomPageRoute.dart';
+import 'all_donations_view_model.dart';
+import 'items/donation_view_model.dart';
 
-class SearchPage extends StatelessWidget {
+class donationsView extends StatelessWidget {
+  final List<String> donations;
+  const donationsView({Key? key, required this.donations}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<FeedViewModel>(
-        create: (_) => FeedViewModel(),
-        child: Container(height: 1200, width: 450, child: SearchRequests()));
+    return ChangeNotifierProvider<AllDonationVM>(
+        create: (_) => AllDonationVM(),
+        child: ViewUserDonations(
+          donations: donations,
+        ));
   }
 }
 
-class SearchRequests extends StatefulWidget {
+class ViewUserDonations extends StatefulWidget {
+  ViewUserDonations.ensureInitialized(this.donations);
+  final List<String> donations;
   static String? mmEmailDonated2 = '';
   static String? mmNameDonated2 = '';
   static int wholeAmount2 = 0;
   static int wholeDonated2 = 0;
 
-  const SearchRequests({
-    Key? key,
-  }) : super(key: key);
+  const ViewUserDonations({Key? key, required this.donations})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _SearchRequests();
+    return userDonations();
   }
 }
 
-class _SearchRequests extends State<SearchRequests> {
+class userDonations extends State<ViewUserDonations> {
+  List<String>? mydonations;
   int? donated = PaymentScreen.vDonatedAmount;
   bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
@@ -53,189 +62,95 @@ class _SearchRequests extends State<SearchRequests> {
   int numOfResults = 0;
   Subscribe subscribe = new Subscribe();
 
+//String
   @override
   void initState() {
     super.initState();
+    mydonations = widget.donations;
+    Future.delayed(
+        Duration.zero,
+        () => setState(() {
+              setup();
+            }));
   }
 
-  void dispose() {
-    super.dispose();
-  }
-
-  searchFunc(String s) async {
-    await Provider.of<FeedViewModel>(context, listen: false).fetchRequests();
-    Provider.of<FeedViewModel>(context, listen: false).getSearchResults.clear();
-    await Provider.of<FeedViewModel>(context, listen: false)
-        .QueryRequests(s.trim());
+  setup() async {
+    await Provider.of<AllDonationVM>(context, listen: false).fetchRequests();
+    await Provider.of<AllDonationVM>(context, listen: false)
+        .usersDonations(FirebaseAuth.instance.currentUser!.uid);
   }
 
   @override
   Widget build(BuildContext context) {
-    {
-      return GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(70),
-              child: AppBar(
-                backgroundColor: const Color(0xffededed),
-                automaticallyImplyLeading: false,
-                elevation: 0,
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 30.0, right: 30, top: 20, bottom: 10),
-                  child: Stack(
-                    children: [
-                      TextField(
-                        textDirection: ui.TextDirection.rtl,
-                        maxLines: 1,
-                        controller: searchTerm,
-                        onChanged: (_val) {
-                          if (_val != null) {
-                            numOfResults = 0;
-                            search = searchTerm.text;
-                            setState(() {
-                              numOfResults = 0;
-                              Future.delayed(
-                                  Duration.zero,
-                                  () => setState(() {
-                                        searchFunc(search);
-                                      }));
-                            });
-                          }
-                        },
-                        showCursor: true,
-                        cursorColor: const Color(0xdeedd03c),
-                        style: TextStyle(
-                            fontSize: 17, color: const Color(0xff334856)),
-                        textAlign: TextAlign.right,
-                        decoration: InputDecoration(
-                          // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
-                          filled: true,
-                          fillColor: Color(0xbfffffff),
-                          contentPadding: EdgeInsets.only(right: 20, top: 3),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 0.20,
-                              color: const Color(0xffc1c1c1),
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide(
-                              color: const Color(0xdeedd03c),
-                            ),
-                          ),
-                          prefixStyle: TextStyle(
-                              fontSize: 17, color: const Color(0xff334856)),
-                          hoverColor: const Color(0xff334856),
-                          hintText: "إبحث عن",
-                          hintStyle: TextStyle(
-                              fontSize: 16,
-                              color: const Color(0xffcbcbcc),
-                              fontFamily: 'Tajawal'),
-                          labelStyle: TextStyle(
-                              fontSize: 15,
-                              color: const Color(0xff334856),
-                              fontFamily: 'Tajawal'),
-                          alignLabelWithHint: true,
-                          //border: OutlineInputBorder(),
-                          // hoverColor: const Color(0xff334856),
-                        ),
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            numOfResults = 0;
-                            search = searchTerm.text;
-                            setState(() {
-                              numOfResults = 0;
-                              Future.delayed(
-                                  Duration.zero,
-                                  () => setState(() {
-                                        searchFunc(search);
-                                      }));
-                            });
-                          },
-                          icon: Icon(Icons.search,
-                              color: const Color(0xdeedd03c))),
-                    ],
-                  ),
-                ),
+    Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
+        Provider.of<AllDonationVM>(context, listen: false).requests;
+
+    // mydonations = Provider.of<AllDonationVM>(context, listen: false).userDonations;
+
+    return Scaffold(
+      backgroundColor: const Color(0xffededed),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20, bottom: 8),
+              child: Icon(
+                Icons.keyboard_backspace_rounded,
+                textDirection: ui.TextDirection.rtl,
+                size: 30,
+                color: Color(0xff334856),
               ),
             ),
-            backgroundColor: const Color(0xffededed),
-            body: Padding(
-              padding: const EdgeInsets.only(top: 0.0),
-              child: ListView(
-                shrinkWrap: false,
-                physics: ScrollPhysics(),
-                children: [
-                  StreamBuilder(
-                      stream: Provider.of<FeedViewModel>(context, listen: false)
-                          .requests,
-                      builder: (context, snapshot) {
-                        if (Provider.of<FeedViewModel>(context, listen: false)
-                                .getSearchResults
-                                .length ==
-                            0)
-                          return Container(
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 150.0),
-                              child: Text("لا يوجد نتائج مطابقة للبحث"),
-                            ),
-                          );
-                        // return _buildWaitingScreen();
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
-                          itemCount:
-                              (snapshot.data! as QuerySnapshot).docs.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              buildCards(
-                                  context,
-                                  (snapshot.data! as QuerySnapshot)
-                                      .docs[index]),
-                        );
-                      }),
-                  if (Provider.of<FeedViewModel>(context, listen: false)
-                          .getSearchResults
-                          .length !=
-                      0)
-                    Container(
-                        margin: const EdgeInsets.only(top: 30.0, bottom: 20),
-                        alignment: Alignment.bottomCenter,
-                        child: Text(
-                          "نتائج البحث: $numOfResults",
-                          style: TextStyle(color: Color(0xff8b8b8b)),
-                        ))
-                ],
-              ),
-            )),
-      );
-    }
+          ),
+        ],
+        title: Text(
+          "مساهماتي",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Color(0xff334856),
+            fontWeight: FontWeight.w700,
+            fontFamily: 'Tajawal',
+            fontSize: 24,
+          ),
+        ),
+        //automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xdeedd03c),
+        bottomOpacity: 30,
+        // elevation: 1,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(50),
+          ),
+        ),
+      ),
+      body: StreamBuilder(
+          stream: requests,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return _buildWaitingScreen();
+            if (widget.donations.length == 0)
+              return Container(
+                alignment: Alignment.center,
+                child: Text("لا يوجد لديك اي مساهمات سابقة"),
+              );
+            // return _buildWaitingScreen();
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+              itemBuilder: (BuildContext context, int index) => buildCards(
+                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+            );
+          }),
+    );
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    if (Provider.of<FeedViewModel>(context, listen: false)
-        .getSearchResults
-        .contains(document.id)) {
-      if (Provider.of<FeedViewModel>(context, listen: false)
-              .getSearchResults
-              .first ==
-          document.id) {
-        SchedulerBinding.instance!.addPostFrameCallback((_) {
-          if (mounted)
-            setState(() {
-              numOfResults = Provider.of<FeedViewModel>(context, listen: false)
-                  .getSearchResults
-                  .length;
-            });
-        });
-      }
+    if (widget.donations.contains(document.id)) {
       if (document['type'].toString() == "مبلغ")
         return buildFundsCards(context, document);
       else if (document['type'].toString() == "موارد")
@@ -245,9 +160,8 @@ class _SearchRequests extends State<SearchRequests> {
       else {
         return Container();
       }
-    } else {
+    } else
       return Container();
-    }
   }
 
   Widget buildFundsCards(BuildContext context, DocumentSnapshot document) {
@@ -421,12 +335,13 @@ class _SearchRequests extends State<SearchRequests> {
                         child: ElevatedButton(
                           onPressed: () async {
                             String? mmId = document['posted_by'];
-                            SearchRequests.wholeDonated2 = document['donated'];
+                            ViewUserDonations.wholeDonated2 =
+                                document['donated'];
                             int cumDonated = document['donated'];
-                            SearchRequests.wholeAmount2 = document['amount'];
+                            ViewUserDonations.wholeAmount2 = document['amount'];
                             String? mName = document['mosque_name'];
 
-                            SearchRequests.mmNameDonated2 = mName;
+                            ViewUserDonations.mmNameDonated2 = mName;
 
                             var documentFormmId = await FirebaseFirestore
                                 .instance
@@ -435,7 +350,7 @@ class _SearchRequests extends State<SearchRequests> {
                                 .get();
 
                             String? mmEmail = documentFormmId['email'];
-                            SearchRequests.mmEmailDonated2 = mmEmail;
+                            ViewUserDonations.mmEmailDonated2 = mmEmail;
 
                             await Navigator.push(
                                 context,
@@ -1121,10 +1036,13 @@ class _SearchRequests extends State<SearchRequests> {
 }
 
 Widget _buildWaitingScreen() {
-  return Container(
-    alignment: Alignment.center,
-    child: CircularProgressIndicator(
-      color: const Color(0xdeedd03c),
+  return Scaffold(
+    backgroundColor: const Color(0xffededed),
+    body: Container(
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(
+        color: const Color(0xdeedd03c),
+      ),
     ),
   );
 }
