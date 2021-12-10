@@ -10,11 +10,14 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:swe444/Functions/profile/viewMosqueProfile.dart';
 import 'package:swe444/Functions/subscribe/subscription.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
 import 'dart:ui' as ui;
 
 import 'package:swe444/Payment/searchPaymentScreen.dart';
+
+import '../CustomPageRoute.dart';
 
 class SearchPage extends StatelessWidget {
   @override
@@ -268,39 +271,8 @@ class _SearchRequests extends State<SearchRequests> {
                     child: Row(children: <Widget>[
                       GestureDetector(
                         onTap: () async {
-                          bool flag = await subscribe
-                              .isSubscribed(document['posted_by']);
-                          print("Flag is " + flag.toString());
-                          if (!flag) {
-                            showModalBottomSheet(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(19.0),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) =>
-                                    subscribe.BuildSubscribedProfile(
-                                        document['mosque_name'].toString(),
-                                        document['posted_by'].toString(),
-                                        context));
-                          } else {
-                            showModalBottomSheet(
-                                //isScrollControlled: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(19.0),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) =>
-                                    subscribe.BuildUnsubscribedProfile(
-                                        document['mosque_name'].toString(),
-                                        document['posted_by'].toString(),
-                                        context));
-                          }
-                          //await
-                          //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                          callProfile(
+                              document['mosque_name'], document['posted_by']);
                         },
                         child: Container(
                           width: 100,
@@ -329,39 +301,8 @@ class _SearchRequests extends State<SearchRequests> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          bool flag = await subscribe
-                              .isSubscribed(document['posted_by']);
-                          print("Flag is " + flag.toString());
-                          if (!flag) {
-                            showModalBottomSheet(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(19.0),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) =>
-                                    subscribe.BuildSubscribedProfile(
-                                        document['mosque_name'].toString(),
-                                        document['posted_by'].toString(),
-                                        context));
-                          } else {
-                            showModalBottomSheet(
-                                //isScrollControlled: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(19.0),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) =>
-                                    subscribe.BuildUnsubscribedProfile(
-                                        document['mosque_name'].toString(),
-                                        document['posted_by'].toString(),
-                                        context));
-                          }
-                          //await
-                          //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                          callProfile(
+                              document['mosque_name'], document['posted_by']);
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -573,39 +514,8 @@ class _SearchRequests extends State<SearchRequests> {
                   child: Row(children: <Widget>[
                     GestureDetector(
                       onTap: () async {
-                        bool flag =
-                            await subscribe.isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) =>
-                                  subscribe.BuildSubscribedProfile(
-                                      document['mosque_name'].toString(),
-                                      document['posted_by'].toString(),
-                                      context));
-                        } else {
-                          showModalBottomSheet(
-                              //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) =>
-                                  subscribe.BuildUnsubscribedProfile(
-                                      document['mosque_name'].toString(),
-                                      document['posted_by'].toString(),
-                                      context));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                        callProfile(
+                            document['mosque_name'], document['posted_by']);
                       },
                       child: Container(
                         width: 100,
@@ -633,39 +543,8 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        bool flag =
-                            await subscribe.isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) =>
-                                  subscribe.BuildSubscribedProfile(
-                                      document['mosque_name'].toString(),
-                                      document['posted_by'].toString(),
-                                      context));
-                        } else {
-                          showModalBottomSheet(
-                              //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) =>
-                                  subscribe.BuildUnsubscribedProfile(
-                                      document['mosque_name'].toString(),
-                                      document['posted_by'].toString(),
-                                      context));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                        callProfile(
+                            document['mosque_name'], document['posted_by']);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
@@ -845,39 +724,8 @@ class _SearchRequests extends State<SearchRequests> {
                   child: Row(children: <Widget>[
                     GestureDetector(
                       onTap: () async {
-                        bool flag =
-                            await subscribe.isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) =>
-                                  subscribe.BuildSubscribedProfile(
-                                      document['mosque_name'].toString(),
-                                      document['posted_by'].toString(),
-                                      context));
-                        } else {
-                          showModalBottomSheet(
-                              //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) =>
-                                  subscribe.BuildUnsubscribedProfile(
-                                      document['mosque_name'].toString(),
-                                      document['posted_by'].toString(),
-                                      context));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                        callProfile(
+                            document['mosque_name'], document['posted_by']);
                       },
                       child: Container(
                         width: 100,
@@ -905,39 +753,8 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        bool flag =
-                            await subscribe.isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) =>
-                                  subscribe.BuildSubscribedProfile(
-                                      document['mosque_name'].toString(),
-                                      document['posted_by'].toString(),
-                                      context));
-                        } else {
-                          showModalBottomSheet(
-                              //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) =>
-                                  subscribe.BuildUnsubscribedProfile(
-                                      document['mosque_name'].toString(),
-                                      document['posted_by'].toString(),
-                                      context));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                        callProfile(
+                            document['mosque_name'], document['posted_by']);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
@@ -1142,6 +959,68 @@ class _SearchRequests extends State<SearchRequests> {
     } else {
       return Container();
     }
+  }
+
+  callProfile(String name, String ID) async {
+    bool flag = await isSubscribed(ID.toString());
+
+    var followrs = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(ID)
+        .collection("subscribedVolunteers")
+        .get();
+    String v = followrs.docs.length.toString();
+    String r = await countNumOfRequests(ID);
+    Navigator.of(context).push(CustomPageRoute(
+        child: MosqueMangerProfile(
+      isSubscribed: flag,
+      numOfVolunteers: v,
+      numOfRequests: r,
+      MosqueID: ID,
+      MosqueName: name,
+    )));
+  }
+
+  Future<String> countNumOfRequests(String mmId) async {
+    var requests =
+        await FirebaseFirestore.instance.collection('requests').get();
+    var numOfR = 0;
+    var requestDocs = requests.docs;
+
+    // loop over each item request
+    for (var doc in requestDocs) {
+      var requestData = doc.data();
+      if (requestData['posted_by'] == mmId) {
+        numOfR = numOfR + 1;
+      }
+    }
+
+    return numOfR.toString();
+  }
+
+  Future<bool> isSubscribed(String mID) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    var subscribedMosques = [];
+
+    var uesrDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid.toString())
+        .collection("subscribedMosqueManager")
+        .get();
+
+    var docs = uesrDoc.docs;
+    //var length = uesrDoc.docs.length;
+
+    for (var Doc in docs) {
+      if (!subscribedMosques.contains(Doc.id)) {
+        subscribedMosques.add(Doc.id);
+      }
+    }
+
+    if (subscribedMosques.contains(mID)) {
+      return true;
+    }
+    return false;
   }
 
   Future<void> apply(String mmName, String mmId, int wholePartsNum,

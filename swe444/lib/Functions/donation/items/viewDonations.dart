@@ -114,6 +114,7 @@ class requestDonations extends State<ViewItemDonations> {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
+    
     if (document['status'] == "unconfirmed") {
       return Container(
         padding:

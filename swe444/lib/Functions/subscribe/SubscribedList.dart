@@ -78,7 +78,7 @@ class Subscribed_List extends State<subscribedList> {
     String mName = document['mosque_name'];
     return GestureDetector(
       onTap: () async {
-        callProfile(document);
+        callProfile(document['mosque_name'], document['mmId']);
         // bool flag = await isSubscribed(document['mmId'].toString());
         // var followrs = await FirebaseFirestore.instance
         //     .collection('users')
@@ -152,22 +152,23 @@ class Subscribed_List extends State<subscribedList> {
     );
   }
 
-  callProfile(DocumentSnapshot document) async {
-    bool flag = await isSubscribed(document['mmId'].toString());
+  callProfile(String name, String ID) async {
+    bool flag = await isSubscribed(ID.toString());
 
     var followrs = await FirebaseFirestore.instance
         .collection('users')
-        .doc(document['mmId'])
+        .doc(ID)
         .collection("subscribedVolunteers")
         .get();
     String v = followrs.docs.length.toString();
-    String r = await countNumOfRequests(document['mmId']);
+    String r = await countNumOfRequests(ID);
     Navigator.of(context).push(CustomPageRoute(
         child: MosqueMangerProfile(
-      document: document,
       isSubscribed: flag,
       numOfVolunteers: v,
       numOfRequests: r,
+      MosqueID: ID,
+      MosqueName: name,
     )));
   }
 

@@ -14,19 +14,21 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
 class viewMosqueProfile extends StatelessWidget {
-  viewMosqueProfile.ensureInitialized(this.document, this.isSubscribed,
-      this.numOfVolunteers, this.numOfRequests);
-  final DocumentSnapshot document;
+  viewMosqueProfile.ensureInitialized(this.isSubscribed, this.numOfVolunteers,
+      this.numOfRequests, this.MosqueName, this.MosqueID);
+  final String MosqueName;
+  final String MosqueID;
   final bool isSubscribed;
   final String numOfVolunteers;
   final String numOfRequests;
 
   const viewMosqueProfile({
     Key? key,
-    required this.document,
     required this.isSubscribed,
     required this.numOfVolunteers,
     required this.numOfRequests,
+    required this.MosqueName,
+    required this.MosqueID,
   }) : super(key: key);
 
   @override
@@ -37,10 +39,11 @@ class viewMosqueProfile extends StatelessWidget {
             height: 1200,
             width: 450,
             child: MosqueMangerProfile(
-              document: this.document,
               isSubscribed: this.isSubscribed,
               numOfVolunteers: this.numOfVolunteers,
               numOfRequests: this.numOfRequests,
+              MosqueID: this.MosqueID,
+              MosqueName: this.MosqueName,
             )));
   }
 }
@@ -50,19 +53,21 @@ class MosqueMangerProfile extends StatefulWidget {
   static String? mmNameDonated = '';
   static int wholeAmount = 0;
   static int wholeDonated = 0;
-  MosqueMangerProfile.ensureInitialized(this.document, this.isSubscribed,
-      this.numOfVolunteers, this.numOfRequests);
-  final DocumentSnapshot document;
+  MosqueMangerProfile.ensureInitialized(this.isSubscribed, this.numOfVolunteers,
+      this.numOfRequests, this.MosqueName, this.MosqueID);
+  final String MosqueName;
+  final String MosqueID;
   final bool isSubscribed;
   final String numOfVolunteers;
   final String numOfRequests;
 
   const MosqueMangerProfile(
       {Key? key,
-      required this.document,
       required this.isSubscribed,
       required this.numOfVolunteers,
-      required this.numOfRequests})
+      required this.numOfRequests,
+      required this.MosqueName,
+      required this.MosqueID})
       : super(key: key);
 
   @override
@@ -88,7 +93,7 @@ class MosqueProfile extends State<MosqueMangerProfile>
     Stream<QuerySnapshot<Map<String, dynamic>>>? followrs = FirebaseFirestore
         .instance
         .collection('users')
-        .doc(widget.document['mmId'])
+        .doc(widget.MosqueID)
         .collection("subscribedVolunteers")
         .snapshots();
 
@@ -138,8 +143,7 @@ class MosqueProfile extends State<MosqueMangerProfile>
                             : Colors.grey,
                       ),
                       onPressed: () async {
-                        await subscription(widget.document['mmId'],
-                            widget.document['mosque_name']);
+                        await subscription(widget.MosqueID, widget.MosqueName);
                       }),
                 ),
                 Padding(
@@ -158,7 +162,7 @@ class MosqueProfile extends State<MosqueMangerProfile>
               ],
             ),
             Text(
-              widget.document['mosque_name'],
+              widget.MosqueName,
               style: TextStyle(
                 fontSize: 18.0,
                 fontFamily: 'Tajawal',
@@ -355,7 +359,7 @@ class MosqueProfile extends State<MosqueMangerProfile>
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    if (document['posted_by'].toString() == widget.document['mmId']) {
+    if (document['posted_by'].toString() == widget.MosqueID) {
       if (document['type'].toString() == "تنظيم")
         return buildEventsCards(context, document);
       else if (document['type'].toString() == "موارد")
@@ -1050,11 +1054,9 @@ class MosqueProfile extends State<MosqueMangerProfile>
             .collection("subscribedVolunteers")
             .doc(vId)
             .set({'uid': vId, 'token': dToken})
-            .then((value) =>
-                {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
-            .catchError((error) =>
-                //////
-                {response = "لم يتم تفعيل التنبيهات بنجاح"});
+            .then(
+                (value) => {response = ' تم تفعيل التنبيهات لـ $mmName بنجاح '})
+            .catchError((error) => {response = "لم يتم تفعيل التنبيهات بنجاح"});
         //add to mm
         await FirebaseFirestore.instance
             .collection('users')
@@ -1073,10 +1075,8 @@ class MosqueProfile extends State<MosqueMangerProfile>
             .collection("subscribedVolunteers")
             .doc(vId)
             .delete()
-            .then((value) => {
-                  response =
-                      ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '
-                })
+            .then((value) =>
+                {response = ' تم إلغاء تفعيل التنبيهات \n لـ $mmName بنجاح  '})
             .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
 
         await FirebaseFirestore.instance
@@ -1150,7 +1150,7 @@ class MosqueProfile extends State<MosqueMangerProfile>
   String? feedbackResponse(int response) {
     if ((response) == 1) {
 //Extract the mosuqe name to add in the msg
-      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
+      return "تم تفعيل التنبيهات لـ \n  شاكرين لك مساهمتك";
     } else {
       return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
     }
