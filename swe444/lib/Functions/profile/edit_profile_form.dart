@@ -4,18 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:swe444/Functions/home_screen/mm_home_view.dart';
+// import 'package:swe444/Functions/home_screen/mm_home_view.dart';
 import 'package:swe444/Models/MUserModel.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
-
-
 class EditProfileForm extends StatefulWidget {
   final DocumentSnapshot document;
-  EditProfileForm({
-    Key? key,
-    required this.document
-  }) : super(key: key);
+  EditProfileForm({Key? key, required this.document}) : super(key: key);
 
   @override
   _EditProfileFormState createState() => _EditProfileFormState();
@@ -31,7 +26,6 @@ class _EditProfileFormState extends State<EditProfileForm> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _phone = TextEditingController();
   final TextEditingController _code = TextEditingController();
-
 
   @override
   void initState() {
@@ -53,16 +47,14 @@ class _EditProfileFormState extends State<EditProfileForm> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^.{5,}$');
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال اسم المسجد");
         }
         if (!regex.hasMatch(value)) {
           return ("يجب ان يحتوي على 5 حروف على الأقل");
         }
         if (!RegExp(r"^[\p{L} ,.'-]*$",
-            caseSensitive: false, unicode: true, dotAll: true)
+                caseSensitive: false, unicode: true, dotAll: true)
             .hasMatch(value)) {
           return ("يجب ان يحتوي اسم المسجد على أحرف فقط");
         }
@@ -118,14 +110,12 @@ class _EditProfileFormState extends State<EditProfileForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال بريد إلكتروني");
         }
         // reg expression for email validation
         if (!RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(value)) {
           return ("البريد الإلكتروني غير صحيح");
         }
@@ -185,9 +175,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء إدخال رقم جوال المسجد ");
         }
         if (!regex.hasMatch(value)) {
@@ -295,11 +283,9 @@ class _EditProfileFormState extends State<EditProfileForm> {
     );
   }
 
-
   String getText(DateTime day) {
-     return '${day.month}/${day.day}/${day.year}';
+    return '${day.month}/${day.day}/${day.year}';
   }
-
 
 // https://medium.com/multiverse-software/alert-dialog-and-confirmation-dialog-in-flutter-8d8c160f4095
   showAlertDialog(String? id) {
@@ -310,14 +296,14 @@ class _EditProfileFormState extends State<EditProfileForm> {
         child: const Text(
           "إلغاء",
           style:
-          TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
+              TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
         ),
         onPressed: () {
           Navigator.of(context).pop(context);
         },
         style: ButtonStyle(
             backgroundColor:
-            MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+                MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
             elevation: MaterialStateProperty.all<double>(0)),
       ),
     );
@@ -330,7 +316,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
         ),
         style: ButtonStyle(
             backgroundColor:
-            MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
         onPressed: () {
           Navigator.of(context).pop(context);
           update(id);
@@ -464,17 +450,15 @@ class _EditProfileFormState extends State<EditProfileForm> {
   }
 
   void update(String? id) async {
-
     if (widget.document.exists) {
-      MViewModel userVM= new MViewModel();
+      MViewModel userVM = new MViewModel();
       userVM.uID = widget.document['uid'].toString();
       userVM.mosque_location = widget.document['location'].toString();
       userVM.mosque_code = widget.document['mosque_code'].toString();
-      userVM.role= widget.document['role'].toString();
-      userVM.mosque_phone= int.parse(_phone.text);
-      userVM.email= widget.document['email'].toString();
-      userVM.mosque_name= widget.document['mosque_name'].toString();
-
+      userVM.role = widget.document['role'].toString();
+      userVM.mosque_phone = int.parse(_phone.text);
+      userVM.email = widget.document['email'].toString();
+      userVM.mosque_name = widget.document['mosque_name'].toString();
 
       await userVM.update(widget.document.id, user);
 
@@ -484,13 +468,13 @@ class _EditProfileFormState extends State<EditProfileForm> {
 
       snackbar = Snackbar(context, msg, msgType);
       snackbar.showToast();
-
-
-      Navigator.pushAndRemoveUntil((context),
-          MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
+      Navigator.of(context).pop(context);
+      // Navigator.pushAndRemoveUntil((context),
+      //     MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
 
     } else {
-      Snackbar snackbar2 = Snackbar(context, "لا يمكن تحديث ملف المسجد", "fail");
+      Snackbar snackbar2 =
+          Snackbar(context, "لا يمكن تحديث ملف المسجد", "fail");
       snackbar2.showToast();
     }
   }
