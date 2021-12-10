@@ -13,6 +13,7 @@ import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/profile/viewMosqueProfile.dart';
 import 'package:swe444/Functions/subscribe/subscription.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
+import 'package:swe444/Payment/moneyDonations.dart';
 import 'dart:ui' as ui;
 
 import 'package:swe444/Payment/searchPaymentScreen.dart';
@@ -45,7 +46,10 @@ class SearchRequests extends StatefulWidget {
 }
 
 class _SearchRequests extends State<SearchRequests> {
-  int? donated = PaymentScreen.vDonatedAmount;
+  int? donated = searchPaymentScreen.vDonatedAmount2;
+  User? user = FirebaseAuth.instance.currentUser;
+  postMoneyDonations postDB = new postMoneyDonations();
+
   bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
   String search = "";
@@ -450,7 +454,8 @@ class _SearchRequests extends State<SearchRequests> {
                                 .collection('requests')
                                 .doc(docId)
                                 .update({'donated': cumDonated});
-
+                            if (searchPaymentScreen.vDonatedAmount2 != 0)
+                              postDB.postToDB(document, user!.uid);
                             //update the denoation for next user
                             searchPaymentScreen.vDonatedAmount2 = 0;
                             //  db.collection("requests").doc(docId).update({donated: 10});
@@ -495,7 +500,7 @@ class _SearchRequests extends State<SearchRequests> {
 
   Widget buildItemsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "موارد") {
+    if (document['type'].toString() == "موارد" && document['amount_requested'] > document['donated'] ) {
       // here is the tpye
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),

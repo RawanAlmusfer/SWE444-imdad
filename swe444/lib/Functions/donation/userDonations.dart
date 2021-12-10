@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -14,8 +12,8 @@ import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/profile/viewMosqueProfile.dart';
 import 'package:swe444/Functions/subscribe/subscription.dart';
-import 'package:swe444/Payment/PaymentScreen.dart';
-import 'package:swe444/Payment/searchPaymentScreen.dart';
+import 'package:swe444/Payment/allDonationsPaymentScreen.dart';
+import 'package:swe444/Payment/moneyDonations.dart';
 import 'dart:ui' as ui;
 
 import '../CustomPageRoute.dart';
@@ -23,28 +21,35 @@ import 'all_donations_view_model.dart';
 import 'items/donation_view_model.dart';
 
 class donationsView extends StatelessWidget {
-  final List<String> donations;
-  const donationsView({Key? key, required this.donations}) : super(key: key);
+  // final List<String> donations;
+  const donationsView({
+    Key? key,
+    // required this.donations
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AllDonationVM>(
         create: (_) => AllDonationVM(),
         child: ViewUserDonations(
-          donations: donations,
-        ));
+            // donations: donations,
+            ));
   }
 }
 
 class ViewUserDonations extends StatefulWidget {
-  ViewUserDonations.ensureInitialized(this.donations);
-  final List<String> donations;
-  static String? mmEmailDonated2 = '';
-  static String? mmNameDonated2 = '';
-  static int wholeAmount2 = 0;
-  static int wholeDonated2 = 0;
+  ViewUserDonations.ensureInitialized(
+      // this.donations
+      );
+  // final List<String> donations;
+  static String? mmEmailDonated3 = '';
+  static String? mmNameDonated3 = '';
+  static int wholeAmount3 = 0;
+  static int wholeDonated3 = 0;
 
-  const ViewUserDonations({Key? key, required this.donations})
-      : super(key: key);
+  const ViewUserDonations({
+    Key? key,
+    // required this.donations
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -53,20 +58,21 @@ class ViewUserDonations extends StatefulWidget {
 }
 
 class userDonations extends State<ViewUserDonations> {
-  List<String>? mydonations;
-  int? donated = PaymentScreen.vDonatedAmount;
+  List<String> mydonations = [];
+  int? donated = allPaymentScreen.vDonatedAmount3;
+  User? user = FirebaseAuth.instance.currentUser;
+  postMoneyDonations postDB = new postMoneyDonations();
   bool isExecuted = false;
-  TextEditingController searchTerm = TextEditingController();
-  String search = "";
   int i = 0;
-  int numOfResults = 0;
+  int numOfResults = -1;
   Subscribe subscribe = new Subscribe();
+  var donationsVM;
 
 //String
   @override
   void initState() {
     super.initState();
-    mydonations = widget.donations;
+    // mydonations = widget.donations;
     Future.delayed(
         Duration.zero,
         () => setState(() {
@@ -76,14 +82,24 @@ class userDonations extends State<ViewUserDonations> {
 
   setup() async {
     await Provider.of<AllDonationVM>(context, listen: false).fetchRequests();
-    await Provider.of<AllDonationVM>(context, listen: false)
+    mydonations = await Provider.of<AllDonationVM>(context, listen: false)
         .usersDonations(FirebaseAuth.instance.currentUser!.uid);
+    // mydonations= Provider.of<AllDonationVM>(context, listen: false).donations;
   }
 
   @override
   Widget build(BuildContext context) {
+    donationsVM = Provider.of<AllDonationVM>(context);
+
     Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-        Provider.of<AllDonationVM>(context, listen: false).requests;
+        donationsVM.requests;
+
+    donationsVM.usersDonations(FirebaseAuth.instance.currentUser!.uid);
+
+    mydonations = donationsVM
+        .donations;
+
+    // mydonations= Provider.of<AllDonationVM>(context, listen: false).donations;
 
     // mydonations = Provider.of<AllDonationVM>(context, listen: false).userDonations;
 
@@ -132,25 +148,38 @@ class userDonations extends State<ViewUserDonations> {
           stream: requests,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
-            if (widget.donations.length == 0)
-              return Container(
-                alignment: Alignment.center,
-                child: Text("لا يوجد لديك اي مساهمات سابقة"),
-              );
-            // return _buildWaitingScreen();
+            // if (donationsVM.donations.length == 0)
+            // // if (mydonations.length == 0)
+            //   return Container(
+            //     alignment: Alignment.center,
+            //     child: Text("لا يوجد لديك اي مساهمات سابقة"),
+            //   );
             return ListView.builder(
               shrinkWrap: true,
               physics: ScrollPhysics(),
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
               itemBuilder: (BuildContext context, int index) => buildCards(
-                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+                  context, (snapshot.data! as QuerySnapshot).docs[index], donationsVM.donations),
             );
           }),
     );
   }
 
-  Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    if (widget.donations.contains(document.id)) {
+  buildCards(BuildContext context, DocumentSnapshot document, List<String> mydonations) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          mydonations =
+              Provider.of<AllDonationVM>(context, listen: false).donations;
+          if (mydonations.length == 0) {
+            none();
+          }
+        });
+      }
+    });
+
+    // mydonations = donationsVM.donations;
+    if (mydonations.contains(document.id)) {
       if (document['type'].toString() == "مبلغ")
         return buildFundsCards(context, document);
       else if (document['type'].toString() == "موارد")
@@ -162,6 +191,13 @@ class userDonations extends State<ViewUserDonations> {
       }
     } else
       return Container();
+  }
+
+  Widget none() {
+    return Container(
+      alignment: Alignment.center,
+      child: Text("لا يوجد لديك اي مساهمات سابقة"),
+    );
   }
 
   Widget buildFundsCards(BuildContext context, DocumentSnapshot document) {
@@ -335,13 +371,13 @@ class userDonations extends State<ViewUserDonations> {
                         child: ElevatedButton(
                           onPressed: () async {
                             String? mmId = document['posted_by'];
-                            ViewUserDonations.wholeDonated2 =
+                            ViewUserDonations.wholeDonated3 =
                                 document['donated'];
                             int cumDonated = document['donated'];
-                            ViewUserDonations.wholeAmount2 = document['amount'];
+                            ViewUserDonations.wholeAmount3 = document['amount'];
                             String? mName = document['mosque_name'];
 
-                            ViewUserDonations.mmNameDonated2 = mName;
+                            ViewUserDonations.mmNameDonated3 = mName;
 
                             var documentFormmId = await FirebaseFirestore
                                 .instance
@@ -350,24 +386,24 @@ class userDonations extends State<ViewUserDonations> {
                                 .get();
 
                             String? mmEmail = documentFormmId['email'];
-                            ViewUserDonations.mmEmailDonated2 = mmEmail;
+                            ViewUserDonations.mmEmailDonated3 = mmEmail;
 
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        searchPaymentScreen()));
+                                    builder: (context) => allPaymentScreen()));
 
-                            cumDonated += searchPaymentScreen.vDonatedAmount2!;
+                            cumDonated += allPaymentScreen.vDonatedAmount3!;
 
                             String docId = document.id;
                             await FirebaseFirestore.instance
                                 .collection('requests')
                                 .doc(docId)
                                 .update({'donated': cumDonated});
-
+                            if (allPaymentScreen.vDonatedAmount3 != 0)
+                              postDB.postToDB(document, user!.uid);
                             //update the denoation for next user
-                            searchPaymentScreen.vDonatedAmount2 = 0;
+                            allPaymentScreen.vDonatedAmount3 = 0;
                             //  db.collection("requests").doc(docId).update({donated: 10});
                           },
                           child: Text(
@@ -410,7 +446,9 @@ class userDonations extends State<ViewUserDonations> {
 
   Widget buildItemsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "موارد") {
+    if (document['type'].toString() == "موارد"
+        // && document['amount_requested'] > document['donated']
+    ) {
       // here is the tpye
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
