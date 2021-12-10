@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/profile/viewMosqueProfile.dart';
-import 'package:swe444/Functions/subscribe/mosqueRequests.dart';
 import '../CustomPageRoute.dart';
 import 'list_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -79,9 +78,11 @@ class Subscribed_List extends State<subscribedList> {
     String mName = document['mosque_name'];
     return GestureDetector(
       onTap: () async {
+        bool flag = await isSubscribed(document['mmId'].toString());
         Navigator.of(context).push(CustomPageRoute(
             child: MosqueMangerProfile(
           document: document,
+          isSubscribed: flag,
         )));
       },
       child: Container(
@@ -98,21 +99,13 @@ class Subscribed_List extends State<subscribedList> {
               padding: const EdgeInsets.only(
                   top: 12.0, bottom: 12.0, left: 2, right: 10),
               child: Row(children: <Widget>[
-                // GestureDetector(
-                //   onTap: () async {
-                //     Navigator.of(context).push(CustomPageRoute(
-                //         child: MosqueMangerRequests(
-                //       document: document,
-                //     )));
-                //   },
-                //   child: Padding(
-                //       padding: const EdgeInsets.only(
-                //           top: 5.0, bottom: 5.0, left: 2, right: 10),
-                //       child: Icon(
-                //         Icons.arrow_back_ios_new_rounded,
-                //         color: const Color(0xff334856),
-                //       )),
-                // ),
+                Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 2, right: 10),
+                    child: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: const Color(0xdeedd03c),
+                    )),
                 // GestureDetector(
                 //   onTap: () async {
                 //     await subscription(
@@ -281,6 +274,31 @@ class Subscribed_List extends State<subscribedList> {
         return alert;
       },
     );
+  }
+
+  Future<bool> isSubscribed(String mID) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    var subscribedMosques = [];
+
+    var uesrDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid.toString())
+        .collection("subscribedMosqueManager")
+        .get();
+
+    var docs = uesrDoc.docs;
+    //var length = uesrDoc.docs.length;
+
+    for (var Doc in docs) {
+      if (!subscribedMosques.contains(Doc.id)) {
+        subscribedMosques.add(Doc.id);
+      }
+    }
+
+    if (subscribedMosques.contains(mID)) {
+      return true;
+    }
+    return false;
   }
 
   Widget _buildWaitingScreen() {

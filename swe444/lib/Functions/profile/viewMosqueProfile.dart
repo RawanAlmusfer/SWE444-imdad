@@ -14,10 +14,15 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
 class viewMosqueProfile extends StatelessWidget {
-  viewMosqueProfile.ensureInitialized(this.document);
+  viewMosqueProfile.ensureInitialized(this.document, this.isSubscribed);
   final DocumentSnapshot document;
+  final bool isSubscribed;
 
-  const viewMosqueProfile({Key? key, required this.document}) : super(key: key);
+  const viewMosqueProfile({
+    Key? key,
+    required this.document,
+    required this.isSubscribed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,8 @@ class viewMosqueProfile extends StatelessWidget {
         child: Container(
             height: 1200,
             width: 450,
-            child: MosqueMangerProfile(document: this.document)));
+            child: MosqueMangerProfile(
+                document: this.document, isSubscribed: this.isSubscribed)));
   }
 }
 
@@ -35,10 +41,12 @@ class MosqueMangerProfile extends StatefulWidget {
   static String? mmNameDonated = '';
   static int wholeAmount = 0;
   static int wholeDonated = 0;
-  MosqueMangerProfile.ensureInitialized(this.document);
+  MosqueMangerProfile.ensureInitialized(this.document, this.isSubscribed);
   final DocumentSnapshot document;
+  final bool isSubscribed;
 
-  const MosqueMangerProfile({Key? key, required this.document})
+  const MosqueMangerProfile(
+      {Key? key, required this.document, required this.isSubscribed})
       : super(key: key);
 
   @override
@@ -70,25 +78,9 @@ class MosqueProfile extends State<MosqueMangerProfile>
     // Navigator.pop(context);
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        elevation: 0,
         automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              widget.document['mosque_name'],
-              style: TextStyle(
-                color: Color(0xff334856),
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Tajawal',
-                fontSize: 24,
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: const Color(0xdeedd03c),
-        bottomOpacity: 30,
+        backgroundColor: Colors.transparent,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -104,140 +96,171 @@ class MosqueProfile extends State<MosqueMangerProfile>
                 }),
           ),
         ],
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50),
-          ),
-        ),
       ),
       backgroundColor: const Color(0xffededed),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, bottom: 20),
-            height: 80,
-            width: 80,
-            child: SvgPicture.string(
-              mosqueImage,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Text(
-            widget.document['mosque_name'],
-            style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Tajawal',
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffededed),
-                      spreadRadius: 1,
-                      blurRadius: 10),
-                ],
+      body: Container(
+        padding: const EdgeInsets.only(top: 20),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.only(left: 10, bottom: 20),
+              height: 80,
+              width: 80,
+              child: SvgPicture.string(
+                mosqueImage,
+                allowDrawingOutsideViewBox: true,
+                fit: BoxFit.fill,
               ),
-              height: 30,
-              width: 70,
-              child: ElevatedButton(
-                onPressed: () async {
-                  // await subscription(id, name, context);
-                },
-                child: Text(
-                  "تابع",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
+            ),
+            Text(
+              widget.document['mosque_name'],
+              style: TextStyle(
+                fontSize: 18.0,
+                fontFamily: 'Tajawal',
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0xffededed),
+                        spreadRadius: 1,
+                        blurRadius: 10),
+                  ],
                 ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(65.w, 30.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+                height: 30,
+                width: widget.isSubscribed ? 120 : 70,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await subscription(widget.document['mmId'],
+                        widget.document['mosque_name']);
+                  },
+                  child: Text(
+                    widget.isSubscribed ? "إلغاء المتابعة" : "تابع",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'Tajawal', color: const Color(0xff334856)),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(65.w, 30.h),
+                    primary: const Color(0xdeedd03c),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          // StreamBuilder(
-          //     stream: requests,
-          //     builder: (context, snapshot) {
-          //       if (!snapshot.hasData) return _buildWaitingScreen();
-          //       return ListView.builder(
-          //         itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-          //         itemBuilder: (BuildContext context, int index) => buildCards(
-          //             context, (snapshot.data! as QuerySnapshot).docs[index]),
-          //       );
-          //     }),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                  color: Colors.grey[300]),
-              child: TabBar(
-                  isScrollable: true,
-                  //indicatorPadding: EdgeInsets.all(0),
-                  labelColor: Colors.white,
-                  unselectedLabelColor: colorstheme,
-                  labelStyle: TextStyle(fontSize: 20),
-                  labelPadding:
-                      EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
-                  indicator: BoxDecoration(
-                      color: colorstheme,
-                      borderRadius: BorderRadius.circular(40)),
-                  controller: _tabController,
-                  tabs: [
-                    Text(
-                      'تنظيم',
-                      style: TextStyle(
-                          fontFamily: "Tajawal", color: Color(0xff334856)),
-                    ),
-                    Text(
-                      'موارد',
-                      style: TextStyle(
-                          fontFamily: "Tajawal",
-                          color: const Color(0xff334856)),
-                    ),
-                  ]),
-            ),
-          ),
-          StreamBuilder(
-              stream: requests,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return _buildWaitingScreen();
-                return Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
+            TabBar(
+                labelColor: Color(0xff334856),
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: colorstheme,
+                labelStyle: TextStyle(fontSize: 18),
+                controller: _tabController,
+                tabs: [
+                  Column(
                     children: [
-                      ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount:
-                            (snapshot.data! as QuerySnapshot).docs.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            buildCards(context,
-                                (snapshot.data! as QuerySnapshot).docs[index]),
+                      Text(
+                        'المتابعين',
+                        style: TextStyle(fontFamily: "Tajawal"),
                       ),
-                      ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount:
-                            (snapshot.data! as QuerySnapshot).docs.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            buildCards(context,
-                                (snapshot.data! as QuerySnapshot).docs[index]),
-                      ),
+                      Text(
+                        '500',
+                        style: TextStyle(
+                            fontFamily: "Tajawal",
+                            fontSize: 14,
+                            color: Colors.grey[500]),
+                      )
                     ],
                   ),
-                );
-              }),
-        ],
+                  Column(
+                    children: [
+                      Text(
+                        'الطلبات',
+                        style: TextStyle(fontFamily: "Tajawal"),
+                      ),
+                      Text(
+                        '10',
+                        style: TextStyle(
+                            fontFamily: "Tajawal",
+                            fontSize: 14,
+                            color: Colors.grey[500]),
+                      )
+                    ],
+                  ),
+                ]),
+            StreamBuilder(
+                stream: requests,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return _buildWaitingScreen();
+                  return Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount:
+                              (snapshot.data! as QuerySnapshot).docs.length,
+                          itemBuilder: (BuildContext context, int index) =>
+                              buildCards(
+                                  context,
+                                  (snapshot.data! as QuerySnapshot)
+                                      .docs[index]),
+                        ),
+                        ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount:
+                              (snapshot.data! as QuerySnapshot).docs.length,
+                          itemBuilder: (BuildContext context, int index) =>
+                              buildCards(
+                                  context,
+                                  (snapshot.data! as QuerySnapshot)
+                                      .docs[index]),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+
+            // Expanded(
+            //   child: TabBarView(controller: _tabController, children: [
+            //     StreamBuilder(
+            //         stream: requests,
+            //         builder: (context, snapshot) {
+            //           if (!snapshot.hasData) return _buildWaitingScreen();
+            //           return ListView.builder(
+            //             scrollDirection: Axis.vertical,
+            //             shrinkWrap: true,
+            //             itemCount:
+            //                 (snapshot.data! as QuerySnapshot).docs.length,
+            //             itemBuilder: (BuildContext context, int index) =>
+            //                 buildCards(context,
+            //                     (snapshot.data! as QuerySnapshot).docs[index]),
+            //           );
+            //         }),
+            //     StreamBuilder(
+            //         stream: requests,
+            //         builder: (context, snapshot) {
+            //           if (!snapshot.hasData) return _buildWaitingScreen();
+            //           return ListView.builder(
+            //             scrollDirection: Axis.vertical,
+            //             shrinkWrap: true,
+            //             itemCount:
+            //                 (snapshot.data! as QuerySnapshot).docs.length,
+            //             itemBuilder: (BuildContext context, int index) =>
+            //                 buildCards(context,
+            //                     (snapshot.data! as QuerySnapshot).docs[index]),
+            //           );
+            //         }),
+            //   ]),
+            // ),
+          ],
+        ),
       ),
     );
   }
@@ -272,52 +295,20 @@ class MosqueProfile extends State<MosqueMangerProfile>
                 padding: const EdgeInsets.only(
                     top: 5.0, bottom: 9.0, left: 2, right: 10),
                 child: Row(children: <Widget>[
-                  GestureDetector(
-                    onTap: () async {
-                      bool flag = await isSubscribed(document['posted_by']);
-                      print("Flag is " + flag.toString());
-                      if (!flag) {
-                        showModalBottomSheet(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(19.0),
-                              ),
-                            ),
-                            context: context,
-                            builder: (context) => BuildSubscribedProfile(
-                                document['mosque_name'].toString(),
-                                document['posted_by'].toString()));
-                      } else {
-                        showModalBottomSheet(
-                            //isScrollControlled: true,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(19.0),
-                              ),
-                            ),
-                            context: context,
-                            builder: (context) => BuildUnsubscribedProfile(
-                                document['mosque_name'].toString(),
-                                document['posted_by'].toString()));
-                      }
-                      //await
-                      //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
-                    },
-                    child: Container(
-                      width: 100,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20, top: 5),
-                        child: Text(
-                          document['mosque_name'],
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              fontSize: 12,
-                              decoration: TextDecoration.underline),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   width: 100,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(right: 20, top: 5),
+                  //     child: Text(
+                  //       document['mosque_name'],
+                  //       style: TextStyle(
+                  //           fontFamily: 'Tajawal',
+                  //           fontSize: 12,
+                  //           decoration: TextDecoration.underline),
+                  //       textAlign: TextAlign.center,
+                  //     ),
+                  //   ),
+                  // ),
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(right: 10, top: 5),
@@ -327,44 +318,12 @@ class MosqueProfile extends State<MosqueMangerProfile>
                       // textAlign: TextAlign.left,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      bool flag = await isSubscribed(document['posted_by']);
-                      print("Flag is " + flag.toString());
-                      if (!flag) {
-                        showModalBottomSheet(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(19.0),
-                              ),
-                            ),
-                            context: context,
-                            builder: (context) => BuildSubscribedProfile(
-                                document['mosque_name'].toString(),
-                                document['posted_by'].toString()));
-                      } else {
-                        showModalBottomSheet(
-                            //isScrollControlled: true,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(19.0),
-                              ),
-                            ),
-                            context: context,
-                            builder: (context) => BuildUnsubscribedProfile(
-                                document['mosque_name'].toString(),
-                                document['posted_by'].toString()));
-                      }
-                      //await
-                      //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: SvgPicture.string(
-                        mosqueImage,
-                        allowDrawingOutsideViewBox: true,
-                        fit: BoxFit.fill,
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: SvgPicture.string(
+                      mosqueImage,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ]),
@@ -568,52 +527,20 @@ class MosqueProfile extends State<MosqueMangerProfile>
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 9.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
-                    GestureDetector(
-                      onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildSubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        } else {
-                          showModalBottomSheet(
-                              //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
-                      },
-                      child: Container(
-                        width: 100,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 20, top: 5),
-                          child: Text(
-                            document['mosque_name'],
-                            style: TextStyle(
-                                fontFamily: 'Tajawal',
-                                fontSize: 12,
-                                decoration: TextDecoration.underline),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   width: 100,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(right: 20, top: 5),
+                    //     child: Text(
+                    //       document['mosque_name'],
+                    //       style: TextStyle(
+                    //           fontFamily: 'Tajawal',
+                    //           fontSize: 12,
+                    //           decoration: TextDecoration.underline),
+                    //       textAlign: TextAlign.center,
+                    //     ),
+                    //   ),
+                    // ),
                     const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(right: 10, top: 5),
@@ -623,44 +550,12 @@ class MosqueProfile extends State<MosqueMangerProfile>
                         // textAlign: TextAlign.left,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildSubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        } else {
-                          showModalBottomSheet(
-                              //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: SvgPicture.string(
-                          mosqueImage,
-                          allowDrawingOutsideViewBox: true,
-                          fit: BoxFit.fill,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: SvgPicture.string(
+                        mosqueImage,
+                        allowDrawingOutsideViewBox: true,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ]),
@@ -829,52 +724,20 @@ class MosqueProfile extends State<MosqueMangerProfile>
                   padding: const EdgeInsets.only(
                       top: 5.0, bottom: 9.0, left: 2, right: 10),
                   child: Row(children: <Widget>[
-                    GestureDetector(
-                      onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildSubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        } else {
-                          showModalBottomSheet(
-                              //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
-                      },
-                      child: Container(
-                        width: 100,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 20, top: 5),
-                          child: Text(
-                            document['mosque_name'],
-                            style: TextStyle(
-                                fontFamily: 'Tajawal',
-                                fontSize: 12,
-                                decoration: TextDecoration.underline),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   width: 100,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(right: 20, top: 5),
+                    //     child: Text(
+                    //       document['mosque_name'],
+                    //       style: TextStyle(
+                    //           fontFamily: 'Tajawal',
+                    //           fontSize: 12,
+                    //           decoration: TextDecoration.underline),
+                    //       textAlign: TextAlign.center,
+                    //     ),
+                    //   ),
+                    // ),
                     const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(right: 10, top: 5),
@@ -884,44 +747,12 @@ class MosqueProfile extends State<MosqueMangerProfile>
                         // textAlign: TextAlign.left,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildSubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        } else {
-                          showModalBottomSheet(
-                              //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: SvgPicture.string(
-                          mosqueImage,
-                          allowDrawingOutsideViewBox: true,
-                          fit: BoxFit.fill,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: SvgPicture.string(
+                        mosqueImage,
+                        allowDrawingOutsideViewBox: true,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ]),
@@ -1100,130 +931,6 @@ class MosqueProfile extends State<MosqueMangerProfile>
     } else {
       return Container();
     }
-  }
-
-  Widget BuildSubscribedProfile(String name, String id) {
-    return Container(
-      padding: EdgeInsets.all(30),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, bottom: 20),
-            height: 80,
-            width: 80,
-            child: SvgPicture.string(
-              mosqueImage,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Text(
-            name,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Tajawal',
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffededed),
-                      spreadRadius: 1,
-                      blurRadius: 10),
-                ],
-              ),
-              height: 30,
-              width: 70,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await subscription(id, name);
-                },
-                child: Text(
-                  "تابع",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(65.w, 30.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget BuildUnsubscribedProfile(String name, String id) {
-    return Container(
-      padding: EdgeInsets.all(30),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, bottom: 20),
-            height: 80,
-            width: 80,
-            child: SvgPicture.string(
-              mosqueImage,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Text(
-            name,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Tajawal',
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffededed),
-                      spreadRadius: 1,
-                      blurRadius: 10),
-                ],
-              ),
-              height: 30,
-              width: 120,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await subscription(id, name);
-                },
-                child: Text(
-                  "إلغاء المتابعة",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(65.w, 30.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Future<void> subscription(String mmId, String mmName) async {
