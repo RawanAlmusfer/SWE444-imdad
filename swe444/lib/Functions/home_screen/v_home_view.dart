@@ -60,7 +60,7 @@ class _HomeState extends State<vHome> {
           leading: IconButton(
             onPressed: () async {
               AllDonationVM donationsVM = AllDonationVM();
-              donationsVM
+              await donationsVM
                   .usersDonations(FirebaseAuth.instance.currentUser!.uid);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
