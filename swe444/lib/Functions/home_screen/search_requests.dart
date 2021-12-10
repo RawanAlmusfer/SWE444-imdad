@@ -559,7 +559,7 @@ class _SearchRequests extends State<SearchRequests> {
 
   Widget buildItemsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "موارد") {
+    if (document['type'].toString() == "موارد" && document['amount_requested'] > document['donated'] ) {
       // here is the tpye
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),

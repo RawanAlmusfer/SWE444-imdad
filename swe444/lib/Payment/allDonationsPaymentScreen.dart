@@ -300,7 +300,7 @@ class _PaymentScreenState extends State<allPaymentScreen> {
           backgroundColor:
           MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
       onPressed: () {
-       
+
         Navigator.of(context).pop(context);
         Navigator.of(context).pop(context);
 

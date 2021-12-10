@@ -59,11 +59,13 @@ class _HomeState extends State<vHome> {
           ),
           leading: IconButton(
             onPressed: () async {
-              AllDonationVM donationsVM= AllDonationVM();
-              donationsVM.usersDonations(FirebaseAuth.instance.currentUser!.uid);
+              // AllDonationVM donationsVM= AllDonationVM();
+              // await donationsVM.usersDonations(FirebaseAuth.instance.currentUser!.uid);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      donationsView(donations: donationsVM.userDonations)));
+                      donationsView(
+                          // donations: donationsVM.userDonations
+                      )));
             },
             icon: Icon(Icons.spa),
             padding: const EdgeInsets.only(left: 20,),
