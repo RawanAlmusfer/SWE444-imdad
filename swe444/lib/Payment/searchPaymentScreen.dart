@@ -299,12 +299,8 @@ class _PaymentScreenState extends State<searchPaymentScreen> {
           backgroundColor:
               MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
       onPressed: () {
-        // VolunteerFeed();
-//PaymentScreen();
         Navigator.of(context).pop(context);
-
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
+        Navigator.of(context).pop(context);
       },
     );
 

@@ -304,6 +304,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         // VolunteerFeed();
 //PaymentScreen();
         Navigator.of(context).pop(context);
+        Navigator.of(context).pop(context);
 
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
