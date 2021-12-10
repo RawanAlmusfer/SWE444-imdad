@@ -104,9 +104,9 @@ class userDonations extends State<ViewUserDonations> {
         setState(() {
           mydonations =
               Provider.of<AllDonationVM>(context, listen: false).donations;
-          // if (mydonations.length == 0) {
-          //   none();
-          // }
+          if (mydonations.length == 0) {
+            none();
+          }
         });
       }
     });
@@ -458,9 +458,9 @@ class userDonations extends State<ViewUserDonations> {
   Widget buildItemsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
     if (document['type'].toString() == "موارد"
-        // && document['amount_requested'] > document['donated']
+        && document['amount_requested'] > document['donated']
     ) {
-      // here is the tpye
+      // here is the type
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
         child: Card(
