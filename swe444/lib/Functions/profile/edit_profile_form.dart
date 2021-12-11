@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swe444/Functions/home_screen/mm_home_view.dart';
 // import 'package:swe444/Functions/home_screen/mm_home_view.dart';
 import 'package:swe444/Models/MUserModel.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
@@ -468,10 +469,9 @@ class _EditProfileFormState extends State<EditProfileForm> {
 
       snackbar = Snackbar(context, msg, msgType);
       snackbar.showToast();
-      Navigator.of(context).pop(context);
-      // Navigator.pushAndRemoveUntil((context),
-      //     MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
-
+      // Navigator.of(context).pop(context);
+      Navigator.pushAndRemoveUntil((context),
+          MaterialPageRoute(builder: (context) => mmHome()), (route) => false);
     } else {
       Snackbar snackbar2 =
           Snackbar(context, "لا يمكن تحديث ملف المسجد", "fail");

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swe444/Functions/home_screen/v_home_view.dart';
 import 'package:swe444/Models/VUserModel.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
@@ -468,9 +469,9 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
 
       snackbar = Snackbar(context, msg, msgType);
       snackbar.showToast();
-      Navigator.of(context).pop(context);
-      // Navigator.pushAndRemoveUntil((context),
-      //     MaterialPageRoute(builder: (context) => vHome()), (route) => false);
+      // Navigator.of(context).pop(context);
+      Navigator.pushAndRemoveUntil((context),
+          MaterialPageRoute(builder: (context) => vHome()), (route) => false);
     } else {
       Snackbar snackbar2 =
           Snackbar(context, "لا يمكن تحديث الملف الشخصي", "fail");
