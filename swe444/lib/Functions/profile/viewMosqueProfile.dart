@@ -145,7 +145,8 @@ class MosqueProfile extends State<MosqueMangerProfile>
                               : Colors.grey,
                         ),
                         onPressed: () async {
-                          await subscription(widget.MosqueID, widget.MosqueName);
+                          await subscription(
+                              widget.MosqueID, widget.MosqueName);
                         }),
                   ],
                 ),
@@ -1128,7 +1129,7 @@ class MosqueProfile extends State<MosqueMangerProfile>
                   MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
           onPressed: () {
             int count = 0;
-            Navigator.of(context).pop();
+            Navigator.of(context).popUntil((_) => count++ >= 2);
           },
         ));
     // set up the AlertDialog
@@ -1205,71 +1206,6 @@ class MosqueProfile extends State<MosqueMangerProfile>
         DateFormat('dd/MM/yyyy'); //your date format here
     var date = timeStamp.toDate();
     return formatter.format(date);
-  }
-
-  showAlertDialogEdit(DocumentSnapshot document) {
-    RequestViewModel requestVM = RequestViewModel();
-    // set up the buttons
-    Widget cancelButton = ElevatedButton(
-      child: const Text(
-        "إلغاء",
-        style: TextStyle(fontFamily: "Tajawal", color: const Color(0xdeedd03c)),
-      ),
-      onPressed: () {
-        Navigator.of(context).pop(context);
-      },
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
-          elevation: MaterialStateProperty.all<double>(0)),
-    );
-    Widget confirmButton = Padding(
-      padding: EdgeInsets.only(right: 40.w, top: 20.h, bottom: 30.h),
-      child: ElevatedButton(
-        child: Text(
-          "تأكيد",
-          style: TextStyle(fontFamily: "Tajawal"),
-        ),
-        style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-        onPressed: () async {
-          Navigator.of(context).pop();
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EditRequest(document: document)));
-        },
-      ),
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h),
-      title: Text(
-        "تعديل",
-        textAlign: TextAlign.right,
-        style: TextStyle(
-          fontFamily: "Tajawal",
-          color: const Color(0xdeedd03c),
-        ),
-      ),
-      content: Text(
-        "هل أنت متأكد من رغبتك في\n تعديل الطلب؟",
-        textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal"),
-      ),
-      actions: [
-        cancelButton,
-        confirmButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   Widget _buildWaitingScreen() {

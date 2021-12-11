@@ -7,6 +7,7 @@ import 'package:swe444/Functions/donation/userDonations.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
 import 'package:swe444/Functions/map/map_view.dart';
 import 'package:swe444/Functions/profile/VolunteerProfile.dart';
+import '../CustomPageRoute.dart';
 import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
 import 'home.dart';
@@ -63,9 +64,8 @@ class _HomeState extends State<vHome> {
               // AllDonationVM donationsVM = AllDonationVM();
               // await donationsVM
               //     .usersDonations(FirebaseAuth.instance.currentUser!.uid);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      donationsView()));
+              Navigator.of(context).push(CustomPageRoute(
+                  child: donationsView()));
             },
             icon: Icon(Icons.spa),
             padding: const EdgeInsets.only(
