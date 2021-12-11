@@ -44,7 +44,6 @@ class volunteerProfile extends State<VolunteerProfile> {
             lastName = value.get('last_name');
             phone = value.get('phone_number').toString();
           }
-          print(value.data().toString());
         }
       });
     });
@@ -80,8 +79,7 @@ class volunteerProfile extends State<VolunteerProfile> {
                   height: MediaQuery.of(context).size.height * 0.15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 30),
+                  padding: const EdgeInsets.only(bottom: 30),
                   child: Container(
                     height: 400,
                     width: 330,
@@ -132,8 +130,8 @@ class volunteerProfile extends State<VolunteerProfile> {
                                   ),
                                   Spacer(),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.only(right: 50.0, bottom: 8),
+                                    padding: const EdgeInsets.only(
+                                        right: 50.0, bottom: 8),
                                     child: Icon(
                                       Icons.person,
                                       //size: 100,
@@ -171,8 +169,8 @@ class volunteerProfile extends State<VolunteerProfile> {
                                   ),
                                   Spacer(),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.only(right: 50.0, bottom: 8),
+                                    padding: const EdgeInsets.only(
+                                        right: 50.0, bottom: 8),
                                     child: Icon(
                                       Icons.mail,
                                       //size: 100,
@@ -209,8 +207,8 @@ class volunteerProfile extends State<VolunteerProfile> {
                                   ),
                                   Spacer(),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.only(right: 50.0, bottom: 8),
+                                    padding: const EdgeInsets.only(
+                                        right: 50.0, bottom: 8),
                                     child: Icon(
                                       Icons.phone,
                                       //size: 100,
