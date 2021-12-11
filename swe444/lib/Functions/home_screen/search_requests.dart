@@ -1030,6 +1030,8 @@ class _SearchRequests extends State<SearchRequests> {
 
   Future<void> apply(String mmName, String mmId, int wholePartsNum,
       int currentPartsNum, String thisDocId, String title) async {
+    int done = 0;
+    int cum = currentPartsNum;
     String vId = await FirebaseAuth.instance.currentUser!.uid;
     String? response = '';
     bool isExsited = false;
@@ -1057,11 +1059,23 @@ class _SearchRequests extends State<SearchRequests> {
           .collection("applicants")
           .doc(vId)
           .set({'uid': vId})
-          .then((value) =>
-              {response = ' تم تقديم طلب للمشاركة في $title لـ $mmName بنجاح '})
-          .catchError((error) => {response = "لم يتم تفعيل التنبيهات بنجاح"});
+          .then((value) => {
+                response = ' تم تقديم طلب للمشاركة في $title لـ $mmName بنجاح ',
+                done = 1
+              })
+          .catchError((error) => {response = "لم يتم تقديم الطلب بنجاح"});
     } else
       response = ' لقد قمت بتقديم مُسبق  للمشاركة في $title لـ $mmName  ';
+
+    if (done == 1) {
+      cum += 1;
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(thisDocId)
+          .update({
+        'participants': cum,
+      });
+    }
     showAlertDialog(context, response);
   }
 

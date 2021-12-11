@@ -60,7 +60,6 @@ class mosqueProfile extends State<MosqueProfile> {
     super.initState();
   }
 
-// Mosque code
   @override
   Widget build(BuildContext context) {
     return Scaffold(
