@@ -49,11 +49,11 @@ class _DecisionsTreeState extends State<DecisionsTree> {
         if (doc.exists) {
           Map<String, dynamic>? data = doc.data();
           if (data!['role'] == 'mosqueManager') {
-            Navigator.of(context).push(
-                new MaterialPageRoute(builder: (context) =>  mmHome()));
+            Navigator.of(context)
+                .push(new MaterialPageRoute(builder: (context) => mmHome()));
           } else if (data['role'] == 'volunteer') {
             Navigator.of(context)
-                .push( MaterialPageRoute(builder: (context) => new vHome()));
+                .push(MaterialPageRoute(builder: (context) => new vHome()));
           }
         } else {
           print('Not Authorized');
@@ -62,7 +62,19 @@ class _DecisionsTreeState extends State<DecisionsTree> {
         }
       });
     } //end outter else
+    return _buildWaitingScreen();
+    // return UsersScreen();
+  }
 
-    return UsersScreen();
+  Widget _buildWaitingScreen() {
+    return Scaffold(
+      backgroundColor: const Color(0xffededed),
+      body: Container(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(
+          color: const Color(0xdeedd03c),
+        ),
+      ),
+    );
   }
 }
