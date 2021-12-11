@@ -7,6 +7,7 @@
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/donation/userDonations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/donation/userDonations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,6 +118,11 @@
           <url>file://$PROJECT_DIR$/swe444/lib/Widgets/show_snackbar.dart</url>
           <line>35</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/swe444/lib/Functions/donation/userDonations.dart</url>
+          <line>32</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

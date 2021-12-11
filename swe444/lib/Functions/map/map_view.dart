@@ -11,37 +11,19 @@ import 'package:swe444/Sevices/application_bloc.dart';
 import 'package:swe444/Sevices/geolocater_service.dart';
 import 'dart:ui' as ui;
 
-class MapScreen extends StatelessWidget {
+class MapScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ApplicationBloc>(
-        create: (_) => ApplicationBloc(),
-        child: Container(height: 1200, width: 450, child: Map()));
-  }
+  State<MapScreen> createState() => MapScreenState();
 }
 
-class Map extends StatefulWidget {
+class MapScreenState extends State<MapScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
-  State<Map> createState() => MapState();
-}
-
-class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
-  GeolocaterService location = GeolocaterService();
-  LatLng current = LatLng(0, 0);
-  // Completer<GoogleMapController> _controller = Completer();
-  Completer<GoogleMapController> _gmcontroller = Completer();
+  bool get wantKeepAlive => true;
   MarkersViewModel markers = MarkersViewModel();
   Set<Marker> ms = {};
-  TextEditingController searchTerm = TextEditingController();
-  String search = "";
-  List<PlaceSearch> placesResults = [];
-  StreamSubscription? locationsub;
   var applicationBloc;
-
-  CameraPosition cp = CameraPosition(
-    target: LatLng(24.7135517, 46.6752957),
-    zoom: 12.4746,
-  );
+  GeolocaterService location = GeolocaterService();
 
   @override
   void initState() {
@@ -53,31 +35,83 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
             }));
   }
 
-
-  // @override
-  // void dispose() {
-  //
-  //   final applicationBloc = Provider.of<ApplicationBloc>(context, listen: false);
-  //   applicationBloc.dispose();
-  //
-  //   if (locationsub != null) locationsub!.cancel();
-  //
-  //   super.dispose();
-  // }
-
   setup() async {
     ms = await markers.fetchMosques(context);
-
-    final applicationBloc =
-        Provider.of<ApplicationBloc>(context, listen: false);
-
-    locationsub = applicationBloc.selectedLocation.stream.listen((place) {
-      if (applicationBloc.selectedLocationStatic != null) {
-
-        _goToPlace(applicationBloc.selectedLocationStatic!);
-      }
+    setState(() {
+      ms = markers.markers;
     });
+    getCurrentLocation();
   }
+
+  getCurrentLocation() async {
+    if (mounted) {
+      Position loc = await location.getCurrentLocation();
+      double long = loc.longitude;
+      double lat = loc.latitude;
+      Future.delayed(
+          Duration.zero,
+      () => setState(() {
+        var i= markers.markers.iterator;
+        while (i.moveNext()){
+          ms.add(i.current);
+        }
+        ms.add(Marker(
+          markerId: MarkerId('موقعك'),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+          position: LatLng(lat, long),
+          infoWindow: InfoWindow(title: 'أنت هنا!'),
+        ));
+      }));
+    }
+  }
+
+  Widget build(BuildContext context) {
+    super.build(context);
+    // applicationBloc = Provider.of<ApplicationBloc>(context);
+
+    // SchedulerBinding.instance!.addPostFrameCallback((_) {
+    //   if (mounted) {
+    //     // getCurrentLocation();
+    //     setState(() {
+    //       ms = markers.markers;
+    //     });
+    //   }
+    // });
+    return ChangeNotifierProvider<ApplicationBloc>(
+        create: (_) => ApplicationBloc(),
+        child: Consumer<ApplicationBloc>(
+            builder: (context, provider, child) => Scaffold(
+                    body: Map(
+                  applicationBloc: Provider.of<ApplicationBloc>(context),
+                  ms: ms,
+                ))));
+  }
+}
+
+class Map extends StatefulWidget {
+  final applicationBloc;
+  final Set<Marker> ms;
+
+  const Map({Key? key, required this.applicationBloc, required this.ms})
+      : super(key: key);
+
+  @override
+  State<Map> createState() => MapState();
+}
+
+class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
+  LatLng current = LatLng(0, 0);
+  Completer<GoogleMapController> _gmcontroller = Completer();
+  TextEditingController searchTerm = TextEditingController();
+  String search = "";
+  List<PlaceSearch> placesResults = [];
+  StreamSubscription? locationsub;
+
+  CameraPosition cp = CameraPosition(
+    target: LatLng(24.7135517, 46.6752957),
+    zoom: 12.4746,
+  );
+
 
   searchFunc(String s, ApplicationBloc bloc) async {
     bloc.searchPlaces(s);
@@ -157,42 +191,17 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  getCurrentLocation() async {
-    if (mounted){
-    Position loc = await location.getCurrentLocation();
-    double long = loc.longitude;
-    double lat = loc.latitude;
-    setState(() {
-      ms = markers.markers;
-      ms.add(Marker(
-        markerId: MarkerId('موقعك'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
-        position: LatLng(lat, long),
-        infoWindow: InfoWindow(title: 'أنت هنا!'),
-      ));
-    });
-  }}
-
   @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    applicationBloc = Provider.of<ApplicationBloc>(context);
-
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
-      if (mounted && applicationBloc.currentLocation != null) {
-        getCurrentLocation();
-        setState(() {
-          ms = markers.markers;
-        });
-      }
-    });
     return Scaffold(
-      body: (applicationBloc.currentLocation == null)
+      body: (widget.applicationBloc.currentLocation == null)
           ? Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: const Color(0xdeedd03c),
+              ),
             )
           : Container(
               margin: EdgeInsets.fromLTRB(0, 0, 0, 65),
@@ -204,31 +213,33 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
                         myLocationEnabled: true,
                         initialCameraPosition: CameraPosition(
                           target: LatLng(
-                              applicationBloc.currentLocation!.latitude,
-                              applicationBloc.currentLocation!.longitude),
+                              widget.applicationBloc.currentLocation!.latitude,
+                              widget
+                                  .applicationBloc.currentLocation!.longitude),
                           zoom: 12.4746,
                         ),
-                        markers: ms,
+                        markers: widget.ms,
                         mapType: MapType.normal,
                         onMapCreated: (GoogleMapController controller) {
                           if (!_gmcontroller.isCompleted)
-                          _gmcontroller.complete(controller);
+                            _gmcontroller.complete(controller);
                         },
                       ),
-                      if (applicationBloc.searchResults.isNotEmpty &&
+                      if (widget.applicationBloc.searchResults.isNotEmpty &&
                           searchTerm.text.trim().isNotEmpty)
                         Container(
                           margin: EdgeInsets.only(top: 51),
                           height: double.infinity,
                           child: ListView.builder(
-                              itemCount: applicationBloc.searchResults.length,
+                              itemCount:
+                                  widget.applicationBloc.searchResults.length,
                               itemBuilder: (context, index) {
                                 return Container(
-                                  decoration: BoxDecoration(color: Colors.white
-                                      ),
+                                  decoration:
+                                      BoxDecoration(color: Colors.white),
                                   child: ListTile(
                                     title: Text(
-                                      applicationBloc
+                                      widget.applicationBloc
                                           .searchResults[index].placeId,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
@@ -238,20 +249,23 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
                                     ),
                                     onTap: () async {
                                       await _goToPlace(new Place(
-                                        name: applicationBloc
+                                        name: widget.applicationBloc
                                             .searchResults[index].placeId,
-                                        lat: applicationBloc
+                                        lat: widget
+                                            .applicationBloc
                                             .searchResults[index]
                                             .geometry
                                             .latitude,
-                                        long: applicationBloc
+                                        long: widget
+                                            .applicationBloc
                                             .searchResults[index]
                                             .geometry
                                             .longitude,
                                       ));
-                                      searchTerm.text = applicationBloc
+                                      searchTerm.text = widget.applicationBloc
                                           .searchResults[index].placeId;
-                                      applicationBloc.searchResults.clear();
+                                      widget.applicationBloc.searchResults
+                                          .clear();
                                     },
                                   ),
                                 );
@@ -264,7 +278,7 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
                       padding: const EdgeInsets.only(
                           left: 30.0, right: 55, top: 10, bottom: 10),
                       alignment: Alignment.topCenter,
-                      child: searchField(applicationBloc)),
+                      child: searchField(widget.applicationBloc)),
                 ],
               )),
     );
