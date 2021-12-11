@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/v_home_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/v_home_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/profile/viewMosqueProfile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/profile/viewMosqueProfile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/map/map_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Models/place_search.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/map/place_search.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Sevices/application_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Services/application_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Sevices/geolocater_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Services/geolocater_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Sevices/places_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Services/places_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,11 +64,11 @@
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\screens" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/swe444/lib/Functions/map" />
       <recent name="$PROJECT_DIR$/swe444/lib/Functions/donation" />
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\assets" />
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\asset" />
       <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib" />
-      <recent name="C:\Users\lenovo\Documents\GitHub\SWE444-imdad\swe444\lib\Views" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

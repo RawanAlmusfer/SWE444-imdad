@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:swe444/Models/place.dart';
-import 'package:swe444/Models/place_search.dart';
-import 'package:swe444/Sevices/geolocater_service.dart';
-import 'package:swe444/Sevices/places_service.dart';
+import 'package:swe444/Functions/map/place_search.dart';
+import 'package:swe444/Services/geolocater_service.dart';
+import 'package:swe444/Services/places_service.dart';
 
 class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocaterService();

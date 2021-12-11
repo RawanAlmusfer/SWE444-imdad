@@ -5,7 +5,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:swe444/Models/place.dart';
-import 'package:swe444/Models/place_search.dart';
+import 'package:swe444/Functions/map/place_search.dart';
 
 class PlacesService {
   // final key = 'YOUR_KEY';
