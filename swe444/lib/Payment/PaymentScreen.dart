@@ -291,7 +291,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   showAlertDialog(BuildContext context, var response) {
     // set up the button
-    Widget okButton = TextButton(
+    Widget okButton = Padding(
+        padding: EdgeInsets.only(right: 40.w),
+        child: TextButton(
       child: Text(
         "موافق",
         textAlign: TextAlign.right,
@@ -301,14 +303,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
           backgroundColor:
               MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
       onPressed: () {
-        // VolunteerFeed();
-//PaymentScreen();
+        Navigator.of(context).pop(context);
         Navigator.of(context).pop(context);
 
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
       },
-    );
+    ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(

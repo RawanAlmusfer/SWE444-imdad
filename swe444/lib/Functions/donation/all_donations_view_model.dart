@@ -15,8 +15,8 @@ class AllDonationVM with ChangeNotifier {
     notifyListeners();
   }
 
-  usersDonations(String uid) async {
-    FirebaseFirestore.instance
+  Future<List<String>> usersDonations(String uid) async {
+    await FirebaseFirestore.instance
         .collection('requests')
         .snapshots()
         .forEach((snapshot) {
@@ -32,7 +32,8 @@ class AllDonationVM with ChangeNotifier {
                   .collection('donations')
                   .runtimeType !=
               'Null') {
-            FirebaseFirestore.instance
+
+             FirebaseFirestore.instance
                 .collection('requests')
                 .doc(i.current.id)
                 .collection('donations')
@@ -53,44 +54,74 @@ class AllDonationVM with ChangeNotifier {
               }
             }).onError((error, stackTrace) =>
                     print("error" + error.toString() + stackTrace.toString()));
+
+            {
+
+               FirebaseFirestore.instance
+                  .collection('requests')
+                  .doc(i.current.id)
+                  .collection('moneyDonations')
+                  .where('uid', isEqualTo: uid)
+                  .snapshots()
+                  .forEach((snapshot) {
+                if (snapshot.docs.isNotEmpty) {
+                  var j = snapshot.docs.iterator;
+                  while (j.moveNext()) {
+                    if (j.current["uid"].toString() == uid) {
+                      // String id = j.current.id;
+                      if (!userDonations.contains(id)) {
+                        print(request['title']);
+                        userDonations.add(id);
+                      }
+                    }
+                  }
+                }
+              }).onError((error, stackTrace) => print(
+                      "error" + error.toString() + stackTrace.toString()));
+            }
           }
 
           /// item
 
-          if (FirebaseFirestore.instance
-                  .collection('requests')
-                  .doc(i.current.id)
-                  .collection('donations')
-                  .runtimeType !=
-              'Null') {
-            FirebaseFirestore.instance
-                .collection('requests')
-                .doc(i.current.id)
-                .collection('moneyDonations')
-                .where('uid', isEqualTo: uid)
-                .snapshots()
-                .forEach((snapshot) {
-              if (snapshot.docs.isNotEmpty) {
-                var j = snapshot.docs.iterator;
-                while (j.moveNext()) {
-                  if (j.current["uid"].toString() == uid) {
-                    // String id = j.current.id;
-                    if (!userDonations.contains(id)) {
-                      print(request['title']);
-                      userDonations.add(id);
-                    }
-                  }
-                }
-              }
-            }).onError((error, stackTrace) =>
-                    print("error" + error.toString() + stackTrace.toString()));
-          }
+          //       if (FirebaseFirestore.instance
+          //               .collection('requests')
+          //               .doc(i.current.id)
+          //               .collection('donations')
+          //               .runtimeType !=
+          //           'Null') {
+          //         print("here--------3333");
+          //
+          //          FirebaseFirestore.instance
+          //             .collection('requests')
+          //             .doc(i.current.id)
+          //             .collection('moneyDonations')
+          //             .where('uid', isEqualTo: uid)
+          //             .snapshots()
+          //             .forEach((snapshot) {
+          //           if (snapshot.docs.isNotEmpty) {
+          //             var j = snapshot.docs.iterator;
+          //             while (j.moveNext()) {
+          //               if (j.current["uid"].toString() == uid) {
+          //                 // String id = j.current.id;
+          //                 if (!userDonations.contains(id)) {
+          //                   print(request['title']);
+          //                   userDonations.add(id);
+          //                 }
+          //               }
+          //             }
+          //           }
+          //         }).onError((error, stackTrace) =>
+          //                 print("error" + error.toString() + stackTrace.toString()));
+          //       }
+          //     }
+          //   }
         }
       }
     }).onError((error, stackTrace) =>
             print("error" + error.toString() + stackTrace.toString()));
 
     notifyListeners();
+    return userDonations;
   }
 
   List<String> get donations {

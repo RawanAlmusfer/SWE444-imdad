@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:swe444/Functions/donation/all_donations_view_model.dart';
 import 'package:swe444/Functions/donation/userDonations.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
+import 'package:swe444/Functions/map/map_view.dart';
 import 'package:swe444/Functions/profile/VolunteerProfile.dart';
 import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
@@ -35,7 +36,7 @@ class _HomeState extends State<vHome> {
   final List<Widget> _children = [
     VolunteerProfile(),
     SubscribedList(),
-    SearchPage(),
+    MapScreen(),
     SearchPage(),
     vhome(),
   ];
@@ -59,12 +60,12 @@ class _HomeState extends State<vHome> {
           ),
           leading: IconButton(
             onPressed: () async {
-              AllDonationVM donationsVM = AllDonationVM();
-              await donationsVM
-                  .usersDonations(FirebaseAuth.instance.currentUser!.uid);
+              // AllDonationVM donationsVM = AllDonationVM();
+              // await donationsVM
+              //     .usersDonations(FirebaseAuth.instance.currentUser!.uid);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      donationsView(donations: donationsVM.userDonations)));
+                      donationsView()));
             },
             icon: Icon(Icons.spa),
             padding: const EdgeInsets.only(

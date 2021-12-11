@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -14,8 +12,8 @@ import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
 import 'package:swe444/Functions/profile/viewMosqueProfile.dart';
 import 'package:swe444/Functions/subscribe/subscription.dart';
-import 'package:swe444/Payment/PaymentScreen.dart';
-import 'package:swe444/Payment/searchPaymentScreen.dart';
+import 'package:swe444/Payment/allDonationsPaymentScreen.dart';
+import 'package:swe444/Payment/moneyDonations.dart';
 import 'dart:ui' as ui;
 
 import '../CustomPageRoute.dart';
@@ -23,28 +21,35 @@ import 'all_donations_view_model.dart';
 import 'items/donation_view_model.dart';
 
 class donationsView extends StatelessWidget {
-  final List<String> donations;
-  const donationsView({Key? key, required this.donations}) : super(key: key);
+  // final List<String> donations;
+  const donationsView({
+    Key? key,
+    // required this.donations
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AllDonationVM>(
         create: (_) => AllDonationVM(),
         child: ViewUserDonations(
-          donations: donations,
-        ));
+            // donations: donations,
+            ));
   }
 }
 
 class ViewUserDonations extends StatefulWidget {
-  ViewUserDonations.ensureInitialized(this.donations);
-  final List<String> donations;
-  static String? mmEmailDonated2 = '';
-  static String? mmNameDonated2 = '';
-  static int wholeAmount2 = 0;
-  static int wholeDonated2 = 0;
+  ViewUserDonations.ensureInitialized(
+      // this.donations
+      );
+  // final List<String> donations;
+  static String? mmEmailDonated3 = '';
+  static String? mmNameDonated3 = '';
+  static int wholeAmount3 = 0;
+  static int wholeDonated3 = 0;
 
-  const ViewUserDonations({Key? key, required this.donations})
-      : super(key: key);
+  const ViewUserDonations({
+    Key? key,
+    // required this.donations
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -53,20 +58,21 @@ class ViewUserDonations extends StatefulWidget {
 }
 
 class userDonations extends State<ViewUserDonations> {
-  List<String>? mydonations;
-  int? donated = PaymentScreen.vDonatedAmount;
+  List<String> mydonations = [];
+  int? donated = allPaymentScreen.vDonatedAmount3;
+  User? user = FirebaseAuth.instance.currentUser;
+  postMoneyDonations postDB = new postMoneyDonations();
   bool isExecuted = false;
-  TextEditingController searchTerm = TextEditingController();
-  String search = "";
-  int i = 0;
-  int numOfResults = 0;
+  int noDonations = -1;
+  int numOfResults = -1;
   Subscribe subscribe = new Subscribe();
+  var donationsVM;
 
 //String
   @override
   void initState() {
     super.initState();
-    mydonations = widget.donations;
+    // mydonations = widget.donations;
     Future.delayed(
         Duration.zero,
         () => setState(() {
@@ -76,14 +82,35 @@ class userDonations extends State<ViewUserDonations> {
 
   setup() async {
     await Provider.of<AllDonationVM>(context, listen: false).fetchRequests();
-    await Provider.of<AllDonationVM>(context, listen: false)
+    mydonations = await Provider.of<AllDonationVM>(context, listen: false)
         .usersDonations(FirebaseAuth.instance.currentUser!.uid);
+    // mydonations= Provider.of<AllDonationVM>(context, listen: false).donations;
   }
 
   @override
   Widget build(BuildContext context) {
+    donationsVM = Provider.of<AllDonationVM>(context);
+
     Stream<QuerySnapshot<Map<String, dynamic>>>? requests =
-        Provider.of<AllDonationVM>(context, listen: false).requests;
+        donationsVM.requests;
+
+    donationsVM.usersDonations(FirebaseAuth.instance.currentUser!.uid);
+
+    mydonations = donationsVM
+        .donations;
+
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          mydonations =
+              Provider.of<AllDonationVM>(context, listen: false).donations;
+          if (mydonations.length == 0) {
+            noDonations= 0;
+          }
+        });
+      }
+    });
+    // mydonations= Provider.of<AllDonationVM>(context, listen: false).donations;
 
     // mydonations = Provider.of<AllDonationVM>(context, listen: false).userDonations;
 
@@ -132,36 +159,54 @@ class userDonations extends State<ViewUserDonations> {
           stream: requests,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return _buildWaitingScreen();
-            if (widget.donations.length == 0)
+            if (noDonations == 0)
+            // if (mydonations.length == 0)
               return Container(
                 alignment: Alignment.center,
                 child: Text("لا يوجد لديك اي مساهمات سابقة"),
               );
-            // return _buildWaitingScreen();
             return ListView.builder(
               shrinkWrap: true,
               physics: ScrollPhysics(),
               itemCount: (snapshot.data! as QuerySnapshot).docs.length,
               itemBuilder: (BuildContext context, int index) => buildCards(
-                  context, (snapshot.data! as QuerySnapshot).docs[index]),
+                  context, (snapshot.data! as QuerySnapshot).docs[index], mydonations),
             );
           }),
     );
   }
 
-  Widget buildCards(BuildContext context, DocumentSnapshot document) {
-    if (widget.donations.contains(document.id)) {
+  buildCards(BuildContext context, DocumentSnapshot document, List<String> mydonations) {
+    // SchedulerBinding.instance!.addPostFrameCallback((_) {
+    //   if (mounted) {
+    //     setState(() {
+    //       if (mydonations.length == 0) {
+    //         none();
+    //       }
+    //     });
+    //   }
+    // });
+
+    // mydonations = donationsVM.donations;
+    if (mydonations.contains(document.id)) {
       if (document['type'].toString() == "مبلغ")
         return buildFundsCards(context, document);
       else if (document['type'].toString() == "موارد")
         return buildItemsCards(context, document);
-      else if (document['type'].toString() == "تنظيم")
-        return buildEventsCards(context, document);
+      // else if (document['type'].toString() == "تنظيم")
+      //   return buildEventsCards(context, document);
       else {
         return Container();
       }
     } else
       return Container();
+  }
+
+  Widget none() {
+    return Container(
+      alignment: Alignment.center,
+      child: Text("لا يوجد لديك اي مساهمات سابقة"),
+    );
   }
 
   Widget buildFundsCards(BuildContext context, DocumentSnapshot document) {
@@ -335,13 +380,13 @@ class userDonations extends State<ViewUserDonations> {
                         child: ElevatedButton(
                           onPressed: () async {
                             String? mmId = document['posted_by'];
-                            ViewUserDonations.wholeDonated2 =
+                            ViewUserDonations.wholeDonated3 =
                                 document['donated'];
                             int cumDonated = document['donated'];
-                            ViewUserDonations.wholeAmount2 = document['amount'];
+                            ViewUserDonations.wholeAmount3 = document['amount'];
                             String? mName = document['mosque_name'];
 
-                            ViewUserDonations.mmNameDonated2 = mName;
+                            ViewUserDonations.mmNameDonated3 = mName;
 
                             var documentFormmId = await FirebaseFirestore
                                 .instance
@@ -350,24 +395,24 @@ class userDonations extends State<ViewUserDonations> {
                                 .get();
 
                             String? mmEmail = documentFormmId['email'];
-                            ViewUserDonations.mmEmailDonated2 = mmEmail;
+                            ViewUserDonations.mmEmailDonated3 = mmEmail;
 
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        searchPaymentScreen()));
+                                    builder: (context) => allPaymentScreen()));
 
-                            cumDonated += searchPaymentScreen.vDonatedAmount2!;
+                            cumDonated += allPaymentScreen.vDonatedAmount3!;
 
                             String docId = document.id;
                             await FirebaseFirestore.instance
                                 .collection('requests')
                                 .doc(docId)
                                 .update({'donated': cumDonated});
-
+                            if (allPaymentScreen.vDonatedAmount3 != 0)
+                              postDB.postToDB(document, user!.uid);
                             //update the denoation for next user
-                            searchPaymentScreen.vDonatedAmount2 = 0;
+                            allPaymentScreen.vDonatedAmount3 = 0;
                             //  db.collection("requests").doc(docId).update({donated: 10});
                           },
                           child: Text(
@@ -410,7 +455,9 @@ class userDonations extends State<ViewUserDonations> {
 
   Widget buildItemsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "موارد") {
+    if (document['type'].toString() == "موارد"
+        && document['amount_requested'] > document['donated']
+    ) {
       // here is the tpye
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
@@ -618,263 +665,263 @@ class userDonations extends State<ViewUserDonations> {
     }
   }
 
-  Widget buildEventsCards(BuildContext context, DocumentSnapshot document) {
-    FeedViewModel feedVM = FeedViewModel();
-
-    if (document['type'].toString() == "تنظيم") {
-      return Container(
-        padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(19.0),
-          ),
-          shadowColor: Color(0xff334856),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 9.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    GestureDetector(
-                      onTap: () async {
-                        callProfile(
-                            document['mosque_name'], document['posted_by']);
-                      },
-                      child: Container(
-                        width: 100,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 20, top: 5),
-                          child: Text(
-                            document['mosque_name'],
-                            style: TextStyle(
-                                fontFamily: 'Tajawal',
-                                fontSize: 12,
-                                decoration: TextDecoration.underline),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10, top: 5),
-                      child: Text(
-                        document['title'],
-                        style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
-                        // textAlign: TextAlign.left,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        callProfile(
-                            document['mosque_name'], document['posted_by']);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: SvgPicture.string(
-                          mosqueImage,
-                          allowDrawingOutsideViewBox: true,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ]),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
-                  child: Row(children: <Widget>[
-                    const Spacer(),
-                    Column(
-                      children: [
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Text(
-                            document['description'],
-                            style: TextStyle(fontFamily: 'Tajawal'),
-                            textDirection: ui.TextDirection
-                                .rtl, // make the text from right to left
-                          ),
-                        ),
-                        //start_date
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              'تاريخ البداية: ' +
-                                  getTime(document['start_date']),
-                              style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: ui.TextDirection
-                                  .rtl, // make the text from right to left
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              'المدة: ' + document['days'].toString() + " يوم",
-                              style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: ui.TextDirection
-                                  .rtl, // make the text from right to left
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              'يبدأ في تمام الساعة ' +
-                                  document['start_time'].toString() +
-                                  " وينتهي " +
-                                  document['end_time'].toString(),
-                              style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: ui.TextDirection
-                                  .rtl, // make the text from right to left
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Directionality(
-                              textDirection: ui.TextDirection
-                                  .rtl, // make the text from right to left,
-                              child: Text(
-                                'عدد المنظمين المطلوب: ' +
-                                    document['parts_number'].toString(),
-                                style: TextStyle(fontFamily: 'Tajawal'),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 250, // to wrap the text in multiline
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              "عدد المشاركين: ",
-                              style: TextStyle(fontFamily: 'Tajawal'),
-                              textDirection: ui.TextDirection.rtl,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['participants'].toString(),
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 10)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, left: 5, right: 5),
-                              child: SizedBox(
-                                width: 200,
-                                height: 10,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: LinearProgressIndicator(
-                                        value: (document['participants'] /
-                                            document['parts_number']),
-                                        valueColor: AlwaysStoppedAnimation(
-                                            Color(0xdeedd03c)),
-                                        backgroundColor: Color(0xffededed),
-                                      ),
-                                    ),
-                                    Center(
-                                        child: buildLinearProgress(
-                                            (document['participants'] /
-                                                document['parts_number']))),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 14.0),
-                              child: Text(document['parts_number'].toString(),
-                                  style: TextStyle(
-                                      fontFamily: 'Tajawal', fontSize: 10)),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ]),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 5.0, left: 2, right: 10),
-                  child: Row(children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xffededed),
-                              spreadRadius: 1,
-                              blurRadius: 10),
-                        ],
-                      ),
-                      height: 30,
-                      width: 70,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          int? wholePartsNum = document['parts_number'];
-                          int? currentPartsNum = document['participants'];
-                          String mName = document['mosque_name'].toString();
-                          String mmId = document['posted_by'].toString();
-                          String thisDocId = document.id;
-                          String title = document['title'];
-
-                          await apply(mName, mmId, wholePartsNum!,
-                              currentPartsNum!, thisDocId, title);
-                        },
-                        child: Text(
-                          "شارك",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Tajawal',
-                              color: const Color(0xff334856)),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(65.w, 30.h),
-                          primary: const Color(0xdeedd03c),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    IconButton(
-                      icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
-                      onPressed: () async {
-                        await feedVM
-                            .lunchURL(document['mosque_location'].toString());
-                      },
-                    ),
-                  ]),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    } else {
-      return Container();
-    }
-  }
+  // Widget buildEventsCards(BuildContext context, DocumentSnapshot document) {
+  //   FeedViewModel feedVM = FeedViewModel();
+  //
+  //   if (document['type'].toString() == "تنظيم") {
+  //     return Container(
+  //       padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
+  //       child: Card(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(19.0),
+  //         ),
+  //         shadowColor: Color(0xff334856),
+  //         child: Padding(
+  //           padding: const EdgeInsets.all(16.0),
+  //           child: Column(
+  //             children: <Widget>[
+  //               Padding(
+  //                 padding: const EdgeInsets.only(
+  //                     top: 5.0, bottom: 9.0, left: 2, right: 10),
+  //                 child: Row(children: <Widget>[
+  //                   GestureDetector(
+  //                     onTap: () async {
+  //                       callProfile(
+  //                           document['mosque_name'], document['posted_by']);
+  //                     },
+  //                     child: Container(
+  //                       width: 100,
+  //                       child: Padding(
+  //                         padding: const EdgeInsets.only(right: 20, top: 5),
+  //                         child: Text(
+  //                           document['mosque_name'],
+  //                           style: TextStyle(
+  //                               fontFamily: 'Tajawal',
+  //                               fontSize: 12,
+  //                               decoration: TextDecoration.underline),
+  //                           textAlign: TextAlign.center,
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   const Spacer(),
+  //                   Padding(
+  //                     padding: const EdgeInsets.only(right: 10, top: 5),
+  //                     child: Text(
+  //                       document['title'],
+  //                       style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+  //                       // textAlign: TextAlign.left,
+  //                     ),
+  //                   ),
+  //                   GestureDetector(
+  //                     onTap: () async {
+  //                       callProfile(
+  //                           document['mosque_name'], document['posted_by']);
+  //                     },
+  //                     child: Padding(
+  //                       padding: const EdgeInsets.only(left: 10),
+  //                       child: SvgPicture.string(
+  //                         mosqueImage,
+  //                         allowDrawingOutsideViewBox: true,
+  //                         fit: BoxFit.fill,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ]),
+  //               ),
+  //               Padding(
+  //                 padding:
+  //                     const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+  //                 child: Row(children: <Widget>[
+  //                   const Spacer(),
+  //                   Column(
+  //                     children: [
+  //                       Container(
+  //                         width: 250, // to wrap the text in multiline
+  //                         child: Text(
+  //                           document['description'],
+  //                           style: TextStyle(fontFamily: 'Tajawal'),
+  //                           textDirection: ui.TextDirection
+  //                               .rtl, // make the text from right to left
+  //                         ),
+  //                       ),
+  //                       //start_date
+  //                       Container(
+  //                         width: 250, // to wrap the text in multiline
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(top: 10),
+  //                           child: Text(
+  //                             'تاريخ البداية: ' +
+  //                                 getTime(document['start_date']),
+  //                             style: TextStyle(fontFamily: 'Tajawal'),
+  //                             textDirection: ui.TextDirection
+  //                                 .rtl, // make the text from right to left
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       Container(
+  //                         width: 250, // to wrap the text in multiline
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(top: 10),
+  //                           child: Text(
+  //                             'المدة: ' + document['days'].toString() + " يوم",
+  //                             style: TextStyle(fontFamily: 'Tajawal'),
+  //                             textDirection: ui.TextDirection
+  //                                 .rtl, // make the text from right to left
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       Container(
+  //                         width: 250, // to wrap the text in multiline
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(top: 10),
+  //                           child: Text(
+  //                             'يبدأ في تمام الساعة ' +
+  //                                 document['start_time'].toString() +
+  //                                 " وينتهي " +
+  //                                 document['end_time'].toString(),
+  //                             style: TextStyle(fontFamily: 'Tajawal'),
+  //                             textDirection: ui.TextDirection
+  //                                 .rtl, // make the text from right to left
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       Container(
+  //                         width: 250, // to wrap the text in multiline
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(top: 10),
+  //                           child: Directionality(
+  //                             textDirection: ui.TextDirection
+  //                                 .rtl, // make the text from right to left,
+  //                             child: Text(
+  //                               'عدد المنظمين المطلوب: ' +
+  //                                   document['parts_number'].toString(),
+  //                               style: TextStyle(fontFamily: 'Tajawal'),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       Container(
+  //                         width: 250, // to wrap the text in multiline
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(top: 10),
+  //                           child: Text(
+  //                             "عدد المشاركين: ",
+  //                             style: TextStyle(fontFamily: 'Tajawal'),
+  //                             textDirection: ui.TextDirection.rtl,
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       Row(
+  //                         children: [
+  //                           Padding(
+  //                             padding: const EdgeInsets.only(top: 14.0),
+  //                             child: Text(document['participants'].toString(),
+  //                                 textAlign: TextAlign.right,
+  //                                 style: TextStyle(
+  //                                     fontFamily: 'Tajawal', fontSize: 10)),
+  //                           ),
+  //                           Padding(
+  //                             padding: const EdgeInsets.only(
+  //                                 top: 10.0, left: 5, right: 5),
+  //                             child: SizedBox(
+  //                               width: 200,
+  //                               height: 10,
+  //                               child: Stack(
+  //                                 fit: StackFit.expand,
+  //                                 children: [
+  //                                   ClipRRect(
+  //                                     borderRadius: BorderRadius.circular(50),
+  //                                     child: LinearProgressIndicator(
+  //                                       value: (document['participants'] /
+  //                                           document['parts_number']),
+  //                                       valueColor: AlwaysStoppedAnimation(
+  //                                           Color(0xdeedd03c)),
+  //                                       backgroundColor: Color(0xffededed),
+  //                                     ),
+  //                                   ),
+  //                                   Center(
+  //                                       child: buildLinearProgress(
+  //                                           (document['participants'] /
+  //                                               document['parts_number']))),
+  //                                 ],
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           Padding(
+  //                             padding: const EdgeInsets.only(top: 14.0),
+  //                             child: Text(document['parts_number'].toString(),
+  //                                 style: TextStyle(
+  //                                     fontFamily: 'Tajawal', fontSize: 10)),
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ]),
+  //               ),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(
+  //                     top: 5.0, bottom: 5.0, left: 2, right: 10),
+  //                 child: Row(children: <Widget>[
+  //                   Container(
+  //                     decoration: BoxDecoration(
+  //                       boxShadow: [
+  //                         BoxShadow(
+  //                             color: Color(0xffededed),
+  //                             spreadRadius: 1,
+  //                             blurRadius: 10),
+  //                       ],
+  //                     ),
+  //                     height: 30,
+  //                     width: 70,
+  //                     child: ElevatedButton(
+  //                       onPressed: () async {
+  //                         int? wholePartsNum = document['parts_number'];
+  //                         int? currentPartsNum = document['participants'];
+  //                         String mName = document['mosque_name'].toString();
+  //                         String mmId = document['posted_by'].toString();
+  //                         String thisDocId = document.id;
+  //                         String title = document['title'];
+  //
+  //                         await apply(mName, mmId, wholePartsNum!,
+  //                             currentPartsNum!, thisDocId, title);
+  //                       },
+  //                       child: Text(
+  //                         "شارك",
+  //                         textAlign: TextAlign.center,
+  //                         style: TextStyle(
+  //                             fontFamily: 'Tajawal',
+  //                             color: const Color(0xff334856)),
+  //                       ),
+  //                       style: ElevatedButton.styleFrom(
+  //                         minimumSize: Size(65.w, 30.h),
+  //                         primary: const Color(0xdeedd03c),
+  //                         shape: RoundedRectangleBorder(
+  //                           borderRadius: BorderRadius.circular(50),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Spacer(),
+  //                   IconButton(
+  //                     icon: Icon(Icons.location_on, color: Color(0xdeedd03c)),
+  //                     onPressed: () async {
+  //                       await feedVM
+  //                           .lunchURL(document['mosque_location'].toString());
+  //                     },
+  //                   ),
+  //                 ]),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     return Container();
+  //   }
+  // }
 
   callProfile(String name, String ID) async {
     bool flag = await isSubscribed(ID.toString());

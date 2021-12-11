@@ -6,19 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="863e54b6-d6c7-46a3-be8f-7ed351dafc4a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/donation/all_donations_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/donation/all_donations_view_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/donation/items/item_donation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/donation/items/item_donation.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/donation/items/viewDonations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/donation/items/viewDonations.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/eventsVFeed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/eventsVFeed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/itemsVFeed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/itemsVFeed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/moneyVFeed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/moneyVFeed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/v_home_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/home_screen/v_home_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/login/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/login/login_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/request/edit_request_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/request/edit_request_form.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/request/post_request_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/request/post_request_form.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/signup/signup_v.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Payment/PaymentScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Payment/PaymentScreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swe444/lib/Payment/searchPaymentScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Payment/searchPaymentScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe444/lib/Functions/profile/VolunteerProfile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/swe444/lib/Functions/profile/VolunteerProfile.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +107,16 @@
           <url>file://$PROJECT_DIR$/swe444/lib/Functions/request/request_view_model.dart</url>
           <line>38</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/swe444/lib/Functions/profile/edit_profile_form.dart</url>
+          <line>178</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/swe444/lib/Widgets/show_snackbar.dart</url>
+          <line>35</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

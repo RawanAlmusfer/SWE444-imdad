@@ -131,34 +131,43 @@ class MosqueProfile extends State<MosqueMangerProfile>
         child: Column(
           children: [
             Row(
+              mainAxisSize: MainAxisSize.max,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, bottom: 30),
-                  child: IconButton(
-                      icon: Icon(
-                        Icons.notifications,
-                        size: 30,
-                        color: widget.isSubscribed
-                            ? Color(0xdeedd03c)
-                            : Colors.grey,
+                Spacer(flex: 1),
+                Column(
+                  children: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.notifications,
+                          size: 30,
+                          color: widget.isSubscribed
+                              ? Color(0xdeedd03c)
+                              : Colors.grey,
+                        ),
+                        onPressed: () async {
+                          await subscription(widget.MosqueID, widget.MosqueName);
+                        }),
+                  ],
+                ),
+                Spacer(flex: 4),
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(left: 10, bottom: 20),
+                      height: 80,
+                      width: 80,
+                      child: SvgPicture.string(
+                        mosqueImage,
+                        allowDrawingOutsideViewBox: true,
+                        fit: BoxFit.fill,
                       ),
-                      onPressed: () async {
-                        await subscription(widget.MosqueID, widget.MosqueName);
-                      }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 80.0),
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 10, bottom: 20),
-                    height: 80,
-                    width: 80,
-                    child: SvgPicture.string(
-                      mosqueImage,
-                      allowDrawingOutsideViewBox: true,
-                      fit: BoxFit.fill,
                     ),
-                  ),
+                  ],
                 ),
+                Spacer(flex: 7),
               ],
             ),
             Text(
@@ -1026,65 +1035,75 @@ class MosqueProfile extends State<MosqueMangerProfile>
     try {
       //subscribe
 
-      var document = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(mmId)
-          .collection("subscribedVolunteers")
-          .doc(vId)
-          .get();
+      var mdoc =
+          await FirebaseFirestore.instance.collection('users').doc(mmId).get();
 
-      if (document.exists) {
-        if (document != null) {
-          isExsited = true;
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
-        }
+      if (!mdoc.exists || mdoc == null) {
+        response = "المسجد لا يملك حسابًا على تطبيق إمداد";
       } else {
-        print('المتطوع ليس مسجل بقائمة المتطوعين');
-      }
-
-      if (!isExsited) {
-        await FirebaseMessaging.instance.getToken().then((token) {
-          dToken = token.toString();
-        });
-        await FirebaseFirestore.instance
+        var document = await FirebaseFirestore.instance
             .collection('users')
             .doc(mmId)
             .collection("subscribedVolunteers")
             .doc(vId)
-            .set({'uid': vId, 'token': dToken})
-            .then(
-                (value) => {response = ' تم تفعيل التنبيهات لـ $mmName بنجاح '})
-            .catchError((error) => {response = "لم يتم تفعيل التنبيهات بنجاح"});
-        //add to mm
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(vId)
-            .collection("subscribedMosqueManager")
-            .doc(mmId)
-            .set({'mosque_name': mmName, 'mmId': mmId});
-      }
+            .get();
 
-      //Unsubscribe
+        if (document.exists) {
+          if (document != null) {
+            isExsited = true;
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
+          }
+        } else {
+          print('المتطوع ليس مسجل بقائمة المتطوعين');
+        }
 
-      else {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(mmId)
-            .collection("subscribedVolunteers")
-            .doc(vId)
-            .delete()
-            .then((value) =>
-                {response = ' تم إلغاء تفعيل التنبيهات \n لـ $mmName بنجاح  '})
-            .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
+        if (!isExsited) {
+          await FirebaseMessaging.instance.getToken().then((token) {
+            dToken = token.toString();
+          });
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(mmId)
+              .collection("subscribedVolunteers")
+              .doc(vId)
+              .set({'uid': vId, 'token': dToken})
+              .then((value) =>
+                  {response = ' تم تفعيل التنبيهات لـ $mmName بنجاح '})
+              .catchError(
+                  (error) => {response = "لم يتم تفعيل التنبيهات بنجاح"});
+          //add to mm
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(vId)
+              .collection("subscribedMosqueManager")
+              .doc(mmId)
+              .set({'mosque_name': mmName, 'mmId': mmId});
+        }
 
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(vId)
-            .collection("subscribedMosqueManager")
-            .doc(mmId)
-            .delete();
+        //Unsubscribe
+
+        else {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(mmId)
+              .collection("subscribedVolunteers")
+              .doc(vId)
+              .delete()
+              .then((value) => {
+                    response = ' تم إلغاء تفعيل التنبيهات \n لـ $mmName بنجاح  '
+                  })
+              .catchError(
+                  (error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
+
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(vId)
+              .collection("subscribedMosqueManager")
+              .doc(mmId)
+              .delete();
+        }
       }
     } catch (e) {
       ScaffoldMessenger.of(context)
@@ -1109,7 +1128,7 @@ class MosqueProfile extends State<MosqueMangerProfile>
                   MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
           onPressed: () {
             int count = 0;
-            Navigator.of(context).popUntil((_) => count++ >= 2);
+            Navigator.of(context).pop();
           },
         ));
     // set up the AlertDialog
