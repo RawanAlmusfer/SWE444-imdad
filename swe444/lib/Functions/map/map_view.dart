@@ -99,14 +99,12 @@ class Map extends StatefulWidget {
   State<Map> createState() => MapState();
 }
 
-class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
+class MapState extends State<Map> {
   LatLng current = LatLng(0, 0);
   Completer<GoogleMapController> _gmcontroller = Completer();
   TextEditingController searchTerm = TextEditingController();
   String search = "";
-  List<PlaceSearch> placesResults = [];
   StreamSubscription? locationsub;
-
   CameraPosition cp = CameraPosition(
     target: LatLng(24.7135517, 46.6752957),
     zoom: 12.4746,
@@ -191,12 +189,10 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       body: (widget.applicationBloc.currentLocation == null)
           ? Center(
