@@ -1,13 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:swe444/Functions/donation/all_donations_view_model.dart';
+import 'package:swe444/Functions/donation/userDonations.dart';
 import 'package:swe444/Functions/home_screen/search_requests.dart';
-import 'package:swe444/Functions/profile/ProfilePage1.dart';
+import 'package:swe444/Functions/map/map_view.dart';
+import 'package:swe444/Functions/profile/VolunteerProfile.dart';
+import '../CustomPageRoute.dart';
 import '../decisions_tree.dart';
 import '../subscribe/SubscribedList.dart';
 import 'home.dart';
 import 'moneyVFeed.dart';
-import '../logout.dart';
+
+class vHomeA extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<AllDonationVM>(
+        create: (_) => AllDonationVM(), child: vHome());
+  }
+}
 
 class vHome extends StatefulWidget {
   @override
@@ -18,13 +30,14 @@ class vHome extends StatefulWidget {
 
 class _HomeState extends State<vHome> {
   // the default location which the user will be in:
-  int _currentIndex = 3;
+  int _currentIndex = 4;
   String _title = "الصفحة الرئيسية";
 
   // nav bar redirection:
   final List<Widget> _children = [
-    ProfilePage(),
+    VolunteerProfile(),
     SubscribedList(),
+    MapScreen(),
     SearchPage(),
     vhome(),
   ];
@@ -46,7 +59,20 @@ class _HomeState extends State<vHome> {
               fontSize: 24,
             ),
           ),
-
+          leading: IconButton(
+            onPressed: () async {
+              // AllDonationVM donationsVM = AllDonationVM();
+              // await donationsVM
+              //     .usersDonations(FirebaseAuth.instance.currentUser!.uid);
+              Navigator.of(context).push(CustomPageRoute(
+                  child: donationsView()));
+            },
+            icon: Icon(Icons.spa),
+            padding: const EdgeInsets.only(
+              left: 20,
+            ),
+            color: const Color(0xff334856),
+          ),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 20.0),
@@ -183,6 +209,10 @@ class _HomeState extends State<vHome> {
                     label: "المتابَعين",
                   ),
                   BottomNavigationBarItem(
+                    icon: new Icon(Icons.map_rounded),
+                    label: "الخريطة",
+                  ),
+                  BottomNavigationBarItem(
                     icon: new Icon(Icons.search),
                     label: "البحث",
                   ),
@@ -217,10 +247,15 @@ class _HomeState extends State<vHome> {
           break;
         case 2:
           {
-            _title = 'البحث';
+            _title = 'الخريطة';
           }
           break;
         case 3:
+          {
+            _title = 'البحث';
+          }
+          break;
+        case 4:
           {
             _title = 'الصفحة الرئيسية';
           }

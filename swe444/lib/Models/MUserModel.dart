@@ -12,6 +12,7 @@ class MViewModel {
   late String message;
   bool? valid;
   late String msgType;
+  bool exist= false;
 
   MViewModel(
       {this.uid,
@@ -84,6 +85,27 @@ class MViewModel {
       'mosque_code': mosque_code,
       'role': role,
     };
+  }
+
+  findMosqueCode(String code) {
+     FirebaseFirestore.instance
+        .collection('mosques_code')
+        .where('code', isEqualTo: code)
+        .snapshots()
+        .forEach((snapshot) {
+      var i = snapshot.docs.iterator;
+      while (i.moveNext()) {
+        if (i.current['code'].toString() == code){
+          print('here');
+        exist = true;
+        }
+      }
+    }).onError((error, stackTrace) {
+      print("error" + error.toString());
+      exist = false;
+    });
+
+     return exist;
   }
 
   Future<void> signUp(String email, String password) async {

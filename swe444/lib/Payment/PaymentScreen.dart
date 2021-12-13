@@ -8,6 +8,7 @@ import 'package:swe444/Widgets/show_snackbar.dart';
 //import 'package:stripe/StripeGateway.dart';
 
 import 'StripeGateway.dart';
+import 'moneyDonations.dart';
 
 class PaymentScreen extends StatefulWidget {
   static int? vDonatedAmount = 0;
@@ -23,11 +24,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
   TextEditingController _controller = TextEditingController();
   int isVDonatedPaymentScreen = 0;
 
+
   //int? vDonatedAmount=int.parse(_controller.text);
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     StripeServices.init();
   }
@@ -71,205 +72,211 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 70.0),
-          child: Row(
-            children: [
-              Text(
-                "عملية التبرع بالمال",
-                textAlign: TextAlign.center,
-                style: TextStyle(
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          actions: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                margin: EdgeInsets.only(right: 20, bottom: 8),
+                child: Icon(
+                  Icons.keyboard_backspace_rounded,
+                  textDirection: TextDirection.rtl,
+                  size: 30,
                   color: Color(0xff334856),
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Tajawal',
-                  fontSize: 24,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30.0),
-                child: IconButton(
-                    icon: Icon(
-                      Icons.keyboard_backspace_rounded,
+            ),
+          ],
+          title: Text(
+            "عملية التبرع بالمال",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xff334856),
+              fontWeight: FontWeight.w700,
+              fontFamily: 'Tajawal',
+              fontSize: 24,
+            ),
+          ),
+          //automaticallyImplyLeading: false,
+          backgroundColor: const Color(0xdeedd03c),
+          bottomOpacity: 30,
+          // elevation: 1,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(50),
+            ),
+          ),
+        ),
+        body: Container(
+          padding: const EdgeInsets.only(
+            top: 0,
+            left: 50,
+            right: 50,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                    height: 280,
+                    width: 280,
+                    child: Image.asset('images/money.png')),
+                Form(
+                  key: _formKey,
+                  child: Container(
+                    child: Directionality(
                       textDirection: TextDirection.rtl,
-                      size: 30,
-                      color: Color(0xff334856),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => moneyVFeed()));
+                      child: TextFormField(
+                        showCursor: true,
+                        cursorColor: const Color(0xdeedd03c),
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          hoverColor: const Color(0xff334856),
+                          alignLabelWithHint: true,
 
-                      //   Navigator.pop(context);
-                    }),
-              ),
-            ],
-          ),
-        ),
-        //automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xdeedd03c),
-        bottomOpacity: 30,
-        // elevation: 1,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50),
-          ),
-        ),
-      ),
-      body: Container(
-        padding: const EdgeInsets.only(
-          top: 0,
-          left: 50,
-          right: 50,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                  height: 280,
-                  width: 280,
-                  child: Image.asset('images/money.png')),
-              Form(
-                key: _formKey,
-                child: Container(
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: TextFormField(
-                      showCursor: true,
-                      cursorColor: const Color(0xdeedd03c),
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        hoverColor: const Color(0xff334856),
-                        alignLabelWithHint: true,
-
-                        //  textAlign: TextAlign.end,
-                        hintText: 'ريال سعودي ',
-                        //    hintTextDirection: TextAlign.left,
-                        labelText: 'أدخل المبلغ المراد التبرع به',
-                        hintStyle: const TextStyle(
-                            fontSize: 14,
-                            color: Color(0xff334856),
-                            fontFamily: 'Tajawal'),
-                        labelStyle: const TextStyle(
-                            fontSize: 15,
-                            color: Color(0xff334856),
-                            fontFamily: 'Tajawal'),
-                        focusedBorder: OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(
-                            color: Color(0xdeedd03c),
-                          ),
-                        ),
-                        border: OutlineInputBorder(
+                          //  textAlign: TextAlign.end,
+                          hintText: 'ريال سعودي ',
+                          //    hintTextDirection: TextAlign.left,
+                          labelText: 'أدخل المبلغ المراد التبرع به',
+                          hintStyle: const TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff334856),
+                              fontFamily: 'Tajawal'),
+                          labelStyle: const TextStyle(
+                              fontSize: 15,
+                              color: Color(0xff334856),
+                              fontFamily: 'Tajawal'),
+                          focusedBorder: OutlineInputBorder(
+                            // width: 0.0 produces a thin "hairline" border
                             borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide(
-                              width: 5,
+                            borderSide: const BorderSide(
                               color: Color(0xdeedd03c),
-                            )),
-                      ),
-                      textAlign: TextAlign.left,
-                      inputFormatters: [new WhitelistingTextInputFormatter(RegExp("[0-9]")),],
-                      onSaved: (value) {
-                        _controller.text = value!;
-                      },
-                      validator: (value) {
-                       // String text = _controller.text;
-                        value =_controller.text;
-                        int donated = int.parse(value);
-                        int check = mv_feed.wholeAmount - mv_feed.wholeDonated;
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                width: 5,
+                                color: Color(0xdeedd03c),
+                              )),
+                        ),
+                        textAlign: TextAlign.right,
+                        inputFormatters: [
+                          new WhitelistingTextInputFormatter(RegExp("[0-9]")),
+                        ],
+                        onSaved: (value) {
+                          _controller.text = value!;
+                        },
+                        validator: (value) {
+                          // String text = _controller.text;
+                          value = _controller.text;
+                          int donated = int.parse(value);
+                          int check =
+                              mv_feed.wholeAmount - mv_feed.wholeDonated;
 
-                        if (value == null || value.isEmpty || value.trim().isEmpty)
-                          return "الرجاء إدخال قيمة التبرع المرغوبة";
-                        else
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.trim().isEmpty)
+                            return "الرجاء إدخال قيمة التبرع المرغوبة";
+                          else {
+                            if (donated > 50000)
+                              return "أقصى قيمة للتبرع= 50000";
+                            if (donated < 10) return "أدنى قيمة للتبرع = 10";
 
-                        {
-                          if (donated > 50000) return "أقصى قيمة للتبرع= 50000";
-                          if (donated < 10) return "أدنى قيمة للتبرع = 10";
+                            if (check == 0)
+                              return "الحالة مكتملة ، شكراً لتعاونك";
+                            if (donated > mv_feed.wholeAmount &&
+                                check == mv_feed.wholeAmount)
+                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المطلوب $check";
 
-                          if (check == 0)
-                            return "الحالة مكتملة ، شكراً لتعاونك";
-
-                            if (donated > mv_feed.wholeAmount )
+                            if (donated > mv_feed.wholeAmount)
                               return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
 
-                            if(donated==mv_feed.wholeAmount && check != 0)
-                              return " قيمة التبرع أكبر من المبلغ المطلوب،المبلغ المتبقي $check";
-
-
-
+                            if (donated == mv_feed.wholeAmount &&
+                                check < mv_feed.wholeAmount &&
+                                check != 0)
+                              return " قيمة التبرع أكبر من المبلغ المتبقي،المبلغ المتبقي $check";
                           }
 
+                          //  return "الرجاء إدخال قيمة عددية";
+                          // return null if the text is valid
+                          return null;
+                        },
+                      ),
 
-                      //  return "الرجاء إدخال قيمة عددية";
-                        // return null if the text is valid
-                        return null;
-                      },
+                      //onChanged: (_) => setState(() {}),
                     ),
-
-                    //onChanged: (_) => setState(() {}),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.04,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    //     dollarToSR=(double.parse(_controller.text) * 100)*3.75050163;
-                    PaymentScreen.vDonatedAmount =
-                        int.parse(_controller.text);
-                   // int? inGate = (PaymentScreen.vDonatedAmount!* 0.27 ).toInt();
-                    // double? inGate = PaymentScreen.vDonatedAmount!* 0.27;
-                  int? inGate = PaymentScreen.vDonatedAmount;
-
-                    String? mmEmailToGate = mv_feed.mmEmailDonated;
-                    String? mmNameToGate = mv_feed.mmNameDonated;
-                    //   String description = '$mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني  $mmNameToGate ريال سعودي لصالح المسجد $inGate التبرع بالمبلغ ';
-                    List<String> list = [
-                      "التبرع بالمبلغ $inGate  SR ",
-                      " لصالح مسجد $mmNameToGate ",
-                      " $mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني "
-                    ];
-                    var stringList = list.join("");
-                    String description = stringList;
-
-                    //convert from USD to saudi Riyal
-                    int amount1=((int.parse(_controller.text))*0.27* 100).toInt();
-                    String amount = amount1.toString();
-
-                    var response = await StripeServices.payNowHandler(
-                        amount: amount,
-                        currency: 'SAR',
-                        description: description);
-                   // print(response.message);
-
-                    showAlertDialog(context, response);
-                   // feedbackResponseDonation(response);
-                  } else {
-
-                    String errorMessage= 'الرجاء التأكد من القيمة العددية المدخلة';
-                    var snackbar2 = Snackbar(context, errorMessage, "fail");
-                    snackbar2.showToast();
-                  }
-                },
-                child: Text(
-                  'ادفع الآن',
-                  style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(85.w, 40.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      //     dollarToSR=(double.parse(_controller.text) * 100)*3.75050163;
+                      PaymentScreen.vDonatedAmount =
+                          int.parse(_controller.text);
+                      // int? inGate = (PaymentScreen.vDonatedAmount!* 0.27 ).toInt();
+                      // double? inGate = PaymentScreen.vDonatedAmount!* 0.27;
+                      int? inGate = PaymentScreen.vDonatedAmount;
+
+                      String? mmEmailToGate = mv_feed.mmEmailDonated;
+                      String? mmNameToGate = mv_feed.mmNameDonated;
+                      //   String description = '$mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني  $mmNameToGate ريال سعودي لصالح المسجد $inGate التبرع بالمبلغ ';
+                      List<String> list = [
+                        "التبرع بالمبلغ $inGate  SR ",
+                        " لصالح مسجد $mmNameToGate ",
+                        " $mmEmailToGate  لمدير المسجد صاحب البريد الإلكتروني "
+                      ];
+                      var stringList = list.join("");
+                      String description = stringList;
+
+                      //convert from USD to saudi Riyal
+                      int amount1 =
+                          ((int.parse(_controller.text)) * 100).toInt();
+                      String amount = amount1.toString();
+
+                      var response = await StripeServices.payNowHandler(
+                          amount: amount,
+                          currency: 'SAR',
+                          description: description);
+                      // print(response.message);
+                     // if(response=='')
+
+
+                      showAlertDialog(context, response);
+                      // feedbackResponseDonation(response);
+                    } else {
+                      String errorMessage =
+                          'الرجاء التأكد من القيمة العددية المدخلة';
+                      var snackbar2 = Snackbar(context, errorMessage, "fail");
+                      snackbar2.showToast();
+                    }
+                  },
+                  child: Text(
+                    'ادفع الآن',
+                    style:
+                        TextStyle(fontFamily: "Tajawal", color: Colors.white),
                   ),
-                ),
-              )
-            ],
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(85.w, 40.h),
+                    primary: const Color(0xdeedd03c),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -284,7 +291,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   showAlertDialog(BuildContext context, var response) {
     // set up the button
-    Widget okButton = TextButton(
+    Widget okButton = Padding(
+        padding: EdgeInsets.only(right: 40.w),
+        child: TextButton(
       child: Text(
         "موافق",
         textAlign: TextAlign.right,
@@ -294,14 +303,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
           backgroundColor:
               MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
       onPressed: () {
-        // VolunteerFeed();
-//PaymentScreen();
+        Navigator.of(context).pop(context);
         Navigator.of(context).pop(context);
 
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
       },
-    );
+    ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(

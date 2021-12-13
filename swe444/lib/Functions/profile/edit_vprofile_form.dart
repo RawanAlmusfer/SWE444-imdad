@@ -8,14 +8,9 @@ import 'package:swe444/Functions/home_screen/v_home_view.dart';
 import 'package:swe444/Models/VUserModel.dart';
 import 'package:swe444/Widgets/show_snackbar.dart';
 
-
-
 class EditVProfileForm extends StatefulWidget {
   final DocumentSnapshot document;
-  EditVProfileForm({
-    Key? key,
-    required this.document
-  }) : super(key: key);
+  EditVProfileForm({Key? key, required this.document}) : super(key: key);
 
   @override
   _EditVProfileFormState createState() => _EditVProfileFormState();
@@ -31,7 +26,6 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
   final TextEditingController _fname = TextEditingController();
   final TextEditingController _lname = TextEditingController();
   final TextEditingController _phone = TextEditingController();
-
 
   @override
   void initState() {
@@ -50,14 +44,12 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء قم بإدخال بريد إلكتروني");
         }
         // reg expression for email validation
         if (!RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(value)) {
           return ("البريد الإلكتروني غير صحيح");
         }
@@ -73,7 +65,7 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
       textAlign: TextAlign.right,
       controller: _email,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(right: 5, top: 15,  left: 5),
+        contentPadding: EdgeInsets.only(right: 5, top: 15, left: 5),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
@@ -123,7 +115,7 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
           return ("يجب ان يحتوي على حرفين على الأقل");
         }
         if (!RegExp(r"^[\p{L} ,.'-]*$",
-            caseSensitive: false, unicode: true, dotAll: true)
+                caseSensitive: false, unicode: true, dotAll: true)
             .hasMatch(value)) {
           return ("يجب ان يحتوي الأسم الأول على أحرف فقط");
         }
@@ -186,7 +178,7 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
           return ("يجب ان يحتوي على حرفين على الأقل");
         }
         if (!RegExp(r"^[\p{L} ,.'-]*$",
-            caseSensitive: false, unicode: true, dotAll: true)
+                caseSensitive: false, unicode: true, dotAll: true)
             .hasMatch(value)) {
           return ("يجب ان يحتوي الأسم الأخير على أحرف فقط");
         }
@@ -243,9 +235,7 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
       },
       validator: (value) {
         RegExp regex = RegExp(r'^((?:[0?5?]+)(?:\s?\d{8}))$');
-        if (value!.isEmpty || value
-            .trim()
-            .isEmpty) {
+        if (value!.isEmpty || value.trim().isEmpty) {
           return ("الرجاء إدخال رقم جوال المسجد ");
         }
         if (!regex.hasMatch(value)) {
@@ -299,8 +289,6 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
     );
   }
 
-
-
 // https://medium.com/multiverse-software/alert-dialog-and-confirmation-dialog-in-flutter-8d8c160f4095
   showAlertDialog(String? id) {
     // set up the buttons
@@ -310,14 +298,14 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
         child: const Text(
           "إلغاء",
           style:
-          TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
+              TextStyle(color: const Color(0xdeedd03c), fontFamily: "Tajawal"),
         ),
         onPressed: () {
           Navigator.of(context).pop(context);
         },
         style: ButtonStyle(
             backgroundColor:
-            MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
+                MaterialStateProperty.all<Color>(const Color(0xdeffffff)),
             elevation: MaterialStateProperty.all<double>(0)),
       ),
     );
@@ -330,7 +318,7 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
         ),
         style: ButtonStyle(
             backgroundColor:
-            MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+                MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
         onPressed: () {
           Navigator.of(context).pop(context);
           update(id);
@@ -464,16 +452,14 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
   }
 
   void update(String? id) async {
-
     if (widget.document.exists) {
-      VUserModel userVM= new VUserModel();
+      VUserModel userVM = new VUserModel();
       userVM.uid = widget.document['uid'].toString();
       userVM.first_name = _fname.text;
       userVM.last_name = _lname.text;
-      userVM.role= widget.document['role'].toString();
-      userVM.volunteer_phone= int.parse(_phone.text);
-      userVM.email= widget.document['email'].toString();
-
+      userVM.role = widget.document['role'].toString();
+      userVM.volunteer_phone = int.parse(_phone.text);
+      userVM.email = widget.document['email'].toString();
 
       await userVM.update(widget.document.id, user);
 
@@ -483,11 +469,12 @@ class _EditVProfileFormState extends State<EditVProfileForm> {
 
       snackbar = Snackbar(context, msg, msgType);
       snackbar.showToast();
-
+      // Navigator.of(context).pop(context);
       Navigator.pushAndRemoveUntil((context),
           MaterialPageRoute(builder: (context) => vHome()), (route) => false);
     } else {
-      Snackbar snackbar2 = Snackbar(context, "لا يمكن تحديث الملف الشخصي", "fail");
+      Snackbar snackbar2 =
+          Snackbar(context, "لا يمكن تحديث الملف الشخصي", "fail");
       snackbar2.showToast();
     }
   }

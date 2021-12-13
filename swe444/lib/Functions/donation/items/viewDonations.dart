@@ -50,38 +50,36 @@ class requestDonations extends State<ViewItemDonations> {
         .doc(widget.document.id)
         .collection("donations")
         .snapshots();
-    print(widget.document.id.toString());
+
     return Scaffold(
       backgroundColor: const Color(0xffededed),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 150.0),
-          child: Row(
-            children: [
-              Text(
-                "التبرعات",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xff334856),
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Tajawal',
-                  fontSize: 24,
-                ),
+        centerTitle: true,
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20, bottom: 8),
+              child: Icon(
+                Icons.keyboard_backspace_rounded,
+                textDirection: TextDirection.rtl,
+                size: 30,
+                color: Color(0xff334856),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 80.0),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.keyboard_backspace_rounded,
-                    textDirection: TextDirection.rtl,
-                    size: 30,
-                    color: Color(0xff334856),
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ),
-            ],
+            ),
+          ),
+        ],
+        title: Text(
+          "التبرعات",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Color(0xff334856),
+            fontWeight: FontWeight.w700,
+            fontFamily: 'Tajawal',
+            fontSize: 24,
           ),
         ),
         //automaticallyImplyLeading: false,
@@ -116,6 +114,7 @@ class requestDonations extends State<ViewItemDonations> {
   }
 
   Widget buildCards(BuildContext context, DocumentSnapshot document) {
+    
     if (document['status'] == "unconfirmed") {
       return Container(
         padding:
@@ -156,6 +155,7 @@ class requestDonations extends State<ViewItemDonations> {
                           'date': document['date'],
                           'donated_by': document['donated_by'],
                           'num_of_items': document['num_of_items'],
+                          'uid': document['uid'],
                           'status': "confirmed"
                         });
                       },
@@ -248,7 +248,9 @@ Widget _buildWaitingScreen() {
     backgroundColor: const Color(0xffededed),
     body: Container(
       alignment: Alignment.center,
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(
+        color: const Color(0xdeedd03c),
+      ),
     ),
   );
 }

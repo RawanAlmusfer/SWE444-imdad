@@ -10,9 +10,15 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swe444/Functions/donation/items/item_donation.dart';
 import 'package:swe444/Functions/home_screen/feed_view_model.dart';
+import 'package:swe444/Functions/profile/viewMosqueProfile.dart';
+import 'package:swe444/Functions/subscribe/subscription.dart';
 import 'package:swe444/Payment/PaymentScreen.dart';
+import 'package:swe444/Payment/moneyDonations.dart';
 import 'dart:ui' as ui;
 
+import 'package:swe444/Payment/searchPaymentScreen.dart';
+
+import '../CustomPageRoute.dart';
 
 class SearchPage extends StatelessWidget {
   @override
@@ -24,10 +30,10 @@ class SearchPage extends StatelessWidget {
 }
 
 class SearchRequests extends StatefulWidget {
-  static String? mmEmailDonated = '';
-  static String? mmNameDonated = '';
-  static int wholeAmount = 0;
-  static int wholeDonated = 0;
+  static String? mmEmailDonated2 = '';
+  static String? mmNameDonated2 = '';
+  static int wholeAmount2 = 0;
+  static int wholeDonated2 = 0;
 
   const SearchRequests({
     Key? key,
@@ -40,12 +46,16 @@ class SearchRequests extends StatefulWidget {
 }
 
 class _SearchRequests extends State<SearchRequests> {
-  int? donated = PaymentScreen.vDonatedAmount;
+  int? donated = searchPaymentScreen.vDonatedAmount2;
+  User? user = FirebaseAuth.instance.currentUser;
+  postMoneyDonations postDB = new postMoneyDonations();
+
   bool isExecuted = false;
   TextEditingController searchTerm = TextEditingController();
   String search = "";
   int i = 0;
   int numOfResults = 0;
+  Subscribe subscribe = new Subscribe();
 
   @override
   void initState() {
@@ -66,143 +76,150 @@ class _SearchRequests extends State<SearchRequests> {
   @override
   Widget build(BuildContext context) {
     {
-      return Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(70),
-            child: AppBar(
-              backgroundColor: const Color(0xffededed),
-              automaticallyImplyLeading: false,
-              elevation: 0,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.only(
-                    left: 30.0, right: 30, top: 20, bottom: 10),
-                child: Stack(
-                  children: [
-                    TextField(
-                      textDirection: ui.TextDirection.rtl,
-                      maxLines: 1,
-                      controller: searchTerm,
-                      onChanged: (_val) {
-                        if (_val != null) {
-                          numOfResults = 0;
-                          search = searchTerm.text;
-                          setState(() {
+      return GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Scaffold(
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(70),
+              child: AppBar(
+                backgroundColor: const Color(0xffededed),
+                automaticallyImplyLeading: false,
+                elevation: 0,
+                flexibleSpace: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 30.0, right: 30, top: 20, bottom: 10),
+                  child: Stack(
+                    children: [
+                      TextField(
+                        textDirection: ui.TextDirection.rtl,
+                        maxLines: 1,
+                        controller: searchTerm,
+                        onChanged: (_val) {
+                          if (_val != null) {
                             numOfResults = 0;
-                            Future.delayed(
-                                Duration.zero,
-                                () => setState(() {
-                                      searchFunc(search);
-                                    }));
-                          });
-                        }
-                      },
-                      showCursor: true,
-                      cursorColor: const Color(0xdeedd03c),
-                      style: TextStyle(
-                          fontSize: 17, color: const Color(0xff334856)),
-                      textAlign: TextAlign.right,
-                      decoration: InputDecoration(
-                        // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
-                        filled: true,
-                        fillColor: Color(0xbfffffff),
-                        contentPadding: EdgeInsets.only(right: 20, top: 3),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 0.20,
-                            color: const Color(0xffc1c1c1),
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: const Color(0xdeedd03c),
-                          ),
-                        ),
-                        prefixStyle: TextStyle(
-                            fontSize: 17, color: const Color(0xff334856)),
-                        hoverColor: const Color(0xff334856),
-                        hintText: "إبحث عن",
-                        hintStyle: TextStyle(
-                            fontSize: 16,
-                            color: const Color(0xffcbcbcc),
-                            fontFamily: 'Tajawal'),
-                        labelStyle: TextStyle(
-                            fontSize: 15,
-                            color: const Color(0xff334856),
-                            fontFamily: 'Tajawal'),
-                        alignLabelWithHint: true,
-                        //border: OutlineInputBorder(),
-                        // hoverColor: const Color(0xff334856),
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          numOfResults=0;
-                          search = searchTerm.text;
-                          setState(() {
-                            numOfResults=0;
-                            Future.delayed(
-                                Duration.zero,
-                                () => setState(() {
-                                      searchFunc(search);
-                                    }));
-                          });
+                            search = searchTerm.text;
+                            setState(() {
+                              numOfResults = 0;
+                              Future.delayed(
+                                  Duration.zero,
+                                  () => setState(() {
+                                        searchFunc(search);
+                                      }));
+                            });
+                          }
                         },
-                        icon:
-                            Icon(Icons.search, color: const Color(0xdeedd03c))),
-                  ],
+                        showCursor: true,
+                        cursorColor: const Color(0xdeedd03c),
+                        style: TextStyle(
+                            fontSize: 17, color: const Color(0xff334856)),
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
+                          // prefixIcon: Icon(Icons.search, color: const Color(0xdeedd03c),),
+                          filled: true,
+                          fillColor: Color(0xbfffffff),
+                          contentPadding: EdgeInsets.only(right: 20, top: 3),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 0.20,
+                              color: const Color(0xffc1c1c1),
+                            ),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide(
+                              color: const Color(0xdeedd03c),
+                            ),
+                          ),
+                          prefixStyle: TextStyle(
+                              fontSize: 17, color: const Color(0xff334856)),
+                          hoverColor: const Color(0xff334856),
+                          hintText: "إبحث عن",
+                          hintStyle: TextStyle(
+                              fontSize: 16,
+                              color: const Color(0xffcbcbcc),
+                              fontFamily: 'Tajawal'),
+                          labelStyle: TextStyle(
+                              fontSize: 15,
+                              color: const Color(0xff334856),
+                              fontFamily: 'Tajawal'),
+                          alignLabelWithHint: true,
+                          //border: OutlineInputBorder(),
+                          // hoverColor: const Color(0xff334856),
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            numOfResults = 0;
+                            search = searchTerm.text;
+                            setState(() {
+                              numOfResults = 0;
+                              Future.delayed(
+                                  Duration.zero,
+                                  () => setState(() {
+                                        searchFunc(search);
+                                      }));
+                            });
+                          },
+                          icon: Icon(Icons.search,
+                              color: const Color(0xdeedd03c))),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          backgroundColor: const Color(0xffededed),
-          body: Padding(
-            padding: const EdgeInsets.only(top: 0.0),
-            child: ListView(
-              shrinkWrap: false,
-              physics: ScrollPhysics(),
-              children: [
-                StreamBuilder(
-                    stream: Provider.of<FeedViewModel>(context, listen: false)
-                        .requests,
-                    builder: (context, snapshot) {
-                      if (Provider.of<FeedViewModel>(context, listen: false)
-                              .getSearchResults
-                              .length ==
-                          0)
-                        return Container(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 150.0),
-                            child: Text("لا يوجد نتائج مطابقة للبحث"),
-                          ),
+            backgroundColor: const Color(0xffededed),
+            body: Padding(
+              padding: const EdgeInsets.only(top: 0.0),
+              child: ListView(
+                shrinkWrap: false,
+                physics: ScrollPhysics(),
+                children: [
+                  StreamBuilder(
+                      stream: Provider.of<FeedViewModel>(context, listen: false)
+                          .requests,
+                      builder: (context, snapshot) {
+                        if (Provider.of<FeedViewModel>(context, listen: false)
+                                .getSearchResults
+                                .length ==
+                            0)
+                          return Container(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 150.0),
+                              child: Text("لا يوجد نتائج مطابقة للبحث"),
+                            ),
+                          );
+                        // return _buildWaitingScreen();
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: ScrollPhysics(),
+                          itemCount:
+                              (snapshot.data! as QuerySnapshot).docs.length,
+                          itemBuilder: (BuildContext context, int index) =>
+                              buildCards(
+                                  context,
+                                  (snapshot.data! as QuerySnapshot)
+                                      .docs[index]),
                         );
-                      // return _buildWaitingScreen();
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        itemCount:
-                            (snapshot.data! as QuerySnapshot).docs.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            buildCards(context,
-                                (snapshot.data! as QuerySnapshot).docs[index]),
-                      );
-                    }),
-                if (Provider.of<FeedViewModel>(context, listen: false)
-                    .getSearchResults
-                    .length !=
-                    0)
-                  Container(
-                      margin: const EdgeInsets.only(top: 30.0, bottom: 20),
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        "نتائج البحث: $numOfResults",
-                        style: TextStyle(color: Color(0xff8b8b8b)),
-                      ))
-              ],
-            ),
-          ));
+                      }),
+                  if (Provider.of<FeedViewModel>(context, listen: false)
+                          .getSearchResults
+                          .length !=
+                      0)
+                    Container(
+                        margin: const EdgeInsets.only(top: 30.0, bottom: 20),
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          "نتائج البحث: $numOfResults",
+                          style: TextStyle(color: Color(0xff8b8b8b)),
+                        ))
+                ],
+              ),
+            )),
+      );
     }
   }
 
@@ -258,41 +275,15 @@ class _SearchRequests extends State<SearchRequests> {
                     child: Row(children: <Widget>[
                       GestureDetector(
                         onTap: () async {
-                          bool flag = await isSubscribed(document['posted_by']);
-                          print("Flag is " + flag.toString());
-                          if (!flag) {
-                            showModalBottomSheet(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(19.0),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) => BuildSubscribedProfile(
-                                    document['mosque_name'].toString(),
-                                    document['posted_by'].toString()));
-                          } else {
-                            showModalBottomSheet(
-                              //isScrollControlled: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(19.0),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) => BuildUnsubscribedProfile(
-                                    document['mosque_name'].toString(),
-                                    document['posted_by'].toString()));
-                          }
-                          //await
-                          //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                          callProfile(
+                              document['mosque_name'], document['posted_by']);
                         },
                         child: Container(
                           width: 100,
                           child: Padding(
                             padding: const EdgeInsets.only(right: 20, top: 5),
                             child: Text(
-                              "مسجد " + document['mosque_name'],
+                              document['mosque_name'],
                               style: TextStyle(
                                   fontFamily: 'Tajawal',
                                   fontSize: 12,
@@ -307,40 +298,15 @@ class _SearchRequests extends State<SearchRequests> {
                         padding: const EdgeInsets.only(right: 10, top: 5),
                         child: Text(
                           document['title'],
-                          style: TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
+                          style:
+                              TextStyle(fontSize: 16.0, fontFamily: 'Tajawal'),
                           // textAlign: TextAlign.left,
                         ),
                       ),
                       GestureDetector(
                         onTap: () async {
-                          bool flag = await isSubscribed(document['posted_by']);
-                          print("Flag is " + flag.toString());
-                          if (!flag) {
-                            showModalBottomSheet(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(19.0),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) => BuildSubscribedProfile(
-                                    document['mosque_name'].toString(),
-                                    document['posted_by'].toString()));
-                          } else {
-                            showModalBottomSheet(
-                              //isScrollControlled: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(19.0),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) => BuildUnsubscribedProfile(
-                                    document['mosque_name'].toString(),
-                                    document['posted_by'].toString()));
-                          }
-                          //await
-                          //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                          callProfile(
+                              document['mosque_name'], document['posted_by']);
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -354,8 +320,8 @@ class _SearchRequests extends State<SearchRequests> {
                     ]),
                   ),
                   Padding(
-                    padding:
-                    const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                    padding: const EdgeInsets.only(
+                        top: 4.0, bottom: 15.0, right: 70),
                     child: Row(children: <Widget>[
                       const Spacer(),
                       Column(
@@ -459,36 +425,39 @@ class _SearchRequests extends State<SearchRequests> {
                         child: ElevatedButton(
                           onPressed: () async {
                             String? mmId = document['posted_by'];
-                            SearchRequests.wholeDonated = document['donated'];
+                            SearchRequests.wholeDonated2 = document['donated'];
                             int cumDonated = document['donated'];
-                            SearchRequests.wholeAmount = document['amount'];
+                            SearchRequests.wholeAmount2 = document['amount'];
                             String? mName = document['mosque_name'];
 
-                            SearchRequests.mmNameDonated = mName;
+                            SearchRequests.mmNameDonated2 = mName;
 
-                            var documentFormmId = await FirebaseFirestore.instance
+                            var documentFormmId = await FirebaseFirestore
+                                .instance
                                 .collection('users')
                                 .doc(mmId)
                                 .get();
 
                             String? mmEmail = documentFormmId['email'];
-                            SearchRequests.mmEmailDonated = mmEmail;
+                            SearchRequests.mmEmailDonated2 = mmEmail;
 
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PaymentScreen()));
+                                    builder: (context) =>
+                                        searchPaymentScreen()));
 
-                            cumDonated += PaymentScreen.vDonatedAmount!;
+                            cumDonated += searchPaymentScreen.vDonatedAmount2!;
 
                             String docId = document.id;
                             await FirebaseFirestore.instance
                                 .collection('requests')
                                 .doc(docId)
                                 .update({'donated': cumDonated});
-
+                            if (searchPaymentScreen.vDonatedAmount2 != 0)
+                              postDB.postToDB(document, user!.uid);
                             //update the denoation for next user
-                            PaymentScreen.vDonatedAmount = 0;
+                            searchPaymentScreen.vDonatedAmount2 = 0;
                             //  db.collection("requests").doc(docId).update({donated: 10});
                           },
                           child: Text(
@@ -531,7 +500,7 @@ class _SearchRequests extends State<SearchRequests> {
 
   Widget buildItemsCards(BuildContext context, DocumentSnapshot document) {
     FeedViewModel feedVM = FeedViewModel();
-    if (document['type'].toString() == "موارد") {
+    if (document['type'].toString() == "موارد" && document['amount_requested'] > document['donated'] ) {
       // here is the tpye
       return Container(
         padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
@@ -550,41 +519,15 @@ class _SearchRequests extends State<SearchRequests> {
                   child: Row(children: <Widget>[
                     GestureDetector(
                       onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildSubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        } else {
-                          showModalBottomSheet(
-                            //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                        callProfile(
+                            document['mosque_name'], document['posted_by']);
                       },
                       child: Container(
                         width: 100,
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -605,34 +548,8 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildSubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        } else {
-                          showModalBottomSheet(
-                            //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                        callProfile(
+                            document['mosque_name'], document['posted_by']);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
@@ -647,7 +564,7 @@ class _SearchRequests extends State<SearchRequests> {
                 ),
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Column(
@@ -812,41 +729,15 @@ class _SearchRequests extends State<SearchRequests> {
                   child: Row(children: <Widget>[
                     GestureDetector(
                       onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildSubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        } else {
-                          showModalBottomSheet(
-                            //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                        callProfile(
+                            document['mosque_name'], document['posted_by']);
                       },
                       child: Container(
                         width: 100,
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, top: 5),
                           child: Text(
-                            "مسجد " + document['mosque_name'],
+                            document['mosque_name'],
                             style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 12,
@@ -867,34 +758,8 @@ class _SearchRequests extends State<SearchRequests> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        bool flag = await isSubscribed(document['posted_by']);
-                        print("Flag is " + flag.toString());
-                        if (!flag) {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildSubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        } else {
-                          showModalBottomSheet(
-                            //isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(19.0),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) => BuildUnsubscribedProfile(
-                                  document['mosque_name'].toString(),
-                                  document['posted_by'].toString()));
-                        }
-                        //await
-                        //Navigator.of(context).pop(CustomPageRoute(child: itemsVFeed()));
+                        callProfile(
+                            document['mosque_name'], document['posted_by']);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
@@ -909,7 +774,7 @@ class _SearchRequests extends State<SearchRequests> {
                 ),
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
+                      const EdgeInsets.only(top: 4.0, bottom: 15.0, right: 70),
                   child: Row(children: <Widget>[
                     const Spacer(),
                     Column(
@@ -1054,7 +919,17 @@ class _SearchRequests extends State<SearchRequests> {
                       height: 30,
                       width: 70,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          int? wholePartsNum = document['parts_number'];
+                          int? currentPartsNum = document['participants'];
+                          String mName = document['mosque_name'].toString();
+                          String mmId = document['posted_by'].toString();
+                          String thisDocId = document.id;
+                          String title = document['title'];
+
+                          await apply(mName, mmId, wholePartsNum!,
+                              currentPartsNum!, thisDocId, title);
+                        },
                         child: Text(
                           "شارك",
                           textAlign: TextAlign.center,
@@ -1091,136 +966,41 @@ class _SearchRequests extends State<SearchRequests> {
     }
   }
 
-  Widget BuildSubscribedProfile(String name, String id) {
-    return Container(
-      padding: EdgeInsets.all(30),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, bottom: 20),
-            height: 80,
-            width: 80,
-            child: SvgPicture.string(
-              mosqueImage,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Text(
-            "مسجد " + name,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Tajawal',
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffededed),
-                      spreadRadius: 1,
-                      blurRadius: 10),
-                ],
-              ),
-              height: 30,
-              width: 70,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await subscription(id, name);
-                },
-                child: Text(
-                  "تابع",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(65.w, 30.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+  callProfile(String name, String ID) async {
+    bool flag = await isSubscribed(ID.toString());
+
+    var followrs = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(ID)
+        .collection("subscribedVolunteers")
+        .get();
+    String v = followrs.docs.length.toString();
+    String r = await countNumOfRequests(ID);
+    Navigator.of(context).push(CustomPageRoute(
+        child: MosqueMangerProfile(
+      isSubscribed: flag,
+      numOfVolunteers: v,
+      numOfRequests: r,
+      MosqueID: ID,
+      MosqueName: name,
+    )));
   }
 
-  Widget BuildUnsubscribedProfile(String name, String id) {
-    return Container(
-      padding: EdgeInsets.all(30),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10, bottom: 20),
-            height: 80,
-            width: 80,
-            child: SvgPicture.string(
-              mosqueImage,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Text(
-            "مسجد " + name,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Tajawal',
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffededed),
-                      spreadRadius: 1,
-                      blurRadius: 10),
-                ],
-              ),
-              height: 30,
-              width: 120,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await subscription(id, name);
-                },
-                child: Text(
-                  "إلغاء المتابعة",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Tajawal', color: const Color(0xff334856)),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(65.w, 30.h),
-                  primary: const Color(0xdeedd03c),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  Future<String> countNumOfRequests(String mmId) async {
+    var requests =
+        await FirebaseFirestore.instance.collection('requests').get();
+    var numOfR = 0;
+    var requestDocs = requests.docs;
 
-
-  String? feedbackResponse(int response) {
-    if ((response) == 1) {
-//Extract the mosuqe name to add in the msg
-      return "تم تفعيل التنبيهات لمسجد \n  شاكرين لك مساهمتك";
-    } else {
-      return "لم يتم تفعيل التنبيهات لمسجد بنجاح";
+    // loop over each item request
+    for (var doc in requestDocs) {
+      var requestData = doc.data();
+      if (requestData['posted_by'] == mmId) {
+        numOfR = numOfR + 1;
+      }
     }
+
+    return numOfR.toString();
   }
 
   Future<bool> isSubscribed(String mID) async {
@@ -1248,83 +1028,54 @@ class _SearchRequests extends State<SearchRequests> {
     return false;
   }
 
-
-  Future<void> subscription(String mmId, String mmName) async {
+  Future<void> apply(String mmName, String mmId, int wholePartsNum,
+      int currentPartsNum, String thisDocId, String title) async {
+    int done = 0;
+    int cum = currentPartsNum;
     String vId = await FirebaseAuth.instance.currentUser!.uid;
-    String? dToken;
     String? response = '';
     bool isExsited = false;
+    var document = await FirebaseFirestore.instance
+        .collection('requests')
+        .doc(thisDocId)
+        .collection('applicants')
+        .doc(vId)
+        .get();
 
-    try {
-      //subscribe
-
-      var document = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(mmId)
-          .collection("subscribedVolunteers")
-          .doc(vId)
-          .get();
-
-      if (document.exists) {
-        if (document != null) {
-          isExsited = true;
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
-        }
+    if (document.exists) {
+      if (document != null) {
+        isExsited = true;
       } else {
-        print('المتطوع ليس مسجل بقائمة المتطوعين');
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('محتويات هذا المتطوع فارغة')));
       }
-
-      if (!isExsited) {
-        await FirebaseMessaging.instance.getToken().then((token) {
-          dToken = token.toString();
-        });
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(mmId)
-            .collection("subscribedVolunteers")
-            .doc(vId)
-            .set({'uid': vId, 'token': dToken})
-            .then((value) =>
-        {response = ' تم تفعيل التنبيهات لمسجد $mmName بنجاح '})
-            .catchError((error) =>
-        //////
-        {response = "لم يتم تفعيل التنبيهات بنجاح"});
-        //add to mm
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(vId)
-            .collection("subscribedMosqueManager")
-            .doc(mmId)
-            .set({'mosque_name': mmName, 'mmId': mmId});
-      }
-
-      //Unsubscribe
-
-      else {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(mmId)
-            .collection("subscribedVolunteers")
-            .doc(vId)
-            .delete()
-            .then((value) =>
-        {response = ' تم إلغاء تفعيل التنبيهات \n لمسجد $mmName بنجاح  '})
-            .catchError((error) => {response = "لم يتم إلغاء التنبيهات بنجاح"});
-
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(vId)
-            .collection("subscribedMosqueManager")
-            .doc(mmId)
-            .delete();
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('error to subscribe $e')));
+    } else {
+      print('المتطوع ليس مسجل بقائمة المشاركين');
     }
+    if (!isExsited) {
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(thisDocId)
+          .collection("applicants")
+          .doc(vId)
+          .set({'uid': vId})
+          .then((value) => {
+                response = ' تم تقديم طلب للمشاركة في $title لـ $mmName بنجاح ',
+                done = 1
+              })
+          .catchError((error) => {response = "لم يتم تقديم الطلب بنجاح"});
+    } else
+      response = ' لقد قمت بتقديم مُسبق  للمشاركة في $title لـ $mmName  ';
 
+    if (done == 1) {
+      cum += 1;
+      await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(thisDocId)
+          .update({
+        'participants': cum,
+      });
+    }
     showAlertDialog(context, response);
   }
 
@@ -1332,8 +1083,7 @@ class _SearchRequests extends State<SearchRequests> {
     // set up the button
     Widget okButton = Padding(
         padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
-        child:
-        TextButton(
+        child: TextButton(
           child: Text(
             "موافق",
             textAlign: TextAlign.right,
@@ -1341,19 +1091,19 @@ class _SearchRequests extends State<SearchRequests> {
           ),
           style: ButtonStyle(
               backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
           onPressed: () {
-            int count = 0;
-            Navigator.of(context).popUntil((_) => count++ >= 2);
+            Navigator.of(context).pop();
           },
         ));
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      contentPadding: EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
+      contentPadding:
+          EdgeInsets.only(right: 20.w, top: 20.h, bottom: 10.h, left: 10.w),
       title: Text(
-        "تأكيد عملية الاشتراك ",
+        "تأكيد عملية التقديم ",
         textAlign: TextAlign.right,
         style: TextStyle(
           fontFamily: "Tajawal",
@@ -1382,7 +1132,8 @@ class _SearchRequests extends State<SearchRequests> {
   }
 
   String getTime(var timeStamp) {
-    final DateFormat formatter = DateFormat('dd/MM/yyyy'); //your date format here
+    final DateFormat formatter =
+        DateFormat('dd/MM/yyyy'); //your date format here
     var date = timeStamp.toDate();
     return formatter.format(date);
   }
@@ -1391,7 +1142,9 @@ class _SearchRequests extends State<SearchRequests> {
 Widget _buildWaitingScreen() {
   return Container(
     alignment: Alignment.center,
-    child: CircularProgressIndicator(),
+    child: CircularProgressIndicator(
+      color: const Color(0xdeedd03c),
+    ),
   );
 }
 
