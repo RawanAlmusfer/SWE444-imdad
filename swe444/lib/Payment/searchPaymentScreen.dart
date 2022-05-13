@@ -170,7 +170,8 @@ class _PaymentScreenState extends State<searchPaymentScreen> {
                         ),
                         textAlign: TextAlign.right,
                         inputFormatters: [
-                          new WhitelistingTextInputFormatter(RegExp("[0-9]")),
+                          new FilteringTextInputFormatter(RegExp("[0-9]"),
+                              allow: true),
                         ],
                         onSaved: (value) {
                           _controller.text = value!;
@@ -292,19 +293,19 @@ class _PaymentScreenState extends State<searchPaymentScreen> {
     Widget okButton = Padding(
         padding: EdgeInsets.only(right: 40.w),
         child: TextButton(
-      child: Text(
-        "موافق",
-        textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
-      ),
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-      onPressed: () {
-        Navigator.of(context).pop(context);
-        Navigator.of(context).pop(context);
-      },
-    ));
+          child: Text(
+            "موافق",
+            textAlign: TextAlign.right,
+            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+          onPressed: () {
+            Navigator.of(context).pop(context);
+            Navigator.of(context).pop(context);
+          },
+        ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(

@@ -171,7 +171,8 @@ class _PaymentScreenState extends State<allPaymentScreen> {
                         ),
                         textAlign: TextAlign.right,
                         inputFormatters: [
-                          new WhitelistingTextInputFormatter(RegExp("[0-9]")),
+                          new FilteringTextInputFormatter(RegExp("[0-9]"),
+                              allow: true),
                         ],
                         onSaved: (value) {
                           _controller.text = value!;

@@ -24,7 +24,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   TextEditingController _controller = TextEditingController();
   int isVDonatedPaymentScreen = 0;
 
-
   //int? vDonatedAmount=int.parse(_controller.text);
 
   @override
@@ -170,7 +169,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         textAlign: TextAlign.right,
                         inputFormatters: [
-                          new WhitelistingTextInputFormatter(RegExp("[0-9]")),
+                          new FilteringTextInputFormatter(RegExp("[0-9]"),
+                              allow: true),
                         ],
                         onSaved: (value) {
                           _controller.text = value!;
@@ -250,8 +250,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           currency: 'SAR',
                           description: description);
                       // print(response.message);
-                     // if(response=='')
-
+                      // if(response=='')
 
                       showAlertDialog(context, response);
                       // feedbackResponseDonation(response);
@@ -294,22 +293,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
     Widget okButton = Padding(
         padding: EdgeInsets.only(right: 40.w),
         child: TextButton(
-      child: Text(
-        "موافق",
-        textAlign: TextAlign.right,
-        style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
-      ),
-      style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
-      onPressed: () {
-        Navigator.of(context).pop(context);
-        Navigator.of(context).pop(context);
+          child: Text(
+            "موافق",
+            textAlign: TextAlign.right,
+            style: TextStyle(fontFamily: "Tajawal", color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(const Color(0xdeedd03c))),
+          onPressed: () {
+            Navigator.of(context).pop(context);
+            Navigator.of(context).pop(context);
 
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
-      },
-    ));
+            // Navigator.pushReplacement(
+            //     context, MaterialPageRoute(builder: (context) => moneyVFeed()));
+          },
+        ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
